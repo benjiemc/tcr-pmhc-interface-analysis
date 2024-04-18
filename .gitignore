@@ -1,0 +1,8 @@
+# Project Files
+data/*
+jobs/*
+
+# Python Files
+**/*.egg-info
+**/.ipynb_checkpoints
+**/__pycache__/*

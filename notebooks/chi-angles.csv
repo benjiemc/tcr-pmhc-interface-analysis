@@ -1,0 +1,21 @@
+﻿residue_name,tlc,chi_angle,atom_1,atom_2,atom_3,atom_4
+Alanine,ALA,1,NA,NA,NA,NA
+Arginine,ARG,1,N,CA,CB,CG
+Asparagine,ASN,1,N,CA,CB,CG
+Aspartic Acid,ASP,1,N,CA,CB,CG
+Cysteine,CYS,1,N,CA,CB,SG
+Glutamine,GLN,1,N,CA,CB,CG
+Glutamic Acid,GLU,1,N,CA,CB,CG
+Glycine,GLY,1,NA,NA,NA,NA
+Histidine,HIS,1,N,CA,CB,CG
+Isoleucine,ILE,1,N,CA,CB,CG1
+Leucine,LEU,1,N,CA,CB,CG
+Lysine,LYS,1,N,CA,CB,CG
+Methionine,MET,1,N,CA,CB,CG
+Phenylalanine,PHE,1,N,CA,CB,CG
+Proline,PRO,1,N,CA,CB,CG
+Serine,SER,1,N,CA,CB,OG
+Threonine,THR,1,N,CA,CB,OG1
+Tryptophan,TRP,1,N,CA,CB,CG
+Tyrosine,TYR,1,N,CA,CB,CG
+Valine,VAL,1,N,CA,CB,CG1

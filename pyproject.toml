@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tcr_pmhc_structure_tools"
+version = "0.0.0"
+authors = [
+    { name="Benjamin McMaster", email="benjamin.mcmaster@rdm.ox.ac.uk"}
+]
+requires-python = ">=3.10"
+dependencies = [
+    "python-pdb",
+    "pandas",
+    "requests",
+]
+
+[project.scripts]
+compute-apo-holo-differences = "tcr_pmhc_structure_tools.apps.compute_apo_holo_differences:main"
+compute-per-residue-changes = "tcr_pmhc_structure_tools.apps.compute_per_residue_changes:main"
+compute-pw-distances = "tcr_pmhc_structure_tools.apps.compute_per_residue_changes:main"
+download-stcrdab = "tcr_pmhc_structure_tools.apps.download_stcrdab:main"
