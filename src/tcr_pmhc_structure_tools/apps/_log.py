@@ -12,8 +12,8 @@ def setup_logger(logger, level='warning'):
     '''Setup logger for command line applications.
     
     Args:
-		logger: logger object from logging.getLogger(__name__) call
-		level: one of 'error', 'warning', 'info', or 'debug'
+		  logger: logger object from logging.getLogger(__name__) call
+		  level: one of 'error', 'warning', 'info', or 'debug'
 
     '''
     handler = logging.StreamHandler()
