@@ -11,6 +11,7 @@ from python_pdb.parsers import parse_pdb_to_pandas
 from python_pdb.formats.residue import THREE_TO_ONE_CODE
 
 from tcr_pmhc_structure_tools.apps._log import setup_logger
+from tcr_pmhc_structure_tools.mhc_data import get_apo_mhc_ids
 from tcr_pmhc_structure_tools.processing import annotate_tcr_df
 from tcr_pmhc_structure_tools.imgt_numbering import IMGT_VARIABLE_DOMAIN
 
@@ -19,10 +20,11 @@ logger = logging.getLogger(__name__)
 parser = argparse.ArgumentParser()
 parser.add_argument('stcrdab', help='Path to STCRDab')
 parser.add_argument('--resolution-cutoff', type=float, default=3.50,
-                    help='Maximum resolution allowed from the structures')
+                    help='Maximum resolution allowed from the structures (Default: 3.50)')
+parser.add_argument('--add-mhcs', action='store_true', help='Add MHC apo forms to all holo structures')
 parser.add_argument('--output', '-o', help='Path to output location')
 parser.add_argument('--log-level', choices=['debug', 'info', 'warning', 'error'], default='info',
-                    help='Level to log at')
+                    help="Level to log messages at (Default: 'info')")
 
 
 def get_header(pdb_contents: str) -> str:
@@ -101,20 +103,14 @@ def select_tcrs(stcrdab_summary: pd.DataFrame, resolution_cutoff: float) -> pd.D
 	selected_stcrdab['resolution'] = pd.to_numeric(selected_stcrdab['resolution'], errors='coerce')
 	selected_stcrdab = selected_stcrdab.query("resolution <= @resolution_cutoff")
 
-	# alpha-beta TCRs
 	selected_stcrdab = selected_stcrdab.query("TCRtype == 'abTCR'")
-
-	# MHC class I bound or unbound
 	selected_stcrdab = selected_stcrdab.query("(mhc_type == 'MH1') | (mhc_type.isnull() & antigen_type.isnull())")
-
-	# peptide antigen
 	selected_stcrdab = selected_stcrdab.query("antigen_type == 'peptide' or antigen_type.isnull()")
 
 	# General clean: drop columns that don't contain anything useful
 	selected_stcrdab = selected_stcrdab.loc[:, selected_stcrdab.nunique() > 1]
 	selected_stcrdab = selected_stcrdab.dropna(axis=1, how='all')
 
-	# Reset Index
 	selected_stcrdab = selected_stcrdab.reset_index(drop=True)
 
 	return selected_stcrdab
@@ -131,7 +127,7 @@ def get_missing_residues_and_atoms(header: str) -> pd.DataFrame:
 	return pd.concat([missing_residues, residues_missing_atoms]).reset_index(drop=True)
 
 
-def add_missing_entities_to_structure(structure: pd.DataFrame, missing_entities: pd.DataFrame) -> pd.DataFame:
+def add_missing_entities_to_structure(structure: pd.DataFrame, missing_entities: pd.DataFrame) -> pd.DataFrame:
 	'''Create a new dataframe with line indicating missing entities.'''
 	updated_structure = structure.copy()
 	updated_structure['missing'] = False
@@ -269,6 +265,16 @@ def get_stcrdab_sequences(selected_stcrdab: pd.DataFrame) -> pd.DataFrame:
 	selected_stcrdab['mhc_chain_1_seq'] = sequences['mhc_chain_1']
 	selected_stcrdab['mhc_chain_2_seq'] = sequences['mhc_chain_2']
  
+	selected_stcrdab['cdr_sequences_collated'] = selected_stcrdab[['cdr_1_alpha_seq',
+                                                 				  'cdr_2_alpha_seq',
+																  'cdr_3_alpha_seq',
+																  'cdr_1_beta_seq',
+															      'cdr_2_beta_seq',
+																  'cdr_3_beta_seq']].apply(
+    	lambda sequences: '-'.join(sequences.dropna()),
+     	axis=1,
+    )
+
 	return selected_stcrdab
 
 
@@ -276,38 +282,31 @@ def select_apo_holo(selected_stcrdab: pd.DataFrame) -> pd.DataFrame:
 	'''Select groups with both *apo* and *holo* confomations'''
 	apo_holo_dfs = []
 
-	for sequences, tcr_group in selected_stcrdab.groupby(['cdr_1_alpha_seq',
-                                                          'cdr_2_alpha_seq',
-                                                          'cdr_3_alpha_seq',
-                                                          'cdr_1_beta_seq',
-                                                          'cdr_2_beta_seq',
-                                                          'cdr_3_beta_seq']):
+	for sequences, tcr_group in selected_stcrdab.groupby(['cdr_sequences_collated']):
 		# Screen out groups that don't have apo and holo forms
 		if 'holo' not in tcr_group['state'].unique().tolist() or 'apo' not in tcr_group['state'].unique().tolist():
 			continue
 			
 		tcr_group = tcr_group.copy()
-		tcr_group['cdr_sequence_collated'] = '-'.join(sequences)
-		
 		apo_holo_dfs.append(tcr_group)
 
 	return pd.concat(apo_holo_dfs).reset_index(drop=True)
 	
 
 def main():
-	setup_logger(logger, level=args.log_level)
 	args = parser.parse_args()
+	setup_logger(logger, level=args.log_level)
 
 	logger.info('Loading STCRDab Summary')
 	stcrdab_summary = pd.read_csv(os.path.join(args.stcrdab, 'db_summary.dat'), delimiter='\t')
-	
+
 	stcrdab_summary['file_path_imgt'] = stcrdab_summary['pdb'].map(
     	lambda pdb_id: os.path.join(args.stcrdab, 'imgt', pdb_id + '.pdb')
     )
 	stcrdab_summary['file_path_raw'] = stcrdab_summary['pdb'].map(
     	lambda pdb_id: os.path.join(args.stcrdab, 'raw', pdb_id + '.pdb')
     )
-	
+
 	stcrdab_summary['chains'] = stcrdab_summary[['Achain', 'Bchain', 'antigen_chain', 'mhc_chain1']].apply(
     	lambda chains: '-'.join(chains.dropna()),
      	axis=1,
@@ -325,52 +324,56 @@ def main():
 		axis=1,
 	)
 
+	logger.info('Retrieving sequences from structures')
+	selected_stcrdab = get_stcrdab_sequences(selected_stcrdab)
+
+	logger.info('Finding apo and holo groups of TCRs')
+	apo_holo_tcrs = select_apo_holo(selected_stcrdab)
+
+	if args.add_mhcs:
+		logger.info('Getting pMHC data from histo.fyi')
+		pmhcs = get_apo_mhc_ids(args.resolution_cutoff)
+
 	logger.info('Removing duplicate structures based on PDB ID')
 	holo_pdb_ids = selected_stcrdab.query("state == 'holo'")['pdb'].unique().tolist()
 	selected_stcrdab = selected_stcrdab.query("state == 'holo' or (state == 'apo' and pdb not in @holo_pdb_ids)")
 	selected_stcrdab = selected_stcrdab.drop_duplicates('pdb')
 
-	logger.info('Retrieving sequences from structures')
-	selected_stcrdab = get_stcrdab_sequences(selected_stcrdab)
-
-	logger.info('Finding apo and holo groups')
-	apo_holo_tcrs = select_apo_holo(selected_stcrdab)
-
 	logger.info('Exporting dataset')
 	summary = {}
- 
+
 	if not os.path.exists(args.output):
 		os.mkdir(args.output)
 
-	for group_name, group_data in apo_holo_tcrs.groupby('cdr_sequence_collated'):
+	for group_name, group_data in apo_holo_tcrs.groupby('cdr_sequences_collated'):
 		output_path = os.path.join(args.output, group_name)
 		
 		if not os.path.exists(output_path):
 			os.mkdir(output_path)
-		
+
 		summary[group_name] = []
-		
+
 		for _, entry in group_data.iterrows():
 			# isolate structure
 			with open(entry['file_path_imgt'], 'r') as fh:
 				structure = parse_pdb_to_pandas(fh.read())
-			
+
 			structure = structure.query("record_type == 'ATOM'")
 			structure = structure.query("chain_id in @entry.chains")
-			
+
 			with open(os.path.join(output_path, f"{entry.pdb}_{entry.chains}_{entry.state}.pdb"), 'w') as fh:
 				fh.write(str(Structure.from_pandas(structure)))
-			
+
 			# add info to summary
 			structure_summary = {'pdb_id': entry.pdb,
 								'state': entry.state,
 								'alpha_chain': entry.Achain,
 								'beta_chain': entry.Bchain}
-			
+
 			if entry.state == 'holo':
 				structure_summary['peptide_chain'] = entry['antigen_chain']
 				structure_summary['mhc_chain'] = entry['mhc_chain1']
-			
+
 			summary[group_name].append(structure_summary)
 
 	with open(os.path.join(args.output, 'summary.json'), 'w') as fh:
