@@ -70,7 +70,7 @@ def screen_variable(chain, raw_chain):
 	raw_seq = get_sequence(raw_chain)
 	seq = get_sequence(chain)
 	alignment, _ = align_sequences(raw_seq, seq)
-	
+
 	raw_index = 0
 	index = 0
 	current_seq_id = 0
@@ -79,10 +79,10 @@ def screen_variable(chain, raw_chain):
 		if raw_res == '-':
 			index += 1
 			continue
-		
+
 		if res != '-':
 			current_seq_id = chain.iloc[index]['residue_seq_id']
-			
+
 		if raw_chain.iloc[raw_index]['missing'] and current_seq_id in IMGT_VARIABLE_DOMAIN:
 			return False
 
@@ -92,7 +92,7 @@ def screen_variable(chain, raw_chain):
 
 		index +=1
 		raw_index += 1
-	
+
 	return True
 
 
@@ -120,10 +120,10 @@ def get_missing_residues_and_atoms(header: str) -> pd.DataFrame:
 	'''Create a dataframe of missing information for a structure.'''
 	missing_residues = pd.DataFrame(get_missing_residues(header))
 	missing_residues['missing'] = True
-	
+
 	residues_missing_atoms = pd.DataFrame(get_missing_atoms(header))
 	residues_missing_atoms['missing'] = True
-	
+
 	return pd.concat([missing_residues, residues_missing_atoms]).reset_index(drop=True)
 
 
@@ -144,7 +144,7 @@ def add_missing_entities_to_structure(structure: pd.DataFrame, missing_entities:
 
 def screen_tcrs_for_missing_residues(stcrdab_summary: pd.DataFrame) -> pd.DataFrame:
 	'''Disgard structures missing residues in important domains
- 
+
 	These domains include:
 	  - TCR variable domains
 	  - peptide
@@ -155,27 +155,27 @@ def screen_tcrs_for_missing_residues(stcrdab_summary: pd.DataFrame) -> pd.DataFr
 	for _, pdb_id, path in stcrdab_summary[['pdb', 'file_path_raw']].drop_duplicates().itertuples():
 		with open(path, 'r') as fh:
 			pdb_contents = fh.read()
-			
+
 		structure = parse_pdb_to_pandas(pdb_contents)
 		header = get_header(pdb_contents)
-		
+
 		missing_entities = get_missing_residues_and_atoms(header)
 		structure = add_missing_entities_to_structure(structure, missing_entities)
 
 		raw_structure_dfs[pdb_id] = structure
-		
+
 	selected_entries = []
 	for _, entry in stcrdab_summary.iterrows():
 		logger.debug('Checking PDB ID %s', entry.pdb)
-		
+
 		# 1. check if there are any missing items
 		raw_structure = raw_structure_dfs[entry.pdb]
-		
+
 		if len(raw_structure.query('missing == True')) == 0:
 			logger.debug('No missing residues, adding to selection')
 			selected_entries.append(entry.to_frame().T)
 			continue
-		
+
 		with open(entry['file_path_imgt'], 'r') as fh:
 			structure = parse_pdb_to_pandas(fh.read())
 
@@ -184,34 +184,34 @@ def screen_tcrs_for_missing_residues(stcrdab_summary: pd.DataFrame) -> pd.DataFr
 		logger.debug('looking at alpha chain')
 		alpha = (structure.query("record_type == 'ATOM' and chain_id == @entry.Achain")
 						  .drop_duplicates(['chain_id', 'residue_seq_id', 'residue_insert_code']).reset_index())
-		
+
 		raw_alpha = (raw_structure.query("record_type == 'ATOM' and chain_id == @entry.Achain")
 								.drop_duplicates(['chain_id', 'residue_seq_id', 'residue_insert_code']).reset_index())
-		
+
 		if not screen_variable(alpha, raw_alpha):
 			logger.warning('check failed, missing residue found')
 			continue
-		
+
 		# 2b. beta chain
 		logger.debug('looking at beta chain')
 		beta = (structure.query("record_type == 'ATOM' and chain_id == @entry.Bchain")
 						.drop_duplicates(['chain_id', 'residue_seq_id', 'residue_insert_code']).reset_index())
-		
+
 		raw_beta = (raw_structure.query("record_type == 'ATOM' and chain_id == @entry.Bchain")
 								.drop_duplicates(['chain_id', 'residue_seq_id', 'residue_insert_code']).reset_index())
-		
+
 		if not screen_variable(beta, raw_beta):
 			logger.warning('check failed, missing residue found')
 			continue
-		
+
 		# 3. look if they are in the peptide
 		logger.debug('looking at peptide')
 		raw_peptide = raw_structure.query('chain_id == @entry.antigen_chain')
-		
+
 		if len(raw_peptide.query("missing == True")) > 0:
 			logger.warning('check failed, missing residue found')
 			continue
-		
+
 		logger.debug('all clear, adding to selection')
 		selected_entries.append(entry.to_frame().T)
 
@@ -236,18 +236,18 @@ def get_stcrdab_sequences(selected_stcrdab: pd.DataFrame) -> pd.DataFrame:
 
 		structure_df = structure_df.query("atom_type == 'ATOM'")
 		structure_df = annotate_tcr_df(structure_df, stcrdab_entry['Achain'], stcrdab_entry['Bchain'])
-  
+
 		for chain_type in 'alpha_chain', 'beta_chain':
 			for cdr in 1, 2, 3:
 				cdr_df = structure_df.query('chain_type == @chain_type and cdr == @cdr')
 				sequences[chain_type][cdr].append(get_sequence(cdr_df))
-    
+
 		if stcrdab_entry['state'] == 'holo':
 			sequences['peptide'].append(get_sequence(structure_df.query('chain_id == @stcrdab_entry.antigen_chain')))
 			sequences['mhc_chain_1'].append(get_sequence(structure_df.query('chain_id == @stcrdab_entry.mhc_chain1')))
 			sequences['mhc_chain_2'].append(get_sequence(structure_df.query('chain_id == @stcrdab_entry.mhc_chain2')))
 
-		else:   
+		else:
 			sequences['peptide'].append(None)
 			sequences['mhc_chain_1'].append(None)
 			sequences['mhc_chain_2'].append(None)
@@ -264,7 +264,7 @@ def get_stcrdab_sequences(selected_stcrdab: pd.DataFrame) -> pd.DataFrame:
 
 	selected_stcrdab['mhc_chain_1_seq'] = sequences['mhc_chain_1']
 	selected_stcrdab['mhc_chain_2_seq'] = sequences['mhc_chain_2']
- 
+
 	selected_stcrdab['cdr_sequences_collated'] = selected_stcrdab[['cdr_1_alpha_seq',
                                                  				  'cdr_2_alpha_seq',
 																  'cdr_3_alpha_seq',
@@ -286,12 +286,12 @@ def select_apo_holo(selected_stcrdab: pd.DataFrame) -> pd.DataFrame:
 		# Screen out groups that don't have apo and holo forms
 		if 'holo' not in tcr_group['state'].unique().tolist() or 'apo' not in tcr_group['state'].unique().tolist():
 			continue
-			
+
 		tcr_group = tcr_group.copy()
 		apo_holo_dfs.append(tcr_group)
 
 	return pd.concat(apo_holo_dfs).reset_index(drop=True)
-	
+
 
 def main():
 	args = parser.parse_args()
@@ -347,7 +347,7 @@ def main():
 
 	for group_name, group_data in apo_holo_tcrs.groupby('cdr_sequences_collated'):
 		output_path = os.path.join(args.output, group_name)
-		
+
 		if not os.path.exists(output_path):
 			os.mkdir(output_path)
 
