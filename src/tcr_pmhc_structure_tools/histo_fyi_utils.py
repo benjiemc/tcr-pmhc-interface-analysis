@@ -5,10 +5,11 @@ import requests
 
 logger = logging.getLogger(__name__)
 
-HISTO_DATASETS_URL='https://api.histo.fyi/v1/sets'
+HISTO_DATASETS_URL = 'https://api.histo.fyi/v1/sets'
 TCR_PMHC_CLASS_I_URL = f'{HISTO_DATASETS_URL}/complex_types/class_i_with_peptide_and_alpha_beta_tcr'
 PMHC_CLASS_I_URL = f'{HISTO_DATASETS_URL}/complex_types/class_i_with_peptide'
 HISTO_STRUCTURE_BASE_URL = "https://coordinates.histo.fyi/structures/downloads/class_i/without_solvent"
+
 
 def retrieve_data_from_api(url: str) -> pd.DataFrame:
     '''Get pMHC from API end point.

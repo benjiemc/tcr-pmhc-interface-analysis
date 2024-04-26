@@ -1,4 +1,4 @@
-.PHONY: all environment data analysis notebooks test
+.PHONY: all environment data analysis notebooks test lint
 
 all: environment data analysis notebooks
 
@@ -16,5 +16,8 @@ analysis:
 notebooks:
 	@echo "Running notebooks..."
 
-make test:
+test:
 	@echo "Testing package"
+
+lint:
+	flake8

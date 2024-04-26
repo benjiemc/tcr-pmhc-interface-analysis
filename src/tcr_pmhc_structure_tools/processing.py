@@ -21,5 +21,5 @@ def annotate_tcr_df(structure_df: pd.DataFrame, alpha_chain_id: str, beta_chain_
         lambda row: assign_cdr_number(row.residue_seq_id) if pd.notnull(row.chain_type) else None,
         axis=1,
     )
-    
+
     return structure_df

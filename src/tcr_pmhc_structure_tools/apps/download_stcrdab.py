@@ -19,33 +19,33 @@ STCRDAB_RAW_STRUCTURE_BASE_URL = f'{STCRDAB_IMGT_STRUCTURE_BASE_URL}?raw=true'
 
 
 def main():
-	setup_logger(logger, 'info')
-	args = parser.parse_args()
-    
-	logger.info('Creating output dir')
-	os.mkdir(args.output)
-    
-	logger.info('Downloading summary file')
-	suumary_req = requests.get(STCRDAB_SUMMARY_FILE_URL)
-	summary_file_contents = suumary_req.text
- 
-	with open(os.path.join(args.output, 'db_summary.dat'), 'w') as fh:
-		fh.write(summary_file_contents)
+    setup_logger(logger, 'info')
+    args = parser.parse_args()
 
-	logger.info('Downloading PDB files')
-	os.mkdir(os.path.join(args.output, 'imgt'))
-	os.mkdir(os.path.join(args.output, 'raw'))
+    logger.info('Creating output dir')
+    os.mkdir(args.output)
 
-	pdb_ids = sorted(list(set([line.split('\t')[0] for line in summary_file_contents.strip().split('\n')[1:]])))
- 
-	for pdb_id in pdb_ids:
-		logger.info('Downloading PDB ID: %s', pdb_id)
+    logger.info('Downloading summary file')
+    suumary_req = requests.get(STCRDAB_SUMMARY_FILE_URL)
+    summary_file_contents = suumary_req.text
 
-		for download_type, url in ('imgt', STCRDAB_IMGT_STRUCTURE_BASE_URL), ('raw', STCRDAB_RAW_STRUCTURE_BASE_URL):
-			pdb_req = requests.get(url % pdb_id)
-			
-			with open(os.path.join(args.output, download_type, pdb_id + '.pdb'), 'w') as fh:
-				fh.write(pdb_req.text)
+    with open(os.path.join(args.output, 'db_summary.dat'), 'w') as fh:
+        fh.write(summary_file_contents)
+
+    logger.info('Downloading PDB files')
+    os.mkdir(os.path.join(args.output, 'imgt'))
+    os.mkdir(os.path.join(args.output, 'raw'))
+
+    pdb_ids = sorted(list(set([line.split('\t')[0] for line in summary_file_contents.strip().split('\n')[1:]])))
+
+    for pdb_id in pdb_ids:
+        logger.info('Downloading PDB ID: %s', pdb_id)
+
+        for download_type, url in ('imgt', STCRDAB_IMGT_STRUCTURE_BASE_URL), ('raw', STCRDAB_RAW_STRUCTURE_BASE_URL):
+            pdb_req = requests.get(url % pdb_id)
+
+            with open(os.path.join(args.output, download_type, pdb_id + '.pdb'), 'w') as fh:
+                fh.write(pdb_req.text)
 
 
 if __name__ == '__main__':

@@ -14,13 +14,13 @@ def get_sequence(df: pd.DataFrame) -> str:
 
 
 def get_header(pdb_contents: str) -> str:
-	'''Get the header lines from the contents of a pdb file.'''
-	header = []
-	for line in pdb_contents.split('\n'):
-		record_type = line[0:6]
-		if record_type in ("ATOM  ", "HETATM", "MODEL "):
-			break
+    '''Get the header lines from the contents of a pdb file.'''
+    header = []
+    for line in pdb_contents.split('\n'):
+        record_type = line[0:6]
+        if record_type in ("ATOM  ", "HETATM", "MODEL "):
+            break
 
-		header.append(line)
+        header.append(line)
 
-	return '\n'.join(header)
+    return '\n'.join(header)

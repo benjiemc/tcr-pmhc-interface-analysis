@@ -25,6 +25,7 @@ develop = [
 
 [tool.flake8]
 max-line-length = 120
+exclude = "venv"
 
 [tool.isort]
 line_length = 120
