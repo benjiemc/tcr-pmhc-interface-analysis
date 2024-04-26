@@ -14,9 +14,3 @@ dependencies = [
     "pandas",
     "requests",
 ]
-
-[project.scripts]
-compute-apo-holo-differences = "tcr_pmhc_structure_tools.apps.compute_apo_holo_differences:main"
-compute-per-residue-changes = "tcr_pmhc_structure_tools.apps.compute_per_residue_changes:main"
-compute-pw-distances = "tcr_pmhc_structure_tools.apps.compute_per_residue_changes:main"
-download-stcrdab = "tcr_pmhc_structure_tools.apps.download_stcrdab:main"
