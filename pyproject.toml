@@ -14,3 +14,17 @@ dependencies = [
     "pandas",
     "requests",
 ]
+
+[project.optional-dependencies]
+develop = [
+    "flake8",
+    "Flake8-pyproject",
+    "isort",
+    "pytest",
+]
+
+[tool.flake8]
+max-line-length = 120
+
+[tool.isort]
+line_length = 120

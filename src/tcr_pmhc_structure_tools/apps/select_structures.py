@@ -1,21 +1,28 @@
 import argparse
-import json
+import glob
 import os
 import logging
-import re
 
+import numpy as np
 import pandas as pd
-from python_pdb.aligners import align_sequences
 from python_pdb.entities import Structure
 from python_pdb.parsers import parse_pdb_to_pandas
-from python_pdb.formats.residue import THREE_TO_ONE_CODE
+
 
 from tcr_pmhc_structure_tools.apps._log import setup_logger
-from tcr_pmhc_structure_tools.mhc_data import get_apo_mhc_ids
-from tcr_pmhc_structure_tools.processing import annotate_tcr_df
-from tcr_pmhc_structure_tools.imgt_numbering import IMGT_VARIABLE_DOMAIN
+from tcr_pmhc_structure_tools.histo_fyi_utils import (retrieve_data_from_api,
+                                                      TCR_PMHC_CLASS_I_URL,
+                                                      PMHC_CLASS_I_URL,
+                                                      fetch_structure)
+from tcr_pmhc_structure_tools.stcrdab_utils import (get_ab_tcrs_from_stcrdab,
+													get_ab_tcr_mhc_class_Is_from_stcrdab,
+                                                    get_stcrdab_sequences)
+from tcr_pmhc_structure_tools.missing_residues import (get_raw_structures_with_missing_residues,
+                                                       screen_pmhcs_for_missing_residues,
+                                                       screen_tcrs_for_missing_residues)
 
-logger = logging.getLogger(__name__)
+
+logger = logging.getLogger()
 
 parser = argparse.ArgumentParser()
 parser.add_argument('stcrdab', help='Path to STCRDab')
@@ -27,270 +34,53 @@ parser.add_argument('--log-level', choices=['debug', 'info', 'warning', 'error']
                     help="Level to log messages at (Default: 'info')")
 
 
-def get_header(pdb_contents: str) -> str:
-	'''Get the header lines from the contents of a pdb file.'''
-	header = []
-	for line in pdb_contents.split('\n'):
-		record_type = line[0:6]
-		if record_type in ("ATOM  ", "HETATM", "MODEL "):
-			break
-
-		header.append(line)
-
-	return '\n'.join(header)
-
-
-def get_missing_residues(header: str) -> list[dict]:
-	'''
-	Extract all missing residues from the header of a pdb file. Returns residue name, chain id, residue/sequence id,
-	and insert id if available.
-	'''
-	lines = re.findall(r'^REMARK 465\s+\w?\s+(\w{3}) (\w)\s+(\d+)(\w)?', header, flags=re.MULTILINE)
-	return [{'residue_name': res_name,
-             'chain_id': chain,
-             'residue_seq_id': int(seq_id),
-             'residue_insert_code': insert_id} for res_name, chain, seq_id, insert_id in lines]
-
-
-def get_missing_atoms(header: str) -> list[dict]:
-	'''Extract residues with missing atoms from the header of a pdb file.'''
-	lines = re.findall(r'^REMARK 470\s+\w?\s+(\w{3}) (\w)\s+(\d+)(\w)?', header, flags=re.MULTILINE)
-	return [{'residue_name': res_name,
-             'chain_id': chain,
-             'residue_seq_id': int(seq_id),
-             'residue_insert_code': insert_id} for res_name, chain, seq_id, insert_id in lines]
-
-
-def get_sequence(df: pd.DataFrame) -> str:
-		return ''.join(df['residue_name'].map(lambda tlc: THREE_TO_ONE_CODE[tlc]).to_list())
-
-
-def screen_variable(chain, raw_chain):
-	'''Screen variable domains for missing residues'''
-	raw_seq = get_sequence(raw_chain)
-	seq = get_sequence(chain)
-	alignment, _ = align_sequences(raw_seq, seq)
-
-	raw_index = 0
-	index = 0
-	current_seq_id = 0
-
-	for raw_res, res in alignment:
-		if raw_res == '-':
-			index += 1
-			continue
-
-		if res != '-':
-			current_seq_id = chain.iloc[index]['residue_seq_id']
-
-		if raw_chain.iloc[raw_index]['missing'] and current_seq_id in IMGT_VARIABLE_DOMAIN:
-			return False
-
-		if res == '-':
-			raw_index += 1
-			continue
-
-		index +=1
-		raw_index += 1
-
-	return True
-
-
-def select_tcrs(stcrdab_summary: pd.DataFrame, resolution_cutoff: float) -> pd.DataFrame:
-	'''Select TCRs and TCR-pMHCS from the STCRDab'''
-	selected_stcrdab = stcrdab_summary.copy()
-
-	selected_stcrdab['resolution'] = pd.to_numeric(selected_stcrdab['resolution'], errors='coerce')
-	selected_stcrdab = selected_stcrdab.query("resolution <= @resolution_cutoff")
-
-	selected_stcrdab = selected_stcrdab.query("TCRtype == 'abTCR'")
-	selected_stcrdab = selected_stcrdab.query("(mhc_type == 'MH1') | (mhc_type.isnull() & antigen_type.isnull())")
-	selected_stcrdab = selected_stcrdab.query("antigen_type == 'peptide' or antigen_type.isnull()")
-
-	# General clean: drop columns that don't contain anything useful
-	selected_stcrdab = selected_stcrdab.loc[:, selected_stcrdab.nunique() > 1]
-	selected_stcrdab = selected_stcrdab.dropna(axis=1, how='all')
-
-	selected_stcrdab = selected_stcrdab.reset_index(drop=True)
-
-	return selected_stcrdab
-
-
-def get_missing_residues_and_atoms(header: str) -> pd.DataFrame:
-	'''Create a dataframe of missing information for a structure.'''
-	missing_residues = pd.DataFrame(get_missing_residues(header))
-	missing_residues['missing'] = True
-
-	residues_missing_atoms = pd.DataFrame(get_missing_atoms(header))
-	residues_missing_atoms['missing'] = True
-
-	return pd.concat([missing_residues, residues_missing_atoms]).reset_index(drop=True)
-
-
-def add_missing_entities_to_structure(structure: pd.DataFrame, missing_entities: pd.DataFrame) -> pd.DataFrame:
-	'''Create a new dataframe with line indicating missing entities.'''
-	updated_structure = structure.copy()
-	updated_structure['missing'] = False
-
-	for _, row in missing_entities.iterrows():
-		chain_before = updated_structure.query("chain_id == @row.chain_id and residue_seq_id <= @row.residue_seq_id")
-		chain_after = updated_structure.query("chain_id == @row.chain_id and residue_seq_id > @row.residue_seq_id")
-
-		new_chain = pd.concat([chain_before, row.to_frame().T, chain_after])
-		updated_structure = pd.concat([structure.query('chain_id != @row.chain_id'), new_chain]).reset_index(drop=True)
-
-	return updated_structure
-
-
-def screen_tcrs_for_missing_residues(stcrdab_summary: pd.DataFrame) -> pd.DataFrame:
-	'''Disgard structures missing residues in important domains
-
-	These domains include:
-	  - TCR variable domains
-	  - peptide
-
- 	'''
-	raw_structure_dfs = {}
-
-	for _, pdb_id, path in stcrdab_summary[['pdb', 'file_path_raw']].drop_duplicates().itertuples():
-		with open(path, 'r') as fh:
-			pdb_contents = fh.read()
-
-		structure = parse_pdb_to_pandas(pdb_contents)
-		header = get_header(pdb_contents)
-
-		missing_entities = get_missing_residues_and_atoms(header)
-		structure = add_missing_entities_to_structure(structure, missing_entities)
-
-		raw_structure_dfs[pdb_id] = structure
-
-	selected_entries = []
-	for _, entry in stcrdab_summary.iterrows():
-		logger.debug('Checking PDB ID %s', entry.pdb)
-
-		# 1. check if there are any missing items
-		raw_structure = raw_structure_dfs[entry.pdb]
-
-		if len(raw_structure.query('missing == True')) == 0:
-			logger.debug('No missing residues, adding to selection')
-			selected_entries.append(entry.to_frame().T)
-			continue
-
-		with open(entry['file_path_imgt'], 'r') as fh:
-			structure = parse_pdb_to_pandas(fh.read())
-
-		# 2. look if they are in TCR variable domains
-		# 2a. alpha chain
-		logger.debug('looking at alpha chain')
-		alpha = (structure.query("record_type == 'ATOM' and chain_id == @entry.Achain")
-						  .drop_duplicates(['chain_id', 'residue_seq_id', 'residue_insert_code']).reset_index())
-
-		raw_alpha = (raw_structure.query("record_type == 'ATOM' and chain_id == @entry.Achain")
-								.drop_duplicates(['chain_id', 'residue_seq_id', 'residue_insert_code']).reset_index())
-
-		if not screen_variable(alpha, raw_alpha):
-			logger.warning('check failed, missing residue found')
-			continue
-
-		# 2b. beta chain
-		logger.debug('looking at beta chain')
-		beta = (structure.query("record_type == 'ATOM' and chain_id == @entry.Bchain")
-						.drop_duplicates(['chain_id', 'residue_seq_id', 'residue_insert_code']).reset_index())
-
-		raw_beta = (raw_structure.query("record_type == 'ATOM' and chain_id == @entry.Bchain")
-								.drop_duplicates(['chain_id', 'residue_seq_id', 'residue_insert_code']).reset_index())
-
-		if not screen_variable(beta, raw_beta):
-			logger.warning('check failed, missing residue found')
-			continue
-
-		# 3. look if they are in the peptide
-		logger.debug('looking at peptide')
-		raw_peptide = raw_structure.query('chain_id == @entry.antigen_chain')
-
-		if len(raw_peptide.query("missing == True")) > 0:
-			logger.warning('check failed, missing residue found')
-			continue
-
-		logger.debug('all clear, adding to selection')
-		selected_entries.append(entry.to_frame().T)
-
-	return pd.concat(selected_entries)
-
-
-def get_stcrdab_sequences(selected_stcrdab: pd.DataFrame) -> pd.DataFrame:
-	'''Get the CDR sequences for STCRDab structures.'''
-	selected_stcrdab = selected_stcrdab.copy()
-
-	sequences = {
-		'alpha_chain': {1: [], 2: [], 3: []},
-		'beta_chain': {1: [], 2: [], 3: []},
-		'peptide': [],
-		'mhc_chain_1': [],
-		'mhc_chain_2': [],
-	}
-
-	for _, stcrdab_entry in selected_stcrdab.iterrows():
-		with open(stcrdab_entry['file_path_imgt'], 'r') as fh:
-				structure_df = parse_pdb_to_pandas(fh.read())
-
-		structure_df = structure_df.query("atom_type == 'ATOM'")
-		structure_df = annotate_tcr_df(structure_df, stcrdab_entry['Achain'], stcrdab_entry['Bchain'])
-
-		for chain_type in 'alpha_chain', 'beta_chain':
-			for cdr in 1, 2, 3:
-				cdr_df = structure_df.query('chain_type == @chain_type and cdr == @cdr')
-				sequences[chain_type][cdr].append(get_sequence(cdr_df))
-
-		if stcrdab_entry['state'] == 'holo':
-			sequences['peptide'].append(get_sequence(structure_df.query('chain_id == @stcrdab_entry.antigen_chain')))
-			sequences['mhc_chain_1'].append(get_sequence(structure_df.query('chain_id == @stcrdab_entry.mhc_chain1')))
-			sequences['mhc_chain_2'].append(get_sequence(structure_df.query('chain_id == @stcrdab_entry.mhc_chain2')))
-
-		else:
-			sequences['peptide'].append(None)
-			sequences['mhc_chain_1'].append(None)
-			sequences['mhc_chain_2'].append(None)
-
-	selected_stcrdab['cdr_1_alpha_seq'] = sequences['alpha_chain'][1]
-	selected_stcrdab['cdr_2_alpha_seq'] = sequences['alpha_chain'][2]
-	selected_stcrdab['cdr_3_alpha_seq'] = sequences['alpha_chain'][3]
-
-	selected_stcrdab['cdr_1_beta_seq'] = sequences['beta_chain'][1]
-	selected_stcrdab['cdr_2_beta_seq'] = sequences['beta_chain'][2]
-	selected_stcrdab['cdr_3_beta_seq'] = sequences['beta_chain'][3]
-
-	selected_stcrdab['peptide_seq'] = sequences['peptide']
-
-	selected_stcrdab['mhc_chain_1_seq'] = sequences['mhc_chain_1']
-	selected_stcrdab['mhc_chain_2_seq'] = sequences['mhc_chain_2']
-
-	selected_stcrdab['cdr_sequences_collated'] = selected_stcrdab[['cdr_1_alpha_seq',
-                                                 				  'cdr_2_alpha_seq',
-																  'cdr_3_alpha_seq',
-																  'cdr_1_beta_seq',
-															      'cdr_2_beta_seq',
-																  'cdr_3_beta_seq']].apply(
-    	lambda sequences: '-'.join(sequences.dropna()),
-     	axis=1,
-    )
-
-	return selected_stcrdab
-
-
-def select_apo_holo(selected_stcrdab: pd.DataFrame) -> pd.DataFrame:
+def select_apo_holo(group: pd.DataFrame) -> bool:
 	'''Select groups with both *apo* and *holo* confomations'''
-	apo_holo_dfs = []
+	return 'apo' in group['state'].unique().tolist() and 'holo' in group['state'].unique().tolist()
 
-	for sequences, tcr_group in selected_stcrdab.groupby(['cdr_sequences_collated']):
-		# Screen out groups that don't have apo and holo forms
-		if 'holo' not in tcr_group['state'].unique().tolist() or 'apo' not in tcr_group['state'].unique().tolist():
-			continue
 
-		tcr_group = tcr_group.copy()
-		apo_holo_dfs.append(tcr_group)
+def screen_quality(df: pd.DataFrame,
+                   structure_type: str,
+                   resolution_cutoff: float = 3.50,
+                   stcrdab_path: str | None = None) -> pd.DataFrame:
+	'''Screen structures for quality.
 
-	return pd.concat(apo_holo_dfs).reset_index(drop=True)
+	Resolution must be below threshold and structures can not be missing residues in key domains. For TCRs, this is the
+ 	variable domain, for pMHCs, this is the peptide.
+
+    Args:
+		df: dataframe containing structure information
+		structure_type: either 'tcr', 'pmhc', or 'tcr-pmhc'
+		resolution_cuttoff: maximum allowed resolution of structures in ångstroms (Default: 3.50)
+
+	Returns:
+		Dataframe with structures that meet these criteria
+
+    '''
+	selected_df = df.copy()
+
+	# Resolution Screen
+	selected_df = selected_df[selected_df['resolution'] <= resolution_cutoff]
+
+	# Missing Residues Screen
+	raw_structures = get_raw_structures_with_missing_residues(df['pdb_id'].unique().tolist(), stcrdab_path)
+
+	match structure_type:
+		case 'tcr':
+			valid_structures = screen_tcrs_for_missing_residues(selected_df, raw_structures)
+
+		case 'pmhc':
+			valid_structures = screen_pmhcs_for_missing_residues(selected_df, raw_structures)
+
+		case 'tcr-pmhc':
+			valid_structures_tcr = screen_tcrs_for_missing_residues(selected_df, raw_structures)
+			valid_structures_pmhc = screen_pmhcs_for_missing_residues(selected_df, raw_structures)
+			valid_structures = [valid_tcr and valid_pmhc
+                                for valid_tcr, valid_pmhc in zip(valid_structures_tcr, valid_structures_pmhc)]
+
+	selected_df = selected_df[valid_structures]
+
+	return selected_df
 
 
 def main():
@@ -300,84 +90,140 @@ def main():
 	logger.info('Loading STCRDab Summary')
 	stcrdab_summary = pd.read_csv(os.path.join(args.stcrdab, 'db_summary.dat'), delimiter='\t')
 
+	stcrdab_summary['resolution'] = pd.to_numeric(stcrdab_summary['resolution'], errors='coerce')
 	stcrdab_summary['file_path_imgt'] = stcrdab_summary['pdb'].map(
     	lambda pdb_id: os.path.join(args.stcrdab, 'imgt', pdb_id + '.pdb')
     )
 	stcrdab_summary['file_path_raw'] = stcrdab_summary['pdb'].map(
     	lambda pdb_id: os.path.join(args.stcrdab, 'raw', pdb_id + '.pdb')
     )
+	stcrdab_summary = stcrdab_summary.rename({'pdb': 'pdb_id', 'Achain': 'alpha_chain', 'Bchain': 'beta_chain'},
+                                          	  axis='columns')
 
-	stcrdab_summary['chains'] = stcrdab_summary[['Achain', 'Bchain', 'antigen_chain', 'mhc_chain1']].apply(
-    	lambda chains: '-'.join(chains.dropna()),
-     	axis=1,
+	stcrdab_summary['chains'] = stcrdab_summary[['alpha_chain',
+                                                 'beta_chain',
+                                                 'antigen_chain',
+                                                 'mhc_chain1',
+                                                 'mhc_chain2']].apply(lambda chains: '-'.join(chains.dropna()), axis=1)
+
+	logger.info('Retrieving unbound abTCRs from STCRDab')
+	stcrdab_tcrs = get_ab_tcrs_from_stcrdab(stcrdab_summary)
+	stcrdab_tcrs = get_stcrdab_sequences(stcrdab_tcrs, structure_type='tcr')
+	stcrdab_tcrs['state'] = 'apo'
+	stcrdab_tcrs['structure_type'] = 'tcr'
+
+	logger.info('Retrieving unbound pMHCs from histo.fyi')
+	histo_pmhcs = retrieve_data_from_api(PMHC_CLASS_I_URL)
+	histo_pmhcs['state'] = 'apo'
+	histo_pmhcs['structure_type'] = 'pmhc'
+
+	logger.info('Retrieving TCR-pMHC')
+	stcrdab_tcr_pmhcs = get_ab_tcr_mhc_class_Is_from_stcrdab(stcrdab_summary)
+	stcrdab_tcr_pmhcs = get_stcrdab_sequences(stcrdab_tcr_pmhcs,  structure_type='tcr-pmhc')
+	histo_tcr_pmhcs = retrieve_data_from_api(TCR_PMHC_CLASS_I_URL)
+
+	merged_tcr_pmhcs = stcrdab_tcr_pmhcs.merge(histo_tcr_pmhcs,
+                            				   how='outer',
+                            				   left_on=['pdb_id', 'antigen_chain', 'mhc_chain1'],
+                                  			   right_on=['pdb_id', 'antigen_chain', 'mhc_chain1'],
+                            				   suffixes=['_stcrdab', '_histo'])
+
+	merged_tcr_pmhcs['resolution_stcrdab'] = merged_tcr_pmhcs['resolution_stcrdab'].fillna(np.inf)
+	merged_tcr_pmhcs['resolution_histo'] = merged_tcr_pmhcs['resolution_histo'].fillna(np.inf)
+	merged_tcr_pmhcs['resolution'] = merged_tcr_pmhcs.apply(
+    	lambda row: np.min([row.resolution_stcrdab, row.resolution_histo]),
+    	axis=1,
     )
+	merged_tcr_pmhcs = merged_tcr_pmhcs.drop(['resolution_stcrdab', 'resolution_histo'], axis='columns')
 
-	logger.info('Selecting high quality abTCRs')
-	selected_stcrdab = select_tcrs(stcrdab_summary, args.resolution_cutoff)
+	merged_tcr_pmhcs['state'] = 'holo'
+	merged_tcr_pmhcs['structure_type'] = 'tcr_pmhc'
 
-	logger.info('Removing structures with missing residues')
-	selected_stcrdab = screen_tcrs_for_missing_residues(selected_stcrdab)
+	logger.info('Checking quality of structures')
 
-	logger.info('Annotating the state of the TCR: unbound (*apo*) or bound (*holo*)')
-	selected_stcrdab['state'] = selected_stcrdab.apply(
-		lambda row: 'apo' if pd.isna(row.antigen_chain) and pd.isna(row.mhc_chain1) else 'holo',
-		axis=1,
-	)
+	logger.info('Screening TCRs')
+	stcrdab_tcrs = screen_quality(stcrdab_tcrs, 'tcr', args.resolution_cutoff, args.stcrdab)
 
-	logger.info('Retrieving sequences from structures')
-	selected_stcrdab = get_stcrdab_sequences(selected_stcrdab)
+	logger.info('Screening pMHCs')
+	histo_pmhcs = screen_quality(histo_pmhcs, 'pmhc', args.resolution_cutoff)
 
-	logger.info('Finding apo and holo groups of TCRs')
-	apo_holo_tcrs = select_apo_holo(selected_stcrdab)
+	logger.info('Screening TCR-pMHCs')
+	merged_tcr_pmhcs = screen_quality(merged_tcr_pmhcs, 'tcr-pmhc', args.resolution_cutoff, args.stcrdab)
 
-	if args.add_mhcs:
-		logger.info('Getting pMHC data from histo.fyi')
-		pmhcs = get_apo_mhc_ids(args.resolution_cutoff)
+	# TODO Drop duplicate IDs
 
-	logger.info('Removing duplicate structures based on PDB ID')
-	holo_pdb_ids = selected_stcrdab.query("state == 'holo'")['pdb'].unique().tolist()
-	selected_stcrdab = selected_stcrdab.query("state == 'holo' or (state == 'apo' and pdb not in @holo_pdb_ids)")
-	selected_stcrdab = selected_stcrdab.drop_duplicates('pdb')
+	logger.info('Finding examples of apo and holo structures')
+	apo_holo_tcrs = pd.concat([stcrdab_tcrs, merged_tcr_pmhcs])
+	apo_holo_tcrs = apo_holo_tcrs.groupby('cdr_sequences_collated').filter(select_apo_holo)
 
-	logger.info('Exporting dataset')
-	summary = {}
+	apo_holo_pmhcs = pd.concat([histo_pmhcs, merged_tcr_pmhcs])
+	apo_holo_pmhcs = apo_holo_pmhcs.groupby(['mhc_slug', 'peptide_sequence']).filter(select_apo_holo)
 
+	apo_holo = pd.concat([apo_holo_tcrs, apo_holo_pmhcs])
+	apo_holo = apo_holo.drop_duplicates()
+
+	# Clean DataFrame
+	apo_holo['chains'] = apo_holo['chains'].combine_first(apo_holo['chains_stcrdab'])
+	apo_holo['chains'] = apo_holo['chains'].combine_first(apo_holo['chains_histo'])
+	apo_holo = apo_holo.drop(['chains_stcrdab', 'chains_histo'], axis='columns')
+
+	apo_holo['file_name'] = (apo_holo['pdb_id'] + '_' + apo_holo['chains'] + '_' + apo_holo['structure_type'] + '.pdb')
+
+	logger.info('Exporting')
 	if not os.path.exists(args.output):
 		os.mkdir(args.output)
 
-	for group_name, group_data in apo_holo_tcrs.groupby('cdr_sequences_collated'):
-		output_path = os.path.join(args.output, group_name)
+	logger.info('Writing summary file')
+	apo_holo[['file_name',
+              'pdb_id',
+              'structure_type',
+              'state',
+              'alpha_chain',
+              'beta_chain',
+              'antigen_chain',
+              'mhc_chain1',
+              'mhc_chain2',
+              'cdr_sequences_collated',
+              'peptide_sequence',
+              'mhc_slug']].to_csv(os.path.join(args.output, 'apo_holo_summary.csv'), index=False)
 
-		if not os.path.exists(output_path):
-			os.mkdir(output_path)
+	logger.info('Collecting structures')
 
-		summary[group_name] = []
+	stcrdab_pdb_ids = [path.rsplit('/', 1)[-1].split('.')[0] for path in glob.glob(os.path.join(args.stcrdab, '*.pdb'))]
+	num_structures = len(apo_holo)
 
-		for _, entry in group_data.iterrows():
-			# isolate structure
-			with open(entry['file_path_imgt'], 'r') as fh:
-				structure = parse_pdb_to_pandas(fh.read())
+	for num, (_, row) in enumerate(apo_holo.iterrows()):
+		logger.debug('Exporting PDB ID %s - %d of %d', row.pdb_id, num, num_structures)
 
-			structure = structure.query("record_type == 'ATOM'")
-			structure = structure.query("chain_id in @entry.chains")
+		match row.structure_type:
+			case 'tcr':
+				with open(os.path.join(args.stcrdab, 'imgt', f'{row.pdb_id}.pdb'), 'r') as fh:
+					structure_df = parse_pdb_to_pandas(fh.read())
 
-			with open(os.path.join(output_path, f"{entry.pdb}_{entry.chains}_{entry.state}.pdb"), 'w') as fh:
-				fh.write(str(Structure.from_pandas(structure)))
+				tcr_df = structure_df.query('chain_id == @row.alpha_chain or chain_id == @row.beta_chain')
+				output_text = str(Structure.from_pandas(tcr_df))
 
-			# add info to summary
-			structure_summary = {'pdb_id': entry.pdb,
-								'state': entry.state,
-								'alpha_chain': entry.Achain,
-								'beta_chain': entry.Bchain}
+			case 'pmhc':
+				output_text = fetch_structure(row.pdb_id, row.assembly_number)
 
-			if entry.state == 'holo':
-				structure_summary['peptide_chain'] = entry['antigen_chain']
-				structure_summary['mhc_chain'] = entry['mhc_chain1']
+			case 'tcr-pmhc':
+				if row.pdb_id not in stcrdab_pdb_ids:
+					output_text = fetch_structure(row.pdb_id, row.assembly_number)
 
-			summary[group_name].append(structure_summary)
+				else:
+					with open(os.path.join(args.stcrdab, 'imgt', f'{row.pdb_id}.pdb'), 'r') as fh:
+						structure_df = parse_pdb_to_pandas(fh.read())
 
-	with open(os.path.join(args.output, 'summary.json'), 'w') as fh:
-		json.dump(summary, fh, indent=1)
+					tcr_pmhc_df = structure_df.query(('chain_id == @row.alpha_chain '
+                                       				  'or chain_id == @row.beta_chain '
+                                               		  'or chain_id == @row.antigen_chain '
+                                                      'or chain_id == @row.mhc_chain1'
+                                                      'or chain_id == @row.mhc_chain2'))
+
+					output_text = str(Structure.from_pandas(tcr_pmhc_df))
+
+		with open(os.path.join(args.output, row.file_name), 'w') as fh:
+			fh.write(output_text)
 
 
 if __name__ == '__main__':
