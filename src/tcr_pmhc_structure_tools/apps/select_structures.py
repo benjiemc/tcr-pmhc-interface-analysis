@@ -29,6 +29,8 @@ parser.add_argument('stcrdab', help='Path to STCRDab')
 parser.add_argument('--resolution-cutoff', type=float, default=3.50,
                     help='Maximum resolution allowed from the structures (Default: 3.50)')
 parser.add_argument('--add-mhcs', action='store_true', help='Add MHC apo forms to all holo structures')
+parser.add_argument('--drop-duplicate-ids', action='store_true',
+                    help='Only keep one copy of the structure from a pdb id')
 parser.add_argument('--output', '-o', help='Path to output location')
 parser.add_argument('--log-level', choices=['debug', 'info', 'warning', 'error'], default='info',
                     help="Level to log messages at (Default: 'info')")
@@ -157,7 +159,13 @@ def main():
     logger.info('Screening TCR-pMHCs')
     merged_tcr_pmhcs = screen_quality(merged_tcr_pmhcs, 'tcr-pmhc', args.resolution_cutoff, args.stcrdab)
 
-    # TODO Drop duplicate IDs
+    if args.drop_duplicate_ids:
+        logger.info('Removing duplicate PDB IDs')
+        stcrdab_tcrs = stcrdab_tcrs.drop_duplicates('pdb_id')
+        merged_tcr_pmhcs = merged_tcr_pmhcs.drop_duplicates('pdb_id')
+
+        if args.add_mhcs:
+            histo_pmhcs = histo_pmhcs.drop_duplicates('pdb_id')
 
     logger.info('Finding examples of apo and holo structures')
     apo_holo_tcrs = pd.concat([stcrdab_tcrs, merged_tcr_pmhcs])
