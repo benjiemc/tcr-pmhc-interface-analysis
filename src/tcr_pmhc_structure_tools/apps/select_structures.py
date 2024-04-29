@@ -209,7 +209,8 @@ def main():
 
     logger.info('Collecting structures')
 
-    stcrdab_pdb_ids = [path.rsplit('/', 1)[-1].split('.')[0] for path in glob.glob(os.path.join(args.stcrdab, '*.pdb'))]
+    stcrdab_pdb_ids = [path.rsplit('/', 1)[-1].split('.')[0]
+                       for path in glob.glob(os.path.join(args.stcrdab, 'imgt', '*.pdb'))]
     num_structures = len(apo_holo)
 
     for num, (_, row) in enumerate(apo_holo.iterrows()):
@@ -226,7 +227,7 @@ def main():
             case 'pmhc':
                 output_text = fetch_structure(row.pdb_id, row.assembly_number)
 
-            case 'tcr-pmhc':
+            case 'tcr_pmhc':
                 if row.pdb_id not in stcrdab_pdb_ids:
                     output_text = fetch_structure(row.pdb_id, row.assembly_number)
 
@@ -237,7 +238,7 @@ def main():
                     tcr_pmhc_df = structure_df.query(('chain_id == @row.alpha_chain '
                                                       'or chain_id == @row.beta_chain '
                                                       'or chain_id == @row.antigen_chain '
-                                                      'or chain_id == @row.mhc_chain1'
+                                                      'or chain_id == @row.mhc_chain1 '
                                                       'or chain_id == @row.mhc_chain2'))
 
                     output_text = str(Structure.from_pandas(tcr_pmhc_df))
