@@ -112,10 +112,11 @@ def main():
     stcrdab_tcrs['state'] = 'apo'
     stcrdab_tcrs['structure_type'] = 'tcr'
 
-    logger.info('Retrieving unbound pMHCs from histo.fyi')
-    histo_pmhcs = retrieve_data_from_api(PMHC_CLASS_I_URL)
-    histo_pmhcs['state'] = 'apo'
-    histo_pmhcs['structure_type'] = 'pmhc'
+    if args.add_mhcs:
+        logger.info('Retrieving unbound pMHCs from histo.fyi')
+        histo_pmhcs = retrieve_data_from_api(PMHC_CLASS_I_URL)
+        histo_pmhcs['state'] = 'apo'
+        histo_pmhcs['structure_type'] = 'pmhc'
 
     logger.info('Retrieving TCR-pMHC')
     stcrdab_tcr_pmhcs = get_ab_tcr_mhc_class_Is_from_stcrdab(stcrdab_summary)
@@ -127,6 +128,11 @@ def main():
                                                left_on=['pdb_id', 'antigen_chain', 'mhc_chain1'],
                                                right_on=['pdb_id', 'antigen_chain', 'mhc_chain1'],
                                                suffixes=['_stcrdab', '_histo'])
+
+    merged_tcr_pmhcs['mhc_chain2'] = merged_tcr_pmhcs['mhc_chain2_stcrdab'].combine_first(
+        merged_tcr_pmhcs['mhc_chain2_histo'],
+    )
+    merged_tcr_pmhcs = merged_tcr_pmhcs.drop(['mhc_chain2_stcrdab', 'mhc_chain2_histo'], axis='columns')
 
     merged_tcr_pmhcs['resolution_stcrdab'] = merged_tcr_pmhcs['resolution_stcrdab'].fillna(np.inf)
     merged_tcr_pmhcs['resolution_histo'] = merged_tcr_pmhcs['resolution_histo'].fillna(np.inf)
@@ -144,8 +150,9 @@ def main():
     logger.info('Screening TCRs')
     stcrdab_tcrs = screen_quality(stcrdab_tcrs, 'tcr', args.resolution_cutoff, args.stcrdab)
 
-    logger.info('Screening pMHCs')
-    histo_pmhcs = screen_quality(histo_pmhcs, 'pmhc', args.resolution_cutoff)
+    if args.add_mhcs:
+        logger.info('Screening pMHCs')
+        histo_pmhcs = screen_quality(histo_pmhcs, 'pmhc', args.resolution_cutoff)
 
     logger.info('Screening TCR-pMHCs')
     merged_tcr_pmhcs = screen_quality(merged_tcr_pmhcs, 'tcr-pmhc', args.resolution_cutoff, args.stcrdab)
@@ -156,10 +163,15 @@ def main():
     apo_holo_tcrs = pd.concat([stcrdab_tcrs, merged_tcr_pmhcs])
     apo_holo_tcrs = apo_holo_tcrs.groupby('cdr_sequences_collated').filter(select_apo_holo)
 
-    apo_holo_pmhcs = pd.concat([histo_pmhcs, merged_tcr_pmhcs])
-    apo_holo_pmhcs = apo_holo_pmhcs.groupby(['mhc_slug', 'peptide_sequence']).filter(select_apo_holo)
+    if args.add_mhcs:
+        apo_holo_pmhcs = pd.concat([histo_pmhcs, merged_tcr_pmhcs])
+        apo_holo_pmhcs = apo_holo_pmhcs.groupby(['mhc_slug', 'peptide_sequence']).filter(select_apo_holo)
 
-    apo_holo = pd.concat([apo_holo_tcrs, apo_holo_pmhcs])
+        apo_holo = pd.concat([apo_holo_tcrs, apo_holo_pmhcs])
+
+    else:
+        apo_holo = apo_holo_tcrs
+
     apo_holo = apo_holo.drop_duplicates()
 
     # Clean DataFrame
