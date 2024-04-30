@@ -8,7 +8,7 @@ IMGT_CDR3 = set(range(105, 117 + 1))
 IMGT_CDR = IMGT_CDR1.union(IMGT_CDR2).union(IMGT_CDR3)
 '''IMGT residue numbers corresponding to all CDR domains.'''
 
-IMGT_VARIABLE_DOMAIN = set(range(0, 128 + 1))
+IMGT_VARIABLE_DOMAIN = set(range(1, 128 + 1))
 '''Variable domain range for IMGT numbered TCR structures.'''
 
 
