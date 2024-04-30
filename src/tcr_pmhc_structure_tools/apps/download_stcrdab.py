@@ -11,6 +11,8 @@ logger = logging.getLogger(__name__)
 
 parser = argparse.ArgumentParser()
 parser.add_argument('output', help='path to the downloaded data directory eg. some/path/stcrdab')
+parser.add_argument('--log-level', choices=['debug', 'info', 'warning', 'error'], default='info',
+                    help="Level to log messages at (Default: 'info')")
 
 STCRDAB_BASE_URL = 'https://opig.stats.ox.ac.uk/webapps/stcrdab-stcrpred'
 STCRDAB_SUMMARY_FILE_URL = f'{STCRDAB_BASE_URL}/summary/all'
@@ -19,8 +21,8 @@ STCRDAB_RAW_STRUCTURE_BASE_URL = f'{STCRDAB_IMGT_STRUCTURE_BASE_URL}?raw=true'
 
 
 def main():
-    setup_logger(logger, 'info')
     args = parser.parse_args()
+    setup_logger(logger, args.log_level)
 
     logger.info('Creating output dir')
     os.mkdir(args.output)
