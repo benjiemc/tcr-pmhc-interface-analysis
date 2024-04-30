@@ -88,11 +88,19 @@ def fetch_structure(pdb_id: str, assembly_number: int = 1, domain: str = 'all') 
     Returns:
         pdb file text
 
-    '''
-    if domain:
-        req = requests.get(f'{HISTO_STRUCTURE_BASE_URL}/{pdb_id}_{assembly_number}_{domain}.pdb')
-        return req.text
+    Raises:
+        ValueError: if a non-valid domain is given
 
-    domains = [requests.get(f'{HISTO_STRUCTURE_BASE_URL}/{pdb_id}_{assembly_number}_{domain}.pdb').text
-               for domain in ('abd', 'peptide')]
-    return '\n'.join(domains)
+    '''
+    match domain:
+        case 'peptide' | 'abd':
+            req = requests.get(f'{HISTO_STRUCTURE_BASE_URL}/{pdb_id}_{assembly_number}_{domain}.pdb')
+            return req.text
+
+        case 'all':
+            domains = [requests.get(f'{HISTO_STRUCTURE_BASE_URL}/{pdb_id}_{assembly_number}_{domain}.pdb').text
+                       for domain in ('abd', 'peptide')]
+            return '\n'.join(domains)
+
+        case _:
+            raise ValueError(f"Domain: {domain}, is not a valid selection. Use either 'peptide', 'abd' or 'all'.")
