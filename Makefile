@@ -26,6 +26,10 @@ data/interim/apo-holo-tcr-pmhc-class-I-imgt-numbered: src/tcr_pmhc_structure_too
 	done
 	cp $(word 2,$^)/apo_holo_summary.csv $@
 
+data/processed/apo-holo-tcr-pmhc-class-I: src/tcr_pmhc_structure_tools/apps/align_tcr_pmhcs.py data/interim/apo-holo-tcr-pmhc-class-I-imgt-numbered
+	mkdir $@
+	python -m tcr_pmhc_structure_tools.apps.align_tcr_pmhcs -o $@ $(word 2,$^)
+
 analysis:
 	@echo "Running analysis on data..."
 
