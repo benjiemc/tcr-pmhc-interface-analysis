@@ -1,6 +1,6 @@
 .PHONY: all environment data analysis notebooks test lint
 
-all: environment data analysis notebooks
+all: data analysis notebooks
 
 environment:
 	conda env create -f environment.yml
@@ -15,7 +15,7 @@ data/raw/stcrdab:
 data/interim/apo-holo-tcr-pmhc-class-I: src/tcr_pmhc_structure_tools/apps/select_structures.py data/raw/stcrdab
 	python -m tcr_pmhc_structure_tools.apps.select_structures -o $@ data/raw/stcrdab
 
-data/interim/apo-holo-tcr-pmhc-class-I-imgt-numbered: src/tcr_pmhc_structure_tools/apps/select_structures.py data/interim/apo-holo-tcr-pmhc-class-I
+data/interim/apo-holo-tcr-pmhc-class-I-imgt-numbered: src/tcr_pmhc_structure_tools/apps/renumber_structure.py data/interim/apo-holo-tcr-pmhc-class-I
 	mkdir $@
 	@for path in $(word 2,$^)/*.pdb; do \
 		filename=$$(basename $$path); \
