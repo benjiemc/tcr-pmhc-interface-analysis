@@ -33,7 +33,7 @@ notebooks:
 	@echo "Running notebooks..."
 
 test:
-	@echo "Testing package"
+	@pytest
 
 lint:
 	flake8
