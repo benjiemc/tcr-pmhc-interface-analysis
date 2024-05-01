@@ -32,8 +32,8 @@ parser.add_argument('--add-mhcs', action='store_true', help='Add MHC apo forms t
 parser.add_argument('--drop-duplicate-ids', action='store_true',
                     help='Only keep one copy of the structure from a pdb id')
 parser.add_argument('--output', '-o', help='Path to output location')
-parser.add_argument('--log-level', choices=['debug', 'info', 'warning', 'error'], default='info',
-                    help="Level to log messages at (Default: 'info')")
+parser.add_argument('--log-level', choices=['debug', 'info', 'warning', 'error'], default='warning',
+                    help="Level to log messages at (Default: 'warning')")
 
 
 def select_apo_holo(group: pd.DataFrame) -> bool:

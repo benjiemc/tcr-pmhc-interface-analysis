@@ -16,8 +16,8 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument('structures', help='')
 parser.add_argument('--output', '-o', help='')
-parser.add_argument('--log-level', choices=['debug', 'info', 'warning', 'error'], default='info',
-                    help="Level to log messages at (Default: 'info')")
+parser.add_argument('--log-level', choices=['debug', 'info', 'warning', 'error'], default='warning',
+                    help="Level to log messages at (Default: 'warning')")
 
 
 def get_floor_selection() -> str:

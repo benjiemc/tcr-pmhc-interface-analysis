@@ -20,8 +20,8 @@ parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.R
 
 parser.add_argument('structure', help='path to the pdb structure file')
 parser.add_argument('--output', '-o', help='name of output structure file')
-parser.add_argument('--log-level', choices=['debug', 'info', 'warning', 'error'], default='info',
-                    help="Level to log messages at (Default: 'info')")
+parser.add_argument('--log-level', choices=['debug', 'info', 'warning', 'error'], default='warning',
+                    help="Level to log messages at (Default: 'warning')")
 
 
 def main():
