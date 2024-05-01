@@ -8,3 +8,6 @@ notebooks/exploratory/*
 **/.ipynb_checkpoints
 **/__pycache__/*
 **/.pytest_cache/*
+
+# Development Envrionment files
+sps-*
