@@ -21,12 +21,13 @@ def retrieve_data_from_api(url: str) -> pd.DataFrame:
          dataframe with (tcr-)pmhc pdb_ids, peptide sequences, mhc allel information, and complex ids.
 
         Eg:
-                pdb_id     peptide_sequence mhc_slug            chains     resolution
-            0   7s7f        LPASPAHQL        hla_b_07_02         ABCD       1.88
-            1   7s8f        EPRSPSHSM        hla_b_07_02          ABC       1.80
-            2   7s8e        EPRSPSHSM        hla_b_07_02          ABE       1.60
-            3   7rzd        EPRSPSHSM        hla_b_07_02          ABC       1.82
-            4   7s7d        EPRSPSHSM        hla_b_07_02          ABE       1.56
+          pdb_id peptide_sequence     mhc_slug antigen_chain mhc_chain1 mhc_chain2   chains assembly_number  resolution
+        0   7s7f        LPASPAHQL  hla_b_07_02             C          A          B  A-B-C-D               1        1.88
+        1   7s8f        EPRSPSHSM  hla_b_07_02             C          A          B    A-B-C               1        1.80
+        2   7s8e        EPRSPSHSM  hla_b_07_02             E          A          B    A-B-E               1        1.60
+        3   7rzd        EPRSPSHSM  hla_b_07_02             C          A          B    A-B-C               1        1.82
+        4   7s7d        EPRSPSHSM  hla_b_07_02             E          A          B    A-B-E               1        1.56
+
     '''
     req = requests.get(url)
     pages = req.json()['set']['pagination']['pages']
