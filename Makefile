@@ -29,8 +29,13 @@ data/processed/apo-holo-tcr-pmhc-class-I: src/tcr_pmhc_structure_tools/apps/alig
 	mkdir -p $@
 	python -m tcr_pmhc_structure_tools.apps.align_tcr_pmhcs -o $@ $(word 2,$^)
 
-analysis:
-	@echo "Running analysis on data..."
+analysis: data/processed/apo-holo-tcr-pmhc-class-I-comparisons/rmsd_cdr_loop_align_results.csv data/processed/apo-holo-tcr-pmhc-class-I-comparisons/rmsd_cdr_fw_align_results.csv
+
+data/processed/apo-holo-tcr-pmhc-class-I-comparisons/rmsd_cdr_loop_align_results.csv: data/processed/apo-holo-tcr-pmhc-class-I
+	python -m tcr_pmhc_structure_tools.apps.compute_apo_holo_differences --align-loops -o $@ $^
+
+data/processed/apo-holo-tcr-pmhc-class-I-comparisons/rmsd_cdr_fw_align_results.csv: data/processed/apo-holo-tcr-pmhc-class-I
+	python -m tcr_pmhc_structure_tools.apps.compute_apo_holo_differences -o $@ $^
 
 notebooks: $(patsubst notebooks/%.ipynb,run_notebook_%,$(wildcard notebooks/*.ipynb))
 
