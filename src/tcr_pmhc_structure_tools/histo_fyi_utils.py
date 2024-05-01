@@ -54,15 +54,33 @@ def retrieve_data_from_api(url: str) -> pd.DataFrame:
                 logger.warning('Skipping %s due to inconsistencies in chain annotations', member['pdb_code'])
                 continue
 
-            pdb_ids.append(member['pdb_code'])
-            peptide_sequences.append(member['assigned_chains']['peptide']['sequence'])
-            mhc_slugs.append(member['allele']['alpha']['slug'])
-            chains.append(['-'.join(assembly['chains']) for _, assembly in member['assemblies'].items()])
-            assembly_numbers.append([number for number, _ in member['assemblies'].items()])
-            antigen_chains.append(member['assigned_chains']['peptide']['chains'])
-            mhc_chain1s.append(member['assigned_chains']['class_i_alpha']['chains'])
-            mhc_chain2s.append(member['assigned_chains']['beta2m']['chains'])
-            resolutions.append(float(member['resolution']) if member['resolution'] else None)
+            member_antigen_chains = member['assigned_chains']['peptide']['chains']
+            member_mhc1_chains = member['assigned_chains']['class_i_alpha']['chains']
+            member_mhc2_chains = member['assigned_chains']['beta2m']['chains']
+
+            for assembly_number, assembly in member['assemblies'].items():
+                assembly_chains = assembly['chains']
+                try:
+                    assembly_antigen_chain = [chain for chain in member_antigen_chains if chain in assembly_chains][0]
+                    assembly_mhc1_chain = [chain for chain in member_mhc1_chains if chain in assembly_chains][0]
+                    assembly_mhc2_chain = [chain for chain in member_mhc2_chains if chain in assembly_chains][0]
+
+                except IndexError:
+                    logger.warning('Issue with PDB ID %s chain annotations, skipping structure', member['pdb_code'])
+                    break
+
+                pdb_ids.append(member['pdb_code'])
+                resolutions.append(float(member['resolution']) if member['resolution'] else None)
+
+                peptide_sequences.append(member['assigned_chains']['peptide']['sequence'])
+                mhc_slugs.append(member['allele']['alpha']['slug'])
+
+                chains.append('-'.join(assembly_chains))
+                assembly_numbers.append(assembly_number)
+
+                antigen_chains.append(assembly_antigen_chain)
+                mhc_chain1s.append(assembly_mhc1_chain)
+                mhc_chain2s.append(assembly_mhc2_chain)
 
     return pd.DataFrame({
         'pdb_id': pdb_ids,
@@ -74,7 +92,7 @@ def retrieve_data_from_api(url: str) -> pd.DataFrame:
         'chains': chains,
         'assembly_number': assembly_numbers,
         'resolution': resolutions,
-    }).explode(['chains', 'antigen_chain', 'mhc_chain1', 'mhc_chain2', 'assembly_number']).reset_index()
+    })
 
 
 def fetch_structure(pdb_id: str, assembly_number: int = 1, domain: str = 'all') -> str:
