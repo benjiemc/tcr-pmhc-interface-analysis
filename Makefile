@@ -16,7 +16,7 @@ data/interim/apo-holo-tcr-pmhc-class-I: src/tcr_pmhc_structure_tools/apps/select
 	python -m tcr_pmhc_structure_tools.apps.select_structures -o $@ data/raw/stcrdab
 
 data/interim/apo-holo-tcr-pmhc-class-I-imgt-numbered: src/tcr_pmhc_structure_tools/apps/renumber_structure.py data/interim/apo-holo-tcr-pmhc-class-I
-	mkdir $@
+	mkdir -p $@
 	@for path in $(word 2,$^)/*.pdb; do \
 		filename=$$(basename $$path); \
 		echo Re-numbering $$filename; \
@@ -27,7 +27,7 @@ data/interim/apo-holo-tcr-pmhc-class-I-imgt-numbered: src/tcr_pmhc_structure_too
 	cp $(word 2,$^)/apo_holo_summary.csv $@
 
 data/processed/apo-holo-tcr-pmhc-class-I: src/tcr_pmhc_structure_tools/apps/align_tcr_pmhcs.py data/interim/apo-holo-tcr-pmhc-class-I-imgt-numbered
-	mkdir $@
+	mkdir -p $@
 	python -m tcr_pmhc_structure_tools.apps.align_tcr_pmhcs -o $@ $(word 2,$^)
 
 analysis:
