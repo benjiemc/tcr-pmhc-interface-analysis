@@ -6,8 +6,7 @@ environment:
 	conda env create -f environment.yml
 	pip install .
 
-data:
-	@echo "Downloading and processing data..."
+data: data/processed/apo-holo-tcr-pmhc-class-I
 
 data/raw/stcrdab:
 	python -m tcr_pmhc_structure_tools.apps.download_stcrdab $@
