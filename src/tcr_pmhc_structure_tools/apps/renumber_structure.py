@@ -46,7 +46,15 @@ def main():
             numbering, chain_type = anarci.number(sequence)
 
             if not numbering:
+                logger.info('Chain ID %s not identified by ANARCI', chain_id)
                 continue
+
+            if len(numbering) == 2:
+                numbering = numbering[0]
+                chain_type = chain_type[0]
+
+                logger.warning(('Multiple possible chain annotations found for chain id %s. '
+                                'Defaulting to first (%sCHAIN)'), chain_id, chain_type)
 
             numbering = [(seq_id, insert_code) for (seq_id, insert_code), res_name in numbering if res_name != '-']
 
