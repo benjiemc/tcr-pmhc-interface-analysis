@@ -32,8 +32,11 @@ data/processed/apo-holo-tcr-pmhc-class-I: src/tcr_pmhc_structure_tools/apps/alig
 analysis:
 	@echo "Running analysis on data..."
 
-notebooks:
-	@echo "Running notebooks..."
+notebooks: $(patsubst notebooks/%.ipynb,run_notebook_%,$(wildcard notebooks/*.ipynb))
+
+run_notebook_%:
+	@echo "Executing $*"
+	@jupyter nbconvert --to notebook --execute --inplace notebooks/$*.ipynb
 
 test:
 	@pytest
