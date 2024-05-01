@@ -1,7 +1,7 @@
 '''Download all of the STCRDab structures to a specified output path.'''
-import os
 import argparse
 import logging
+import os
 
 import requests
 

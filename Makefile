@@ -44,3 +44,4 @@ test:
 lint:
 	@echo "Running linting"
 	@flake8
+	@isort --check-only src
