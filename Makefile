@@ -42,4 +42,5 @@ test:
 	@pytest
 
 lint:
-	flake8
+	@echo "Running linting"
+	@flake8
