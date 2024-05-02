@@ -1,0 +1,13 @@
+file_name,pdb_id,structure_type,state,alpha_chain,beta_chain,antigen_chain,mhc_chain1,mhc_chain2,cdr_sequences_collated,peptide_sequence,mhc_slug
+7amp_A-B_tcr.pdb,7amp,tcr,apo,A,B,,,,DRGSQS-IYSNGD-AVTTDSWGKLQ-MNHEY-SVGAGI-ASRPGLAGGRPEQY,,
+1tcr_A-B_tcr.pdb,1tcr,tcr,apo,A,B,,,,YSATPY-YYSGDPVV-AVSGFASALT-NNHNN-SYGAGS-ASGGGGTLY,,
+3qh3_A-B_tcr.pdb,3qh3,tcr,apo,A,B,,,,DRGSQS-IYSNGD-AVTTDSWGKLQ-MNHEY-SVGAGI-ASRPGLAGGRPEQY,,
+1g6r_A-B-P-H-L_tcr_pmhc.pdb,1g6r,tcr_pmhc,holo,A,B,P,H,L,YSATPY-YYSGDPVV-AVSGFASALT-NNHNN-SYGAGS-ASGGGGTLY,,
+1g6r_C-D-Q-I-M_tcr_pmhc.pdb,1g6r,tcr_pmhc,holo,C,D,Q,I,M,YSATPY-YYSGDPVV-AVSGFASALT-NNHNN-SYGAGS-ASGGGGTLY,,
+1ao7_D-E-C-A-B_tcr_pmhc.pdb,1ao7,tcr_pmhc,holo,D,E,C,A,B,DRGSQS-IYSNGD-AVTTDSWGKLQ-MNHEY-SVGAGI-ASRPGLAGGRPEQY,LLFGYPVYV,hla_a_02_01
+3ixa_D-E-F_pmhc.pdb,3ixa,pmhc,apo,,,F,D,E,,LLFGYPVYV,hla_a_02_01
+1duz_A-B-C_pmhc.pdb,1duz,pmhc,apo,,,C,A,B,,LLFGYPVYV,hla_a_02_01
+1duz_D-E-F_pmhc.pdb,1duz,pmhc,apo,,,F,D,E,,LLFGYPVYV,hla_a_02_01
+1hhk_A-B-C_pmhc.pdb,1hhk,pmhc,apo,,,C,A,B,,LLFGYPVYV,hla_a_02_01
+1hhk_D-E-F_pmhc.pdb,1hhk,pmhc,apo,,,F,D,E,,LLFGYPVYV,hla_a_02_01
+1bd2_D-E-C-A-B_tcr_pmhc.pdb,1bd2,tcr_pmhc,holo,D,E,C,A,B,NSMFDY-ISSIKDK-AAMEGAQKLV-MNHEY-SVGAGI-ASSYPGGGFYEQY,LLFGYPVYV,hla_a_02_01
