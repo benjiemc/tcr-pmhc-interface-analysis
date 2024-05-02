@@ -10,6 +10,7 @@ from python_pdb.comparisons import rmsd
 from python_pdb.parsers import parse_pdb_to_pandas
 
 from tcr_pmhc_structure_tools.apps._log import setup_logger
+from tcr_pmhc_structure_tools.measurements import compute_residue_com, get_distance, get_distances, measure_chi_angle
 from tcr_pmhc_structure_tools.processing import annotate_tcr_df
 from tcr_pmhc_structure_tools.utils import get_coords
 
@@ -21,6 +22,8 @@ parser.add_argument('input', help='path to data directory')
 parser.add_argument('--output', '-o', help='path to output file')
 parser.add_argument('--align-loops', action='store_true',
                     help='perform an alignment on the loops before computing RMSD.')
+parser.add_argument('--per-residue', action='store_true',
+                    help='Perform measurements on each residue individually as oppose to the loop as a whole.')
 parser.add_argument('--log-level', choices=['debug', 'info', 'warning', 'error'], default='warning',
                     help="Level to log messages at (Default: 'warning')")
 
@@ -36,12 +39,25 @@ def main():
                  if os.path.isdir(os.path.join(args.input, complex_id))]
     num_complexes = len(complexes)
 
-    complex_ids = []
-    structure_x_names = []
-    structure_y_names = []
-    chain_types = []
-    cdrs = []
-    rmsds = []
+    info = {
+        'complex_id': [],
+        'structure_x_name': [],
+        'structure_y_name': [],
+        'chain_type': [],
+        'cdr': [],
+    }
+    if args.per_residue:
+        info['residue_name'] = []
+        info['residue_seq_id'] = []
+        info['residue_insert_code'] = []
+
+    measurements = {}
+    measurements['rmsd'] = []
+
+    if args.per_residue:
+        measurements['ca_distance'] = []
+        measurements['chi_angle_change'] = []
+        measurements['com_distance'] = []
 
     for num, complex_id in enumerate(complexes, 1):
         logger.info('%s - %d of %d', complex_id, num, num_complexes)
@@ -74,35 +90,98 @@ def main():
             structure_x, structure_y = structures
 
             for chain_type, cdr_num in itertools.product(('alpha_chain', 'beta_chain'), (1, 2, 3)):
-                tcr_cdr_backbone_x = structure_x.query('cdr == @cdr_num and chain_type == @chain_type and backbone')
-                tcr_cdr_backbone_y = structure_y.query('cdr == @cdr_num and chain_type == @chain_type and backbone')
+                tcr_cdr_x = structure_x.query('cdr == @cdr_num and chain_type == @chain_type')
+                tcr_cdr_y = structure_y.query('cdr == @cdr_num and chain_type == @chain_type')
+
+                tcr_cdr_backbone_x = tcr_cdr_x.query('backbone')
+                tcr_cdr_backbone_y = tcr_cdr_y.query('backbone')
 
                 tcr_cdr_backbone_coords_x = get_coords(tcr_cdr_backbone_x)
                 tcr_cdr_backbone_coords_y = get_coords(tcr_cdr_backbone_y)
 
                 if args.align_loops:
-                    tcr_cdr_backbone_x = align_pandas_structure(tcr_cdr_backbone_coords_x,
-                                                                tcr_cdr_backbone_coords_y,
-                                                                tcr_cdr_backbone_x)
+                    tcr_cdr_x = align_pandas_structure(tcr_cdr_backbone_coords_x,
+                                                       tcr_cdr_backbone_coords_y,
+                                                       tcr_cdr_x)
+                    tcr_cdr_backbone_x = tcr_cdr_x.query('backbone')
                     tcr_cdr_backbone_coords_x = get_coords(tcr_cdr_backbone_x)
 
-                complex_ids.append(complex_id)
-                structure_x_names.append(comparison['file_name_x'])
-                structure_y_names.append(comparison['file_name_y'])
+                if args.per_residue:
+                    # Compute CA distance
+                    distance = get_distances(get_coords(tcr_cdr_x.query("atom_name == 'CA'")),
+                                             get_coords(tcr_cdr_y.query("atom_name == 'CA'")))
 
-                chain_types.append(chain_type)
-                cdrs.append(cdr_num)
+                    cdr_rmsds = []
+                    cdr_angle_changes = []
+                    cdr_com_distances = []
 
-                rmsds.append(rmsd(tcr_cdr_backbone_coords_x, tcr_cdr_backbone_coords_y))
+                    cdr_residue_names = []
+                    cdr_seq_ids = []
+                    cdr_insert_codes = []
 
-    pd.DataFrame({
-        'complex_id': complex_ids,
-        'structure_x_name': structure_x_names,
-        'structure_y_name': structure_y_names,
-        'chain_type': chain_types,
-        'cdr': cdrs,
-        'rmsd': rmsds,
-    }).to_csv(args.output, index=False)
+                    group1 = tcr_cdr_x.groupby(['residue_name', 'residue_seq_id', 'residue_insert_code'], dropna=False)
+                    group2 = tcr_cdr_y.groupby(['residue_name', 'residue_seq_id', 'residue_insert_code'], dropna=False)
+
+                    for ((res_name, seq_id, insert_code), res1), (_, res2) in zip(group1, group2):
+                        # Compute Residue RMSD
+                        try:
+                            cdr_rmsds.append(rmsd(get_coords(res1), get_coords(res2)))
+                        except ValueError:
+                            logger.warning('Mismatched number of atoms in residue: %s %d%s',
+                                           res_name,
+                                           seq_id,
+                                           insert_code if insert_code else '')
+                            cdr_rmsds.append(None)
+
+                        # Compute chi angle changes
+                        if res_name == 'GLY' or res_name == 'ALA':
+                            cdr_angle_changes.append(None)
+                        else:
+                            try:
+                                cdr_angle_changes.append(measure_chi_angle(res1) - measure_chi_angle(res2))
+                            except IndexError:
+                                logger.warning('Missing atoms needed to calculate chi angle: %s %d%s',
+                                               res_name,
+                                               seq_id,
+                                               insert_code if pd.notnull(insert_code) else '')
+                                cdr_angle_changes.append(None)
+
+                        # Compute C.O.M changes
+                        cdr_com_distances.append(get_distance(compute_residue_com(res1), compute_residue_com(res2)))
+
+                        cdr_residue_names.append(res_name)
+                        cdr_seq_ids.append(seq_id)
+                        cdr_insert_codes.append(insert_code)
+
+                    num_residues = len(cdr_residue_names)
+
+                    info['residue_name'] += cdr_residue_names
+                    info['residue_seq_id'] += cdr_seq_ids
+                    info['residue_insert_code'] += cdr_insert_codes
+
+                    measurements['ca_distance'] += list(distance)
+                    measurements['rmsd'] += cdr_rmsds
+                    measurements['chi_angle_change'] += cdr_angle_changes
+                    measurements['com_distance'] += cdr_com_distances
+
+                    info['complex_id'] += [complex_id] * num_residues
+                    info['structure_x_name'] += [comparison['file_name_x']] * num_residues
+                    info['structure_y_name'] += [comparison['file_name_y']] * num_residues
+
+                    info['cdr'] += [cdr_num] * num_residues
+                    info['chain_type'] += [chain_type] * num_residues
+
+                else:
+                    info['complex_id'].append(complex_id)
+                    info['structure_x_name'].append(comparison['file_name_x'])
+                    info['structure_y_name'].append(comparison['file_name_y'])
+
+                    info['chain_type'].append(chain_type)
+                    info['cdr'].append(cdr_num)
+
+                    measurements['rmsd'].append(rmsd(tcr_cdr_backbone_coords_x, tcr_cdr_backbone_coords_y))
+
+    pd.DataFrame(info | measurements).to_csv(args.output, index=False)
 
 
 if __name__ == '__main__':
