@@ -33,27 +33,27 @@ Looking at Per-Residue Changes in TCR loops
   > --select-entities tcr \
   > --align-entities \
   > --per-residue \
-  > -o test_tcr_apo_per_res_holo_loop_align.csv \
+  > -o test_tcr_per_res_apo_holo_loop_align.csv \
   > $TESTDIR/data
 
-  $ cut -d, -f1-8 test_tcr_apo_per_res_holo_loop_align.csv > test_entries
-  $ cut -d, -f1-8 $TESTDIR/reference/tcr_apo_per_res_holo_loop_align.csv > reference_entries
+  $ cut -d, -f1-8 test_tcr_per_res_apo_holo_loop_align.csv > test_entries
+  $ cut -d, -f1-8 $TESTDIR/reference/tcr_per_res_apo_holo_loop_align.csv > reference_entries
   $ diff test_entries reference_entries
 
-  $ cut -d, -f9 test_tcr_apo_per_res_holo_loop_align.csv | sed 1d > test_values
-  $ cut -d, -f9 $TESTDIR/reference/tcr_apo_per_res_holo_loop_align.csv | sed 1d > reference_values
+  $ cut -d, -f9 test_tcr_per_res_apo_holo_loop_align.csv | sed 1d > test_values
+  $ cut -d, -f9 $TESTDIR/reference/tcr_per_res_apo_holo_loop_align.csv | sed 1d > reference_values
   $ python -c "import numpy as np; test_vals = np.loadtxt('test_values'); ref_vals = np.loadtxt('reference_values'); np.testing.assert_array_almost_equal(test_vals, ref_vals)"
 
-  $ cut -d, -f10 test_tcr_apo_per_res_holo_loop_align.csv | sed 1d > test_values
-  $ cut -d, -f10 $TESTDIR/reference/tcr_apo_per_res_holo_loop_align.csv | sed 1d > reference_values
+  $ cut -d, -f10 test_tcr_per_res_apo_holo_loop_align.csv | sed 1d > test_values
+  $ cut -d, -f10 $TESTDIR/reference/tcr_per_res_apo_holo_loop_align.csv | sed 1d > reference_values
   $ python -c "import numpy as np; test_vals = np.loadtxt('test_values'); ref_vals = np.loadtxt('reference_values'); np.testing.assert_array_almost_equal(test_vals, ref_vals)"
 
-  $ cut -d, -f11 test_tcr_apo_per_res_holo_loop_align.csv | sed 1d > test_values
-  $ cut -d, -f11 $TESTDIR/reference/tcr_apo_per_res_holo_loop_align.csv | sed 1d > reference_values
+  $ cut -d, -f11 test_tcr_per_res_apo_holo_loop_align.csv | sed 1d > test_values
+  $ cut -d, -f11 $TESTDIR/reference/tcr_per_res_apo_holo_loop_align.csv | sed 1d > reference_values
   $ python -c "import numpy as np; test_vals = np.loadtxt('test_values'); ref_vals = np.loadtxt('reference_values'); np.testing.assert_array_almost_equal(test_vals, ref_vals)"
 
-  $ cut -d, -f12 test_tcr_apo_per_res_holo_loop_align.csv | sed 1d > test_values
-  $ cut -d, -f12 $TESTDIR/reference/tcr_apo_per_res_holo_loop_align.csv | sed 1d > reference_values
+  $ cut -d, -f12 test_tcr_per_res_apo_holo_loop_align.csv | sed 1d > test_values
+  $ cut -d, -f12 $TESTDIR/reference/tcr_per_res_apo_holo_loop_align.csv | sed 1d > reference_values
   $ python -c "import numpy as np; test_vals = np.loadtxt('test_values'); ref_vals = np.loadtxt('reference_values'); np.testing.assert_array_almost_equal(test_vals, ref_vals)"
 
 Now on the MHC side

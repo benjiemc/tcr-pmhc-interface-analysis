@@ -32,7 +32,7 @@ data/processed/apo-holo-tcr-pmhc-class-I: src/tcr_pmhc_structure_tools/apps/alig
 analysis: \
 	data/processed/apo-holo-tcr-pmhc-class-I-comparisons/rmsd_cdr_loop_align_results.csv \
 	data/processed/apo-holo-tcr-pmhc-class-I-comparisons/rmsd_cdr_fw_align_results.csv \
-	data/processed/apo-holo-tcr-pmhc-class-I-comparisons/tcr_apo_per_res_holo_loop_align.csv \
+	data/processed/apo-holo-tcr-pmhc-class-I-comparisons/tcr_per_res_apo_holo_loop_align.csv \
 	data/processed/apo-holo-tcr-pmhc-class-I-comparisons/pmhc_per_res_apo_holo.csv
 
 data/processed/apo-holo-tcr-pmhc-class-I-comparisons/rmsd_cdr_loop_align_results.csv: data/processed/apo-holo-tcr-pmhc-class-I
@@ -41,7 +41,7 @@ data/processed/apo-holo-tcr-pmhc-class-I-comparisons/rmsd_cdr_loop_align_results
 data/processed/apo-holo-tcr-pmhc-class-I-comparisons/rmsd_cdr_fw_align_results.csv: data/processed/apo-holo-tcr-pmhc-class-I
 	python -m tcr_pmhc_structure_tools.apps.compute_apo_holo_differences --select-entities tcr -o $@ $^
 
-data/processed/apo-holo-tcr-pmhc-class-I-comparisons/tcr_apo_per_res_holo_loop_align.csv: data/processed/apo-holo-tcr-pmhc-class-I
+data/processed/apo-holo-tcr-pmhc-class-I-comparisons/tcr_per_res_apo_holo_loop_align.csv: data/processed/apo-holo-tcr-pmhc-class-I
 	python -m tcr_pmhc_structure_tools.apps.compute_apo_holo_differences --select-entities tcr --align-entities --per-residue -o $@ $^
 
 data/processed/apo-holo-tcr-pmhc-class-I-comparisons/pmhc_per_res_apo_holo.csv: data/processed/apo-holo-tcr-pmhc-class-I
