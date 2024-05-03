@@ -27,7 +27,7 @@ CHI_ATOMS = {
         1: ['N', 'CA', 'CB', 'CG'],
     },
     'ILE': {
-        1: ['N', 'CA', 'CB', 'CG'],
+        1: ['N', 'CA', 'CB', 'CG1'],
     },
     'LEU': {
         1: ['N', 'CA', 'CB', 'CG'],

@@ -3,6 +3,7 @@ import glob
 import itertools
 import logging
 import os
+import re
 
 import pandas as pd
 from python_pdb.aligners import align_pandas_structure
@@ -10,7 +11,7 @@ from python_pdb.comparisons import rmsd
 from python_pdb.parsers import parse_pdb_to_pandas
 
 from tcr_pmhc_structure_tools.apps._log import setup_logger
-from tcr_pmhc_structure_tools.measurements import compute_residue_com, get_distance, get_distances, measure_chi_angle
+from tcr_pmhc_structure_tools.measurements import compute_residue_com, get_distance, measure_chi_angle
 from tcr_pmhc_structure_tools.processing import annotate_tcr_df
 from tcr_pmhc_structure_tools.utils import get_coords
 
@@ -90,6 +91,8 @@ def main():
             structure_x, structure_y = structures
 
             for chain_type, cdr_num in itertools.product(('alpha_chain', 'beta_chain'), (1, 2, 3)):
+                logger.debug('Computing differences in CDR-%s%d', 'A' if chain_type == 'alpha_chain' else 'B', cdr_num)
+
                 tcr_cdr_x = structure_x.query('cdr == @cdr_num and chain_type == @chain_type')
                 tcr_cdr_y = structure_y.query('cdr == @cdr_num and chain_type == @chain_type')
 
@@ -107,10 +110,7 @@ def main():
                     tcr_cdr_backbone_coords_x = get_coords(tcr_cdr_backbone_x)
 
                 if args.per_residue:
-                    # Compute CA distance
-                    distance = get_distances(get_coords(tcr_cdr_x.query("atom_name == 'CA'")),
-                                             get_coords(tcr_cdr_y.query("atom_name == 'CA'")))
-
+                    cdr_ca_distances = []
                     cdr_rmsds = []
                     cdr_angle_changes = []
                     cdr_com_distances = []
@@ -119,13 +119,27 @@ def main():
                     cdr_seq_ids = []
                     cdr_insert_codes = []
 
-                    group1 = tcr_cdr_x.groupby(['residue_name', 'residue_seq_id', 'residue_insert_code'], dropna=False)
-                    group2 = tcr_cdr_y.groupby(['residue_name', 'residue_seq_id', 'residue_insert_code'], dropna=False)
+                    common_columns = ['residue_name', 'residue_seq_id', 'residue_insert_code', 'atom_name']
+                    cdr_comparison = pd.merge(tcr_cdr_x, tcr_cdr_y, how='inner', on=common_columns)
+                    residues = cdr_comparison.groupby(['residue_seq_id', 'residue_insert_code', 'residue_name'],
+                                                      dropna=False)
 
-                    for ((res_name, seq_id, insert_code), res1), (_, res2) in zip(group1, group2):
+                    for (seq_id, insert_code, res_name), residue in residues:
+                        res_x_columns = residue.filter(regex=r'_x$').columns.tolist()
+                        res_y_columns = residue.filter(regex=r'_y$').columns.tolist()
+
+                        res_x = residue[res_x_columns + common_columns]
+                        res_y = residue[res_y_columns + common_columns]
+
+                        res_x = res_x.rename(columns=lambda col_name: re.sub('_x$', '', col_name))
+                        res_y = res_y.rename(columns=lambda col_name: re.sub('_y$', '', col_name))
+
+                        # CA Distance
+                        cdr_ca_distances.append(get_distance(get_coords(res_x.query("atom_name == 'CA'").iloc[0]),
+                                                             get_coords(res_y.query("atom_name == 'CA'").iloc[0])))
                         # Compute Residue RMSD
                         try:
-                            cdr_rmsds.append(rmsd(get_coords(res1), get_coords(res2)))
+                            cdr_rmsds.append(rmsd(get_coords(res_x), get_coords(res_y)))
                         except ValueError:
                             logger.warning('Mismatched number of atoms in residue: %s %d%s',
                                            res_name,
@@ -138,7 +152,7 @@ def main():
                             cdr_angle_changes.append(None)
                         else:
                             try:
-                                cdr_angle_changes.append(measure_chi_angle(res1) - measure_chi_angle(res2))
+                                cdr_angle_changes.append(measure_chi_angle(res_x) - measure_chi_angle(res_y))
                             except IndexError:
                                 logger.warning('Missing atoms needed to calculate chi angle: %s %d%s',
                                                res_name,
@@ -147,7 +161,7 @@ def main():
                                 cdr_angle_changes.append(None)
 
                         # Compute C.O.M changes
-                        cdr_com_distances.append(get_distance(compute_residue_com(res1), compute_residue_com(res2)))
+                        cdr_com_distances.append(get_distance(compute_residue_com(res_x), compute_residue_com(res_y)))
 
                         cdr_residue_names.append(res_name)
                         cdr_seq_ids.append(seq_id)
@@ -159,7 +173,7 @@ def main():
                     info['residue_seq_id'] += cdr_seq_ids
                     info['residue_insert_code'] += cdr_insert_codes
 
-                    measurements['ca_distance'] += list(distance)
+                    measurements['ca_distance'] += cdr_ca_distances
                     measurements['rmsd'] += cdr_rmsds
                     measurements['chi_angle_change'] += cdr_angle_changes
                     measurements['com_distance'] += cdr_com_distances
@@ -181,6 +195,7 @@ def main():
 
                     measurements['rmsd'].append(rmsd(tcr_cdr_backbone_coords_x, tcr_cdr_backbone_coords_y))
 
+    logger.info('Outputing results...')
     pd.DataFrame(info | measurements).to_csv(args.output, index=False)
 
 
