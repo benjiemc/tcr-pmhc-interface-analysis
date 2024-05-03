@@ -1,6 +1,5 @@
 import argparse
 import glob
-import itertools
 import logging
 import os
 import re
@@ -29,6 +28,20 @@ parser.add_argument('--log-level', choices=['debug', 'info', 'warning', 'error']
                     help="Level to log messages at (Default: 'warning')")
 
 
+def split_merge(merged_df: pd.DataFrame,
+                common_columns: list[str],
+                suffixes: tuple[str, str] = ('_x', '_y')) -> pd.DataFrame:
+    '''Split a dataframe back after a merge operation based on the columns used to merge and the suffixes.'''
+    dfs = []
+    for suffix in suffixes:
+        columns = merged_df.filter(regex=f'{suffix}$').columns.tolist()
+        df = merged_df[columns + common_columns]
+
+        dfs.append(df.rename(columns=lambda col_name: re.sub(f'{suffix}$', '', col_name)))
+
+    return tuple(dfs)
+
+
 def main():
     args = parser.parse_args()
     setup_logger(logger, args.log_level)
@@ -45,7 +58,7 @@ def main():
         'structure_x_name': [],
         'structure_y_name': [],
         'chain_type': [],
-        'cdr': [],
+        'entity': [],
     }
     if args.per_residue:
         info['residue_name'] = []
@@ -90,113 +103,121 @@ def main():
 
             structure_x, structure_y = structures
 
-            for chain_type, cdr_num in itertools.product(('alpha_chain', 'beta_chain'), (1, 2, 3)):
-                logger.debug('Computing differences in CDR-%s%d', 'A' if chain_type == 'alpha_chain' else 'B', cdr_num)
+            structure_common_columns = ['chain_type', 'cdr',
+                                        'residue_name', 'residue_seq_id', 'residue_insert_code',
+                                        'atom_name']
+            structure_comparison = pd.merge(structure_x, structure_y, how='inner', on=structure_common_columns)
 
-                tcr_cdr_x = structure_x.query('cdr == @cdr_num and chain_type == @chain_type')
-                tcr_cdr_y = structure_y.query('cdr == @cdr_num and chain_type == @chain_type')
+            for entity_name, selected_entity in structure_comparison.groupby(['chain_type', 'cdr']):
+                logger.debug('Computing differences in %s', entity_name)
+                entity_x, entity_y = split_merge(selected_entity, structure_common_columns)
 
-                tcr_cdr_backbone_x = tcr_cdr_x.query('backbone')
-                tcr_cdr_backbone_y = tcr_cdr_y.query('backbone')
+                entity_backbone_x = entity_x.query('backbone')
+                entity_backbone_y = entity_y.query('backbone')
 
-                tcr_cdr_backbone_coords_x = get_coords(tcr_cdr_backbone_x)
-                tcr_cdr_backbone_coords_y = get_coords(tcr_cdr_backbone_y)
+                entity_backbone_coords_x = get_coords(entity_backbone_x)
+                entity_backbone_coords_y = get_coords(entity_backbone_y)
 
                 if args.align_loops:
-                    tcr_cdr_x = align_pandas_structure(tcr_cdr_backbone_coords_x,
-                                                       tcr_cdr_backbone_coords_y,
-                                                       tcr_cdr_x)
-                    tcr_cdr_backbone_x = tcr_cdr_x.query('backbone')
-                    tcr_cdr_backbone_coords_x = get_coords(tcr_cdr_backbone_x)
+                    entity_x = align_pandas_structure(entity_backbone_coords_x,
+                                                      entity_backbone_coords_y,
+                                                      entity_x)
+                    entity_backbone_x = entity_x.query('backbone')
+                    entity_backbone_coords_x = get_coords(entity_backbone_x)
 
                 if args.per_residue:
-                    cdr_ca_distances = []
-                    cdr_rmsds = []
-                    cdr_angle_changes = []
-                    cdr_com_distances = []
+                    entity_ca_distances = []
+                    entity_rmsds = []
+                    entity_angle_changes = []
+                    entity_com_distances = []
 
-                    cdr_residue_names = []
-                    cdr_seq_ids = []
-                    cdr_insert_codes = []
+                    entity_residue_names = []
+                    entity_seq_ids = []
+                    entity_insert_codes = []
 
-                    common_columns = ['residue_name', 'residue_seq_id', 'residue_insert_code', 'atom_name']
-                    cdr_comparison = pd.merge(tcr_cdr_x, tcr_cdr_y, how='inner', on=common_columns)
-                    residues = cdr_comparison.groupby(['residue_seq_id', 'residue_insert_code', 'residue_name'],
-                                                      dropna=False)
+                    residue_common_columns = ['residue_name', 'residue_seq_id', 'residue_insert_code', 'atom_name']
+                    entity_comparison = pd.merge(entity_x, entity_y, how='inner', on=residue_common_columns)
+                    residues = entity_comparison.groupby(['residue_seq_id', 'residue_insert_code', 'residue_name'],
+                                                         dropna=False)
 
                     for (seq_id, insert_code, res_name), residue in residues:
-                        res_x_columns = residue.filter(regex=r'_x$').columns.tolist()
-                        res_y_columns = residue.filter(regex=r'_y$').columns.tolist()
-
-                        res_x = residue[res_x_columns + common_columns]
-                        res_y = residue[res_y_columns + common_columns]
-
-                        res_x = res_x.rename(columns=lambda col_name: re.sub('_x$', '', col_name))
-                        res_y = res_y.rename(columns=lambda col_name: re.sub('_y$', '', col_name))
+                        res_x, res_y = split_merge(residue, residue_common_columns)
 
                         # CA Distance
-                        cdr_ca_distances.append(get_distance(get_coords(res_x.query("atom_name == 'CA'").iloc[0]),
-                                                             get_coords(res_y.query("atom_name == 'CA'").iloc[0])))
+                        entity_ca_distances.append(get_distance(get_coords(res_x.query("atom_name == 'CA'").iloc[0]),
+                                                                get_coords(res_y.query("atom_name == 'CA'").iloc[0])))
                         # Compute Residue RMSD
                         try:
-                            cdr_rmsds.append(rmsd(get_coords(res_x), get_coords(res_y)))
+                            entity_rmsds.append(rmsd(get_coords(res_x), get_coords(res_y)))
                         except ValueError:
                             logger.warning('Mismatched number of atoms in residue: %s %d%s',
                                            res_name,
                                            seq_id,
                                            insert_code if insert_code else '')
-                            cdr_rmsds.append(None)
+                            entity_rmsds.append(None)
 
                         # Compute chi angle changes
                         if res_name == 'GLY' or res_name == 'ALA':
-                            cdr_angle_changes.append(None)
+                            entity_angle_changes.append(None)
                         else:
                             try:
-                                cdr_angle_changes.append(measure_chi_angle(res_x) - measure_chi_angle(res_y))
+                                entity_angle_changes.append(measure_chi_angle(res_x) - measure_chi_angle(res_y))
                             except IndexError:
                                 logger.warning('Missing atoms needed to calculate chi angle: %s %d%s',
                                                res_name,
                                                seq_id,
                                                insert_code if pd.notnull(insert_code) else '')
-                                cdr_angle_changes.append(None)
+                                entity_angle_changes.append(None)
 
                         # Compute C.O.M changes
-                        cdr_com_distances.append(get_distance(compute_residue_com(res_x), compute_residue_com(res_y)))
+                        entity_com_distances.append(get_distance(compute_residue_com(res_x),
+                                                                 compute_residue_com(res_y)))
 
-                        cdr_residue_names.append(res_name)
-                        cdr_seq_ids.append(seq_id)
-                        cdr_insert_codes.append(insert_code)
+                        entity_residue_names.append(res_name)
+                        entity_seq_ids.append(seq_id)
+                        entity_insert_codes.append(insert_code)
 
-                    num_residues = len(cdr_residue_names)
+                    num_residues = len(entity_residue_names)
 
-                    info['residue_name'] += cdr_residue_names
-                    info['residue_seq_id'] += cdr_seq_ids
-                    info['residue_insert_code'] += cdr_insert_codes
+                    info['residue_name'] += entity_residue_names
+                    info['residue_seq_id'] += entity_seq_ids
+                    info['residue_insert_code'] += entity_insert_codes
 
-                    measurements['ca_distance'] += cdr_ca_distances
-                    measurements['rmsd'] += cdr_rmsds
-                    measurements['chi_angle_change'] += cdr_angle_changes
-                    measurements['com_distance'] += cdr_com_distances
+                    measurements['ca_distance'] += entity_ca_distances
+                    measurements['rmsd'] += entity_rmsds
+                    measurements['chi_angle_change'] += entity_angle_changes
+                    measurements['com_distance'] += entity_com_distances
 
                     info['complex_id'] += [complex_id] * num_residues
                     info['structure_x_name'] += [comparison['file_name_x']] * num_residues
                     info['structure_y_name'] += [comparison['file_name_y']] * num_residues
 
-                    info['cdr'] += [cdr_num] * num_residues
-                    info['chain_type'] += [chain_type] * num_residues
+                    info['entity'] += [entity_name] * num_residues
 
                 else:
                     info['complex_id'].append(complex_id)
                     info['structure_x_name'].append(comparison['file_name_x'])
                     info['structure_y_name'].append(comparison['file_name_y'])
 
-                    info['chain_type'].append(chain_type)
-                    info['cdr'].append(cdr_num)
+                    info['entity'].append(entity_name)
 
-                    measurements['rmsd'].append(rmsd(tcr_cdr_backbone_coords_x, tcr_cdr_backbone_coords_y))
+                    measurements['rmsd'].append(rmsd(entity_backbone_coords_x, entity_backbone_coords_y))
+
+    info['chain_type'] = [chain_type for chain_type, _ in info['entity']]
+    info['cdr'] = [int(cdr) for _, cdr in info['entity']]
+    info.pop('entity')
 
     logger.info('Outputing results...')
-    pd.DataFrame(info | measurements).to_csv(args.output, index=False)
+
+    output_columns = ['complex_id', 'structure_x_name', 'structure_y_name', 'chain_type', 'cdr', ]
+    if args.per_residue:
+        output_columns += ['residue_name', 'residue_seq_id', 'residue_insert_code']
+
+    output_columns.append('rmsd')
+    if args.per_residue:
+        output_columns += ['ca_distance', 'chi_angle_change', 'com_distance']
+
+    pd.DataFrame(info | measurements).loc[:, output_columns].to_csv(args.output, index=False)
 
 
 if __name__ == '__main__':
