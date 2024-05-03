@@ -4,6 +4,7 @@ import logging
 import os
 import re
 
+import numpy as np
 import pandas as pd
 from python_pdb.aligners import align_pandas_structure
 from python_pdb.comparisons import rmsd
@@ -11,7 +12,7 @@ from python_pdb.parsers import parse_pdb_to_pandas
 
 from tcr_pmhc_structure_tools.apps._log import setup_logger
 from tcr_pmhc_structure_tools.measurements import compute_residue_com, get_distance, measure_chi_angle
-from tcr_pmhc_structure_tools.processing import annotate_tcr_df
+from tcr_pmhc_structure_tools.processing import annotate_tcr_pmhc_df
 from tcr_pmhc_structure_tools.utils import get_coords
 
 logger = logging.getLogger()
@@ -20,10 +21,11 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument('input', help='path to data directory')
 parser.add_argument('--output', '-o', help='path to output file')
-parser.add_argument('--align-loops', action='store_true',
-                    help='perform an alignment on the loops before computing RMSD.')
+parser.add_argument('--select-entities', choices=['tcr', 'pmhc'])
+parser.add_argument('--align-entities', action='store_true',
+                    help='perform an alignment on the selected entities before computing RMSD.')
 parser.add_argument('--per-residue', action='store_true',
-                    help='Perform measurements on each residue individually as oppose to the loop as a whole.')
+                    help='Perform measurements on each residue individually as oppose to the entity as a whole.')
 parser.add_argument('--log-level', choices=['debug', 'info', 'warning', 'error'], default='warning',
                     help="Level to log messages at (Default: 'warning')")
 
@@ -80,8 +82,8 @@ def main():
         complex_pdb_files = [file_ for file_ in os.listdir(complex_path) if file_.endswith('.pdb')]
         complex_summary = summary_df[summary_df['file_name'].isin(complex_pdb_files)]
 
-        complex_tcrs = complex_summary.query("structure_type == 'tcr' or structure_type == 'tcr_pmhc'")
-        comparisons = complex_tcrs.merge(complex_tcrs, how='cross')
+        comparison_structures = complex_summary.query("structure_type == @args.select_entities or state == 'holo'")
+        comparisons = pd.merge(comparison_structures, comparison_structures, how='cross')
         comparisons = comparisons.query('file_name_x != file_name_y')
 
         for _, comparison in comparisons.iterrows():
@@ -92,9 +94,9 @@ def main():
                 with open(os.path.join(complex_path, comparison['file_name' + suffix]), 'r') as fh:
                     structure_df = parse_pdb_to_pandas(fh.read())
 
-                structure_df = annotate_tcr_df(structure_df,
-                                               alpha_chain_id=comparison['alpha_chain' + suffix],
-                                               beta_chain_id=comparison['beta_chain' + suffix])
+                chains = comparison.filter(like='chain').filter(regex=f'{suffix}$').replace({np.nan: None}).tolist()
+                structure_df = annotate_tcr_pmhc_df(structure_df, *chains)
+
                 structure_df['backbone'] = structure_df['atom_name'].map(
                     lambda atom_name: (atom_name == 'N' or atom_name == 'CA' or atom_name == 'C' or atom_name == 'O')
                 )
@@ -103,12 +105,24 @@ def main():
 
             structure_x, structure_y = structures
 
-            structure_common_columns = ['chain_type', 'cdr',
-                                        'residue_name', 'residue_seq_id', 'residue_insert_code',
-                                        'atom_name']
+            if args.select_entities == 'tcr':
+                entity_columns = ['chain_type', 'cdr']
+
+            elif args.select_entities == 'pmhc':
+                entity_columns = ['chain_type']
+
+            structure_common_columns = entity_columns + ['residue_name',
+                                                         'residue_seq_id',
+                                                         'residue_insert_code',
+                                                         'atom_name']
+
             structure_comparison = pd.merge(structure_x, structure_y, how='inner', on=structure_common_columns)
 
-            for entity_name, selected_entity in structure_comparison.groupby(['chain_type', 'cdr']):
+            # Necessary to avoid pandas warning
+            if len(entity_columns) == 1:
+                entity_columns = entity_columns[0]
+
+            for entity_name, selected_entity in structure_comparison.groupby(entity_columns):
                 logger.debug('Computing differences in %s', entity_name)
                 entity_x, entity_y = split_merge(selected_entity, structure_common_columns)
 
@@ -118,7 +132,7 @@ def main():
                 entity_backbone_coords_x = get_coords(entity_backbone_x)
                 entity_backbone_coords_y = get_coords(entity_backbone_y)
 
-                if args.align_loops:
+                if args.align_entities:
                     entity_x = align_pandas_structure(entity_backbone_coords_x,
                                                       entity_backbone_coords_y,
                                                       entity_x)
@@ -203,13 +217,25 @@ def main():
 
                     measurements['rmsd'].append(rmsd(entity_backbone_coords_x, entity_backbone_coords_y))
 
-    info['chain_type'] = [chain_type for chain_type, _ in info['entity']]
-    info['cdr'] = [int(cdr) for _, cdr in info['entity']]
-    info.pop('entity')
+    if args.select_entities == 'tcr':
+        info['chain_type'] = [chain_type for chain_type, _ in info['entity']]
+        info['cdr'] = [int(cdr) for _, cdr in info['entity']]
+        info.pop('entity')
+
+    elif args.select_entities == 'pmhc':
+        info['chain_type'] = info['entity']
+        info.pop('entity')
 
     logger.info('Outputing results...')
 
-    output_columns = ['complex_id', 'structure_x_name', 'structure_y_name', 'chain_type', 'cdr', ]
+    output_columns = ['complex_id', 'structure_x_name', 'structure_y_name']
+
+    if args.select_entities == 'tcr':
+        output_columns += ['chain_type', 'cdr']
+
+    elif args.select_entities == 'pmhc':
+        output_columns += ['chain_type']
+
     if args.per_residue:
         output_columns += ['residue_name', 'residue_seq_id', 'residue_insert_code']
 
