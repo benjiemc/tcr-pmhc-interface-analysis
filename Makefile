@@ -32,7 +32,7 @@ data/processed/apo-holo-tcr-pmhc-class-I: data/interim/apo-holo-tcr-pmhc-class-I
 	mkdir -p $@
 	python -m tcr_pmhc_structure_tools.apps.align_tcr_pmhcs -o $@ $^
 
-data/processed/apo-holo-tcr-pmhc-class-I-holo-aligned: data/interim/apo-holo-tcr-pmhc-class-I-imgt-numbered/ 
+data/processed/apo-holo-tcr-pmhc-class-I-holo-aligned: data/interim/apo-holo-tcr-pmhc-class-I-imgt-numbered/
 	python -m tcr_pmhc_structure_tools.apps.align_tcr_pmhcs --only-holo -o $@ $^
 
 analysis: \
