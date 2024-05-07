@@ -11,10 +11,10 @@ data: data/processed/apo-holo-tcr-pmhc-class-I
 data/raw/stcrdab:
 	python -m tcr_pmhc_structure_tools.apps.download_stcrdab $@
 
-data/interim/apo-holo-tcr-pmhc-class-I: src/tcr_pmhc_structure_tools/apps/select_structures.py data/raw/stcrdab
-	python -m tcr_pmhc_structure_tools.apps.select_structures -o $@ data/raw/stcrdab
+data/interim/apo-holo-tcr-pmhc-class-I: data/raw/stcrdab
+	python -m tcr_pmhc_structure_tools.apps.select_structures -o $@ $^
 
-data/interim/apo-holo-tcr-pmhc-class-I-imgt-numbered: src/tcr_pmhc_structure_tools/apps/renumber_structure.py data/interim/apo-holo-tcr-pmhc-class-I
+data/interim/apo-holo-tcr-pmhc-class-I-imgt-numbered: data/interim/apo-holo-tcr-pmhc-class-I
 	mkdir -p $@
 	@for path in $(word 2,$^)/*.pdb; do \
 		filename=$$(basename $$path); \
@@ -23,11 +23,11 @@ data/interim/apo-holo-tcr-pmhc-class-I-imgt-numbered: src/tcr_pmhc_structure_too
             --output $@/$$filename \
             $$path; \
 	done
-	cp $(word 2,$^)/apo_holo_summary.csv $@
+	cp $^/apo_holo_summary.csv $@
 
-data/processed/apo-holo-tcr-pmhc-class-I: src/tcr_pmhc_structure_tools/apps/align_tcr_pmhcs.py data/interim/apo-holo-tcr-pmhc-class-I-imgt-numbered
+data/processed/apo-holo-tcr-pmhc-class-I: data/interim/apo-holo-tcr-pmhc-class-I-imgt-numbered
 	mkdir -p $@
-	python -m tcr_pmhc_structure_tools.apps.align_tcr_pmhcs -o $@ $(word 2,$^)
+	python -m tcr_pmhc_structure_tools.apps.align_tcr_pmhcs -o $@ $^
 
 analysis: \
 	data/processed/apo-holo-tcr-pmhc-class-I-comparisons/rmsd_cdr_loop_align_results.csv \
