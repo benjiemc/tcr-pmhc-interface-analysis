@@ -14,8 +14,8 @@ logger = logging.getLogger()
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument('structures', help='')
-parser.add_argument('--output', '-o', help='')
+parser.add_argument('structures', help='path to the structures to align')
+parser.add_argument('--output', '-o', help='path to output the aligned files')
 parser.add_argument('--log-level', choices=['debug', 'info', 'warning', 'error'], default='warning',
                     help="Level to log messages at (Default: 'warning')")
 
