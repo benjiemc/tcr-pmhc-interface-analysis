@@ -53,6 +53,12 @@ data/processed/apo-holo-tcr-pmhc-class-I-comparisons/tcr_per_res_apo_holo_loop_a
 data/processed/apo-holo-tcr-pmhc-class-I-comparisons/pmhc_per_res_apo_holo.csv: data/processed/apo-holo-tcr-pmhc-class-I
 	python -m tcr_pmhc_structure_tools.apps.compute_apo_holo_differences --select-entities pmhc --per-residue -o $@ $^
 
+data/processed/apo-holo-tcr-pmhc-class-I-comparisons/rmsd_cdr_fw_align_holo.csv: data/processed/apo-holo-tcr-pmhc-class-I-holo-aligned
+	python -m tcr_pmhc_structure_tools.apps.compute_apo_holo_differences --select-entities tcr -o $@ $^
+
+data/processed/apo-holo-tcr-pmhc-class-I-comparisons/rmsd_cdr_loop_align_holo.csv: data/processed/apo-holo-tcr-pmhc-class-I-holo-aligned
+	python -m tcr_pmhc_structure_tools.apps.compute_apo_holo_differences --align-entities --select-entities tcr -o $@ $^
+
 notebooks: $(patsubst notebooks/%.ipynb,run_notebook_%,$(wildcard notebooks/*.ipynb))
 
 run_notebook_%:
