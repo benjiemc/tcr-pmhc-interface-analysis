@@ -25,13 +25,14 @@ data/interim/apo-holo-tcr-pmhc-class-I-imgt-numbered: data/interim/apo-holo-tcr-
             --output $@/$$filename \
             $$path; \
 	done
-	cp $^/apo_holo_summary.csv $@
+	head -n1 $^/apo_holo_summary.csv > $@/apo_holo_summary.csv
+	ls $@/*.pdb | cut -d/ -f4 | xargs -I % grep % $^/apo_holo_summary.csv >> $@/apo_holo_summary.csv
 
 data/processed/apo-holo-tcr-pmhc-class-I: data/interim/apo-holo-tcr-pmhc-class-I-imgt-numbered
 	mkdir -p $@
 	python -m tcr_pmhc_structure_tools.apps.align_tcr_pmhcs -o $@ $^
 
-data/processed/apo-holo-tcr-pmhc-class-I-holo-aligned: data/interim/apo-holo-tcr-pmhc-class-I-imgt-numbered/
+data/processed/apo-holo-tcr-pmhc-class-I-holo-aligned: data/interim/apo-holo-tcr-pmhc-class-I-imgt-numbered/ 
 	python -m tcr_pmhc_structure_tools.apps.align_tcr_pmhcs --only-holo -o $@ $^
 
 analysis: \

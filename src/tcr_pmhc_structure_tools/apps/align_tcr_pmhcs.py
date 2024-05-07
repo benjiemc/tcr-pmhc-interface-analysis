@@ -2,7 +2,6 @@ import argparse
 import glob
 import logging
 import os
-import shutil
 
 import pandas as pd
 from pymol import cmd
@@ -187,7 +186,10 @@ def main():
             cmd.reinitialize()
 
     logger.info('Copying summary file')
-    shutil.copy2(summary_path, args.output)
+    file_names_in_output = [file_name.split('/')[-1]
+                            for file_name in glob.glob(os.path.join(args.output, '**/*.pdb'), recursive=True)]
+    output_summary_df = summary_df[summary_df['file_name'].isin(file_names_in_output)]
+    output_summary_df.to_csv(os.path.join(args.output, summary_path.split('/')[-1]), index=False)
 
 
 if __name__ == '__main__':
