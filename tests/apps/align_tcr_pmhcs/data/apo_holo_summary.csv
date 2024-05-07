@@ -1,0 +1,7 @@
+file_name,pdb_id,structure_type,state,alpha_chain,beta_chain,antigen_chain,mhc_chain1,mhc_chain2,cdr_sequences_collated,peptide_sequence,mhc_slug
+1kgc_D-E_tcr.pdb,1kgc,tcr,apo,D,E,,,,TISGTDY-GLTSN-ILPLAGGTSYGKLT-SGHVS-FQNEAQ-ASSLGQAYEQY,,
+1m05_A-B-E_pmhc.pdb,1m05,pmhc,apo,,,E,A,B,,FLRGRAYGL,hla_b_08_01
+1m05_C-D-F_pmhc.pdb,1m05,pmhc,apo,,,F,C,D,,FLRGRAYGL,hla_b_08_01
+1mi5_D-E-C-A-B_tcr_pmhc.pdb,1mi5,tcr_pmhc,holo,D,E,C,A,B,TISGTDY-GLTSN-ILPLAGGTSYGKLT-SGHVS-FQNEAQ-ASSLGQAYEQY,FLRGRAYGL,hla_b_08_01
+3sko_A-B-C_pmhc.pdb,3sko,pmhc,apo,,,C,A,B,,FLRGRAYGL,hla_b_08_01
+3x13_A-B-C_pmhc.pdb,3x13,pmhc,apo,,,C,A,B,,FLRGRAYGL,hla_b_08_01
