@@ -6,7 +6,9 @@ environment:
 	conda env create -f environment.yml
 	pip install .
 
-data: data/processed/apo-holo-tcr-pmhc-class-I
+data: \
+	data/processed/apo-holo-tcr-pmhc-class-I \
+	data/processed/apo-holo-tcr-pmhc-class-I-holo-aligned
 
 data/raw/stcrdab:
 	python -m tcr_pmhc_structure_tools.apps.download_stcrdab $@
@@ -28,6 +30,9 @@ data/interim/apo-holo-tcr-pmhc-class-I-imgt-numbered: data/interim/apo-holo-tcr-
 data/processed/apo-holo-tcr-pmhc-class-I: data/interim/apo-holo-tcr-pmhc-class-I-imgt-numbered
 	mkdir -p $@
 	python -m tcr_pmhc_structure_tools.apps.align_tcr_pmhcs -o $@ $^
+
+data/processed/apo-holo-tcr-pmhc-class-I-holo-aligned: data/interim/apo-holo-tcr-pmhc-class-I-imgt-numbered/
+	python -m tcr_pmhc_structure_tools.apps.align_tcr_pmhcs --only-holo -o $@ $^
 
 analysis: \
 	data/processed/apo-holo-tcr-pmhc-class-I-comparisons/rmsd_cdr_loop_align_results.csv \

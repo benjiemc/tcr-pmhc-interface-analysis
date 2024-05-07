@@ -1,0 +1,7 @@
+file_name,pdb_id,structure_type,state,alpha_chain,beta_chain,antigen_chain,mhc_chain1,mhc_chain2,cdr_sequences_collated,peptide_sequence,mhc_slug
+3vxu_D-E-C-A-B_tcr_pmhc.pdb,3vxu,tcr_pmhc,holo,D,E,C,A,B,DRGSQS-IYSNGD-GTYNQGGKLI-MNHEY-SMNVEV-ASSGASHEQY,,
+3w0w_D-E-C-A-B_tcr_pmhc.pdb,3w0w,tcr_pmhc,holo,D,E,C,A,B,DRGSQS-IYSNGD-GTYNQGGKLI-MNHEY-SMNVEV-ASSGASHEQY,RFPLTFGWCF,hla_a_24_02
+3vxu_I-J-H-F-G_tcr_pmhc.pdb,3vxu,tcr_pmhc,holo,I,J,H,F,G,DRGSQS-IYSNGD-GTYNQGGKLI-MNHEY-SMNVEV-ASSGASHEQY,,
+3qfj_D-E-C-A-B_tcr_pmhc.pdb,3qfj,tcr_pmhc,holo,D,E,C,A,B,DRGSQS-IYSNGD-AVTTDSWGKLQ-MNHEY-SVGAGI-ASRPGLAGGRPEQY,LLFGFPVYV,hla_a_02_01
+3d3v_D-E-C-A-B_tcr_pmhc.pdb,3d3v,tcr_pmhc,holo,D,E,C,A,B,DRGSQS-IYSNGD-AVTTDSWGKLQ-MNHEY-SVGAGI-ASRPGLAGGRPEQY,LLFGFPVYV,hla_a_02_01
+3d39_D-E-C-A-B_tcr_pmhc.pdb,3d39,tcr_pmhc,holo,D,E,C,A,B,DRGSQS-IYSNGD-AVTTDSWGKLQ-MNHEY-SVGAGI-ASRPGLAGGRPEQY,LLFGFPVYV,hla_a_02_01
