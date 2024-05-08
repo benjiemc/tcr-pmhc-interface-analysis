@@ -208,7 +208,7 @@ def main():
                        for path in glob.glob(os.path.join(args.stcrdab, 'imgt', '*.pdb'))]
     num_structures = len(apo_holo)
 
-    for num, (_, row) in enumerate(apo_holo.iterrows()):
+    for num, (_, row) in enumerate(apo_holo.iterrows(), 1):
         logger.debug('Exporting PDB ID %s - %d of %d', row.pdb_id, num, num_structures)
 
         match row.structure_type:
