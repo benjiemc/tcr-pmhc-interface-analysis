@@ -84,6 +84,10 @@ def main():
 
         comparison_structures = complex_summary.query("structure_type == @args.select_entities or state == 'holo'")
         comparisons = pd.merge(comparison_structures, comparison_structures, how='cross')
+        comparisons['comparison'] = comparisons.apply(lambda row: '-'.join(sorted([row.file_name_x, row.file_name_y])),
+                                                      axis='columns')
+        comparisons = comparisons.drop_duplicates('comparison')
+        comparisons = comparisons.drop('comparison', axis='columns')
         comparisons = comparisons.query('file_name_x != file_name_y')
 
         for _, comparison in comparisons.iterrows():
