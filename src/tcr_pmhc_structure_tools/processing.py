@@ -38,3 +38,26 @@ def annotate_tcr_pmhc_df(structure_df: pd.DataFrame,
     )
 
     return structure_df
+
+
+def find_anchors(cdr_df: pd.DataFrame,
+                 structure_df: pd.DataFrame,
+                 num_anchors: int = 1) -> tuple[pd.DataFrame, pd.DataFrame]:
+    '''Get the anchors of a cdr loop. DOES NOT SUPPORT MULTIPLE MODELS.'''
+    cdr_start_info = tuple(cdr_df.iloc[0][['chain_id', 'residue_seq_id', 'residue_insert_code']].tolist())
+    cdr_end_info = tuple(cdr_df.iloc[-1][['chain_id', 'residue_seq_id', 'residue_insert_code']].tolist())
+
+    residues = list(structure_df.groupby(['chain_id', 'residue_seq_id', 'residue_insert_code'], dropna=False))
+
+    for i, (residue_info, residue) in enumerate(residues):
+        if pd.isna(residue_info[-1]):
+            residue_info = (residue_info[0], residue_info[1], None)
+
+        if cdr_start_info == residue_info:
+            start_anchor = pd.concat([res for _, res in residues[i - num_anchors: i]])
+
+        if cdr_end_info == residue_info:
+            end_anchor = pd.concat([res for _, res in residues[(i + 1): (i + 1) + num_anchors]])
+            break
+
+    return start_anchor, end_anchor
