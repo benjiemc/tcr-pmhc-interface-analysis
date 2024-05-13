@@ -56,6 +56,24 @@ Looking at Per-Residue Changes in TCR loops
   $ cut -d, -f12 $TESTDIR/reference/tcr_per_res_apo_holo_loop_align.csv | sed 1d > reference_values
   $ python -c "import numpy as np; test_vals = np.loadtxt('test_values'); ref_vals = np.loadtxt('reference_values'); np.testing.assert_array_almost_equal(test_vals, ref_vals)"
 
+Running only on Residue COM
+  $ python -m tcr_pmhc_structure_tools.apps.compute_apo_holo_differences \
+  > --log-level error \
+  > --select-entities tcr \
+  > --align-entities \
+  > --per-residue \
+  > --per-residue-measurements com_distance \
+  > -o test_tcr_per_res_apo_holo_loop_align.csv \
+  > $TESTDIR/data
+
+  $ cut -d, -f1-8 test_tcr_per_res_apo_holo_loop_align.csv > test_entries
+  $ cut -d, -f1-8 $TESTDIR/reference/tcr_per_res_apo_holo_loop_align.csv > reference_entries
+  $ diff test_entries reference_entries
+
+  $ cut -d, -f9 test_tcr_per_res_apo_holo_loop_align.csv | sed 1d > test_values
+  $ cut -d, -f12 $TESTDIR/reference/tcr_per_res_apo_holo_loop_align.csv | sed 1d > reference_values
+  $ python -c "import numpy as np; test_vals = np.loadtxt('test_values'); ref_vals = np.loadtxt('reference_values'); np.testing.assert_array_almost_equal(test_vals, ref_vals)"
+
 Now on the MHC side
   $ python -m tcr_pmhc_structure_tools.apps.compute_apo_holo_differences \
   > --select-entities pmhc \

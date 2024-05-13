@@ -17,6 +17,8 @@ from tcr_pmhc_structure_tools.utils import get_coords
 
 logger = logging.getLogger()
 
+MEASURMENT_CHOICES = ['rmsd', 'ca_distance', 'chi_angle_change', 'com_distance']
+
 parser = argparse.ArgumentParser()
 
 parser.add_argument('input', help='path to data directory')
@@ -26,6 +28,11 @@ parser.add_argument('--align-entities', action='store_true',
                     help='perform an alignment on the selected entities before computing RMSD.')
 parser.add_argument('--per-residue', action='store_true',
                     help='Perform measurements on each residue individually as oppose to the entity as a whole.')
+parser.add_argument('--per-residue-measurements',
+                    choices=MEASURMENT_CHOICES + ['all'],
+                    nargs='+',
+                    default='all',
+                    help='Measurments to take between residues if `--per-residue` is selected.')
 parser.add_argument('--log-level', choices=['debug', 'info', 'warning', 'error'], default='warning',
                     help="Level to log messages at (Default: 'warning')")
 
@@ -68,12 +75,17 @@ def main():
         info['residue_insert_code'] = []
 
     measurements = {}
-    measurements['rmsd'] = []
 
     if args.per_residue:
-        measurements['ca_distance'] = []
-        measurements['chi_angle_change'] = []
-        measurements['com_distance'] = []
+        measurement_choices = (MEASURMENT_CHOICES
+                               if args.per_residue_measurements == 'all'
+                               else args.per_residue_measurements)
+
+        for measurement in measurement_choices:
+            measurements[measurement] = []
+
+    else:
+        measurements['rmsd'] = []
 
     for num, complex_id in enumerate(complexes, 1):
         logger.info('%s - %d of %d', complex_id, num, num_complexes)
@@ -144,15 +156,6 @@ def main():
                     entity_backbone_coords_x = get_coords(entity_backbone_x)
 
                 if args.per_residue:
-                    entity_ca_distances = []
-                    entity_rmsds = []
-                    entity_angle_changes = []
-                    entity_com_distances = []
-
-                    entity_residue_names = []
-                    entity_seq_ids = []
-                    entity_insert_codes = []
-
                     residue_common_columns = ['residue_name', 'residue_seq_id', 'residue_insert_code', 'atom_name']
                     entity_comparison = pd.merge(entity_x, entity_y, how='inner', on=residue_common_columns)
                     residues = entity_comparison.groupby(['residue_seq_id', 'residue_insert_code', 'residue_name'],
@@ -161,56 +164,51 @@ def main():
                     for (seq_id, insert_code, res_name), residue in residues:
                         res_x, res_y = split_merge(residue, residue_common_columns)
 
-                        # CA Distance
-                        entity_ca_distances.append(get_distance(get_coords(res_x.query("atom_name == 'CA'").iloc[0]),
-                                                                get_coords(res_y.query("atom_name == 'CA'").iloc[0])))
-                        # Compute Residue RMSD
-                        try:
-                            entity_rmsds.append(rmsd(get_coords(res_x), get_coords(res_y)))
-                        except ValueError:
-                            logger.warning('Mismatched number of atoms in residue: %s %d%s',
-                                           res_name,
-                                           seq_id,
-                                           insert_code if insert_code else '')
-                            entity_rmsds.append(None)
+                        info['residue_name'].append(res_name)
+                        info['residue_seq_id'].append(seq_id)
+                        info['residue_insert_code'].append(insert_code)
 
-                        # Compute chi angle changes
-                        if res_name == 'GLY' or res_name == 'ALA':
-                            entity_angle_changes.append(None)
-                        else:
-                            try:
-                                entity_angle_changes.append(measure_chi_angle(res_x) - measure_chi_angle(res_y))
-                            except IndexError:
-                                logger.warning('Missing atoms needed to calculate chi angle: %s %d%s',
-                                               res_name,
-                                               seq_id,
-                                               insert_code if pd.notnull(insert_code) else '')
-                                entity_angle_changes.append(None)
+                        info['complex_id'].append(complex_id)
+                        info['structure_x_name'].append(comparison['file_name_x'])
+                        info['structure_y_name'].append(comparison['file_name_y'])
 
-                        # Compute C.O.M changes
-                        entity_com_distances.append(get_distance(compute_residue_com(res_x),
-                                                                 compute_residue_com(res_y)))
+                        info['entity'].append(entity_name)
 
-                        entity_residue_names.append(res_name)
-                        entity_seq_ids.append(seq_id)
-                        entity_insert_codes.append(insert_code)
+                        for measurement in measurement_choices:
+                            value = None
 
-                    num_residues = len(entity_residue_names)
+                            match measurement:
+                                case 'rmsd':
+                                    logger.debug('Computing RMSD between residues')
+                                    try:
+                                        value = rmsd(get_coords(res_x), get_coords(res_y))
+                                    except ValueError:
+                                        logger.warning('Mismatched number of atoms in residue: %s %d%s',
+                                                       res_name,
+                                                       seq_id,
+                                                       insert_code if insert_code else '')
 
-                    info['residue_name'] += entity_residue_names
-                    info['residue_seq_id'] += entity_seq_ids
-                    info['residue_insert_code'] += entity_insert_codes
+                                case 'ca_distance':
+                                    logger.debug('Computing distance between CA atoms')
+                                    value = get_distance(get_coords(res_x.query("atom_name == 'CA'").iloc[0]),
+                                                         get_coords(res_y.query("atom_name == 'CA'").iloc[0]))
 
-                    measurements['ca_distance'] += entity_ca_distances
-                    measurements['rmsd'] += entity_rmsds
-                    measurements['chi_angle_change'] += entity_angle_changes
-                    measurements['com_distance'] += entity_com_distances
+                                case 'com_distance':
+                                    logger.debug('Computing centre of mass change between residues')
+                                    value = get_distance(compute_residue_com(res_x), compute_residue_com(res_y))
 
-                    info['complex_id'] += [complex_id] * num_residues
-                    info['structure_x_name'] += [comparison['file_name_x']] * num_residues
-                    info['structure_y_name'] += [comparison['file_name_y']] * num_residues
+                                case 'chi_angle_change':
+                                    if not (res_name == 'GLY' or res_name == 'ALA'):
+                                        logger.debug('Computing Chi-angle changes')
+                                        try:
+                                            value = measure_chi_angle(res_x) - measure_chi_angle(res_y)
+                                        except IndexError:
+                                            logger.warning('Missing atoms needed to calculate chi angle: %s %d%s',
+                                                           res_name,
+                                                           seq_id,
+                                                           insert_code if pd.notnull(insert_code) else '')
 
-                    info['entity'] += [entity_name] * num_residues
+                            measurements[measurement].append(value)
 
                 else:
                     info['complex_id'].append(complex_id)
@@ -242,10 +240,10 @@ def main():
 
     if args.per_residue:
         output_columns += ['residue_name', 'residue_seq_id', 'residue_insert_code']
+        output_columns += measurement_choices
 
-    output_columns.append('rmsd')
-    if args.per_residue:
-        output_columns += ['ca_distance', 'chi_angle_change', 'com_distance']
+    else:
+        output_columns.append('rmsd')
 
     pd.DataFrame(info | measurements).loc[:, output_columns].to_csv(args.output, index=False)
 
