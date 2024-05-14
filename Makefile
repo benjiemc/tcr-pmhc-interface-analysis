@@ -62,6 +62,13 @@ data/processed/apo-holo-tcr-pmhc-class-I-comparisons/rmsd_cdr_fw_align_holo.csv:
 data/processed/apo-holo-tcr-pmhc-class-I-comparisons/rmsd_cdr_loop_align_holo.csv: data/processed/apo-holo-tcr-pmhc-class-I-holo-aligned
 	python -m tcr_pmhc_structure_tools.apps.compute_apo_holo_differences --align-entities --select-entities tcr -o $@ $^
 
+data/processed/apo-holo-tcr-pmhc-class-I-comparisons/pmhc_tcr_contact_apo_holo.csv: data/processed/apo-holo-tcr-pmhc-class-I data/processed/mhc_contacts.csv
+	python -m tcr_pmhc_structure_tools.apps.compute_apo_holo_differences \
+	-o $@ \
+	--select-entities pmhc \
+	--pmhc-tcr-contact-residues $(shell awk -F ',' '$$3 >= 100 { print $$2 }' $(word 2,$^) | tail -n +2 | sort | uniq | tr '\n' ' ') \
+	$(word 1,$^)
+
 notebooks: $(patsubst notebooks/%.ipynb,run_notebook_%,$(wildcard notebooks/*.ipynb))
 
 run_notebook_%:

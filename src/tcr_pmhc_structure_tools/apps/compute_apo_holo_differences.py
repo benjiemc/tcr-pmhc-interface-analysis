@@ -24,6 +24,9 @@ parser = argparse.ArgumentParser()
 parser.add_argument('input', help='path to data directory')
 parser.add_argument('--output', '-o', help='path to output file')
 parser.add_argument('--select-entities', choices=['tcr', 'pmhc'])
+parser.add_argument('--pmhc-tcr-contact-residues', nargs='+',
+                    help=('if selecting pmhc, separate rmsds by tcr contact positions and not. '
+                          'The input here is a list of residue codes that are contact positions on the MHC.'))
 parser.add_argument('--align-entities', action='store_true',
                     help='perform an alignment on the selected entities before computing RMSD.')
 parser.add_argument('--per-residue', action='store_true',
@@ -113,6 +116,15 @@ def main():
                 chains = comparison.filter(like='chain').filter(regex=f'{suffix}$').replace({np.nan: None}).tolist()
                 structure_df = annotate_tcr_pmhc_df(structure_df, *chains)
 
+                structure_df['resi'] = (structure_df['residue_seq_id'].apply(str)
+                                        + structure_df['residue_insert_code'].fillna(''))
+
+                if args.pmhc_tcr_contact_residues:
+                    structure_df['tcr_contact'] = structure_df.apply(
+                        lambda row: row.resi in args.pmhc_tcr_contact_residues and row.chain_type == 'mhc_chain1',
+                        axis='columns',
+                    )
+
                 structure_df['backbone'] = structure_df['atom_name'].map(
                     lambda atom_name: (atom_name == 'N' or atom_name == 'CA' or atom_name == 'C' or atom_name == 'O')
                 )
@@ -126,6 +138,9 @@ def main():
 
             elif args.select_entities == 'pmhc':
                 entity_columns = ['chain_type']
+
+                if args.pmhc_tcr_contact_residues:
+                    entity_columns.append('tcr_contact')
 
             structure_common_columns = entity_columns + ['residue_name',
                                                          'residue_seq_id',
@@ -225,7 +240,13 @@ def main():
         info.pop('entity')
 
     elif args.select_entities == 'pmhc':
-        info['chain_type'] = info['entity']
+        if args.pmhc_tcr_contact_residues:
+            info['chain_type'] = [chain_type for chain_type, _ in info['entity']]
+            info['tcr_contact'] = [tcr_contact for _, tcr_contact in info['entity']]
+
+        else:
+            info['chain_type'] = info['entity']
+
         info.pop('entity')
 
     logger.info('Outputing results...')
@@ -237,6 +258,9 @@ def main():
 
     elif args.select_entities == 'pmhc':
         output_columns += ['chain_type']
+
+        if args.pmhc_tcr_contact_residues:
+            output_columns.append('tcr_contact')
 
     if args.per_residue:
         output_columns += ['residue_name', 'residue_seq_id', 'residue_insert_code']
