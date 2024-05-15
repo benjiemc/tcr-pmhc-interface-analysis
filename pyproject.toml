@@ -3,7 +3,7 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "tcr_pmhc_structure_tools"
+name = "tcr_pmhc_interface_analysis"
 version = "0.0.0"
 authors = [
     { name="Benjamin McMaster", email="benjamin.mcmaster@rdm.ox.ac.uk"}

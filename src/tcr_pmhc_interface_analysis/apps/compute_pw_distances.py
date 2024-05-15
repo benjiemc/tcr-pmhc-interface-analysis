@@ -8,9 +8,9 @@ from dtaidistance.dtw_ndim import distance_fast
 from python_pdb.aligners import align_pandas_structure
 from python_pdb.parsers import parse_pdb_to_pandas
 
-from tcr_pmhc_structure_tools.apps._log import setup_logger
-from tcr_pmhc_structure_tools.processing import annotate_tcr_pmhc_df, find_anchors
-from tcr_pmhc_structure_tools.utils import get_coords
+from tcr_pmhc_interface_analysis.apps._log import setup_logger
+from tcr_pmhc_interface_analysis.processing import annotate_tcr_pmhc_df, find_anchors
+from tcr_pmhc_interface_analysis.utils import get_coords
 
 logger = logging.getLogger()
 

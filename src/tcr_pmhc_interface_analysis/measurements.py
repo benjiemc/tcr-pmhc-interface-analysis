@@ -2,8 +2,8 @@ import numpy as np
 import pandas as pd
 from python_pdb.chemistry import MOLECULAR_WEIGHTS
 
-from tcr_pmhc_structure_tools.chi_atoms import CHI_ATOMS
-from tcr_pmhc_structure_tools.utils import get_coords
+from tcr_pmhc_interface_analysis.chi_atoms import CHI_ATOMS
+from tcr_pmhc_interface_analysis.utils import get_coords
 
 
 def get_distances(vec1, vec2):

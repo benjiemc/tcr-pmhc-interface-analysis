@@ -9,8 +9,8 @@ import requests
 from python_pdb.aligners import align_sequences
 from python_pdb.parsers import parse_pdb_to_pandas
 
-from tcr_pmhc_structure_tools.imgt_numbering import IMGT_CDR
-from tcr_pmhc_structure_tools.utils import get_header, get_sequence
+from tcr_pmhc_interface_analysis.imgt_numbering import IMGT_CDR
+from tcr_pmhc_interface_analysis.utils import get_header, get_sequence
 
 logger = logging.getLogger(__name__)
 

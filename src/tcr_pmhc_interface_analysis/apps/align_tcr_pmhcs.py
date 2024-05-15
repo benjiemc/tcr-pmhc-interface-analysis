@@ -6,8 +6,8 @@ import os
 import pandas as pd
 from pymol import cmd
 
-from tcr_pmhc_structure_tools.apps._log import setup_logger
-from tcr_pmhc_structure_tools.imgt_numbering import IMGT_CDR, IMGT_VARIABLE_DOMAIN
+from tcr_pmhc_interface_analysis.apps._log import setup_logger
+from tcr_pmhc_interface_analysis.imgt_numbering import IMGT_CDR, IMGT_VARIABLE_DOMAIN
 
 logger = logging.getLogger()
 

@@ -1,8 +1,8 @@
 import pandas as pd
 from python_pdb.parsers import parse_pdb_to_pandas
 
-from tcr_pmhc_structure_tools.processing import annotate_tcr_pmhc_df
-from tcr_pmhc_structure_tools.utils import get_sequence
+from tcr_pmhc_interface_analysis.processing import annotate_tcr_pmhc_df
+from tcr_pmhc_interface_analysis.utils import get_sequence
 
 
 def _clean_data_frame(df: pd.DataFrame) -> pd.DataFrame:

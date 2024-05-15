@@ -1,6 +1,6 @@
 import pytest
 
-from tcr_pmhc_structure_tools.histo_fyi_utils import fetch_structure, retrieve_data_from_api, PMHC_CLASS_I_URL
+from tcr_pmhc_interface_analysis.histo_fyi_utils import fetch_structure, retrieve_data_from_api, PMHC_CLASS_I_URL
 
 
 class TestFetchStructure:

@@ -5,7 +5,7 @@ import re
 
 from pymol import cmd
 
-from tcr_pmhc_structure_tools.apps._log import setup_logger
+from tcr_pmhc_interface_analysis.apps._log import setup_logger
 
 logger = logging.getLogger()
 

@@ -8,14 +8,14 @@ import pandas as pd
 from python_pdb.entities import Structure
 from python_pdb.parsers import parse_pdb_to_pandas
 
-from tcr_pmhc_structure_tools.apps._log import setup_logger
-from tcr_pmhc_structure_tools.histo_fyi_utils import (PMHC_CLASS_I_URL, TCR_PMHC_CLASS_I_URL, fetch_structure,
-                                                      retrieve_data_from_api)
-from tcr_pmhc_structure_tools.missing_residues import (get_raw_structures_with_missing_residues,
-                                                       screen_pmhcs_for_missing_residues,
-                                                       screen_tcrs_for_missing_residues)
-from tcr_pmhc_structure_tools.stcrdab_utils import (get_ab_tcr_mhc_class_Is_from_stcrdab, get_ab_tcrs_from_stcrdab,
-                                                    get_stcrdab_sequences)
+from tcr_pmhc_interface_analysis.apps._log import setup_logger
+from tcr_pmhc_interface_analysis.histo_fyi_utils import (PMHC_CLASS_I_URL, TCR_PMHC_CLASS_I_URL, fetch_structure,
+                                                         retrieve_data_from_api)
+from tcr_pmhc_interface_analysis.missing_residues import (get_raw_structures_with_missing_residues,
+                                                          screen_pmhcs_for_missing_residues,
+                                                          screen_tcrs_for_missing_residues)
+from tcr_pmhc_interface_analysis.stcrdab_utils import (get_ab_tcr_mhc_class_Is_from_stcrdab, get_ab_tcrs_from_stcrdab,
+                                                       get_stcrdab_sequences)
 
 logger = logging.getLogger()
 

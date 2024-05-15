@@ -10,10 +10,10 @@ from python_pdb.aligners import align_pandas_structure
 from python_pdb.comparisons import rmsd
 from python_pdb.parsers import parse_pdb_to_pandas
 
-from tcr_pmhc_structure_tools.apps._log import setup_logger
-from tcr_pmhc_structure_tools.measurements import compute_residue_com, get_distance, measure_chi_angle
-from tcr_pmhc_structure_tools.processing import annotate_tcr_pmhc_df
-from tcr_pmhc_structure_tools.utils import get_coords
+from tcr_pmhc_interface_analysis.apps._log import setup_logger
+from tcr_pmhc_interface_analysis.measurements import compute_residue_com, get_distance, measure_chi_angle
+from tcr_pmhc_interface_analysis.processing import annotate_tcr_pmhc_df
+from tcr_pmhc_interface_analysis.utils import get_coords
 
 logger = logging.getLogger()
 

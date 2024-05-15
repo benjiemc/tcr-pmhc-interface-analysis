@@ -3,7 +3,7 @@ import pandas as pd
 from python_pdb.aligners import align_pandas_structure, align_sequences
 from python_pdb.formats.residue import THREE_TO_ONE_CODE
 
-from tcr_pmhc_structure_tools.imgt_numbering import IMGT_VARIABLE_DOMAIN  # noqa: F401
+from tcr_pmhc_interface_analysis.imgt_numbering import IMGT_VARIABLE_DOMAIN  # noqa: F401
 
 
 def align_tcrs(tcr_mobile_df: pd.DataFrame, tcr_target_df: pd.DataFrame) -> pd.DataFrame:

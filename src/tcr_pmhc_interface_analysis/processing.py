@@ -1,6 +1,6 @@
 import pandas as pd
 
-from tcr_pmhc_structure_tools.imgt_numbering import assign_cdr_number
+from tcr_pmhc_interface_analysis.imgt_numbering import assign_cdr_number
 
 
 def annotate_tcr_pmhc_df(structure_df: pd.DataFrame,

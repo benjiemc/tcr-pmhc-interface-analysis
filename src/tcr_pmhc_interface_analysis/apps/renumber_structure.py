@@ -11,8 +11,8 @@ import anarci
 from python_pdb.formats.residue import THREE_TO_ONE_CODE
 from python_pdb.parsers import parse_pdb, stringify_structure
 
-from tcr_pmhc_structure_tools.apps._log import setup_logger
-from tcr_pmhc_structure_tools.utils import get_header
+from tcr_pmhc_interface_analysis.apps._log import setup_logger
+from tcr_pmhc_interface_analysis.utils import get_header
 
 logger = logging.getLogger()
 

@@ -1,5 +1,5 @@
 Test defaults
-  $ python -m tcr_pmhc_structure_tools.apps.compute_pw_distances --log-level error -o test $TESTDIR/data
+  $ python -m tcr_pmhc_interface_analysis.apps.compute_pw_distances --log-level error -o test $TESTDIR/data
 
   $ diff $TESTDIR/reference/structure_names.txt test/structure_names.txt
 
