@@ -68,7 +68,7 @@ data/processed/apo-holo-tcr-pmhc-class-I-comparisons/pmhc_tcr_contact_apo_holo.c
 
 data/processed/mhc_contacts.csv: run_notebook_Identify_contact_residues_on_MHC_Class_I_molecules
 
-notebooks: $(patsubst notebooks/%.ipynb,run_notebook_%,$(wildcard notebooks/*.ipynb))
+notebooks: data analysis $(patsubst notebooks/%.ipynb,run_notebook_%,$(wildcard notebooks/*.ipynb))
 
 run_notebook_%:
 	@echo "Executing $*"
