@@ -8,7 +8,8 @@ environment:
 
 data: \
 	data/processed/apo-holo-tcr-pmhc-class-I \
-	data/processed/apo-holo-tcr-pmhc-class-I-holo-aligned
+	data/processed/apo-holo-tcr-pmhc-class-I-holo-aligned \
+	data/processed/structure-pw-distances
 
 data/raw/stcrdab:
 	python -m tcr_pmhc_structure_tools.apps.download_stcrdab $@
