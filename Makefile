@@ -38,11 +38,7 @@ data/processed/apo-holo-tcr-pmhc-class-I-holo-aligned: data/interim/apo-holo-tcr
 data/processed/structure-pw-distances: data/raw/stcrdab
 	python -m tcr_pmhc_structure_tools.apps.compute_pw_distances --compress-output -o $@ $^
 
-analysis: \
-	data/processed/apo-holo-tcr-pmhc-class-I-comparisons/rmsd_cdr_loop_align_results.csv \
-	data/processed/apo-holo-tcr-pmhc-class-I-comparisons/rmsd_cdr_fw_align_results.csv \
-	data/processed/apo-holo-tcr-pmhc-class-I-comparisons/tcr_per_res_apo_holo_loop_align.csv \
-	data/processed/apo-holo-tcr-pmhc-class-I-comparisons/pmhc_per_res_apo_holo.csv
+analysis: $(wildcard data/processed/apo-holo-tcr-pmhc-class-I-comparisons/*.csv)
 
 data/processed/apo-holo-tcr-pmhc-class-I-comparisons/rmsd_cdr_loop_align_results.csv: data/processed/apo-holo-tcr-pmhc-class-I
 	python -m tcr_pmhc_structure_tools.apps.compute_apo_holo_differences --select-entities tcr --align-entities -o $@ $^
