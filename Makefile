@@ -9,7 +9,11 @@ environment:
 data: \
 	data/processed/apo-holo-tcr-pmhc-class-I \
 	data/processed/apo-holo-tcr-pmhc-class-I-holo-aligned \
-	data/processed/structure-pw-distances
+	data/processed/structure-pw-distances \
+	data/external/ATLAS.xlsx
+
+data/external/ATLAS.xlsx:
+	wget -O $@ https://atlas.wenglab.org/web/tables/ATLAS.xlsx
 
 data/raw/stcrdab:
 	python -m tcr_pmhc_interface_analysis.apps.download_stcrdab $@

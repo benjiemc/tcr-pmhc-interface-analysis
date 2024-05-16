@@ -280,6 +280,7 @@ dependencies:
   - zstd=1.5.5=hfc55251_0
   - pip:
       - dtaidistance==2.3.11
+      - et-xmlfile==1.1.0
       - flake8==4.0.1
       - iniconfig==2.0.0
       - isort==5.13.2
@@ -288,6 +289,7 @@ dependencies:
       - markdown-it-py==3.0.0
       - mccabe==0.6.1
       - mdurl==0.1.2
+      - openpyxl==3.1.2
       - pip==24.0
       - pluggy==1.5.0
       - prysk==0.19.0
