@@ -35,6 +35,8 @@ parser.add_argument('--antigen-chain-id', required=True, help='chain id of the a
 parser.add_argument('--num-contacts-cutoff', type=int, default=100,
                     help=('number of contacts needed to highlight the MHC residue with contact information '
                           '(Default: 100)'))
+parser.add_argument('--dominant-peptide-contacts', required=False, nargs='+',
+                    help='list of dominat CDRs for each peptide contact postion (CDR-A3, CDR-A3, ..., CDR-B3)')
 parser.add_argument('--log-level', choices=['debug', 'info', 'warning', 'error'], default='warning',
                     help="Level to log messages at (Default: 'warning')")
 
@@ -58,9 +60,9 @@ def main():
 
     cmd.hide('everything', f'chain {args.antigen_chain_id}')
     cmd.color('grey80', 'all')
-    cmd.show('surface')
-    cmd.show('sticks', 'all and not (name c,n)')
-    cmd.set('transparency', 0.25, 'all')
+    cmd.show('surface', f'chain {args.mhc_chain_id}' if args.dominant_peptide_contacts is not None else 'all')
+    cmd.show('sticks', f'chain {args.mhc_chain_id} and not (name c,n)')
+    cmd.set('transparency', 0.25, f'chain {args.mhc_chain_id}')
 
     contacts_count = pd.read_csv(args.contacts_path)
 
@@ -76,6 +78,11 @@ def main():
         cmd.select(cdr_name, f'chain {args.mhc_chain_id} and ({mhc_residues})')
         cmd.deselect()
         cmd.color(CDR_COLOURS[cdr_name], cdr_name)
+
+    if args.dominant_peptide_contacts is not None:
+        cmd.show('spheres', f'chain {args.antigen_chain_id}')
+        for resi, cdr_name in enumerate(args.dominant_peptide_contacts, 1):
+            cmd.color(CDR_COLOURS[cdr_name], f'chain {args.antigen_chain_id} and resi {resi}')
 
     cmd.save(args.output)
 
