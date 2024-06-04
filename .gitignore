@@ -1,5 +1,11 @@
 # Project Files
-data/*
+data/external/*
+!data/external/.gitkeep
+data/interim/*
+!data/interim/.gitkeep
+data/raw/*
+!data/raw/.gitkeep
+
 jobs/*
 notebooks/exploratory/*
 
