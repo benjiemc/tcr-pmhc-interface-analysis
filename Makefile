@@ -9,7 +9,7 @@ environment:
 data: \
 	data/processed/apo-holo-tcr-pmhc-class-I \
 	data/processed/apo-holo-tcr-pmhc-class-I-holo-aligned \
-	data/processed/structure-pw-distances \
+	data/interim/structure-pw-distances \
 	data/external/ATLAS.xlsx
 
 data/external/ATLAS.xlsx:
@@ -40,7 +40,7 @@ data/processed/apo-holo-tcr-pmhc-class-I: data/interim/apo-holo-tcr-pmhc-class-I
 data/processed/apo-holo-tcr-pmhc-class-I-holo-aligned: data/interim/apo-holo-tcr-pmhc-class-I-imgt-numbered/
 	python -m tcr_pmhc_interface_analysis.apps.align_tcr_pmhcs --only-holo -o $@ $^
 
-data/processed/structure-pw-distances: data/raw/stcrdab
+data/interim/structure-pw-distances: data/raw/stcrdab
 	python -m tcr_pmhc_interface_analysis.apps.compute_pw_distances --compress-output -o $@ $^
 
 analysis: $(wildcard data/processed/apo-holo-tcr-pmhc-class-I-comparisons/*.csv)
