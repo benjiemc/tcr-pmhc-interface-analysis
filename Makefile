@@ -67,8 +67,8 @@ data/processed/apo-holo-tcr-pmhc-class-I-comparisons/pmhc_tcr_contact_apo_holo.c
 	python -m tcr_pmhc_interface_analysis.apps.compute_apo_holo_differences \
 	-o $@ \
 	--select-entities pmhc \
-	--pmhc-tcr-contact-residues $(shell awk -F ',' '$$3 >= 100 { print $$2 }' $(word 2,$^) | tail -n +2 | sort | uniq | tr '\n' ' ') \
-	$(word 1,$^)
+	$(word 1,$^) \
+	--pmhc-tcr-contact-residues $(shell awk -F ',' '$$3 >= 100 { print $$2 }' $(word 2,$^) | tail -n +2 | sort | uniq | tr '\n' ' ')
 
 data/processed/mhc_contacts.csv: run_notebook_Identify_contact_residues_on_MHC_Class_I_molecules
 
