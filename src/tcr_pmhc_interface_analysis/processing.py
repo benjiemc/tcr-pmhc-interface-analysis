@@ -1,6 +1,6 @@
 import pandas as pd
 
-from tcr_pmhc_interface_analysis.imgt_numbering import assign_cdr_number
+from tcr_pmhc_interface_analysis.imgt_numbering import IMGT_MHC_ABD, assign_cdr_number
 
 
 def annotate_tcr_pmhc_df(structure_df: pd.DataFrame,
@@ -34,6 +34,11 @@ def annotate_tcr_pmhc_df(structure_df: pd.DataFrame,
     structure_df['cdr'] = structure_df.apply(
         lambda row: (assign_cdr_number(row.residue_seq_id)
                      if row.chain_type == 'alpha_chain' or row.chain_type == 'beta_chain' else None),
+        axis=1,
+    )
+
+    structure_df['mhc_abd'] = structure_df.apply(
+        lambda row: row.residue_seq_id in IMGT_MHC_ABD and row.chain_type == 'mhc_chain1',
         axis=1,
     )
 

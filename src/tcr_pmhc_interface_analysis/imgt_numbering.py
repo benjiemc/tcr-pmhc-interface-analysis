@@ -11,6 +11,9 @@ IMGT_CDR = IMGT_CDR1.union(IMGT_CDR2).union(IMGT_CDR3)
 IMGT_VARIABLE_DOMAIN = set(range(1, 128 + 1))
 '''Variable domain range for IMGT numbered TCR structures.'''
 
+IMGT_MHC_ABD = set(range(1, 92)) | set(range(1001, 1092))
+'''IMGT ranges of the antigen binding domain of MHC molecules.'''
+
 
 def assign_cdr_number(imgt_id: str | int | None) -> int | None:
     '''

@@ -31,6 +31,8 @@ parser.add_argument('--align-entities', action='store_true',
                     help='perform an alignment on the selected entities before computing RMSD.')
 parser.add_argument('--per-residue', action='store_true',
                     help='Perform measurements on each residue individually as oppose to the entity as a whole.')
+parser.add_argument('--crop-to-abd', action='store_true',
+                    help='Crop MHC entities to the antigen binding domain when performing comparisons')
 parser.add_argument('--per-residue-measurements',
                     choices=MEASURMENT_CHOICES + ['all'],
                     nargs='+',
@@ -156,6 +158,10 @@ def main():
             for entity_name, selected_entity in structure_comparison.groupby(entity_columns):
                 logger.debug('Computing differences in %s', entity_name)
                 entity_x, entity_y = split_merge(selected_entity, structure_common_columns)
+
+                if entity_name[0] == 'mhc_chain1' and args.crop_to_abd:
+                    entity_x = entity_x.query('mhc_abd')
+                    entity_y = entity_y.query('mhc_abd')
 
                 entity_backbone_x = entity_x.query('backbone')
                 entity_backbone_y = entity_y.query('backbone')
