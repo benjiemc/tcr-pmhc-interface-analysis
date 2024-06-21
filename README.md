@@ -27,12 +27,12 @@ The analysis was conducted in the following set of notebooks:
 | ------------- | ----------- | -------------------------------- |
 | [Centre_of_mass_analysis.ipynb](notebooks/Centre_of_mass_analysis.ipynb) | Analysis of where the centre of mass of each chain lies and the changes in relative angles of these domains between *apo* and *holo* states. | |
 | [Cluster_TCRs_based_on_distances.ipynb](notebooks/Cluster_TCRs_based_on_distances.ipynb) | Workflow and analysis of canonical clusters the TCR CDR loops fall into and how they change between *apo* and *holo* states. | Figure 2D, Table 1 |
-| [Comparison_of_apo_and_holo_CDR_loops.ipynb](notebooks/Comparison_of_apo_and_holo_CDR_loops.ipynb) | Analysis of loop movement between *apo* and *holo* states | Figure 1B-D, Figure 2B |
-| [Correlating_conformational_changes_to_affinity.ipynb](notebooks/Correlating_conformational_changes_to_affinity.ipynb) | Analysis of how the movement of CDR loops correlates to the affinity of TCR-pMHC interactions where data is available. | |
-| [Identify_contact_residues_on_MHC_Class_I_molecules.ipynb](notebooks/Identify_contact_residues_on_MHC_Class_I_molecules.ipynb) | Mapping of the TCR contacts onto pMHC molecules. | Figure 3 |
-| [Per_residue_changes_of_TCR_CDR_between_apo_and_holo_structures.ipynb](notebooks/Per_residue_changes_of_TCR_CDR_between_apo_and_holo_structures.ipynb) | Analysis of how much each residue moves between *apo* and *holo* states for CDR loops. | Figure 2C |
+| [Comparison_of_apo_and_holo_CDR_loops.ipynb](notebooks/Comparison_of_apo_and_holo_CDR_loops.ipynb) | Analysis of loop movement between *apo* and *holo* states | Figure 1B-D, Figure 2B, Figure S1 |
+| [Correlating_conformational_changes_to_affinity.ipynb](notebooks/Correlating_conformational_changes_to_affinity.ipynb) | Analysis of how the movement of CDR loops correlates to the affinity of TCR-pMHC interactions where data is available. | Figure S5 , Figure S6 |
+| [Identify_contact_residues_on_MHC_Class_I_molecules.ipynb](notebooks/Identify_contact_residues_on_MHC_Class_I_molecules.ipynb) | Mapping of the TCR contacts onto pMHC molecules. | Figure 3, Figure S3 |
+| [Per_residue_changes_of_TCR_CDR_between_apo_and_holo_structures.ipynb](notebooks/Per_residue_changes_of_TCR_CDR_between_apo_and_holo_structures.ipynb) | Analysis of how much each residue moves between *apo* and *holo* states for CDR loops. | Figure 2C, Figure S2 |
 | [pMHC_movement_based_on_peptide_anchoring.ipynb](notebooks/pMHC_movement_based_on_peptide_anchoring.ipynb) | Analysis of how the anchoring of peptides in the MHC binding groove affects the conformational change of peptides between *apo* and *holo* states. | Figure 4B |
-| [pMHC_movement_between_apo_and_holo_conformations.ipynb](notebooks/pMHC_movement_between_apo_and_holo_conformations.ipynb) | Comparison of how each part of the pMHC molecule moves between apo and holo states. | Figure 4A |
+| [pMHC_movement_between_apo_and_holo_conformations.ipynb](notebooks/pMHC_movement_between_apo_and_holo_conformations.ipynb) | Comparison of how each part of the pMHC molecule moves between apo and holo states. | Figure 4A, Figure S4 |
 | [Summary_of_apo_holo_data.ipynb](notebooks/Summary_of_apo_holo_data.ipynb) | Summary of the dataset used throughout the main analysis incuding TCR gene usage, MHC allele, and peptide similarities. | Figure 5 |
 
 The analysis itself can be run as a pipeline using the provided [Makefile](Makefile).
