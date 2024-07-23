@@ -91,5 +91,5 @@ test:
 
 lint:
 	@echo "Running linting"
-	@flake8
+	@flake8 src/
 	@isort --check-only src
