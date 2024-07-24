@@ -14,6 +14,7 @@ The project has the following structure for the code, data, and analysis noteboo
 │   ├── processed/                            ----->  Finalised cleaned data and results used for the analysis
 │   └── raw/                                  ----->  Baseline data used for the analysis
 ├── notebooks/                              ----->  Results and conclusions of the analysis (more below)
+├── scripts/                                ----->  Utility scripts
 ├── src/                                    ----->  Python package of the code used to process and analyse the data project
 │   └── tcr_pmhc_interface_analysis/
 └── tests/                                  ----->  Tests for the python package
