@@ -10,10 +10,18 @@ data: \
 	data/processed/apo-holo-tcr-pmhc-class-I \
 	data/processed/apo-holo-tcr-pmhc-class-I-holo-aligned \
 	data/interim/structure-pw-distances \
-	data/external/ATLAS.xlsx
+	data/external/ATLAS.xlsx \
+	data/interim/ots_sample.csv
 
 data/external/ATLAS.xlsx:
 	wget -O $@ https://atlas.wenglab.org/web/tables/ATLAS.xlsx
+
+data/external/OTS:
+	@mkdir -p data/external/OTS
+	cut -d " " -f 2 scripts/bulk_ots_download.sh | xargs -n1 wget -P $@
+
+data/interim/ots_sample.csv: data/external/OTS
+	python -m tcr_pmhc_interface_analysis.apps.sample_ots --seed 123 -n 1000 -o $@ $^
 
 data/raw/stcrdab:
 	python -m tcr_pmhc_interface_analysis.apps.download_stcrdab $@

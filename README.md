@@ -25,6 +25,7 @@ The analysis was conducted in the following set of notebooks:
 
 | Notebook Name | Description | Associated Figures in Manuscript |
 | ------------- | ----------- | -------------------------------- |
+| [Ascertaining_the_generalisability_of_the_structure_data.ipynb](notebooks/Ascertaining_the_generalisability_of_the_structure_data.ipynb) | Comparison of *apo*-*holo* structure data to other general TCR data sources. | |
 | [Centre_of_mass_analysis.ipynb](notebooks/Centre_of_mass_analysis.ipynb) | Analysis of where the centre of mass of each chain lies and the changes in relative angles of these domains between *apo* and *holo* states. | |
 | [Cluster_TCRs_based_on_distances.ipynb](notebooks/Cluster_TCRs_based_on_distances.ipynb) | Workflow and analysis of canonical clusters the TCR CDR loops fall into and how they change between *apo* and *holo* states. | Figure 2D, Table 1 |
 | [Comparison_of_apo_and_holo_CDR_loops.ipynb](notebooks/Comparison_of_apo_and_holo_CDR_loops.ipynb) | Analysis of loop movement between *apo* and *holo* states | Figure 1B-D, Figure 2B, Figure S1 |
