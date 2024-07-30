@@ -4,6 +4,7 @@ import glob
 import logging
 import os
 
+import numpy as np
 import pandas as pd
 
 from tcr_pmhc_interface_analysis.apps._log import setup_logger
@@ -18,7 +19,8 @@ DEFAULT_COLUMNS = ['cdr1_aa_alpha', 'cdr2_aa_alpha', 'cdr3_aa_alpha',
                    'j_call_alpha', 'j_call_beta']
 
 parser.add_argument('path', help='path to OTS files')
-parser.add_argument('--sample-size', '-n', type=int, default=1000, help='number of samples (default: 1000)')
+parser.add_argument('--sample-size', type=int, default=1000, help='size of samples (Default: 1000)')
+parser.add_argument('--num', '-n', type=int, default=1, help='number of samples to take (Default: 1)')
 parser.add_argument('--seed', default=None, type=int, help='Seed for sampling (Default: None)')
 parser.add_argument('--redundant', action='store_true', help='do not remove redundant TCRs based on input columns')
 parser.add_argument('--columns',
@@ -45,11 +47,24 @@ def main() -> None:
         logger.info('Removing redundant entries')
         ots = ots.drop_duplicates(args.columns)
 
-    logger.info('Sampling %d entries', args.sample_size)
-    ots_sample = ots.sample(args.sample_size, random_state=args.seed)
+    if args.seed:
+        logger.info('Setting seed to %d', args.seed)
+        np.random.seed(args.seed)
+
+    samples = []
+    for num in range(1, args.num + 1):
+        logger.info('Taking sample %d of %d, sampling %d entries', num, args.num, args.sample_size)
+        sample = ots.sample(args.sample_size)
+
+        if args.num > 1:
+            sample['sample_num'] = num
+
+        samples.append(sample)
+
+    ots_sample = pd.concat(samples)
 
     logger.info('Writing output to %s', args.output)
-    ots_sample[args.columns].to_csv(args.output, index=False)
+    ots_sample[args.columns + ['sample_num'] if args.num > 1 else args.columns].to_csv(args.output, index=False)
 
 
 if __name__ == '__main__':

@@ -21,7 +21,7 @@ data/external/OTS:
 	cut -d " " -f 2 scripts/bulk_ots_download.sh | xargs -n1 wget -P $@
 
 data/interim/ots_sample.csv: data/external/OTS
-	python -m tcr_pmhc_interface_analysis.apps.sample_ots --seed 123 -n 1000 -o $@ $^
+	python -m tcr_pmhc_interface_analysis.apps.sample_ots --seed 123 -n 10 --sample-size 1000 -o $@ $^
 
 data/raw/stcrdab:
 	python -m tcr_pmhc_interface_analysis.apps.download_stcrdab $@
