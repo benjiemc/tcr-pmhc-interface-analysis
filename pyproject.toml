@@ -20,8 +20,11 @@ dependencies = [
 develop = [
     "flake8",
     "isort",
+    "myst-parser",
     "pytest",
     "prysk[pytest-plugin]",
+    "sphinx",
+    "sphinx-rtd-theme",
 ]
 
 [tool.isort]

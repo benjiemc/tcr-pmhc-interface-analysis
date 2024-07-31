@@ -13,6 +13,7 @@ The project has the following structure for the code, data, and analysis noteboo
 │   ├── interim/                              ----->  Place for intermediate data processing steps
 │   ├── processed/                            ----->  Finalised cleaned data and results used for the analysis
 │   └── raw/                                  ----->  Baseline data used for the analysis
+├── docs/                                   ----->  Configuration for documentation
 ├── notebooks/                              ----->  Results and conclusions of the analysis (more below)
 ├── scripts/                                ----->  Utility scripts
 ├── src/                                    ----->  Python package of the code used to process and analyse the data project

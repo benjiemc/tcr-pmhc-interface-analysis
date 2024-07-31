@@ -1,4 +1,4 @@
-.PHONY: all environment data analysis notebooks test lint
+.PHONY: all environment data analysis notebooks test lint docs
 
 all: data analysis notebooks
 
@@ -109,3 +109,7 @@ lint:
 	@echo "Running linting"
 	@flake8 src/
 	@isort --check-only src
+
+docs:
+	@sphinx-apidoc -f -e -o docs/source src/tcr_pmhc_interface_analysis
+	@sphinx-build -b html ./docs public

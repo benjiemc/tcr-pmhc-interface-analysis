@@ -17,3 +17,7 @@ notebooks/exploratory/*
 
 # Development Envrionment files
 sps-*
+
+# Documentation
+public/*
+docs/source/*
