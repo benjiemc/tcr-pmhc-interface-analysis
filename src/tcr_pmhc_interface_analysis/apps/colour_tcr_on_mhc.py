@@ -35,6 +35,9 @@ parser.add_argument('--antigen-chain-id', required=True, help='chain id of the a
 parser.add_argument('--num-contacts-cutoff', type=int, default=100,
                     help=('number of contacts needed to highlight the MHC residue with contact information '
                           '(Default: 100)'))
+parser.add_argument('--percentage-contacts-cutoff', type=float, default=None,
+                    help=('A percentage cutoff instead of the raw count numbers, will override `--num-contacts-cutoff`'
+                          ' (Default: None)'))
 parser.add_argument('--dominant-peptide-contacts', required=False, nargs='+',
                     help='list of dominat CDRs for each peptide contact postion (CDR-A3, CDR-A3, ..., CDR-B3)')
 
@@ -66,7 +69,16 @@ def main():
 
     contacts_count = pd.read_csv(args.contacts_path)
 
-    contacts_count = contacts_count[contacts_count['count'] >= args.num_contacts_cutoff]
+    if args.percentage_contacts_cutoff is not None:
+        logger.info('Using percentage cutoff of %f', args.percentage_contacts_cutoff)
+        percentages = (contacts_count.groupby(['resi_mhc'])['count'].transform('sum')
+                       / contacts_count['count'].sum()
+                       * 100)
+        contacts_count = contacts_count[percentages > args.percentage_contacts_cutoff]
+
+    else:
+        logger.info('Using count cutoff of %d', args.num_contacts_cutoff)
+        contacts_count = contacts_count[contacts_count['count'] >= args.num_contacts_cutoff]
 
     tcr_mhc_contacts = contacts_count.groupby('resi_mhc').apply(select_dominant)
     tcr_mhc_contacts.name = 'cdr_name'
