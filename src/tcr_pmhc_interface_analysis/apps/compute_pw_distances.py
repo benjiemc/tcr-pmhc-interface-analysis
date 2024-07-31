@@ -8,7 +8,7 @@ from dtaidistance.dtw_ndim import distance_fast
 from python_pdb.aligners import align_pandas_structure
 from python_pdb.parsers import parse_pdb_to_pandas
 
-from tcr_pmhc_interface_analysis.apps._log import setup_logger
+from tcr_pmhc_interface_analysis.apps._log import add_logging_arguments, setup_logger
 from tcr_pmhc_interface_analysis.processing import annotate_tcr_pmhc_df, find_anchors
 from tcr_pmhc_interface_analysis.utils import get_coords
 
@@ -23,8 +23,8 @@ parser.add_argument('--resolution-cutoff', type=float, default=3.50,
 parser.add_argument('--number-of-anchors', type=int, default=5,
                     help='number of anchors to include in alignment (Default: 5)')
 parser.add_argument('--compress-output', action='store_true', help='compress the output matrices using gzip')
-parser.add_argument('--log-level', choices=['debug', 'info', 'warning', 'error'], default='warning',
-                    help="Level to log messages at (Default: 'warning')")
+
+add_logging_arguments(parser)
 
 
 def main():

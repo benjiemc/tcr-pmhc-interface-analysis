@@ -6,7 +6,7 @@ import os
 import pandas as pd
 from pymol import cmd
 
-from tcr_pmhc_interface_analysis.apps._log import setup_logger
+from tcr_pmhc_interface_analysis.apps._log import add_logging_arguments, setup_logger
 from tcr_pmhc_interface_analysis.imgt_numbering import IMGT_CDR, IMGT_VARIABLE_DOMAIN
 
 logger = logging.getLogger()
@@ -18,8 +18,8 @@ parser.add_argument('--output', '-o', help='path to output the aligned files')
 parser.add_argument('--only-holo', action='store_true',
                     help=('only align the holo structures based on either TCR CDR sequences'
                           ' or mhc allele and peptide sequence.'))
-parser.add_argument('--log-level', choices=['debug', 'info', 'warning', 'error'], default='warning',
-                    help="Level to log messages at (Default: 'warning')")
+
+add_logging_arguments(parser)
 
 
 def get_floor_selection() -> str:

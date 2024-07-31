@@ -7,7 +7,7 @@ import os
 import numpy as np
 import pandas as pd
 
-from tcr_pmhc_interface_analysis.apps._log import setup_logger
+from tcr_pmhc_interface_analysis.apps._log import add_logging_arguments, setup_logger
 
 logger = logging.getLogger()
 
@@ -28,8 +28,8 @@ parser.add_argument('--columns',
                     default=DEFAULT_COLUMNS,
                     help=f"relevant columns to include (Default: {', '.join(DEFAULT_COLUMNS)})")
 parser.add_argument('--output', '-o', required=True, help='path to output csv')
-parser.add_argument('--log-level', choices=['debug', 'info', 'warning', 'error'], default='warning',
-                    help="Level to log messages at (Default: 'warning')")
+
+add_logging_arguments(parser)
 
 
 def main() -> None:

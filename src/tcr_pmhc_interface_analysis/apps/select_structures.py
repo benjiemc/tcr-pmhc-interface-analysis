@@ -8,7 +8,7 @@ import pandas as pd
 from python_pdb.entities import Structure
 from python_pdb.parsers import parse_pdb_to_pandas
 
-from tcr_pmhc_interface_analysis.apps._log import setup_logger
+from tcr_pmhc_interface_analysis.apps._log import add_logging_arguments, setup_logger
 from tcr_pmhc_interface_analysis.histo_fyi_utils import (PMHC_CLASS_I_URL, TCR_PMHC_CLASS_I_URL, fetch_structure,
                                                          retrieve_data_from_api)
 from tcr_pmhc_interface_analysis.missing_residues import (get_raw_structures_with_missing_residues,
@@ -27,8 +27,8 @@ parser.add_argument('--add-mhcs', action='store_true', help='Add MHC apo forms t
 parser.add_argument('--drop-duplicate-ids', action='store_true',
                     help='Only keep one copy of the structure from a pdb id')
 parser.add_argument('--output', '-o', help='Path to output location')
-parser.add_argument('--log-level', choices=['debug', 'info', 'warning', 'error'], default='warning',
-                    help="Level to log messages at (Default: 'warning')")
+
+add_logging_arguments(parser)
 
 
 def select_apo_holo(group: pd.DataFrame) -> bool:

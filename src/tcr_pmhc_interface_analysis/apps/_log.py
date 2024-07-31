@@ -1,4 +1,5 @@
 import logging
+from argparse import ArgumentParser
 
 LOG_MAP = {
     'error': logging.ERROR,
@@ -6,6 +7,13 @@ LOG_MAP = {
     'info': logging.INFO,
     'debug': logging.DEBUG,
 }
+
+
+def add_logging_arguments(parser: ArgumentParser) -> None:
+    '''Add logging arguments to parser.'''
+    logging_group = parser.add_argument_group('Logging', 'Options for logging')
+    logging_group.add_argument('--log-level', choices=['debug', 'info', 'warning', 'error'], default='warning',
+                               help="Level to log messages at (Default: 'warning')")
 
 
 def setup_logger(logger, level='warning'):

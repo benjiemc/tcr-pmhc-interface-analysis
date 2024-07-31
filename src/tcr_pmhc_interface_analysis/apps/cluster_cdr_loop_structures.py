@@ -19,7 +19,7 @@ import pandas as pd
 from python_pdb.formats.residue import THREE_TO_ONE_CODE
 from python_pdb.parsers import parse_pdb_to_pandas
 
-from tcr_pmhc_interface_analysis.apps._log import setup_logger
+from tcr_pmhc_interface_analysis.apps._log import add_logging_arguments, setup_logger
 from tcr_pmhc_interface_analysis.processing import annotate_tcr_pmhc_df
 
 logger = logging.getLogger()
@@ -33,8 +33,8 @@ parser.add_argument('--output', '-o', help='output path')
 parser.add_argument('--assign-cluster-types', action='store_true',
                     help='assign cluster types (requires --stcrdab-path input)')
 parser.add_argument('--stcrdab-path', required=False, help='path to the STCRDab')
-parser.add_argument('--log-level', choices=['debug', 'info', 'warning', 'error'], default='warning',
-                    help="Level to log messages at (Default: 'warning')")
+
+add_logging_arguments(parser)
 
 
 def get_sequence(df):

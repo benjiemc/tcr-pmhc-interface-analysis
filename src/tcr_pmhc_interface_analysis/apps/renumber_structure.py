@@ -11,7 +11,7 @@ import anarci
 from python_pdb.formats.residue import THREE_TO_ONE_CODE
 from python_pdb.parsers import parse_pdb, stringify_structure
 
-from tcr_pmhc_interface_analysis.apps._log import setup_logger
+from tcr_pmhc_interface_analysis.apps._log import add_logging_arguments, setup_logger
 from tcr_pmhc_interface_analysis.utils import get_header
 
 logger = logging.getLogger()
@@ -20,8 +20,8 @@ parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.R
 
 parser.add_argument('structure', help='path to the pdb structure file')
 parser.add_argument('--output', '-o', help='name of output structure file')
-parser.add_argument('--log-level', choices=['debug', 'info', 'warning', 'error'], default='warning',
-                    help="Level to log messages at (Default: 'warning')")
+
+add_logging_arguments(parser)
 
 
 def main():

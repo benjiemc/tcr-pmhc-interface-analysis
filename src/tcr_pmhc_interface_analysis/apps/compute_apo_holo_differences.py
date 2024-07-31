@@ -10,7 +10,7 @@ from python_pdb.aligners import align_pandas_structure
 from python_pdb.comparisons import rmsd
 from python_pdb.parsers import parse_pdb_to_pandas
 
-from tcr_pmhc_interface_analysis.apps._log import setup_logger
+from tcr_pmhc_interface_analysis.apps._log import add_logging_arguments, setup_logger
 from tcr_pmhc_interface_analysis.measurements import compute_residue_com, get_distance, measure_chi_angle
 from tcr_pmhc_interface_analysis.processing import annotate_tcr_pmhc_df
 from tcr_pmhc_interface_analysis.utils import get_coords
@@ -38,8 +38,8 @@ parser.add_argument('--per-residue-measurements',
                     nargs='+',
                     default='all',
                     help='Measurments to take between residues if `--per-residue` is selected.')
-parser.add_argument('--log-level', choices=['debug', 'info', 'warning', 'error'], default='warning',
-                    help="Level to log messages at (Default: 'warning')")
+
+add_logging_arguments(parser)
 
 
 def split_merge(merged_df: pd.DataFrame,

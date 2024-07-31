@@ -5,7 +5,7 @@ import re
 import pandas as pd
 from pymol import cmd
 
-from tcr_pmhc_interface_analysis.apps._log import setup_logger
+from tcr_pmhc_interface_analysis.apps._log import add_logging_arguments, setup_logger
 
 logger = logging.getLogger()
 
@@ -37,8 +37,8 @@ parser.add_argument('--num-contacts-cutoff', type=int, default=100,
                           '(Default: 100)'))
 parser.add_argument('--dominant-peptide-contacts', required=False, nargs='+',
                     help='list of dominat CDRs for each peptide contact postion (CDR-A3, CDR-A3, ..., CDR-B3)')
-parser.add_argument('--log-level', choices=['debug', 'info', 'warning', 'error'], default='warning',
-                    help="Level to log messages at (Default: 'warning')")
+
+add_logging_arguments(parser)
 
 
 def select_dominant(group: pd.DataFrame) -> str:
