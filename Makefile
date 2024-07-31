@@ -11,6 +11,7 @@ data: \
 	data/processed/apo-holo-tcr-pmhc-class-I-holo-aligned \
 	data/processed/stcrdab_clusters.csv \
 	data/external/ATLAS.xlsx \
+	data/external/mhc_motif_atlas.csv \
 	data/interim/ots_sample.csv
 
 data/external/ATLAS.xlsx:
@@ -19,6 +20,9 @@ data/external/ATLAS.xlsx:
 data/external/OTS:
 	@mkdir -p data/external/OTS
 	cut -d " " -f 2 scripts/bulk_ots_download.sh | xargs -n1 wget -P $@
+
+data/external/mhc_motif_atlas.csv:
+	@wget -O $@ https://zenodo.org/records/13144401/files/mhc_motif_atlas.csv
 
 data/interim/ots_sample.csv: data/external/OTS
 	python -m tcr_pmhc_interface_analysis.apps.sample_ots --seed 123 -n 10 --sample-size 1000 -o $@ $^
