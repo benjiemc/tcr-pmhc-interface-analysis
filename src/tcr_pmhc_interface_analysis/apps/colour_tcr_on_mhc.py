@@ -10,10 +10,10 @@ from tcr_pmhc_interface_analysis.apps._log import add_logging_arguments, setup_l
 logger = logging.getLogger()
 
 CDR_COLOURS = {
-    'CDR-A1': 'slate',
+    'CDR-A1': 'violetpurple',
     'CDR-A2': 'lightmagenta',
     'CDR-A3': 'marine',
-    'CDR-B1': 'violetpurple',
+    'CDR-B1': 'slate',
     'CDR-B2': 'pink',
     'CDR-B3': 'cyan',
 }
