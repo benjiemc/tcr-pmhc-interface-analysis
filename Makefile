@@ -4,7 +4,7 @@ all: data analysis notebooks
 
 environment:
 	conda env create -f environment.yml
-	pip install .
+	conda run -n tcr-pmhc-interface-analysis python -m pip install .
 
 data: \
 	data/processed/apo-holo-tcr-pmhc-class-I \

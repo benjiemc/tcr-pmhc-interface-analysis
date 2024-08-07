@@ -66,7 +66,7 @@ Which is a wrapper around:
 
 ```
 conda env create -f environment.yml
-pip install .
+conda run -n tcr-pmhc-interface-analysis python -m pip install .
 ```
 
 This will install all of the required dependencies into a new environment and ensure the distributed code is installed and available as well.
