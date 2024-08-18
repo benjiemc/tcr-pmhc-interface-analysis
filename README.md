@@ -1,6 +1,6 @@
 # TCR-pMHC Interface Analysis
 
-The following project contains an analysis between the unbound (*apo*) and bound (*holo*) confomations of TCR CDR loops and pMHCs.
+The following project contains an analysis of the unbound (*apo*) and bound (*holo*) conformations of TCR CDR loops and pMHCs. The work is described in detail in our pre-print: [Quantifying conformational changes in the TCR:pMHC-I binding interface](https://www.biorxiv.org/content/10.1101/2024.08.13.607715v1).
 
 ## Overview
 
@@ -18,9 +18,9 @@ The project has the following structure for the code, data, and analysis noteboo
 ├── scripts/                                ----->  Utility scripts
 ├── src/                                    ----->  Python package of the code used to process and analyse the data project
 │   └── tcr_pmhc_interface_analysis/
-└── tests/                                  ----->  Tests for the python package
+└── tests/                                  ----->  Tests for the Python package
     ├── apps/                                 ----->  Tests for command line applications used throughout
-    └── unit/                                 ----->  Tests for python modules
+    └── unit/                                 ----->  Tests for Python modules
 ```
 
 The analysis was conducted in the following set of notebooks:
@@ -76,7 +76,7 @@ The environment can then be activated using the following command:
 conda activate tcr-pmhc-interface-analysis
 ```
 
-Run the test pipeline to be sure everything has installed correctly:
+Run the test pipeline to be sure everything has been installed correctly:
 
 ```
 make test
@@ -84,8 +84,8 @@ make test
 
 ## Running the Analysis
 
-The analysis can be run using the provide Makefile.
-Once the environment is setup, the whole analysis can be run using the following command:
+The analysis can be run using the provided Makefile.
+Once the environment is set, the whole analysis can be run using the following command:
 
 ```
 make all
@@ -94,7 +94,22 @@ make all
 This provides a wrapper around the following steps `make data`, `make analysis`, and `make notebooks`.
 However, running all stages in one command will be highly resource intensive and therefore it may be more desirable to run each stage individually depending on the target system.
 
-Alternatively, the `make <COMMAND> --recon` may be helpful in ascertaining what commands are run in each stage of the analysis and these can be run individually.
+Alternatively, the `make <COMMAND> --recon` may help ascertain what commands are run in each stage of the analysis and these can be run individually.
 
 > **_IMPORTANT NOTE_**: The processed data used for the results reported in the manuscript has been provided for reproducibility.
-> If you would like to run the analysis with updated data, the provided data will need to be renamed or deleted (or each command can be run individually) as the make workflow will not run commands with existing outputs.
+> If you want to run the analysis with updated data, the provided data must be renamed or deleted (or each command can be run individually) as the make workflow will not run commands with existing outputs.
+
+## Citing this Work
+
+The results of this analysis are described in the article [here](https://www.biorxiv.org/content/10.1101/2024.08.13.607715v1). If you use the code, please cite:
+
+```
+@article{mcmasterQuantifyingConformationalChanges2024,
+  title = {Quantifying Conformational Changes in the {{TCR}}:{{pMHC-I}} Binding Interface},
+  author = {McMaster, Benjamin and Thorpe, Christopher and Rossjohn, Jamie and Deane, Charlotte and Koohy, Hashem},
+  journal = {bioRxiv},
+  doi = {10.1101/2024.08.13.607715},
+  url = {https://www.biorxiv.org/content/10.1101/2024.08.13.607715v1},
+  year = {2024},
+}
+```
