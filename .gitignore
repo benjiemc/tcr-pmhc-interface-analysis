@@ -19,5 +19,5 @@ notebooks/exploratory/*
 sps-*
 
 # Documentation
-public/*
+docs/public/*
 docs/source/*

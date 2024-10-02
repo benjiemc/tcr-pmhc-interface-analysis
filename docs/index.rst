@@ -3,6 +3,12 @@
 
 .. toctree::
    :maxdepth: 2
+   :caption: Command Line Applications
+
+   source/apps.rst
+
+.. toctree::
+   :maxdepth: 2
    :caption: Python API
 
    source/modules.rst

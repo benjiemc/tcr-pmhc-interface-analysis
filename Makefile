@@ -115,5 +115,6 @@ lint:
 	@isort --check-only src
 
 docs:
-	@sphinx-apidoc -f -e -o docs/source src/tcr_pmhc_interface_analysis
-	@sphinx-build -b html ./docs public
+	@sphinx-apidoc -f -e -o docs/source src/tcr_pmhc_interface_analysis src/**/apps/*
+	@python docs/document_clis.py docs/source
+	@sphinx-build -b html ./docs docs/public
