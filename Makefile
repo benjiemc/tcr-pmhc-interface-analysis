@@ -33,12 +33,12 @@ data/raw/stcrdab:
 	@touch $@
 
 data/interim/apo-holo-tcr-pmhc-class-I: data/raw/stcrdab
-	@python -m tcr_pmhc_interface_analysis.apps.select_structures -o $@ $^
+	@python -m tcr_pmhc_interface_analysis.apps.select_structures --add-mhcs -o $@ $^
 	@touch $@
 
 data/interim/apo-holo-tcr-pmhc-class-I-imgt-numbered: data/interim/apo-holo-tcr-pmhc-class-I
 	@mkdir -p $@
-	@for path in $(word 2,$^)/*.pdb; do \
+	@for path in $^/*.pdb; do \
 		filename=$$(basename $$path); \
 		echo Re-numbering $$filename; \
 		python -m tcr_pmhc_interface_analysis.apps.renumber_structure \
