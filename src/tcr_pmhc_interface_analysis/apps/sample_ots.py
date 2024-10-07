@@ -1,6 +1,8 @@
 '''Sample OTS sequences and select columns.'''
 import argparse
 import glob
+import gzip
+import json
 import logging
 import os
 import sys
@@ -42,7 +44,17 @@ def main() -> None:
     ots = []
     for file_ in sorted(glob.glob(os.path.join(args.path, '*.csv*')), key=os.path.basename):
         logger.info('Collecting %s', os.path.basename(file_))
-        ots.append(pd.read_csv(file_, skiprows=1))
+
+        fh = gzip.open(file_, 'rt') if file_.endswith('.gz') else open(file_, 'r')
+        meta = json.loads(fh.readline().replace('\"\"', '\"').strip('\"').rstrip().rstrip('\"'))
+        fh.close()
+
+        chunk_df = pd.read_csv(file_, skiprows=1)
+
+        for key, value in meta.items():
+            chunk_df[key] = value
+
+        ots.append(chunk_df)
 
     ots = pd.concat(ots)
 

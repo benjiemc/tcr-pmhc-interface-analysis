@@ -26,7 +26,13 @@ data/external/mhc_motif_atlas.csv:
 	@wget -O $@ https://zenodo.org/records/13144401/files/mhc_motif_atlas.csv
 
 data/interim/ots_sample.csv: data/external/OTS
-	@python -m tcr_pmhc_interface_analysis.apps.sample_ots --seed 123 -n 10 --sample-size 1000 -o $@ $^
+	@python -m tcr_pmhc_interface_analysis.apps.sample_ots \
+		--seed 123 \
+		-n 10 \
+		--sample-size 1000 \
+		--columns cdr1_aa_alpha cdr2_aa_alpha cdr3_aa_alpha cdr1_aa_beta cdr2_aa_beta cdr3_aa_beta v_call_alpha v_call_beta j_call_alpha j_call_beta Species \
+		-o $@ \
+		$^
 
 data/raw/stcrdab:
 	@python -m tcr_pmhc_interface_analysis.apps.download_stcrdab $@
