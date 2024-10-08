@@ -126,7 +126,7 @@ def main():
     histo_tcr_pmhcs = retrieve_data_from_api(TCR_PMHC_CLASS_I_URL)
 
     merged_tcr_pmhcs = stcrdab_tcr_pmhcs.merge(histo_tcr_pmhcs,
-                                               how='outer',
+                                               how='inner',
                                                left_on=['pdb_id', 'antigen_chain', 'mhc_chain1'],
                                                right_on=['pdb_id', 'antigen_chain', 'mhc_chain1'],
                                                suffixes=['_stcrdab', '_histo'])

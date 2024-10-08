@@ -46,15 +46,6 @@ def retrieve_data_from_api(url: str) -> pd.DataFrame:
         req = requests.get(f'{url}?page_number={page_number}')
 
         for member in req.json()['set']['members']:
-            number_of_antigen_chains = len(member['assigned_chains']['peptide']['chains'])
-            number_of_mhc_chain1s = len(member['assigned_chains']['class_i_alpha']['chains'])
-            number_of_mhc_chain2s = len(member['assigned_chains']['beta2m']['chains'])
-            number_of_assemblies = len(member['assemblies'])
-
-            if len({number_of_antigen_chains, number_of_mhc_chain1s, number_of_mhc_chain2s, number_of_assemblies}) != 1:
-                logger.warning('Skipping %s due to inconsistencies in chain annotations', member['pdb_code'])
-                continue
-
             member_antigen_chains = member['assigned_chains']['peptide']['chains']
             member_mhc1_chains = member['assigned_chains']['class_i_alpha']['chains']
             member_mhc2_chains = member['assigned_chains']['beta2m']['chains']
@@ -76,7 +67,7 @@ def retrieve_data_from_api(url: str) -> pd.DataFrame:
                 peptide_sequences.append(member['assigned_chains']['peptide']['sequence'])
                 mhc_slugs.append(member['allele']['alpha']['slug'])
 
-                chains.append('-'.join(assembly_chains))
+                chains.append('-'.join([assembly_antigen_chain, assembly_mhc1_chain, assembly_mhc2_chain]))
                 assembly_numbers.append(assembly_number)
 
                 antigen_chains.append(assembly_antigen_chain)
