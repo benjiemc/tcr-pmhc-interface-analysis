@@ -35,7 +35,7 @@ The analysis was conducted in the following set of notebooks:
 | ------------- | ----------- | -------------------------------- |
 | [Ascertaining_the_generalisability_of_the_structure_data.ipynb](notebooks/Ascertaining_the_generalisability_of_the_structure_data.ipynb) | Comparison of *apo*-*holo* structure data to other general TCR data sources. | Figure 1D-F, Figure S1 |
 | [Centre_of_mass_analysis.ipynb](notebooks/Centre_of_mass_analysis.ipynb) | Analysis of where the centre of mass of each chain lies and the changes in relative angles of these domains between *apo* and *holo* states. | |
-| [Comparing_of_apo_and_holo_CDR_loop_clustering.ipynb](notebooks/Comparing_of_apo_and_holo_CDR_loop_clustering.ipynb) | Analysis of how CDR loops change clusters between *apo* and *holo* states. | Figure 3D, Table 1 |
+| [Comparing_apo_and_holo_CDR_loop_clustering.ipynb](notebooks/Comparing_apo_and_holo_CDR_loop_clustering.ipynb) | Analysis of how CDR loops change clusters between *apo* and *holo* states. | Figure 3D, Table 1 |
 | [Comparison_of_apo_and_holo_CDR_loops.ipynb](notebooks/Comparison_of_apo_and_holo_CDR_loops.ipynb) | Analysis of loop movement between *apo* and *holo* states | Figure 2B-D, Figure 3B, Figure S2 |
 | [Correlating_conformational_changes_to_affinity.ipynb](notebooks/Correlating_conformational_changes_to_affinity.ipynb) | Analysis of how the movement of CDR loops correlates to the affinity of TCR-pMHC interactions where data is available. | Figure S6 , Figure S7 |
 | [Identify_contact_residues_on_MHC_Class_I_molecules.ipynb](notebooks/Identify_contact_residues_on_MHC_Class_I_molecules.ipynb) | Mapping of the TCR contacts onto pMHC molecules. | Figure 4, Figure S4 |
