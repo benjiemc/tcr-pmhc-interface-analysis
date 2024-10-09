@@ -111,6 +111,40 @@ data/processed/apo-holo-tcr-pmhc-class-I-comparisons/pmhc_tcr_contact_holo.csv: 
 		$(word 1,$^) \
 		--pmhc-tcr-contact-residues $(shell awk -F ',' '$$3 >= 100 { print $$2 }' $(word 2,$^) | tail -n +2 | sort | uniq | tr '\n' ' ')
 
+data/processed/apo-holo-tcr-pmhc-class-I-comparisons/tcr_per_res_apo_holo_d_score.csv: data/processed/apo-holo-tcr-pmhc-class-I
+	python -m tcr_pmhc_interface_analysis.apps.compute_apo_holo_differences \
+		--select-entities tcr \
+		--per-residue \
+		--per-residue-measurements d_score \
+		--num-anchors 6 \
+		-o $@ $^
+
+data/processed/apo-holo-tcr-pmhc-class-I-comparisons/tcr_per_res_holo_holo_d_score.csv: data/processed/apo-holo-tcr-pmhc-class-I-holo-aligned
+	python -m tcr_pmhc_interface_analysis.apps.compute_apo_holo_differences \
+		--select-entities tcr \
+		--per-residue \
+		--per-residue-measurements d_score \
+		--num-anchors 6 \
+		-o $@ $^
+
+data/processed/apo-holo-tcr-pmhc-class-I-comparisons/pmhc_per_res_apo_holo_d_score.csv: data/processed/apo-holo-tcr-pmhc-class-I data/processed/mhc_contacts.csv
+	python -m tcr_pmhc_interface_analysis.apps.compute_apo_holo_differences \
+		--select-entities pmhc \
+		--crop-to-abd \
+		--pmhc-tcr-contact-residues $(shell awk -F ',' '$$3 >= 100 { print $$2 }' $(word 2,$^) | tail -n +2 | sort | uniq | tr '\n' ' ') \
+		--per-residue \
+		--per-residue-measurements d_score \
+		-o $@ $(word 1,$^)
+
+data/processed/apo-holo-tcr-pmhc-class-I-comparisons/pmhc_per_res_holo_holo_d_score.csv: data/processed/apo-holo-tcr-pmhc-class-I-holo-aligned data/processed/mhc_contacts.csv
+	python -m tcr_pmhc_interface_analysis.apps.compute_apo_holo_differences \
+		--select-entities pmhc \
+		--crop-to-abd \
+		--pmhc-tcr-contact-residues $(shell awk -F ',' '$$3 >= 100 { print $$2 }' $(word 2,$^) | tail -n +2 | sort | uniq | tr '\n' ' ') \
+		--per-residue \
+		--per-residue-measurements d_score \
+		-o $@ $(word 1,$^)
+
 data/processed/mhc_contacts.csv: run_notebook_Identify_contact_residues_on_MHC_Class_I_molecules
 
 notebooks: data analysis $(patsubst notebooks/%.ipynb,run_notebook_%,$(wildcard notebooks/*.ipynb))

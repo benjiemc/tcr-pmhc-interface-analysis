@@ -13,13 +13,14 @@ from python_pdb.comparisons import rmsd
 from python_pdb.parsers import parse_pdb_to_pandas
 
 from tcr_pmhc_interface_analysis.apps._log import add_logging_arguments, setup_logger
-from tcr_pmhc_interface_analysis.measurements import compute_residue_com, get_distance, measure_chi_angle
+from tcr_pmhc_interface_analysis.measurements import (calculate_phi_psi_angles, compute_residue_com, get_distance,
+                                                      measure_chi_angle)
 from tcr_pmhc_interface_analysis.processing import annotate_tcr_pmhc_df, find_anchors
 from tcr_pmhc_interface_analysis.utils import get_coords
 
 logger = logging.getLogger()
 
-MEASURMENT_CHOICES = ['rmsd', 'ca_distance', 'chi_angle_change', 'com_distance']
+MEASURMENT_CHOICES = ['rmsd', 'ca_distance', 'chi_angle_change', 'com_distance', 'd_score']
 
 parser = argparse.ArgumentParser(prog=f'python -m {sys.modules[__name__].__spec__.name}',
                                  description=__doc__,
@@ -200,10 +201,11 @@ def main():
                 if args.per_residue:
                     residue_common_columns = ['residue_name', 'residue_seq_id', 'residue_insert_code', 'atom_name']
                     entity_comparison = pd.merge(entity_x, entity_y, how='inner', on=residue_common_columns)
-                    residues = entity_comparison.groupby(['residue_seq_id', 'residue_insert_code', 'residue_name'],
-                                                         dropna=False)
+                    residues = list(entity_comparison.groupby(['residue_seq_id', 'residue_insert_code', 'residue_name'],
+                                                              dropna=False))
+                    num_residues = len(residues)
 
-                    for (seq_id, insert_code, res_name), residue in residues:
+                    for idx, ((seq_id, insert_code, res_name), residue) in enumerate(residues):
                         res_x, res_y = split_merge(residue, residue_common_columns)
 
                         info['residue_name'].append(res_name)
@@ -250,6 +252,27 @@ def main():
                                                            seq_id,
                                                            insert_code if pd.notnull(insert_code) else '')
 
+                                case 'd_score':
+                                    logger.debug('Computing D-score between residues')
+                                    if not (idx == 0 or idx == num_residues - 1):
+                                        prev_res_x, prev_res_y = split_merge(residues[idx - 1][1],
+                                                                             residue_common_columns)
+                                        next_res_x, next_res_y = split_merge(residues[idx + 1][1],
+                                                                             residue_common_columns)
+                                        try:
+                                            phi_x, psi_x = calculate_phi_psi_angles(res_x, prev_res_x, next_res_x)
+                                            phi_y, psi_y = calculate_phi_psi_angles(res_y, prev_res_y, next_res_y)
+
+                                        except IndexError:
+                                            logger.warning('Missing atoms needed to calculate phi/psi angle: %s %d%s',
+                                                           res_name,
+                                                           seq_id,
+                                                           insert_code if pd.notnull(insert_code) else '')
+
+                                        else:
+                                            value = ((2 * (1 - np.cos(phi_x - phi_y)))
+                                                     + (2 * (1 - np.cos(psi_x - psi_y))))
+
                             measurements[measurement].append(value)
 
                 else:
@@ -277,7 +300,6 @@ def main():
         info.pop('entity')
 
     logger.info('Outputing results...')
-
     output_columns = ['complex_id', 'structure_x_name', 'structure_y_name']
 
     if args.select_entities == 'tcr':

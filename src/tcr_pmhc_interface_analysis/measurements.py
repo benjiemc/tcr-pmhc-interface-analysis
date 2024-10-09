@@ -54,3 +54,51 @@ def measure_chi_angle(residue_df: pd.DataFrame, number: int = 1) -> float:
     y = np.dot(m1, n2)
 
     return np.arctan2(x, y)
+
+
+def calculate_angle(v1, v2):
+    n1 = np.linalg.norm(v1)
+    n2 = np.linalg.norm(v2)
+
+    cos_theta = np.dot(v1, v2) / (n1 * n2)
+
+    cos_theta = min(cos_theta, 1)
+    cos_theta = max(cos_theta, -1)
+
+    return np.arccos(cos_theta)
+
+
+def calculate_dihedral_angle(a, b, c, d):
+    ba = a - b
+    bc = c - b
+    cd = d - c
+
+    u = np.cross(ba, bc)
+    v = np.cross(cd, bc)
+
+    w = np.cross(u, v)
+
+    angle = calculate_angle(u, v)
+
+    if calculate_angle(bc, w) > 0.001:
+        angle = -angle
+
+    return angle
+
+
+def calculate_phi_psi_angles(residue: pd.DataFrame,
+                             prev_residue: pd.DataFrame,
+                             next_residue: pd.DataFrame) -> tuple[float, float]:
+    '''Calculate the dihedral (phi and psi) angles for a given residue.'''
+    c_prev_pos = prev_residue.query("atom_name == 'C'")[['pos_x', 'pos_y', 'pos_z']].iloc[0]
+
+    n_pos = residue.query("atom_name == 'N'")[['pos_x', 'pos_y', 'pos_z']].iloc[0]
+    ca_pos = residue.query("atom_name == 'CA'")[['pos_x', 'pos_y', 'pos_z']].iloc[0]
+    c_pos = residue.query("atom_name == 'C'")[['pos_x', 'pos_y', 'pos_z']].iloc[0]
+
+    n_next_pos = next_residue.query("atom_name == 'N'")[['pos_x', 'pos_y', 'pos_z']].iloc[0]
+
+    phi_angle = calculate_dihedral_angle(c_prev_pos, n_pos, ca_pos, c_pos)
+    psi_angle = calculate_dihedral_angle(n_pos, ca_pos, c_pos, n_next_pos)
+
+    return (phi_angle, psi_angle)

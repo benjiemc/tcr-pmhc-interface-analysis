@@ -33,6 +33,7 @@ Looking at Per-Residue Changes in TCR loops
   > --select-entities tcr \
   > --align-entities \
   > --per-residue \
+  > --per-residue-measurements rmsd ca_distance chi_angle_change com_distance \
   > -o test_tcr_per_res_apo_holo_loop_align.csv \
   > $TESTDIR/data
 
@@ -80,6 +81,7 @@ Including anchors in the calculations
   > --select-entities tcr \
   > --align-entities \
   > --per-residue \
+  > --per-residue-measurements rmsd ca_distance chi_angle_change com_distance \
   > --num-anchors 5 \
   > -o test_tcr_per_res_apo_holo_loop_align_anchors.csv \
   > $TESTDIR/data
@@ -90,6 +92,25 @@ Including anchors in the calculations
 
   $ cut -d, -f9 test_tcr_per_res_apo_holo_loop_align_anchors.csv | sed 1d > test_values
   $ cut -d, -f9 $TESTDIR/reference/tcr_per_res_apo_holo_loop_align_anchors.csv | sed 1d > reference_values
+  $ python -c "import numpy as np; test_vals = np.loadtxt('test_values'); ref_vals = np.loadtxt('reference_values'); np.testing.assert_array_almost_equal(test_vals, ref_vals)"
+
+Computing D-scores
+  $ python -m tcr_pmhc_interface_analysis.apps.compute_apo_holo_differences \
+  > --log-level error \
+  > --select-entities tcr \
+  > --align-entities \
+  > --per-residue \
+  > --per-residue-measurements d_score \
+  > --num-anchors 6 \
+  > -o test_tcr_per_res_apo_holo_d_score.csv \
+  > $TESTDIR/data
+
+  $ cut -d, -f1-8 test_tcr_per_res_apo_holo_d_score.csv > test_entries
+  $ cut -d, -f1-8 $TESTDIR/reference/tcr_per_res_apo_holo_d_score.csv > reference_entries
+  $ diff test_entries reference_entries
+
+  $ cut -d, -f9 test_tcr_per_res_apo_holo_d_score.csv | sed 1d > test_values
+  $ cut -d, -f9 $TESTDIR/reference/tcr_per_res_apo_holo_d_score.csv | sed 1d > reference_values
   $ python -c "import numpy as np; test_vals = np.loadtxt('test_values'); ref_vals = np.loadtxt('reference_values'); np.testing.assert_array_almost_equal(test_vals, ref_vals)"
 
 Now on the MHC side
@@ -126,6 +147,7 @@ Looking at per-residue changes of pMHCs
   > --log-level error \
   > --select-entities pmhc \
   > --per-residue \
+  > --per-residue-measurements rmsd ca_distance chi_angle_change com_distance \
   > -o test_pmhc_per_res_apo_holo.csv \
   > $TESTDIR/data
 
