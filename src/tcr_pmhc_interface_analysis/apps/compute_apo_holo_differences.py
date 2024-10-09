@@ -14,7 +14,7 @@ from python_pdb.parsers import parse_pdb_to_pandas
 
 from tcr_pmhc_interface_analysis.apps._log import add_logging_arguments, setup_logger
 from tcr_pmhc_interface_analysis.measurements import compute_residue_com, get_distance, measure_chi_angle
-from tcr_pmhc_interface_analysis.processing import annotate_tcr_pmhc_df
+from tcr_pmhc_interface_analysis.processing import annotate_tcr_pmhc_df, find_anchors
 from tcr_pmhc_interface_analysis.utils import get_coords
 
 logger = logging.getLogger()
@@ -37,6 +37,8 @@ parser.add_argument('--per-residue', action='store_true',
                     help='Perform measurements on each residue individually as oppose to the entity as a whole.')
 parser.add_argument('--crop-to-abd', action='store_true',
                     help='Crop MHC entities to the antigen binding domain when performing comparisons')
+parser.add_argument('--num-anchors', default=0, type=int,
+                    help='number of anchor residues for CDR loops to include (Default: 0)')
 parser.add_argument('--per-residue-measurements',
                     choices=MEASURMENT_CHOICES + ['all'],
                     nargs='+',
@@ -124,6 +126,21 @@ def main():
 
                 structure_df['resi'] = (structure_df['residue_seq_id'].apply(str)
                                         + structure_df['residue_insert_code'].fillna(''))
+
+                if args.num_anchors > 0 and args.select_entities == 'tcr':
+                    structure_df['anchor'] = False
+
+                    for chain_type in 'alpha_chain', 'beta_chain':
+                        for cdr in 1, 2, 3:
+                            cdr_df = structure_df[(structure_df['chain_type'] == chain_type)
+                                                  & (structure_df['cdr'] == cdr)]
+                            for anchor_df in find_anchors(cdr_df, structure_df, args.num_anchors):
+                                merged_df = structure_df.merge(anchor_df,
+                                                               how='left',
+                                                               on=structure_df.columns.tolist(),
+                                                               indicator=True)
+                                structure_df.loc[merged_df['_merge'] == 'both', 'anchor'] = True
+                                structure_df.loc[merged_df['_merge'] == 'both', 'cdr'] = cdr
 
                 if args.pmhc_tcr_contact_residues:
                     structure_df['tcr_contact'] = structure_df.apply(
