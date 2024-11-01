@@ -94,7 +94,39 @@
              
   <section id="tcr-pmhc-interface-analysis-apps-cluster-cdr-loop-structures">
 <h1>tcr_pmhc_interface_analysis.apps.cluster_cdr_loop_structures<a class="headerlink" href="#tcr-pmhc-interface-analysis-apps-cluster-cdr-loop-structures" title="Link to this heading"></a></h1>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>usage: python -m tcr_pmhc_interface_analysis.apps.cluster_cdr_loop_structures
+       [-h] [--output OUTPUT] [--assign-cluster-types]
+       [--stcrdab-path STCRDAB_PATH] [--log-level {debug,info,warning,error}]
+       structure_names distance_matrices [distance_matrices ...]
+
+Cluster TCR CDR Loop structures and assign them as canonical or pseudo clusters.
+
+Adding cannonical conformation information to clusters
+------------------------------------------------------
+
+Based on the definition from Comparative Analysis of the CDR Loops of Antigen Receptors
+(https://doi.org/10.3389/fimmu.2019.02454), canonical clusters are any cluster where there are more than two unique
+sequences within the density clusters. The other clusters will be refered to as pseudo-clusters, as these may just be
+the effect of the same loop finding the same conformation.
+
+positional arguments:
+  structure_names       path to the structure names file
+  distance_matrices     paths to the distance matrices
+
+options:
+  -h, --help            show this help message and exit
+  --output OUTPUT, -o OUTPUT
+                        output path
+  --assign-cluster-types
+                        assign cluster types (requires --stcrdab-path input)
+  --stcrdab-path STCRDAB_PATH
+                        path to the STCRDab
+
+Logging:
+  Options for logging
+
+  --log-level {debug,info,warning,error}
+                        Level to log messages at (Default: &#39;warning&#39;)
 </pre></div>
 </div>
 </section>
