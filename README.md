@@ -2,6 +2,12 @@
 
 The following project contains an analysis of the unbound (*apo*) and bound (*holo*) conformations of TCR CDR loops and pMHCs. The work is described in detail in our pre-print: [Quantifying conformational changes in the TCR:pMHC-I binding interface](https://www.biorxiv.org/content/10.1101/2024.08.13.607715v1).
 
+## Key Links
+
+* Source code: [https://github.com/benjiemc/tcr-pmhc-interface-analysis](https://github.com/benjiemc/tcr-pmhc-interface-analysis)
+* Documentation: [https://benjiemc.github.io/tcr-pmhc-interface-analysis/](https://benjiemc.github.io/tcr-pmhc-interface-analysis/)
+* DOI: [https://doi.org/10.1101/2024.08.13.607715](https://doi.org/10.1101/2024.08.13.607715)
+
 ## Overview
 
 The project has the following structure for the code, data, and analysis notebooks.
