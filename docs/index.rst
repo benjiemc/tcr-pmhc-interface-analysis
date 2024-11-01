@@ -3,6 +3,12 @@
 
 .. toctree::
    :maxdepth: 2
+   :caption: Analysis Results
+
+   source/notebooks.rst
+
+.. toctree::
+   :maxdepth: 2
    :caption: Command Line Applications
 
    source/apps.rst

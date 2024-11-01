@@ -21,6 +21,7 @@ develop = [
     "flake8",
     "isort",
     "myst-parser",
+    "nbsphinx",
     "pytest",
     "prysk[pytest-plugin]",
     "sphinx",

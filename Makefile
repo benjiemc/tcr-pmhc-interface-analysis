@@ -117,4 +117,5 @@ lint:
 docs:
 	@sphinx-apidoc -f -e -o docs/source src/tcr_pmhc_interface_analysis src/**/apps/*
 	@python docs/document_clis.py docs/source
+	@python docs/document_notebooks.py notebooks docs/source
 	@sphinx-build -b html ./docs docs/public
