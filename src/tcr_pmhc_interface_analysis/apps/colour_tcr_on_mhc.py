@@ -61,7 +61,7 @@ def main():
     args = parser.parse_args()
     setup_logger(logger, args.log_level)
 
-   try:
+    try:
         from pymol import cmd
 
     except ImportError:
