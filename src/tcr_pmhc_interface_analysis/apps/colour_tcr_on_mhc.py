@@ -4,7 +4,6 @@ import re
 import sys
 
 import pandas as pd
-from pymol import cmd
 
 from tcr_pmhc_interface_analysis.apps._log import add_logging_arguments, setup_logger
 
@@ -61,6 +60,13 @@ def aggregate_residues(resis: pd.Series) -> str:
 def main():
     args = parser.parse_args()
     setup_logger(logger, args.log_level)
+
+   try:
+        from pymol import cmd
+
+    except ImportError:
+        logger.error('PyMOL not found. Please install: https://www.pymol.org/')
+        sys.exit(1)
 
     cmd.load(args.mhc_path)
 
