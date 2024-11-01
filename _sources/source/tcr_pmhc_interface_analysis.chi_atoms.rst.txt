@@ -1,0 +1,7 @@
+tcr\_pmhc\_interface\_analysis.chi\_atoms module
+================================================
+
+.. automodule:: tcr_pmhc_interface_analysis.chi_atoms
+   :members:
+   :undoc-members:
+   :show-inheritance:

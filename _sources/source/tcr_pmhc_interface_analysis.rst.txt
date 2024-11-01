@@ -1,0 +1,26 @@
+tcr\_pmhc\_interface\_analysis package
+======================================
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   tcr_pmhc_interface_analysis.align
+   tcr_pmhc_interface_analysis.chi_atoms
+   tcr_pmhc_interface_analysis.histo_fyi_utils
+   tcr_pmhc_interface_analysis.imgt_numbering
+   tcr_pmhc_interface_analysis.measurements
+   tcr_pmhc_interface_analysis.missing_residues
+   tcr_pmhc_interface_analysis.processing
+   tcr_pmhc_interface_analysis.stcrdab_utils
+   tcr_pmhc_interface_analysis.utils
+
+Module contents
+---------------
+
+.. automodule:: tcr_pmhc_interface_analysis
+   :members:
+   :undoc-members:
+   :show-inheritance:

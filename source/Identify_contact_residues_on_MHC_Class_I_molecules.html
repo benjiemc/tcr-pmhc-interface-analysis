@@ -1,0 +1,1221 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Identify contact residues on MHC Class I molecules &mdash; tcr_pmhc_interface_analysis  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Length dependency of conformational change" href="Length_dependency_of_conformational_change.html" />
+    <link rel="prev" title="Comparison of apo and **holo* CDR loops" href="Comparison_of_apo_and_holo_CDR_loops.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            tcr_pmhc_interface_analysis
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Analysis Results</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="notebooks.html">Analysis Notebooks</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Ascertaining_the_generalisability_of_the_structure_data.html">Ascertaining the generalisability of the structure data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Centre_of_mass_analysis.html">Centre of mass analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Comparing_of_apo_and_holo_CDR_loop_clustering.html">Comparing <em>apo</em> and <em>holo</em> CDR loop clustering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Comparison_of_apo_and_holo_CDR_loops.html">Comparison of <em>apo</em> and **holo* CDR loops</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Identify contact residues on MHC Class I molecules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Loading-TCR:pMHC-I-Structures">Loading TCR:pMHC-I Structures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Determine-contacting-residues">Determine contacting residues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Visualising-contact-maps">Visualising contact maps</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#TCR-Contacts-on-MHC-Molecules">TCR Contacts on MHC Molecules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#TCR-Contacts-on-Peptides">TCR Contacts on Peptides</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Exporting-residue-list">Exporting residue list</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Length_dependency_of_conformational_change.html">Length dependency of conformational change</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Per_residue_changes_of_TCR_CDR_between_apo_and_holo_structures.html">Per residue changes of TCR CDRs between apo and holo structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Summary_of_apo_holo_data.html">Summary of <em>apo</em>-<em>holo</em> data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Visualising_CDR_loop_clustering.html">Visualising CDR loop clustering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pMHC_movement_based_on_peptide_anchoring.html">pMHC movement based on peptide anchoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pMHC_movement_between_apo_and_holo_conformations.html">pMHC movement between apo and holo conformations</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Command Line Applications</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="apps.html">Command Line Applications</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">tcr_pmhc_interface_analysis</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">tcr_pmhc_interface_analysis</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="notebooks.html">Analysis Notebooks</a></li>
+      <li class="breadcrumb-item active">Identify contact residues on MHC Class I molecules</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/source/Identify_contact_residues_on_MHC_Class_I_molecules.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Identify-contact-residues-on-MHC-Class-I-molecules">
+<h1>Identify contact residues on MHC Class I molecules<a class="headerlink" href="#Identify-contact-residues-on-MHC-Class-I-molecules" title="Link to this heading"></a></h1>
+<section id="Introduction">
+<h2>Introduction<a class="headerlink" href="#Introduction" title="Link to this heading"></a></h2>
+<p>In this notebook, we aim to determine the IMGT positions of MHC molecules that make contact with the CDR loops of a contacting TCR. These contacts are then plotted based on the identity of the TCR loop to create a finger print of the TCRs on MHC molecules. We also look at the contacts made by TCRs on the presented peptide.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import os
+
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import seaborn as sns
+from python_pdb.parsers import parse_pdb_to_pandas
+
+from tcr_pmhc_interface_analysis.imgt_numbering import assign_cdr_number
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>CUTOFF_DISTANCE = 5 # Å
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Loading-TCR:pMHC-I-Structures">
+<h2>Loading TCR:pMHC-I Structures<a class="headerlink" href="#Loading-TCR:pMHC-I-Structures" title="Link to this heading"></a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>STCRDAB_PATH = &#39;../data/raw/stcrdab&#39;
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>stcrdab_summary = pd.read_csv(os.path.join(STCRDAB_PATH, &#39;db_summary.dat&#39;), delimiter=&#39;\t&#39;)
+
+selected_stcrdab = stcrdab_summary.copy()
+
+# Resolution better than 3.50 Å
+selected_stcrdab[&#39;resolution&#39;] = pd.to_numeric(selected_stcrdab[&#39;resolution&#39;], errors=&#39;coerce&#39;)
+selected_stcrdab = selected_stcrdab.query(&quot;resolution &lt;= 3.50&quot;)
+
+# alpha-beta TCRs
+selected_stcrdab = selected_stcrdab.query(&quot;TCRtype == &#39;abTCR&#39;&quot;)
+
+# MHC class I
+selected_stcrdab = selected_stcrdab.query(&quot;mhc_type == &#39;MH1&#39;&quot;)
+
+# peptide antigen
+selected_stcrdab = selected_stcrdab.query(&quot;antigen_type == &#39;peptide&#39;&quot;)
+
+# General clean: drop columns that don&#39;t contain anything useful
+selected_stcrdab = selected_stcrdab.loc[:, selected_stcrdab.nunique() &gt; 1]
+selected_stcrdab = selected_stcrdab.dropna(axis=1, how=&#39;all&#39;)
+
+# Reset Index
+selected_stcrdab = selected_stcrdab.reset_index(drop=True)
+
+selected_stcrdab
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>pdb</th>
+      <th>Bchain</th>
+      <th>Achain</th>
+      <th>antigen_chain</th>
+      <th>antigen_name</th>
+      <th>mhc_chain1</th>
+      <th>mhc_chain2</th>
+      <th>docking_angle</th>
+      <th>beta_subgroup</th>
+      <th>alpha_subgroup</th>
+      <th>...</th>
+      <th>alpha_organism</th>
+      <th>antigen_organism</th>
+      <th>mhc_chain1_organism</th>
+      <th>mhc_chain2_organism</th>
+      <th>authors</th>
+      <th>resolution</th>
+      <th>method</th>
+      <th>r_free</th>
+      <th>r_factor</th>
+      <th>engineered</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>8gom</td>
+      <td>E</td>
+      <td>D</td>
+      <td>C</td>
+      <td>spike protein s2</td>
+      <td>A</td>
+      <td>B</td>
+      <td>39.649</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>homo sapiens</td>
+      <td>severe acute respiratory syndrome coronavirus2</td>
+      <td>homo sapiens</td>
+      <td>homo sapiens</td>
+      <td>Wu, D., Mariuzza, R.A.</td>
+      <td>2.783</td>
+      <td>X-RAY DIFFRACTION</td>
+      <td>0.248</td>
+      <td>0.195</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>8gon</td>
+      <td>E</td>
+      <td>D</td>
+      <td>C</td>
+      <td>spike protein s2</td>
+      <td>A</td>
+      <td>B</td>
+      <td>38.984</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>homo sapiens</td>
+      <td>severe acute respiratory syndrome coronavirus2</td>
+      <td>homo sapiens</td>
+      <td>homo sapiens</td>
+      <td>Wu, D., Mariuzza, R.A.</td>
+      <td>2.601</td>
+      <td>X-RAY DIFFRACTION</td>
+      <td>0.253</td>
+      <td>0.198</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>7q99</td>
+      <td>E</td>
+      <td>D</td>
+      <td>C</td>
+      <td>asn-leu-ser-ala-leu-gly-ile-phe-ser-thr</td>
+      <td>A</td>
+      <td>B</td>
+      <td>46.371</td>
+      <td>TRBV30</td>
+      <td>TRAV12</td>
+      <td>...</td>
+      <td>homo sapiens</td>
+      <td>homo sapiens</td>
+      <td>homo sapiens</td>
+      <td>homo sapiens</td>
+      <td>Rizkallah, P.J., Sewell, A.K., Wall, A., Fulle...</td>
+      <td>2.550</td>
+      <td>X-RAY DIFFRACTION</td>
+      <td>0.272</td>
+      <td>0.218</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>7q9a</td>
+      <td>E</td>
+      <td>D</td>
+      <td>C</td>
+      <td>leu-leu-leu-gly-ile-gly-ile-leu-val-leu</td>
+      <td>A</td>
+      <td>B</td>
+      <td>48.391</td>
+      <td>TRBV30</td>
+      <td>TRAV12</td>
+      <td>...</td>
+      <td>homo sapiens</td>
+      <td>homo sapiens</td>
+      <td>homo sapiens</td>
+      <td>homo sapiens</td>
+      <td>Rizkallah, P.J., Sewell, A.K., Wall, A., Fulle...</td>
+      <td>2.100</td>
+      <td>X-RAY DIFFRACTION</td>
+      <td>0.243</td>
+      <td>0.205</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2ak4</td>
+      <td>E</td>
+      <td>D</td>
+      <td>C</td>
+      <td>ebv peptide lpeplpqgqltay</td>
+      <td>A</td>
+      <td>B</td>
+      <td>71.108</td>
+      <td>TRBV6</td>
+      <td>TRAV19</td>
+      <td>...</td>
+      <td>homo sapiens</td>
+      <td>NaN</td>
+      <td>homo sapiens</td>
+      <td>homo sapiens</td>
+      <td>Tynan, F.E., Burrows, S.R., Buckle, A.M., Clem...</td>
+      <td>2.500</td>
+      <td>X-RAY DIFFRACTION</td>
+      <td>0.278</td>
+      <td>0.246</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>297</th>
+      <td>6q3s</td>
+      <td>E</td>
+      <td>D</td>
+      <td>C</td>
+      <td>ser-leu-leu-met-trp-ile-thr-gln-val</td>
+      <td>A</td>
+      <td>B</td>
+      <td>67.059</td>
+      <td>TRBV6</td>
+      <td>TRAV21</td>
+      <td>...</td>
+      <td>homo sapiens</td>
+      <td>homo sapiens</td>
+      <td>homo sapiens</td>
+      <td>homo sapiens</td>
+      <td>Meijers, R., Anjanappa, R., Springer, S., Garc...</td>
+      <td>2.500</td>
+      <td>X-RAY DIFFRACTION</td>
+      <td>0.273</td>
+      <td>0.229</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>298</th>
+      <td>5men</td>
+      <td>E</td>
+      <td>D</td>
+      <td>C</td>
+      <td>ile-leu-ala-lys-phe-leu-his-trp-leu</td>
+      <td>A</td>
+      <td>B</td>
+      <td>40.823</td>
+      <td>TRBV6</td>
+      <td>TRAV22</td>
+      <td>...</td>
+      <td>homo sapiens</td>
+      <td>homo sapiens</td>
+      <td>homo sapiens</td>
+      <td>homo sapiens</td>
+      <td>Rizkallah, P.J., Lloyd, A., Crowther, M., Cole...</td>
+      <td>2.810</td>
+      <td>X-RAY DIFFRACTION</td>
+      <td>0.272</td>
+      <td>0.189</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>299</th>
+      <td>1ao7</td>
+      <td>E</td>
+      <td>D</td>
+      <td>C</td>
+      <td>tax peptide</td>
+      <td>A</td>
+      <td>B</td>
+      <td>34.827</td>
+      <td>TRBV6</td>
+      <td>TRAV12</td>
+      <td>...</td>
+      <td>homo sapiens</td>
+      <td>human t-lymphotropic virus 1</td>
+      <td>homo sapiens</td>
+      <td>homo sapiens</td>
+      <td>Garboczi, D.N., Ghosh, P., Utz, U., Fan, Q.R.,...</td>
+      <td>2.600</td>
+      <td>X-RAY DIFFRACTION</td>
+      <td>0.320</td>
+      <td>0.245</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>300</th>
+      <td>4jff</td>
+      <td>E</td>
+      <td>D</td>
+      <td>C</td>
+      <td>melanoma motif</td>
+      <td>A</td>
+      <td>B</td>
+      <td>42.977</td>
+      <td>TRBV30</td>
+      <td>TRAV12</td>
+      <td>...</td>
+      <td>homo sapiens</td>
+      <td>homo sapiens</td>
+      <td>homo sapiens</td>
+      <td>homo sapiens</td>
+      <td>Rizkallah, P.J., Cole, D.K., Madura, F., Sewel...</td>
+      <td>2.430</td>
+      <td>X-RAY DIFFRACTION</td>
+      <td>0.263</td>
+      <td>0.210</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>301</th>
+      <td>3dxa</td>
+      <td>O</td>
+      <td>N</td>
+      <td>M</td>
+      <td>ebv decapeptide epitope</td>
+      <td>K</td>
+      <td>L</td>
+      <td>58.225</td>
+      <td>TRBV7</td>
+      <td>TRAV26</td>
+      <td>...</td>
+      <td>homo sapiens</td>
+      <td>NaN</td>
+      <td>homo sapiens</td>
+      <td>homo sapiens</td>
+      <td>Archbold, J.K., Macdonald, W.A., Gras, S., Ros...</td>
+      <td>3.500</td>
+      <td>X-RAY DIFFRACTION</td>
+      <td>0.330</td>
+      <td>0.286</td>
+      <td>True</td>
+    </tr>
+  </tbody>
+</table>
+<p>302 rows × 24 columns</p>
+</div></div>
+</div>
+</section>
+<section id="Determine-contacting-residues">
+<h2>Determine contacting residues<a class="headerlink" href="#Determine-contacting-residues" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>contacts = []
+
+for _, row in selected_stcrdab.iterrows():
+    path = os.path.join(STCRDAB_PATH, &#39;imgt&#39;, f&#39;{row.pdb}.pdb&#39;)
+
+    with open(path, &#39;r&#39;) as fh:
+        df = parse_pdb_to_pandas(fh.read())
+
+    chain_annotations = {}
+    chain_annotations[row.Achain] = &#39;alpha_chain&#39;
+    chain_annotations[row.Bchain] = &#39;beta_chain&#39;
+    chain_annotations[row.antigen_chain] = &#39;antigen_chain&#39;
+    chain_annotations[row.mhc_chain1] = &#39;mhc_chain&#39;
+
+    df[&#39;chain_type&#39;] = df[&#39;chain_id&#39;].map(lambda id_: chain_annotations[id_] if id_ in chain_annotations else None)
+    df[&#39;cdr&#39;] = df[&#39;residue_seq_id&#39;].map(assign_cdr_number)
+
+    mhc_df = df.query(&quot;chain_type == &#39;mhc_chain&#39; and residue_seq_id &lt; 1090&quot;)
+    peptide_df = df.query(&quot;chain_type == &#39;antigen_chain&#39;&quot;).copy()
+    tcr_cdrs_df = df.query(&quot;(chain_type == &#39;alpha_chain&#39; or chain_type == &#39;beta_chain&#39;) and cdr.notnull()&quot;)
+
+    peptide_df_per_res = peptide_df.groupby([&#39;residue_seq_id&#39;, &#39;residue_insert_code&#39;, &#39;residue_name&#39;], dropna=False)
+    group_mapping = {group: idx for idx, group in enumerate(peptide_df_per_res.groups.keys(), 1)}
+
+    peptide_df[&#39;peptide_length&#39;] = max(group_mapping.values())
+    peptide_df[&#39;peptide_position&#39;] = peptide_df[[&#39;residue_seq_id&#39;,
+                                                 &#39;residue_insert_code&#39;,
+                                                 &#39;residue_name&#39;]].apply(tuple, axis=&#39;columns&#39;).map(group_mapping)
+
+    tcr_mhc_interface = tcr_cdrs_df.merge(mhc_df, how=&#39;cross&#39;, suffixes=(&#39;_tcr&#39;, &#39;_mhc&#39;))
+    tcr_mhc_interface[&#39;distance&#39;] = np.sqrt(np.square(tcr_mhc_interface[&#39;pos_x_tcr&#39;]
+                                                       - tcr_mhc_interface[&#39;pos_x_mhc&#39;])
+                                             + np.square(tcr_mhc_interface[&#39;pos_y_tcr&#39;]
+                                                         - tcr_mhc_interface[&#39;pos_y_mhc&#39;])
+                                             + np.square(tcr_mhc_interface[&#39;pos_z_tcr&#39;]
+                                                         - tcr_mhc_interface[&#39;pos_z_mhc&#39;]))
+
+    tcr_peptide_interface = tcr_cdrs_df.merge(peptide_df, how=&#39;cross&#39;, suffixes=(&#39;_tcr&#39;, &#39;_peptide&#39;))
+    tcr_peptide_interface[&#39;distance&#39;] = np.sqrt(np.square(tcr_peptide_interface[&#39;pos_x_tcr&#39;]
+                                                          - tcr_peptide_interface[&#39;pos_x_peptide&#39;])
+                                                + np.square(tcr_peptide_interface[&#39;pos_y_tcr&#39;]
+                                                            - tcr_peptide_interface[&#39;pos_y_peptide&#39;])
+                                                + np.square(tcr_peptide_interface[&#39;pos_z_tcr&#39;]
+                                                            - tcr_peptide_interface[&#39;pos_z_peptide&#39;]))
+
+    contacts_tcr_mhc = tcr_mhc_interface.query(&#39;distance &lt; @CUTOFF_DISTANCE&#39;).copy()
+    contacts_tcr_mhc[&#39;path&#39;] = path
+    contacts_tcr_mhc[&#39;interface_type&#39;] = &#39;tcr_mhc&#39;
+    contacts.append(contacts_tcr_mhc)
+
+    contacts_tcr_peptide = tcr_peptide_interface.query(&#39;distance &lt; @CUTOFF_DISTANCE&#39;).copy()
+    contacts_tcr_peptide[&#39;path&#39;] = path
+    contacts_tcr_peptide[&#39;interface_type&#39;] = &#39;tcr_peptide&#39;
+    contacts.append(contacts_tcr_peptide)
+
+contacts = pd.concat(contacts)
+contacts
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>record_type_tcr</th>
+      <th>atom_number_tcr</th>
+      <th>atom_name_tcr</th>
+      <th>alt_loc_tcr</th>
+      <th>residue_name_tcr</th>
+      <th>chain_id_tcr</th>
+      <th>residue_seq_id_tcr</th>
+      <th>residue_insert_code_tcr</th>
+      <th>pos_x_tcr</th>
+      <th>pos_y_tcr</th>
+      <th>...</th>
+      <th>pos_y_peptide</th>
+      <th>pos_z_peptide</th>
+      <th>occupancy_peptide</th>
+      <th>b_factor_peptide</th>
+      <th>element_peptide</th>
+      <th>charge_peptide</th>
+      <th>chain_type_peptide</th>
+      <th>cdr_peptide</th>
+      <th>peptide_length</th>
+      <th>peptide_position</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>69473</th>
+      <td>ATOM</td>
+      <td>472</td>
+      <td>C</td>
+      <td>None</td>
+      <td>ASN</td>
+      <td>E</td>
+      <td>57</td>
+      <td>None</td>
+      <td>12.312</td>
+      <td>-60.161</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>69474</th>
+      <td>ATOM</td>
+      <td>472</td>
+      <td>C</td>
+      <td>None</td>
+      <td>ASN</td>
+      <td>E</td>
+      <td>57</td>
+      <td>None</td>
+      <td>12.312</td>
+      <td>-60.161</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>70937</th>
+      <td>ATOM</td>
+      <td>473</td>
+      <td>O</td>
+      <td>None</td>
+      <td>ASN</td>
+      <td>E</td>
+      <td>57</td>
+      <td>None</td>
+      <td>11.507</td>
+      <td>-60.966</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>70938</th>
+      <td>ATOM</td>
+      <td>473</td>
+      <td>O</td>
+      <td>None</td>
+      <td>ASN</td>
+      <td>E</td>
+      <td>57</td>
+      <td>None</td>
+      <td>11.507</td>
+      <td>-60.966</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>70939</th>
+      <td>ATOM</td>
+      <td>473</td>
+      <td>O</td>
+      <td>None</td>
+      <td>ASN</td>
+      <td>E</td>
+      <td>57</td>
+      <td>None</td>
+      <td>11.507</td>
+      <td>-60.966</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>31515</th>
+      <td>ATOM</td>
+      <td>10078</td>
+      <td>CD2</td>
+      <td>None</td>
+      <td>TYR</td>
+      <td>N</td>
+      <td>113</td>
+      <td>None</td>
+      <td>-51.375</td>
+      <td>74.966</td>
+      <td>...</td>
+      <td>73.846</td>
+      <td>-3.678</td>
+      <td>1.0</td>
+      <td>63.86</td>
+      <td>O</td>
+      <td>None</td>
+      <td>antigen_chain</td>
+      <td>NaN</td>
+      <td>10.0</td>
+      <td>4.0</td>
+    </tr>
+    <tr>
+      <th>31516</th>
+      <td>ATOM</td>
+      <td>10078</td>
+      <td>CD2</td>
+      <td>None</td>
+      <td>TYR</td>
+      <td>N</td>
+      <td>113</td>
+      <td>None</td>
+      <td>-51.375</td>
+      <td>74.966</td>
+      <td>...</td>
+      <td>75.095</td>
+      <td>-6.148</td>
+      <td>1.0</td>
+      <td>63.91</td>
+      <td>C</td>
+      <td>None</td>
+      <td>antigen_chain</td>
+      <td>NaN</td>
+      <td>10.0</td>
+      <td>4.0</td>
+    </tr>
+    <tr>
+      <th>31517</th>
+      <td>ATOM</td>
+      <td>10078</td>
+      <td>CD2</td>
+      <td>None</td>
+      <td>TYR</td>
+      <td>N</td>
+      <td>113</td>
+      <td>None</td>
+      <td>-51.375</td>
+      <td>74.966</td>
+      <td>...</td>
+      <td>76.511</td>
+      <td>-6.671</td>
+      <td>1.0</td>
+      <td>63.85</td>
+      <td>C</td>
+      <td>None</td>
+      <td>antigen_chain</td>
+      <td>NaN</td>
+      <td>10.0</td>
+      <td>4.0</td>
+    </tr>
+    <tr>
+      <th>31697</th>
+      <td>ATOM</td>
+      <td>10080</td>
+      <td>CE2</td>
+      <td>None</td>
+      <td>TYR</td>
+      <td>N</td>
+      <td>113</td>
+      <td>None</td>
+      <td>-52.313</td>
+      <td>73.948</td>
+      <td>...</td>
+      <td>73.846</td>
+      <td>-3.678</td>
+      <td>1.0</td>
+      <td>63.86</td>
+      <td>O</td>
+      <td>None</td>
+      <td>antigen_chain</td>
+      <td>NaN</td>
+      <td>10.0</td>
+      <td>4.0</td>
+    </tr>
+    <tr>
+      <th>31698</th>
+      <td>ATOM</td>
+      <td>10080</td>
+      <td>CE2</td>
+      <td>None</td>
+      <td>TYR</td>
+      <td>N</td>
+      <td>113</td>
+      <td>None</td>
+      <td>-52.313</td>
+      <td>73.948</td>
+      <td>...</td>
+      <td>75.095</td>
+      <td>-6.148</td>
+      <td>1.0</td>
+      <td>63.91</td>
+      <td>C</td>
+      <td>None</td>
+      <td>antigen_chain</td>
+      <td>NaN</td>
+      <td>10.0</td>
+      <td>4.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>156312 rows × 56 columns</p>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>contacts[&#39;pdb_id&#39;] = contacts[&#39;path&#39;].map(lambda path: path.split(&#39;/&#39;)[-1].split(&#39;.&#39;)[0])
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def create_resi(seq_id: float, insert_code: str | float) -&gt; str | None:
+    if pd.isnull(seq_id):
+        return None
+
+    return str(int(seq_id)) + (insert_code if not pd.isnull(insert_code) else &#39;&#39;)
+
+contacts[&#39;resi_mhc&#39;] = contacts.apply(lambda row: create_resi(row.residue_seq_id_mhc, row.residue_insert_code_mhc),
+                                      axis=&#39;columns&#39;)
+contacts[&#39;resi_tcr&#39;] = contacts.apply(lambda row: create_resi(row.residue_seq_id_tcr, row.residue_insert_code_tcr),
+                                      axis=&#39;columns&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>contacts.loc[contacts[&#39;peptide_position&#39;].notnull(),
+             &#39;peptide_position&#39;] = contacts.loc[contacts[&#39;peptide_position&#39;].notnull(),
+                                                &#39;peptide_position&#39;].apply(int).apply(str)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>contacts[&#39;cdr_name&#39;] = contacts.apply(
+    lambda row: f&quot;CDR-{&#39;A&#39; if row.chain_type_tcr == &#39;alpha_chain&#39; else &#39;B&#39;}{int(row.cdr_tcr)}&quot;,
+    axis=&#39;columns&#39;,
+)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>contacts[&#39;cdr_name&#39;] = pd.Categorical(contacts[&#39;cdr_name&#39;],
+                                      [&#39;CDR-A1&#39;, &#39;CDR-A2&#39;, &#39;CDR-A3&#39;, &#39;CDR-B1&#39;, &#39;CDR-B2&#39;, &#39;CDR-B3&#39;])
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Visualising-contact-maps">
+<h2>Visualising contact maps<a class="headerlink" href="#Visualising-contact-maps" title="Link to this heading"></a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>palette = sns.color_palette([&#39;#&#39; + colour.lower()
+                             for colour in [&#39;DC91BE&#39;,&#39;C0C0C2&#39;, &#39;6490C7&#39;, &#39;963E87&#39;,&#39;2D2E62&#39;,&#39;56BBD3&#39;]], 6)
+</pre></div>
+</div>
+</div>
+<section id="TCR-Contacts-on-MHC-Molecules">
+<h3>TCR Contacts on MHC Molecules<a class="headerlink" href="#TCR-Contacts-on-MHC-Molecules" title="Link to this heading"></a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>plt.figure(figsize=(12, 5))
+
+ax = sns.histplot(contacts.query(&quot;interface_type == &#39;tcr_mhc&#39;&quot;).sort_values(&#39;residue_seq_id_mhc&#39;),
+                  x=&#39;resi_mhc&#39;,
+                  hue=&#39;cdr_name&#39;,
+                  multiple=&#39;stack&#39;,
+                  stat=&#39;percent&#39;,
+                  palette=palette)
+
+ax.legend_.set_title(title=&#39;CDR Type&#39;)
+ax.set_xlabel(&#39;IMGT Residue Number&#39;)
+ax.set_ylabel(&#39;Percent of total MHC contacts per residue&#39;)
+plt.xticks(rotation=90)
+
+plt.show()
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/source_Identify_contact_residues_on_MHC_Class_I_molecules_17_0.png" src="../_images/source_Identify_contact_residues_on_MHC_Class_I_molecules_17_0.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>mhc_labels = contacts[
+    [&#39;residue_seq_id_mhc&#39;, &#39;residue_insert_code_mhc&#39;, &#39;resi_mhc&#39;]
+].fillna(&#39;&#39;).sort_values([&#39;residue_seq_id_mhc&#39;, &#39;residue_insert_code_mhc&#39;])[&#39;resi_mhc&#39;].unique().tolist()
+
+tcr_labels = contacts[
+    [&#39;residue_seq_id_tcr&#39;, &#39;residue_insert_code_tcr&#39;, &#39;resi_tcr&#39;]
+    ].fillna(&#39;&#39;).sort_values([&#39;residue_seq_id_tcr&#39;, &#39;residue_insert_code_tcr&#39;])[&#39;resi_tcr&#39;].unique().tolist()
+
+contacts[&#39;resi_mhc&#39;] = pd.Categorical(contacts[&#39;resi_mhc&#39;], mhc_labels)
+contacts[&#39;resi_tcr&#39;] = pd.Categorical(contacts[&#39;resi_tcr&#39;], tcr_labels)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>plt.figure(figsize=(12, 10))
+
+ax = sns.histplot(contacts.query(&quot;interface_type == &#39;tcr_mhc&#39;&quot;),
+                  x=&#39;resi_mhc&#39;, y=&#39;resi_tcr&#39;,
+                  hue=&#39;cdr_name&#39;,
+                  palette=sns.color_palette(palette, 6))
+
+ax.legend_.set_title(title=&#39;CDR Type&#39;)
+ax.set_xlabel(&#39;MHC IMGT Residue Number&#39;)
+ax.set_ylabel(&#39;TCR IMGT Residue Number&#39;)
+plt.xticks(rotation=90)
+
+plt.show()
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/source_Identify_contact_residues_on_MHC_Class_I_molecules_19_0.png" src="../_images/source_Identify_contact_residues_on_MHC_Class_I_molecules_19_0.png" />
+</div>
+</div>
+</section>
+<section id="TCR-Contacts-on-Peptides">
+<h3>TCR Contacts on Peptides<a class="headerlink" href="#TCR-Contacts-on-Peptides" title="Link to this heading"></a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ax = sns.histplot(contacts.query(&quot;interface_type == &#39;tcr_peptide&#39;&quot;).sort_values(&#39;residue_seq_id_peptide&#39;),
+                  x=&#39;peptide_position&#39;,
+                  hue=&#39;cdr_name&#39;,
+                  multiple=&#39;stack&#39;,
+                  stat=&#39;percent&#39;,
+                  palette=sns.color_palette(palette, 6))
+
+ax.set_title(&#39;TCR Contacts on the Peptide&#39;)
+ax.set_xlabel(&#39;Peptide Position&#39;)
+ax.set_ylabel(&#39;Percent of total peptide contacts per residue&#39;)
+ax.legend_.set_title(title=&#39;CDR Type&#39;)
+
+plt.show()
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/source_Identify_contact_residues_on_MHC_Class_I_molecules_21_0.png" src="../_images/source_Identify_contact_residues_on_MHC_Class_I_molecules_21_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>sns.histplot(contacts.query(&quot;interface_type == &#39;tcr_peptide&#39;&quot;).drop_duplicates(&#39;path&#39;), x=&#39;peptide_length&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;AxesSubplot: xlabel=&#39;peptide_length&#39;, ylabel=&#39;Count&#39;&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/source_Identify_contact_residues_on_MHC_Class_I_molecules_22_1.png" src="../_images/source_Identify_contact_residues_on_MHC_Class_I_molecules_22_1.png" />
+</div>
+</div>
+<p>The mode of peptide lengths in 9-mers!</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ax = sns.histplot(contacts.query(&quot;interface_type == &#39;tcr_peptide&#39; and peptide_length == 9.0&quot;).sort_values(&#39;residue_seq_id_peptide&#39;),
+                  x=&#39;peptide_position&#39;,
+                  hue=&#39;cdr_name&#39;,
+                  multiple=&#39;stack&#39;,
+                  stat=&#39;percent&#39;,
+                  palette=sns.color_palette(palette, 6))
+
+ax.set_title(&#39;TCR Contacts on the nonamer-peptides&#39;)
+ax.set_xlabel(&#39;Peptide Position&#39;)
+ax.set_ylabel(&#39;Percent of total peptide contacts per residue&#39;)
+ax.legend_.set_title(title=&#39;CDR Type&#39;)
+
+plt.show()
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/source_Identify_contact_residues_on_MHC_Class_I_molecules_24_0.png" src="../_images/source_Identify_contact_residues_on_MHC_Class_I_molecules_24_0.png" />
+</div>
+</div>
+<p>For the nonamers, which is the dominant contacting loop at each peptide position?</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def select_dominant(group: pd.DataFrame) -&gt; str:
+    return group.sort_values(&#39;count&#39;, ascending=False).iloc[0][&#39;cdr_name&#39;]
+
+nonanmer_peptide_tcr_contact_counts = (contacts.query(&quot;interface_type == &#39;tcr_peptide&#39; and peptide_length == 9.0&quot;)
+                                               .value_counts([&#39;peptide_position&#39;, &#39;cdr_name&#39;]))
+nonanmer_peptide_tcr_contact_counts.name = &#39;count&#39;
+nonanmer_peptide_tcr_contact_counts = nonanmer_peptide_tcr_contact_counts.reset_index()
+
+nonanmer_peptide_tcr_contact_counts.groupby(&#39;peptide_position&#39;).apply(select_dominant)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+peptide_position
+1    CDR-A3
+2    CDR-A3
+3    CDR-A3
+4    CDR-A3
+5    CDR-A3
+6    CDR-B3
+7    CDR-B3
+8    CDR-B3
+9    CDR-B3
+dtype: object
+</pre></div></div>
+</div>
+<p>Do the non-nonamers have the same trend?</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ax = sns.histplot(contacts.query(&quot;interface_type == &#39;tcr_peptide&#39; and peptide_length != 9.0&quot;).sort_values(&#39;residue_seq_id_peptide&#39;),
+                  x=&#39;peptide_position&#39;,
+                  hue=&#39;cdr_name&#39;,
+                  multiple=&#39;stack&#39;,
+                  stat=&#39;percent&#39;,
+                  palette=sns.color_palette(palette, 6))
+
+ax.set_title(&#39;TCR Contacts on the non-nonamer-peptides&#39;)
+ax.set_xlabel(&#39;Peptide Position&#39;)
+ax.set_ylabel(&#39;Percent of total peptide contacts per residue&#39;)
+ax.legend_.set_title(title=&#39;CDR Type&#39;)
+
+plt.show()
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/source_Identify_contact_residues_on_MHC_Class_I_molecules_28_0.png" src="../_images/source_Identify_contact_residues_on_MHC_Class_I_molecules_28_0.png" />
+</div>
+</div>
+<p>Yes, it seems that they do.</p>
+</section>
+</section>
+<section id="Exporting-residue-list">
+<h2>Exporting residue list<a class="headerlink" href="#Exporting-residue-list" title="Link to this heading"></a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>contact_positions = contacts.value_counts([&#39;cdr_name&#39;, &#39;resi_mhc&#39;])
+contact_positions.name = &#39;count&#39;
+contact_positions = contact_positions.to_frame().reset_index().sort_values(&#39;resi_mhc&#39;)
+
+contact_positions.to_csv(&#39;../data/processed/mhc_contacts.csv&#39;, index=False)
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Comparison_of_apo_and_holo_CDR_loops.html" class="btn btn-neutral float-left" title="Comparison of apo and **holo* CDR loops" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Length_dependency_of_conformational_change.html" class="btn btn-neutral float-right" title="Length dependency of conformational change" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Benjamin McMaster.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

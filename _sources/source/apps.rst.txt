@@ -1,0 +1,15 @@
+Command Line Applications
+=========================
+
+.. toctree::
+   :maxdepth: 1
+
+   tcr_pmhc_interface_analysis.apps.align_tcr_pmhcs
+   tcr_pmhc_interface_analysis.apps.cluster_cdr_loop_structures
+   tcr_pmhc_interface_analysis.apps.colour_tcr_on_mhc
+   tcr_pmhc_interface_analysis.apps.compute_apo_holo_differences
+   tcr_pmhc_interface_analysis.apps.compute_pw_distances
+   tcr_pmhc_interface_analysis.apps.download_stcrdab
+   tcr_pmhc_interface_analysis.apps.renumber_structure
+   tcr_pmhc_interface_analysis.apps.sample_ots
+   tcr_pmhc_interface_analysis.apps.select_structures

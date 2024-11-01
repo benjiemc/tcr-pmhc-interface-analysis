@@ -1,0 +1,1232 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Centre of mass analysis &mdash; tcr_pmhc_interface_analysis  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Comparing apo and holo CDR loop clustering" href="Comparing_of_apo_and_holo_CDR_loop_clustering.html" />
+    <link rel="prev" title="Ascertaining the generalisability of the structure data" href="Ascertaining_the_generalisability_of_the_structure_data.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            tcr_pmhc_interface_analysis
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Analysis Results</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="notebooks.html">Analysis Notebooks</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Ascertaining_the_generalisability_of_the_structure_data.html">Ascertaining the generalisability of the structure data</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Centre of mass analysis</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Computing-Measurements">Computing Measurements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Visualizing-Results">Visualizing Results</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Changes-in-Framework-(Fw)-region-and-Loop-Anchor-Centre-of-Masses-(COM)">Changes in Framework (Fw) region and Loop Anchor Centre of Masses (COM)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Changes-in-angle-between-\alpha--and-\beta--chain">Changes in angle between <span class="math notranslate nohighlight">\(\alpha\)</span>- and <span class="math notranslate nohighlight">\(\beta\)</span>- chain</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Conclusion">Conclusion</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Comparing_of_apo_and_holo_CDR_loop_clustering.html">Comparing <em>apo</em> and <em>holo</em> CDR loop clustering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Comparison_of_apo_and_holo_CDR_loops.html">Comparison of <em>apo</em> and **holo* CDR loops</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Identify_contact_residues_on_MHC_Class_I_molecules.html">Identify contact residues on MHC Class I molecules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Length_dependency_of_conformational_change.html">Length dependency of conformational change</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Per_residue_changes_of_TCR_CDR_between_apo_and_holo_structures.html">Per residue changes of TCR CDRs between apo and holo structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Summary_of_apo_holo_data.html">Summary of <em>apo</em>-<em>holo</em> data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Visualising_CDR_loop_clustering.html">Visualising CDR loop clustering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pMHC_movement_based_on_peptide_anchoring.html">pMHC movement based on peptide anchoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pMHC_movement_between_apo_and_holo_conformations.html">pMHC movement between apo and holo conformations</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Command Line Applications</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="apps.html">Command Line Applications</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">tcr_pmhc_interface_analysis</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">tcr_pmhc_interface_analysis</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="notebooks.html">Analysis Notebooks</a></li>
+      <li class="breadcrumb-item active">Centre of mass analysis</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/source/Centre_of_mass_analysis.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Centre-of-mass-analysis">
+<h1>Centre of mass analysis<a class="headerlink" href="#Centre-of-mass-analysis" title="Link to this heading"></a></h1>
+<section id="Introduction">
+<h2>Introduction<a class="headerlink" href="#Introduction" title="Link to this heading"></a></h2>
+<p>In this notebook we aimed to identify the centre-of-mass (COM) of the TCR framework (Fw) regions and the anchors of the CDR loops. We then investigated the amount of movement these regions undergo between <em>apo</em> and <em>holo</em> states. We also used these COMs to create an axis of the TCR and measure the angle between both chains of the TCR before determining the angle changes between <em>apo</em> and <em>holo</em> states.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import os
+from collections import defaultdict
+
+import numpy as np
+import pandas as pd
+import seaborn as sns
+from python_pdb.parsers import parse_pdb_to_pandas
+
+from tcr_pmhc_interface_analysis.measurements import get_distance
+from tcr_pmhc_interface_analysis.processing import annotate_tcr_pmhc_df, find_anchors
+from tcr_pmhc_interface_analysis.utils import get_coords
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>DATA_DIR = &#39;../data/processed/apo-holo-tcr-pmhc-class-I&#39;
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>apo_holo_summary_df = pd.read_csv(os.path.join(DATA_DIR, &#39;apo_holo_summary.csv&#39;))
+apo_holo_summary_df
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>file_name</th>
+      <th>pdb_id</th>
+      <th>structure_type</th>
+      <th>state</th>
+      <th>alpha_chain</th>
+      <th>beta_chain</th>
+      <th>antigen_chain</th>
+      <th>mhc_chain1</th>
+      <th>mhc_chain2</th>
+      <th>cdr_sequences_collated</th>
+      <th>peptide_sequence</th>
+      <th>mhc_slug</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1ao7_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>1ao7</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>D</td>
+      <td>E</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>DRGSQS-IYSNGD-AVTTDSWGKLQ-MNHEY-SVGAGI-ASRPGLA...</td>
+      <td>LLFGYPVYV</td>
+      <td>hla_a_02_01</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1bd2_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>1bd2</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>D</td>
+      <td>E</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>NSMFDY-ISSIKDK-AAMEGAQKLV-MNHEY-SVGAGI-ASSYPGG...</td>
+      <td>LLFGYPVYV</td>
+      <td>hla_a_02_01</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1bii_A-B-P_pmhc.pdb</td>
+      <td>1bii</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>P</td>
+      <td>A</td>
+      <td>B</td>
+      <td>NaN</td>
+      <td>RGPGRAFVTI</td>
+      <td>h2_dd</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1ddh_A-B-P_pmhc.pdb</td>
+      <td>1ddh</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>P</td>
+      <td>A</td>
+      <td>B</td>
+      <td>NaN</td>
+      <td>RGPGRAFVTI</td>
+      <td>h2_dd</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1duz_A-B-C_pmhc.pdb</td>
+      <td>1duz</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>NaN</td>
+      <td>LLFGYPVYV</td>
+      <td>hla_a_02_01</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>353</th>
+      <td>8gon_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>8gon</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>D</td>
+      <td>E</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>TSESDYY-QEAYKQQN-ASSGNTPLV-SGHNS-FNNNVP-ASTWGR...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>354</th>
+      <td>8gop_A-B_tcr.pdb</td>
+      <td>8gop</td>
+      <td>tcr</td>
+      <td>apo</td>
+      <td>A</td>
+      <td>B</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>TSESDYY-QEAYKQQN-ASSGNTPLV-SGHNS-FNNNVP-ASTWGR...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>355</th>
+      <td>8gvb_A-B-P-H-L_tcr_pmhc.pdb</td>
+      <td>8gvb</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>A</td>
+      <td>B</td>
+      <td>P</td>
+      <td>H</td>
+      <td>L</td>
+      <td>YGATPY-YFSGDTLV-AVGFTGGGNKLT-SEHNR-FQNEAQ-ASSD...</td>
+      <td>RYPLTFGW</td>
+      <td>hla_a_24_02</td>
+    </tr>
+    <tr>
+      <th>356</th>
+      <td>8gvg_A-B-P-H-L_tcr_pmhc.pdb</td>
+      <td>8gvg</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>A</td>
+      <td>B</td>
+      <td>P</td>
+      <td>H</td>
+      <td>L</td>
+      <td>YGATPY-YFSGDTLV-AVGFTGGGNKLT-SEHNR-FQNEAQ-ASSD...</td>
+      <td>RFPLTFGW</td>
+      <td>hla_a_24_02</td>
+    </tr>
+    <tr>
+      <th>357</th>
+      <td>8gvi_A-B-P-H-L_tcr_pmhc.pdb</td>
+      <td>8gvi</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>A</td>
+      <td>B</td>
+      <td>P</td>
+      <td>H</td>
+      <td>L</td>
+      <td>YGATPY-YFSGDTLV-AVVFTGGGNKLT-SEHNR-FQNEAQ-ASSL...</td>
+      <td>RYPLTFGW</td>
+      <td>hla_a_24_02</td>
+    </tr>
+  </tbody>
+</table>
+<p>358 rows × 12 columns</p>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>complexes = [complex_id for complex_id in os.listdir(DATA_DIR)
+                 if os.path.isdir(os.path.join(DATA_DIR, complex_id))]
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Computing-Measurements">
+<h2>Computing Measurements<a class="headerlink" href="#Computing-Measurements" title="Link to this heading"></a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def calculate_angle(vec1, vec2):
+    &#39;&#39;&#39;Caculate the angle between two vectors.&#39;&#39;&#39;
+    return np.arccos(np.dot(vec1, vec2) / (np.linalg.norm(vec1) * np.linalg.norm(vec2)))
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>complex_ids = []
+structure_x_paths = []
+structure_y_paths = []
+
+alpha_anchor_com_diffs = []
+beta_anchor_com_diffs = []
+
+alpha_fw_com_diffs = []
+beta_fw_com_diffs = []
+
+chain_angle_diffs = []
+
+for complex_id in complexes:
+    complex_path = os.path.join(DATA_DIR, complex_id)
+    complex_pdb_files = [file_ for file_ in os.listdir(complex_path) if file_.endswith(&#39;.pdb&#39;)]
+    complex_summary = apo_holo_summary_df[apo_holo_summary_df[&#39;file_name&#39;].isin(complex_pdb_files)]
+
+    comparison_structures = complex_summary.query(&quot;structure_type == &#39;tcr&#39; or state == &#39;holo&#39;&quot;)
+    comparisons = pd.merge(comparison_structures, comparison_structures, how=&#39;cross&#39;)
+    comparisons[&#39;comparison&#39;] = comparisons.apply(lambda row: &#39;-&#39;.join(sorted([row.file_name_x, row.file_name_y])),
+                                                  axis=&#39;columns&#39;)
+    comparisons = comparisons.drop_duplicates(&#39;comparison&#39;)
+    comparisons = comparisons.drop(&#39;comparison&#39;, axis=&#39;columns&#39;)
+    comparisons = comparisons.query(&#39;file_name_x != file_name_y&#39;)
+
+    for _, comparison in comparisons.iterrows():
+        tcrs = []
+        for suffix in &#39;_x&#39;, &#39;_y&#39;:
+            with open(os.path.join(complex_path, comparison[&#39;file_name&#39; + suffix]), &#39;r&#39;) as fh:
+                structure_df = parse_pdb_to_pandas(fh.read())
+
+            chains = comparison.filter(like=&#39;chain&#39;).filter(regex=f&#39;{suffix}$&#39;).replace({np.nan: None}).tolist()
+            structure_df = annotate_tcr_pmhc_df(structure_df, *chains)
+
+            structure_df[&#39;backbone&#39;] = structure_df[&#39;atom_name&#39;].map(
+                lambda atom_name: (atom_name == &#39;N&#39; or atom_name == &#39;CA&#39; or atom_name == &#39;C&#39; or atom_name == &#39;O&#39;)
+            )
+            tcr_df = structure_df.query(&quot;chain_type in [&#39;alpha_chain&#39;, &#39;beta_chain&#39;]&quot;).copy().reset_index()
+
+            tcrs.append(tcr_df)
+
+        tcr_x, tcr_y = tcrs
+
+         # Compute C.O.Ms and coordinate vectors
+        calculations = defaultdict(dict)
+
+        for label, tcr_df in ((&#39;x&#39;, tcr_x), (&#39;y&#39;, tcr_y)):
+            for chain_type in (&#39;alpha_chain&#39;, &#39;beta_chain&#39;):
+                anchors_ca = pd.DataFrame()
+
+                for cdr in (1, 2, 3):
+                    cdr_df = tcr_df.query(&#39;chain_type == @chain_type and cdr == @cdr&#39;)
+
+                    for cdr_anchor in find_anchors(cdr_df, tcr_df):
+                        anchors_ca = pd.concat([anchors_ca, cdr_anchor.query(&quot;atom_name == &#39;CA&#39;&quot;)])
+
+                fw_ca_df = tcr_df.query(&quot;cdr.isnull() and residue_seq_id &lt;= 128 and chain_type == @chain_type and atom_name == &#39;CA&#39;&quot;)
+
+                anchors_com = np.average(get_coords(anchors_ca), axis=0)
+                fw_com = np.average(get_coords(fw_ca_df), axis=0)
+
+                tcr_chain_direction_vec = fw_com - anchors_com
+
+                calculations[label][chain_type] = {}
+
+                calculations[label][chain_type][&#39;anchors_com&#39;] = anchors_com
+                calculations[label][chain_type][&#39;fw_com&#39;] = fw_com
+                calculations[label][chain_type][&#39;direction_vector&#39;] = tcr_chain_direction_vec
+
+        # Calculate differences
+        chain_anchor_com = []
+        chain_fw_com = []
+        for chain_type in (&#39;alpha_chain&#39;, &#39;beta_chain&#39;):
+            chain_anchor_com.append(get_distance(calculations[&#39;x&#39;][chain_type][&#39;anchors_com&#39;],
+                                                 calculations[&#39;y&#39;][chain_type][&#39;anchors_com&#39;]))
+
+            chain_fw_com.append(get_distance(calculations[&#39;x&#39;][chain_type][&#39;fw_com&#39;],
+                                             calculations[&#39;y&#39;][chain_type][&#39;fw_com&#39;]))
+
+
+        angle_x = calculate_angle(calculations[&#39;x&#39;][&#39;alpha_chain&#39;][&#39;direction_vector&#39;],
+                                    calculations[&#39;x&#39;][&#39;beta_chain&#39;][&#39;direction_vector&#39;])
+
+        angle_y = calculate_angle(calculations[&#39;y&#39;][&#39;alpha_chain&#39;][&#39;direction_vector&#39;],
+                                     calculations[&#39;y&#39;][&#39;beta_chain&#39;][&#39;direction_vector&#39;])
+
+        angle_diff = angle_y - angle_x
+
+        # Collect Data
+        complex_ids.append(complex_id)
+        structure_x_paths.append(comparison[&#39;file_name_x&#39;])
+        structure_y_paths.append(comparison[&#39;file_name_y&#39;])
+
+        alpha_anchor_com_diffs.append(chain_anchor_com[0])
+        beta_anchor_com_diffs.append(chain_anchor_com[1])
+
+        alpha_fw_com_diffs.append(chain_fw_com[0])
+        beta_fw_com_diffs.append(chain_fw_com[1])
+
+        chain_angle_diffs.append(angle_diff)
+
+results = pd.DataFrame({
+    &#39;complex_id&#39;: complex_ids,
+    &#39;structure_x_path&#39;: structure_x_paths,
+    &#39;structure_y_path&#39;: structure_y_paths,
+    &#39;alpha_anchor_com_diff&#39;: alpha_anchor_com_diffs,
+    &#39;beta_anchor_com_diff&#39;: beta_anchor_com_diffs,
+    &#39;alpha_fw_com_diff&#39;: alpha_fw_com_diffs,
+    &#39;beta_fw_com_diff&#39;: beta_fw_com_diffs,
+    &#39;chain_angle_diff&#39;: chain_angle_diffs,
+})
+results
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>complex_id</th>
+      <th>structure_x_path</th>
+      <th>structure_y_path</th>
+      <th>alpha_anchor_com_diff</th>
+      <th>beta_anchor_com_diff</th>
+      <th>alpha_fw_com_diff</th>
+      <th>beta_fw_com_diff</th>
+      <th>chain_angle_diff</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qeu_A-B_tcr.pdb</td>
+      <td>0.645120</td>
+      <td>0.457327</td>
+      <td>0.219777</td>
+      <td>0.166987</td>
+      <td>-0.033421</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qeu_D-E_tcr.pdb</td>
+      <td>0.527090</td>
+      <td>0.340932</td>
+      <td>0.164026</td>
+      <td>0.213055</td>
+      <td>-0.040502</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc</td>
+      <td>3qeu_A-B_tcr.pdb</td>
+      <td>3qeu_D-E_tcr.pdb</td>
+      <td>0.682250</td>
+      <td>0.284114</td>
+      <td>0.334339</td>
+      <td>0.064055</td>
+      <td>-0.007081</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>5c0a_D-E-C-A-B_tcr_pmhc</td>
+      <td>3utp_D-E_tcr.pdb</td>
+      <td>3utp_K-L_tcr.pdb</td>
+      <td>0.304534</td>
+      <td>0.602875</td>
+      <td>0.290645</td>
+      <td>0.338509</td>
+      <td>0.041175</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5c0a_D-E-C-A-B_tcr_pmhc</td>
+      <td>3utp_D-E_tcr.pdb</td>
+      <td>5c0a_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>0.292352</td>
+      <td>0.514781</td>
+      <td>0.334429</td>
+      <td>0.270019</td>
+      <td>0.032863</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>260</th>
+      <td>5nmg_I-J-H-F-G_tcr_pmhc</td>
+      <td>5nmd_A-B_tcr.pdb</td>
+      <td>5nmd_C-D_tcr.pdb</td>
+      <td>0.234261</td>
+      <td>0.191756</td>
+      <td>0.035814</td>
+      <td>0.154754</td>
+      <td>-0.011535</td>
+    </tr>
+    <tr>
+      <th>261</th>
+      <td>5nmg_I-J-H-F-G_tcr_pmhc</td>
+      <td>5nmd_A-B_tcr.pdb</td>
+      <td>5nmg_I-J-H-F-G_tcr_pmhc.pdb</td>
+      <td>0.600266</td>
+      <td>0.408148</td>
+      <td>0.183775</td>
+      <td>0.178921</td>
+      <td>0.028342</td>
+    </tr>
+    <tr>
+      <th>262</th>
+      <td>5nmg_I-J-H-F-G_tcr_pmhc</td>
+      <td>5nmd_C-D_tcr.pdb</td>
+      <td>5nmg_I-J-H-F-G_tcr_pmhc.pdb</td>
+      <td>0.367783</td>
+      <td>0.301645</td>
+      <td>0.148664</td>
+      <td>0.271494</td>
+      <td>0.039878</td>
+    </tr>
+    <tr>
+      <th>263</th>
+      <td>5yxu_A-B-I-C-D_tcr_pmhc</td>
+      <td>5yxu_A-B-I-C-D_tcr_pmhc.pdb</td>
+      <td>5yxu_F-G_tcr.pdb</td>
+      <td>0.283526</td>
+      <td>0.094541</td>
+      <td>0.313619</td>
+      <td>0.237034</td>
+      <td>0.006849</td>
+    </tr>
+    <tr>
+      <th>264</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7n1d_A-B_tcr.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>0.642809</td>
+      <td>0.188609</td>
+      <td>0.388833</td>
+      <td>0.291080</td>
+      <td>0.001583</td>
+    </tr>
+  </tbody>
+</table>
+<p>265 rows × 8 columns</p>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>apo_holo_summary_df[&#39;ids&#39;] = apo_holo_summary_df[&#39;file_name&#39;].str.replace(&#39;.pdb&#39;, &#39;&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/var/scratch/bmcmaste/1760251/ipykernel_865377/2116153506.py:1: FutureWarning: The default value of regex will change from True to False in a future version.
+  apo_holo_summary_df[&#39;ids&#39;] = apo_holo_summary_df[&#39;file_name&#39;].str.replace(&#39;.pdb&#39;, &#39;&#39;)
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>results = results.merge(apo_holo_summary_df[[&#39;ids&#39;, &#39;cdr_sequences_collated&#39;, &#39;mhc_slug&#39;, &#39;peptide_sequence&#39;]],
+                        how=&#39;left&#39;,
+                        left_on=&#39;complex_id&#39;, right_on=&#39;ids&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>results = results.merge(
+    apo_holo_summary_df[[&#39;file_name&#39;, &#39;structure_type&#39;, &#39;state&#39;]],
+    how=&#39;left&#39;,
+    left_on=&#39;structure_x_path&#39;, right_on=&#39;file_name&#39;,
+).merge(
+    apo_holo_summary_df[[&#39;file_name&#39;, &#39;structure_type&#39;, &#39;state&#39;]],
+    how=&#39;left&#39;,
+    left_on=&#39;structure_y_path&#39;, right_on=&#39;file_name&#39;,
+)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>results[&#39;composite_name&#39;] = results.apply(lambda row: &#39;-&#39;.join(sorted([row.structure_x_path, row.structure_y_path])), axis=&#39;columns&#39;)
+results = results.drop_duplicates(&#39;composite_name&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>apo_holo_results = results.query(&#39;state_x != state_y&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>apo_holo_results_norm = apo_holo_results.groupby(&#39;cdr_sequences_collated&#39;).agg({
+    &#39;alpha_anchor_com_diff&#39;: &#39;mean&#39;,
+    &#39;beta_anchor_com_diff&#39;: &#39;mean&#39;,
+    &#39;alpha_fw_com_diff&#39;: &#39;mean&#39;,
+    &#39;beta_fw_com_diff&#39;: &#39;mean&#39;,
+    &#39;chain_angle_diff&#39;: &#39;mean&#39;,
+})
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>apo_holo_results_norm[&#39;chain_angle_diff_deg&#39;] = apo_holo_results_norm[&#39;chain_angle_diff&#39;].apply(np.degrees)
+apo_holo_results_norm[&#39;chain_angle_diff_deg_mag&#39;] = apo_holo_results_norm[&#39;chain_angle_diff_deg&#39;].apply(np.abs)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>apo_holo_results_norm
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>alpha_anchor_com_diff</th>
+      <th>beta_anchor_com_diff</th>
+      <th>alpha_fw_com_diff</th>
+      <th>beta_fw_com_diff</th>
+      <th>chain_angle_diff</th>
+      <th>chain_angle_diff_deg</th>
+      <th>chain_angle_diff_deg_mag</th>
+    </tr>
+    <tr>
+      <th>cdr_sequences_collated</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>ATGYPS-ATKADDK-ALSDPVNDMR-SGHAT-FQNNGV-ASSLRGRGDQPQH</th>
+      <td>0.340963</td>
+      <td>0.160583</td>
+      <td>0.335554</td>
+      <td>0.092950</td>
+      <td>-0.014279</td>
+      <td>-0.818098</td>
+      <td>0.818098</td>
+    </tr>
+    <tr>
+      <th>DRGSQS-IYSNGD-ALTRGPGNQFY-SGHVS-FNYEAQ-ASSSPGGVSTEAF</th>
+      <td>1.614983</td>
+      <td>0.363393</td>
+      <td>1.286903</td>
+      <td>0.279959</td>
+      <td>-0.062121</td>
+      <td>-3.559295</td>
+      <td>3.559295</td>
+    </tr>
+    <tr>
+      <th>DRGSQS-IYSNGD-AVNFGGGKLI-MRHNA-SNTAGT-ASSLSFGTEAF</th>
+      <td>0.626083</td>
+      <td>0.366441</td>
+      <td>0.250095</td>
+      <td>0.178326</td>
+      <td>-0.001998</td>
+      <td>-0.114483</td>
+      <td>0.114483</td>
+    </tr>
+    <tr>
+      <th>DRGSQS-IYSNGD-AVNRDDKII-SEHNR-FQNEAQ-ASSPDIEQY</th>
+      <td>0.624668</td>
+      <td>0.204869</td>
+      <td>0.302308</td>
+      <td>0.186851</td>
+      <td>-0.011943</td>
+      <td>-0.684280</td>
+      <td>0.684280</td>
+    </tr>
+    <tr>
+      <th>DRGSQS-IYSNGD-AVRTNSGYALN-QGHDT-YYEEEE-ASSDTVSYEQY</th>
+      <td>0.362689</td>
+      <td>0.550055</td>
+      <td>0.145354</td>
+      <td>0.181286</td>
+      <td>0.027609</td>
+      <td>1.581901</td>
+      <td>1.581901</td>
+    </tr>
+    <tr>
+      <th>DRGSQS-IYSNGD-AVTTDSWGKLQ-MNHEY-SVGAGI-ASRPGLAGGRPEQY</th>
+      <td>0.385751</td>
+      <td>0.657747</td>
+      <td>0.300314</td>
+      <td>0.374858</td>
+      <td>0.018630</td>
+      <td>1.067402</td>
+      <td>1.067402</td>
+    </tr>
+    <tr>
+      <th>DRGSQS-IYSNGD-GTYNQGGKLI-MNHEY-SMNVEV-ASSGASHEQY</th>
+      <td>1.017497</td>
+      <td>0.357841</td>
+      <td>0.276897</td>
+      <td>0.223025</td>
+      <td>0.091942</td>
+      <td>5.267913</td>
+      <td>5.267913</td>
+    </tr>
+    <tr>
+      <th>DSAIYN-IQSSQRE-AQLNQAGTALI-MNHEY-SVGAGI-ASSYGTGINYGYT</th>
+      <td>0.596772</td>
+      <td>0.032190</td>
+      <td>0.184380</td>
+      <td>0.213406</td>
+      <td>-0.037547</td>
+      <td>-2.151258</td>
+      <td>2.151258</td>
+    </tr>
+    <tr>
+      <th>DSAIYN-IQSSQRE-AVRMDSSYKLI-SEHNR-FQNEAQ-ASSSWDTGELF</th>
+      <td>0.264265</td>
+      <td>0.248560</td>
+      <td>0.103594</td>
+      <td>0.098554</td>
+      <td>-0.009340</td>
+      <td>-0.535154</td>
+      <td>0.535154</td>
+    </tr>
+    <tr>
+      <th>DSAIYN-IQSSQRE-AVRPLLDGTYIPT-MNHEY-SVGAGT-ASSYLGNTGELF</th>
+      <td>0.408007</td>
+      <td>0.394163</td>
+      <td>0.483043</td>
+      <td>0.506659</td>
+      <td>0.044708</td>
+      <td>2.561604</td>
+      <td>2.561604</td>
+    </tr>
+    <tr>
+      <th>DSAIYN-IQSSQRE-AVRPTSGGSYIPT-MNHEY-SVGAGI-ASSYVGNTGELF</th>
+      <td>0.510472</td>
+      <td>0.378292</td>
+      <td>0.388653</td>
+      <td>0.280078</td>
+      <td>-0.013727</td>
+      <td>-0.786515</td>
+      <td>0.786515</td>
+    </tr>
+    <tr>
+      <th>FLGSQS-TYREGD-AVNDGGRLT-GTSNPN-WGPFG-AWSETGLGMGGWQ</th>
+      <td>0.520622</td>
+      <td>0.385860</td>
+      <td>0.254620</td>
+      <td>0.288849</td>
+      <td>-0.009649</td>
+      <td>-0.552852</td>
+      <td>0.552852</td>
+    </tr>
+    <tr>
+      <th>NIATNDY-GYKTK-LVGEILDNFNKFY-MDHEN-SYDVKM-ASSQRQEGDTQY</th>
+      <td>0.570818</td>
+      <td>0.282032</td>
+      <td>0.423455</td>
+      <td>0.414862</td>
+      <td>0.023776</td>
+      <td>1.362237</td>
+      <td>1.362237</td>
+    </tr>
+    <tr>
+      <th>NSAFDY-ILSVSNK-AASASFGDNSKLI-MSHET-SYDVDS-ASSLGHTEVF</th>
+      <td>0.124907</td>
+      <td>0.468265</td>
+      <td>0.138290</td>
+      <td>0.401072</td>
+      <td>0.016898</td>
+      <td>0.968205</td>
+      <td>0.968205</td>
+    </tr>
+    <tr>
+      <th>NSAFQY-TYSSGN-AMRGDSSYKLI-SGHDY-FNNNVP-ASSLWEKLAKNIQY</th>
+      <td>0.296695</td>
+      <td>0.381612</td>
+      <td>0.262137</td>
+      <td>0.276894</td>
+      <td>0.025618</td>
+      <td>1.467794</td>
+      <td>1.467794</td>
+    </tr>
+    <tr>
+      <th>NSASQS-VYSSG-VVQPGGYQKVT-MNHNS-SASEGT-ASSEGLWQVGDEQY</th>
+      <td>0.194964</td>
+      <td>0.279496</td>
+      <td>0.157453</td>
+      <td>0.355964</td>
+      <td>0.016874</td>
+      <td>0.966819</td>
+      <td>0.966819</td>
+    </tr>
+    <tr>
+      <th>NSASQS-VYSSG-VVRAGKLI-MNHEY-SVGEGT-ASGQGNFDIQY</th>
+      <td>0.392269</td>
+      <td>0.274606</td>
+      <td>0.158128</td>
+      <td>0.199036</td>
+      <td>-0.023181</td>
+      <td>-1.328174</td>
+      <td>1.328174</td>
+    </tr>
+    <tr>
+      <th>SVFSS-VVTGGEV-AGAGSQGNLI-LNHDA-SQIVND-ASSSRSSYEQY</th>
+      <td>0.958644</td>
+      <td>0.472360</td>
+      <td>0.360223</td>
+      <td>0.345909</td>
+      <td>0.028590</td>
+      <td>1.638094</td>
+      <td>1.638094</td>
+    </tr>
+    <tr>
+      <th>TISGNEY-GLKNN-IVWGGYQKVT-SEHNR-FQNEAQ-ASRYRDDSYNEQF</th>
+      <td>1.076693</td>
+      <td>1.254781</td>
+      <td>0.466742</td>
+      <td>0.428322</td>
+      <td>0.074629</td>
+      <td>4.275936</td>
+      <td>4.275936</td>
+    </tr>
+    <tr>
+      <th>TISGTDY-GLTSN-ILPLAGGTSYGKLT-SGHVS-FQNEAQ-ASSLGQAYEQY</th>
+      <td>0.742800</td>
+      <td>0.218874</td>
+      <td>0.212584</td>
+      <td>0.086862</td>
+      <td>0.005153</td>
+      <td>0.295263</td>
+      <td>0.295263</td>
+    </tr>
+    <tr>
+      <th>TSENDYI-QEAYKQQN-AYGEDDKII-MGHDK-SYGVNS-ASRRGSAELY</th>
+      <td>0.283526</td>
+      <td>0.094541</td>
+      <td>0.313619</td>
+      <td>0.237034</td>
+      <td>0.006849</td>
+      <td>0.392417</td>
+      <td>0.392417</td>
+    </tr>
+    <tr>
+      <th>TSESDYY-QEAYKQQN-ASSGNTPLV-SGHNS-FNNNVP-ASTWGRASTDTQY</th>
+      <td>1.346103</td>
+      <td>0.398149</td>
+      <td>0.348850</td>
+      <td>0.216115</td>
+      <td>-0.103135</td>
+      <td>-5.909185</td>
+      <td>5.909185</td>
+    </tr>
+    <tr>
+      <th>YSATPY-YYSGDPVV-AVSAKGTGSKLS-NSHNY-SYGAGN-ASSDAPGQLY</th>
+      <td>0.540875</td>
+      <td>0.426192</td>
+      <td>0.526714</td>
+      <td>0.731495</td>
+      <td>-0.043797</td>
+      <td>-2.509360</td>
+      <td>2.509360</td>
+    </tr>
+    <tr>
+      <th>YSATPY-YYSGDPVV-AVSGFASALT-NNHNN-SYGAGS-ASGGGGTLY</th>
+      <td>0.364028</td>
+      <td>0.458383</td>
+      <td>0.133653</td>
+      <td>0.122776</td>
+      <td>-0.009807</td>
+      <td>-0.561905</td>
+      <td>0.561905</td>
+    </tr>
+    <tr>
+      <th>YSGSPE-HISR-ALSGFNNAGNMLT-SGHAT-FQNNGV-ASSLGGAGGADTQY</th>
+      <td>0.796027</td>
+      <td>0.388025</td>
+      <td>0.043012</td>
+      <td>0.054271</td>
+      <td>0.112168</td>
+      <td>6.426748</td>
+      <td>6.426748</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+<section id="Visualizing-Results">
+<h2>Visualizing Results<a class="headerlink" href="#Visualizing-Results" title="Link to this heading"></a></h2>
+<section id="Changes-in-Framework-(Fw)-region-and-Loop-Anchor-Centre-of-Masses-(COM)">
+<h3>Changes in Framework (Fw) region and Loop Anchor Centre of Masses (COM)<a class="headerlink" href="#Changes-in-Framework-(Fw)-region-and-Loop-Anchor-Centre-of-Masses-(COM)" title="Link to this heading"></a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>coms = apo_holo_results_norm.melt(value_vars=[&#39;alpha_anchor_com_diff&#39;, &#39;beta_anchor_com_diff&#39;, &#39;alpha_fw_com_diff&#39;, &#39;beta_fw_com_diff&#39;],
+                                  var_name=&#39;location&#39;,
+                                  value_name=&#39;com_diff&#39;)
+
+coms[&#39;chain_type&#39;] = coms[&#39;location&#39;].map(lambda location: location.split(&#39;_&#39;)[0])
+coms[&#39;location&#39;] = coms[&#39;location&#39;].map(lambda location: location.split(&#39;_&#39;)[1])
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>sns.boxplot(coms, y=&#39;com_diff&#39;, x=&#39;location&#39;, hue=&#39;chain_type&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;AxesSubplot: xlabel=&#39;location&#39;, ylabel=&#39;com_diff&#39;&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/source_Centre_of_mass_analysis_20_1.png" src="../_images/source_Centre_of_mass_analysis_20_1.png" />
+</div>
+</div>
+<p>There is slight movement between the COMs but not very much.</p>
+</section>
+<section id="Changes-in-angle-between-\alpha--and-\beta--chain">
+<h3>Changes in angle between <span class="math notranslate nohighlight">\(\alpha\)</span>- and <span class="math notranslate nohighlight">\(\beta\)</span>- chain<a class="headerlink" href="#Changes-in-angle-between-\alpha--and-\beta--chain" title="Link to this heading"></a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>sns.boxplot(apo_holo_results_norm, y=&#39;chain_angle_diff&#39;)
+apo_holo_results_norm[&#39;chain_angle_diff&#39;].describe()
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+count    25.000000
+mean      0.006117
+std       0.045933
+min      -0.103135
+25%      -0.013727
+50%       0.005153
+75%       0.025618
+max       0.112168
+Name: chain_angle_diff, dtype: float64
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/source_Centre_of_mass_analysis_23_1.png" src="../_images/source_Centre_of_mass_analysis_23_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>sns.boxplot(apo_holo_results_norm, y=&#39;chain_angle_diff_deg&#39;)
+apo_holo_results_norm[&#39;chain_angle_diff_deg&#39;].describe()
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+count    25.000000
+mean      0.350471
+std       2.631778
+min      -5.909185
+25%      -0.786515
+50%       0.295263
+75%       1.467794
+max       6.426748
+Name: chain_angle_diff_deg, dtype: float64
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/source_Centre_of_mass_analysis_24_1.png" src="../_images/source_Centre_of_mass_analysis_24_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>sns.boxplot(apo_holo_results_norm, y=&#39;chain_angle_diff_deg_mag&#39;)
+apo_holo_results_norm[&#39;chain_angle_diff_deg_mag&#39;].describe()
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+count    25.000000
+mean      1.911316
+std       1.802460
+min       0.114483
+25%       0.684280
+50%       1.328174
+75%       2.509360
+max       6.426748
+Name: chain_angle_diff_deg_mag, dtype: float64
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/source_Centre_of_mass_analysis_25_1.png" src="../_images/source_Centre_of_mass_analysis_25_1.png" />
+</div>
+</div>
+<p>From these plots, it does not seem that their is a lot of angular change between domains.</p>
+</section>
+</section>
+<section id="Conclusion">
+<h2>Conclusion<a class="headerlink" href="#Conclusion" title="Link to this heading"></a></h2>
+<p>Based on the results of this analysis, the TCR Fw region remains fairly static between <em>apo</em> and <em>holo</em>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Ascertaining_the_generalisability_of_the_structure_data.html" class="btn btn-neutral float-left" title="Ascertaining the generalisability of the structure data" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Comparing_of_apo_and_holo_CDR_loop_clustering.html" class="btn btn-neutral float-right" title="Comparing apo and holo CDR loop clustering" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Benjamin McMaster.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

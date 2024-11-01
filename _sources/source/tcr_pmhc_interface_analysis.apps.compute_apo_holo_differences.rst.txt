@@ -1,0 +1,42 @@
+tcr_pmhc_interface_analysis.apps.compute_apo_holo_differences
+=============================================================
+.. code-block:: text
+
+   usage: python -m tcr_pmhc_interface_analysis.apps.compute_apo_holo_differences
+          [-h] [--output OUTPUT] [--select-entities {tcr,pmhc}]
+          [--pmhc-tcr-contact-residues PMHC_TCR_CONTACT_RESIDUES [PMHC_TCR_CONTACT_RESIDUES ...]]
+          [--align-entities] [--per-residue] [--crop-to-abd]
+          [--per-residue-measurements {rmsd,ca_distance,chi_angle_change,com_distance,all} [{rmsd,ca_distance,chi_angle_change,com_distance,all} ...]]
+          [--log-level {debug,info,warning,error}]
+          input
+   
+   Compute the differences between the apo and holo forms of TCR, pMHC, and TCR:pMHCs.
+   
+   positional arguments:
+     input                 path to data directory
+   
+   options:
+     -h, --help            show this help message and exit
+     --output OUTPUT, -o OUTPUT
+                           path to output file
+     --select-entities {tcr,pmhc}
+     --pmhc-tcr-contact-residues PMHC_TCR_CONTACT_RESIDUES [PMHC_TCR_CONTACT_RESIDUES ...]
+                           if selecting pmhc, separate rmsds by tcr contact
+                           positions and not. The input here is a list of residue
+                           codes that are contact positions on the MHC.
+     --align-entities      perform an alignment on the selected entities before
+                           computing RMSD.
+     --per-residue         Perform measurements on each residue individually as
+                           oppose to the entity as a whole.
+     --crop-to-abd         Crop MHC entities to the antigen binding domain when
+                           performing comparisons
+     --per-residue-measurements {rmsd,ca_distance,chi_angle_change,com_distance,all} [{rmsd,ca_distance,chi_angle_change,com_distance,all} ...]
+                           Measurments to take between residues if `--per-
+                           residue` is selected.
+   
+   Logging:
+     Options for logging
+   
+     --log-level {debug,info,warning,error}
+                           Level to log messages at (Default: 'warning')
+   

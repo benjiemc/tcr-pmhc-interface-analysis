@@ -1,0 +1,31 @@
+tcr_pmhc_interface_analysis.apps.select_structures
+==================================================
+.. code-block:: text
+
+   usage: python -m tcr_pmhc_interface_analysis.apps.select_structures
+          [-h] [--resolution-cutoff RESOLUTION_CUTOFF] [--add-mhcs]
+          [--drop-duplicate-ids] [--output OUTPUT]
+          [--log-level {debug,info,warning,error}]
+          stcrdab
+   
+   Select apo and holo structures from the STCRDab and Histo.fyi.
+   
+   positional arguments:
+     stcrdab               Path to STCRDab
+   
+   options:
+     -h, --help            show this help message and exit
+     --resolution-cutoff RESOLUTION_CUTOFF
+                           Maximum resolution allowed from the structures
+                           (Default: 3.50)
+     --add-mhcs            Add MHC apo forms to all holo structures
+     --drop-duplicate-ids  Only keep one copy of the structure from a pdb id
+     --output OUTPUT, -o OUTPUT
+                           Path to output location
+   
+   Logging:
+     Options for logging
+   
+     --log-level {debug,info,warning,error}
+                           Level to log messages at (Default: 'warning')
+   

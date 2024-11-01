@@ -1,0 +1,32 @@
+tcr_pmhc_interface_analysis.apps.compute_pw_distances
+=====================================================
+.. code-block:: text
+
+   usage: python -m tcr_pmhc_interface_analysis.apps.compute_pw_distances
+          [-h] [--output OUTPUT] [--resolution-cutoff RESOLUTION_CUTOFF]
+          [--number-of-anchors NUMBER_OF_ANCHORS] [--compress-output]
+          [--log-level {debug,info,warning,error}]
+          stcrdab
+   
+   Compute the pairwise DTW distance between all loops in the STCRDab.
+   
+   positional arguments:
+     stcrdab               Path to STCRDab
+   
+   options:
+     -h, --help            show this help message and exit
+     --output OUTPUT, -o OUTPUT
+                           Path to output location
+     --resolution-cutoff RESOLUTION_CUTOFF
+                           Maximum resolution allowed from the structures
+                           (Default: 3.50)
+     --number-of-anchors NUMBER_OF_ANCHORS
+                           number of anchors to include in alignment (Default: 5)
+     --compress-output     compress the output matrices using gzip
+   
+   Logging:
+     Options for logging
+   
+     --log-level {debug,info,warning,error}
+                           Level to log messages at (Default: 'warning')
+   

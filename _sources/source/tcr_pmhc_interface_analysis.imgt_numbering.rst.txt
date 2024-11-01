@@ -1,0 +1,7 @@
+tcr\_pmhc\_interface\_analysis.imgt\_numbering module
+=====================================================
+
+.. automodule:: tcr_pmhc_interface_analysis.imgt_numbering
+   :members:
+   :undoc-members:
+   :show-inheritance:

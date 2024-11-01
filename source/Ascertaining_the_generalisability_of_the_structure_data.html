@@ -1,0 +1,2846 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ascertaining the generalisability of the structure data &mdash; tcr_pmhc_interface_analysis  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Centre of mass analysis" href="Centre_of_mass_analysis.html" />
+    <link rel="prev" title="Analysis Notebooks" href="notebooks.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            tcr_pmhc_interface_analysis
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Analysis Results</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="notebooks.html">Analysis Notebooks</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Ascertaining the generalisability of the structure data</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Load-Data">Load Data</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Load-OTS-data">Load OTS data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Load-STCRDab-data">Load STCRDab data</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Compare-CDR-Lengths">Compare CDR Lengths</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Compare-TCR-V-Gene-Usage">Compare TCR V Gene Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Comparison-of-amino-acide-types-in-loops">Comparison of amino acide types in loops</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Selected-structures-coverage-of-canonical-classes">Selected structures coverage of canonical classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Conclusion">Conclusion</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Centre_of_mass_analysis.html">Centre of mass analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Comparing_of_apo_and_holo_CDR_loop_clustering.html">Comparing <em>apo</em> and <em>holo</em> CDR loop clustering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Comparison_of_apo_and_holo_CDR_loops.html">Comparison of <em>apo</em> and **holo* CDR loops</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Identify_contact_residues_on_MHC_Class_I_molecules.html">Identify contact residues on MHC Class I molecules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Length_dependency_of_conformational_change.html">Length dependency of conformational change</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Per_residue_changes_of_TCR_CDR_between_apo_and_holo_structures.html">Per residue changes of TCR CDRs between apo and holo structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Summary_of_apo_holo_data.html">Summary of <em>apo</em>-<em>holo</em> data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Visualising_CDR_loop_clustering.html">Visualising CDR loop clustering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pMHC_movement_based_on_peptide_anchoring.html">pMHC movement based on peptide anchoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pMHC_movement_between_apo_and_holo_conformations.html">pMHC movement between apo and holo conformations</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Command Line Applications</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="apps.html">Command Line Applications</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">tcr_pmhc_interface_analysis</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">tcr_pmhc_interface_analysis</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="notebooks.html">Analysis Notebooks</a></li>
+      <li class="breadcrumb-item active">Ascertaining the generalisability of the structure data</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/source/Ascertaining_the_generalisability_of_the_structure_data.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Ascertaining-the-generalisability-of-the-structure-data">
+<h1>Ascertaining the generalisability of the structure data<a class="headerlink" href="#Ascertaining-the-generalisability-of-the-structure-data" title="Link to this heading"></a></h1>
+<section id="Introduction">
+<h2>Introduction<a class="headerlink" href="#Introduction" title="Link to this heading"></a></h2>
+<p>In this notebook, we set out to ascertain the generalisability of our data and analysis to the broader TCR space. We compared sequence properties of our dataset to a background of TCR sequences sampled from <a class="reference external" href="https://opig.stats.ox.ac.uk/webapps/ots/ots_paired/">OTS</a> and also look at how the selected structures fit in the overall available TCR structures space.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import seaborn as sns
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def rmsd(x: np.ndarray) -&gt; float:
+    &#39;&#39;&#39;Compute the RMSD of an array.&#39;&#39;&#39;
+    x_bar = np.mean(x)
+    n = len(x)
+    return np.sqrt(np.sum((x - x_bar) ** 2) / n)
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Load-Data">
+<h2>Load Data<a class="headerlink" href="#Load-Data" title="Link to this heading"></a></h2>
+<section id="Load-OTS-data">
+<h3>Load OTS data<a class="headerlink" href="#Load-OTS-data" title="Link to this heading"></a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ots_sample = pd.read_csv(&#39;../data/interim/ots_sample.csv&#39;)
+ots_sample
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>cdr1_aa_alpha</th>
+      <th>cdr2_aa_alpha</th>
+      <th>cdr3_aa_alpha</th>
+      <th>cdr1_aa_beta</th>
+      <th>cdr2_aa_beta</th>
+      <th>cdr3_aa_beta</th>
+      <th>v_call_alpha</th>
+      <th>v_call_beta</th>
+      <th>j_call_alpha</th>
+      <th>j_call_beta</th>
+      <th>sample_num</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>TISGNEY</td>
+      <td>GLKNN</td>
+      <td>IVRVVWGGGADGLT</td>
+      <td>SGHDN</td>
+      <td>FVKESK</td>
+      <td>ASSLLGVSTDTQY</td>
+      <td>TRAV26-1*01</td>
+      <td>TRBV14*01</td>
+      <td>TRAJ45*01</td>
+      <td>TRBJ2-3*01</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>NSMFDY</td>
+      <td>ISSIKDK</td>
+      <td>AASAQGGSYIPT</td>
+      <td>LGHDT</td>
+      <td>YNNKEL</td>
+      <td>ASSRRPTDTQY</td>
+      <td>TRAV29/DV5*04</td>
+      <td>TRBV3-1*01</td>
+      <td>TRAJ6*01</td>
+      <td>TRBJ2-3*01</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>SSNFYA</td>
+      <td>MTLNGDE</td>
+      <td>ALGRNSGNTPLV</td>
+      <td>SGHAT</td>
+      <td>FQNNGV</td>
+      <td>ASNLAGAYEQY</td>
+      <td>TRAV24*01</td>
+      <td>TRBV11-2*01</td>
+      <td>TRAJ29*01</td>
+      <td>TRBJ2-7*01</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>SSVPPY</td>
+      <td>YTTGATLV</td>
+      <td>AVSEPGSQGNLI</td>
+      <td>DFQATT</td>
+      <td>SNEGSKA</td>
+      <td>SALGQPLGETQY</td>
+      <td>TRAV8-4*01</td>
+      <td>TRBV20-1*02</td>
+      <td>TRAJ42*01</td>
+      <td>TRBJ2-5*01</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>TSGFNG</td>
+      <td>NVLDGL</td>
+      <td>AVRDLRGSQGNLI</td>
+      <td>MGHRA</td>
+      <td>YSYEKL</td>
+      <td>ASSQAPQGADTQY</td>
+      <td>TRAV1-2*01</td>
+      <td>TRBV4-1*01</td>
+      <td>TRAJ42*01</td>
+      <td>TRBJ2-3*01</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>9995</th>
+      <td>SSVSVY</td>
+      <td>YLSGSTLV</td>
+      <td>AVSVRGSQGNLI</td>
+      <td>MNHNY</td>
+      <td>SVGAGI</td>
+      <td>ASSYGNREGYT</td>
+      <td>TRAV8-6*01</td>
+      <td>TRBV6-6*01</td>
+      <td>TRAJ42*01</td>
+      <td>TRBJ1-2*01</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>9996</th>
+      <td>NSAFQY</td>
+      <td>TYSSGN</td>
+      <td>AMRRNTNAGKST</td>
+      <td>DFQATT</td>
+      <td>SNEGSKA</td>
+      <td>SAPTDPAGTEAF</td>
+      <td>TRAV12-3*01</td>
+      <td>TRBV20-1*01</td>
+      <td>TRAJ27*01</td>
+      <td>TRBJ1-1*01</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>9997</th>
+      <td>SVFSS</td>
+      <td>VVTGGEV</td>
+      <td>AAIIQGAQKLV</td>
+      <td>MDHEN</td>
+      <td>SYDVKM</td>
+      <td>ASSYQYYEQY</td>
+      <td>TRAV27*01</td>
+      <td>TRBV28*01</td>
+      <td>TRAJ54*01</td>
+      <td>TRBJ2-7*01</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>9998</th>
+      <td>DSAIYN</td>
+      <td>IQSSQRE</td>
+      <td>APYSGGGADGLT</td>
+      <td>SEHNR</td>
+      <td>FQNEAQ</td>
+      <td>ASSSGTGGVEHGYT</td>
+      <td>TRAV21*02</td>
+      <td>TRBV7-9*01</td>
+      <td>TRAJ45*01</td>
+      <td>TRBJ1-2*01</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>9999</th>
+      <td>NSAFQY</td>
+      <td>TYSSGN</td>
+      <td>AMTGAGSYQLT</td>
+      <td>LGHNA</td>
+      <td>YSLEER</td>
+      <td>ASSQELLGAELHYGYT</td>
+      <td>TRAV12-3*01</td>
+      <td>TRBV4-3*01</td>
+      <td>TRAJ28*01</td>
+      <td>TRBJ1-2*01</td>
+      <td>10</td>
+    </tr>
+  </tbody>
+</table>
+<p>10000 rows × 11 columns</p>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ots_sample_genes = ots_sample[[&#39;v_call_alpha&#39;, &#39;v_call_beta&#39;, &#39;j_call_alpha&#39;, &#39;j_call_beta&#39;, &#39;sample_num&#39;]].copy()
+
+ots_sample_genes[&#39;alpha_subgroup&#39;] = ots_sample_genes[&#39;v_call_alpha&#39;].str.extract(r&#39;^(TRAV\d+)&#39;)
+ots_sample_genes[&#39;beta_subgroup&#39;] = ots_sample_genes[&#39;v_call_beta&#39;].str.extract(r&#39;^(TRBV\d+)&#39;)
+
+ots_sample_genes
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>v_call_alpha</th>
+      <th>v_call_beta</th>
+      <th>j_call_alpha</th>
+      <th>j_call_beta</th>
+      <th>sample_num</th>
+      <th>alpha_subgroup</th>
+      <th>beta_subgroup</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>TRAV26-1*01</td>
+      <td>TRBV14*01</td>
+      <td>TRAJ45*01</td>
+      <td>TRBJ2-3*01</td>
+      <td>1</td>
+      <td>TRAV26</td>
+      <td>TRBV14</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>TRAV29/DV5*04</td>
+      <td>TRBV3-1*01</td>
+      <td>TRAJ6*01</td>
+      <td>TRBJ2-3*01</td>
+      <td>1</td>
+      <td>TRAV29</td>
+      <td>TRBV3</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>TRAV24*01</td>
+      <td>TRBV11-2*01</td>
+      <td>TRAJ29*01</td>
+      <td>TRBJ2-7*01</td>
+      <td>1</td>
+      <td>TRAV24</td>
+      <td>TRBV11</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>TRAV8-4*01</td>
+      <td>TRBV20-1*02</td>
+      <td>TRAJ42*01</td>
+      <td>TRBJ2-5*01</td>
+      <td>1</td>
+      <td>TRAV8</td>
+      <td>TRBV20</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>TRAV1-2*01</td>
+      <td>TRBV4-1*01</td>
+      <td>TRAJ42*01</td>
+      <td>TRBJ2-3*01</td>
+      <td>1</td>
+      <td>TRAV1</td>
+      <td>TRBV4</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>9995</th>
+      <td>TRAV8-6*01</td>
+      <td>TRBV6-6*01</td>
+      <td>TRAJ42*01</td>
+      <td>TRBJ1-2*01</td>
+      <td>10</td>
+      <td>TRAV8</td>
+      <td>TRBV6</td>
+    </tr>
+    <tr>
+      <th>9996</th>
+      <td>TRAV12-3*01</td>
+      <td>TRBV20-1*01</td>
+      <td>TRAJ27*01</td>
+      <td>TRBJ1-1*01</td>
+      <td>10</td>
+      <td>TRAV12</td>
+      <td>TRBV20</td>
+    </tr>
+    <tr>
+      <th>9997</th>
+      <td>TRAV27*01</td>
+      <td>TRBV28*01</td>
+      <td>TRAJ54*01</td>
+      <td>TRBJ2-7*01</td>
+      <td>10</td>
+      <td>TRAV27</td>
+      <td>TRBV28</td>
+    </tr>
+    <tr>
+      <th>9998</th>
+      <td>TRAV21*02</td>
+      <td>TRBV7-9*01</td>
+      <td>TRAJ45*01</td>
+      <td>TRBJ1-2*01</td>
+      <td>10</td>
+      <td>TRAV21</td>
+      <td>TRBV7</td>
+    </tr>
+    <tr>
+      <th>9999</th>
+      <td>TRAV12-3*01</td>
+      <td>TRBV4-3*01</td>
+      <td>TRAJ28*01</td>
+      <td>TRBJ1-2*01</td>
+      <td>10</td>
+      <td>TRAV12</td>
+      <td>TRBV4</td>
+    </tr>
+  </tbody>
+</table>
+<p>10000 rows × 7 columns</p>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ots_sample_cdrs = ots_sample.filter(regex=r&#39;^cdr\d_aa_[alpha|beta]&#39;, axis=1)
+cdr_cols = ots_sample_cdrs.columns.tolist()
+
+ots_sample_cdrs = pd.concat([ots_sample_cdrs, ots_sample[&#39;sample_num&#39;]], axis=&#39;columns&#39;)
+
+ots_sample_cdrs = ots_sample_cdrs.melt(id_vars=&#39;sample_num&#39;,
+                                       value_vars=cdr_cols,
+                                       var_name=&#39;cdr_type&#39;,
+                                       value_name=&#39;sequence&#39;)
+ots_sample_cdrs[[&#39;cdr&#39;, &#39;chain_type&#39;]] = ots_sample_cdrs[&#39;cdr_type&#39;].str.extract(&#39;cdr(\d)_aa_(alpha|beta)&#39;)
+
+ots_sample_cdrs[&#39;length&#39;] = ots_sample_cdrs[&#39;sequence&#39;].str.len()
+
+ots_sample_cdrs
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sample_num</th>
+      <th>cdr_type</th>
+      <th>sequence</th>
+      <th>cdr</th>
+      <th>chain_type</th>
+      <th>length</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>cdr1_aa_alpha</td>
+      <td>TISGNEY</td>
+      <td>1</td>
+      <td>alpha</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>cdr1_aa_alpha</td>
+      <td>NSMFDY</td>
+      <td>1</td>
+      <td>alpha</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>cdr1_aa_alpha</td>
+      <td>SSNFYA</td>
+      <td>1</td>
+      <td>alpha</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>cdr1_aa_alpha</td>
+      <td>SSVPPY</td>
+      <td>1</td>
+      <td>alpha</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1</td>
+      <td>cdr1_aa_alpha</td>
+      <td>TSGFNG</td>
+      <td>1</td>
+      <td>alpha</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>59995</th>
+      <td>10</td>
+      <td>cdr3_aa_beta</td>
+      <td>ASSYGNREGYT</td>
+      <td>3</td>
+      <td>beta</td>
+      <td>11</td>
+    </tr>
+    <tr>
+      <th>59996</th>
+      <td>10</td>
+      <td>cdr3_aa_beta</td>
+      <td>SAPTDPAGTEAF</td>
+      <td>3</td>
+      <td>beta</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <th>59997</th>
+      <td>10</td>
+      <td>cdr3_aa_beta</td>
+      <td>ASSYQYYEQY</td>
+      <td>3</td>
+      <td>beta</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>59998</th>
+      <td>10</td>
+      <td>cdr3_aa_beta</td>
+      <td>ASSSGTGGVEHGYT</td>
+      <td>3</td>
+      <td>beta</td>
+      <td>14</td>
+    </tr>
+    <tr>
+      <th>59999</th>
+      <td>10</td>
+      <td>cdr3_aa_beta</td>
+      <td>ASSQELLGAELHYGYT</td>
+      <td>3</td>
+      <td>beta</td>
+      <td>16</td>
+    </tr>
+  </tbody>
+</table>
+<p>60000 rows × 6 columns</p>
+</div></div>
+</div>
+</section>
+<section id="Load-STCRDab-data">
+<h3>Load STCRDab data<a class="headerlink" href="#Load-STCRDab-data" title="Link to this heading"></a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>stcrdab_summary = pd.read_csv(&#39;../data/raw/stcrdab/db_summary.dat&#39;, delimiter=&#39;\t&#39;)
+stcrdab_summary
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>pdb</th>
+      <th>Bchain</th>
+      <th>Achain</th>
+      <th>Dchain</th>
+      <th>Gchain</th>
+      <th>TCRtype</th>
+      <th>model</th>
+      <th>antigen_chain</th>
+      <th>antigen_type</th>
+      <th>antigen_name</th>
+      <th>...</th>
+      <th>authors</th>
+      <th>resolution</th>
+      <th>method</th>
+      <th>r_free</th>
+      <th>r_factor</th>
+      <th>affinity</th>
+      <th>affinity_method</th>
+      <th>affinity_temperature</th>
+      <th>affinity_pmid</th>
+      <th>engineered</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>7zt2</td>
+      <td>E</td>
+      <td>D</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>abTCR</td>
+      <td>0</td>
+      <td>A | A</td>
+      <td>protein | Hapten</td>
+      <td>major histocompatibility complex class i-relat...</td>
+      <td>...</td>
+      <td>Karuppiah, V., Srikannathasan, V., Robinson, R.A.</td>
+      <td>2.4</td>
+      <td>X-RAY DIFFRACTION</td>
+      <td>0.276</td>
+      <td>0.215</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>7zt3</td>
+      <td>E</td>
+      <td>D</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>abTCR</td>
+      <td>0</td>
+      <td>A</td>
+      <td>protein</td>
+      <td>major histocompatibility complex class i-relat...</td>
+      <td>...</td>
+      <td>Karuppiah, V., Srikannathasan, V., Robinson, R.A.</td>
+      <td>2.4</td>
+      <td>X-RAY DIFFRACTION</td>
+      <td>0.236</td>
+      <td>0.191</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>7zt4</td>
+      <td>E</td>
+      <td>D</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>abTCR</td>
+      <td>0</td>
+      <td>A</td>
+      <td>protein</td>
+      <td>major histocompatibility complex class i-relat...</td>
+      <td>...</td>
+      <td>Karuppiah, V., Robinson, R.A.</td>
+      <td>2.02</td>
+      <td>X-RAY DIFFRACTION</td>
+      <td>0.268</td>
+      <td>0.234</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>7zt5</td>
+      <td>E</td>
+      <td>D</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>abTCR</td>
+      <td>0</td>
+      <td>A</td>
+      <td>protein</td>
+      <td>major histocompatibility complex class i-relat...</td>
+      <td>...</td>
+      <td>Karuppiah, V., Robinson, R.A.</td>
+      <td>2.09</td>
+      <td>X-RAY DIFFRACTION</td>
+      <td>0.266</td>
+      <td>0.225</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>7zt7</td>
+      <td>E</td>
+      <td>D</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>abTCR</td>
+      <td>0</td>
+      <td>A</td>
+      <td>protein</td>
+      <td>major histocompatibility complex class i-relat...</td>
+      <td>...</td>
+      <td>Karuppiah, V., Robinson, R.A.</td>
+      <td>1.84</td>
+      <td>X-RAY DIFFRACTION</td>
+      <td>0.255</td>
+      <td>0.207</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>931</th>
+      <td>3rtq</td>
+      <td>D</td>
+      <td>C</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>abTCR</td>
+      <td>0</td>
+      <td>A</td>
+      <td>Hapten</td>
+      <td>N-[(2S,3S,4R)-3,4-DIHYDROXY-1-{[(1S,2S,3R,4R,5...</td>
+      <td>...</td>
+      <td>Yu, E.D., Zajonc, D.M.</td>
+      <td>2.8</td>
+      <td>X-RAY DIFFRACTION</td>
+      <td>0.268</td>
+      <td>0.227</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>932</th>
+      <td>3dxa</td>
+      <td>O</td>
+      <td>N</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>abTCR</td>
+      <td>0</td>
+      <td>M</td>
+      <td>peptide</td>
+      <td>ebv decapeptide epitope</td>
+      <td>...</td>
+      <td>Archbold, J.K., Macdonald, W.A., Gras, S., Ros...</td>
+      <td>3.5</td>
+      <td>X-RAY DIFFRACTION</td>
+      <td>0.330</td>
+      <td>0.286</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>933</th>
+      <td>1d9k</td>
+      <td>B</td>
+      <td>A</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>abTCR</td>
+      <td>0</td>
+      <td>P</td>
+      <td>peptide</td>
+      <td>conalbumin peptide</td>
+      <td>...</td>
+      <td>Reinherz, E.L., Tan, K., Tang, L., Kern, P., L...</td>
+      <td>3.2</td>
+      <td>X-RAY DIFFRACTION</td>
+      <td>0.293</td>
+      <td>0.247</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>934</th>
+      <td>4gg6</td>
+      <td>H</td>
+      <td>G</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>abTCR</td>
+      <td>0</td>
+      <td>J</td>
+      <td>peptide</td>
+      <td>peptide from alpha/beta-gliadin mm1</td>
+      <td>...</td>
+      <td>Broughton, S.E., Theodossis, A., Petersen, J.,...</td>
+      <td>3.2</td>
+      <td>X-RAY DIFFRACTION</td>
+      <td>0.285</td>
+      <td>0.246</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>935</th>
+      <td>2apf</td>
+      <td>A</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>Cho, S., Swaminathan, C.P., Yang, J., Kerzic, ...</td>
+      <td>1.8</td>
+      <td>X-RAY DIFFRACTION</td>
+      <td>0.263</td>
+      <td>0.197</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>True</td>
+    </tr>
+  </tbody>
+</table>
+<p>936 rows × 39 columns</p>
+</div></div>
+</div>
+<section id="Load-apo-holo-data">
+<h4>Load <em>apo</em>-<em>holo</em> data<a class="headerlink" href="#Load-apo-holo-data" title="Link to this heading"></a></h4>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>apo_holo_summary = pd.read_csv(&#39;../data/processed/apo-holo-tcr-pmhc-class-I/apo_holo_summary.csv&#39;)
+apo_holo_summary
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>file_name</th>
+      <th>pdb_id</th>
+      <th>structure_type</th>
+      <th>state</th>
+      <th>alpha_chain</th>
+      <th>beta_chain</th>
+      <th>antigen_chain</th>
+      <th>mhc_chain1</th>
+      <th>mhc_chain2</th>
+      <th>cdr_sequences_collated</th>
+      <th>peptide_sequence</th>
+      <th>mhc_slug</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1ao7_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>1ao7</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>D</td>
+      <td>E</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>DRGSQS-IYSNGD-AVTTDSWGKLQ-MNHEY-SVGAGI-ASRPGLA...</td>
+      <td>LLFGYPVYV</td>
+      <td>hla_a_02_01</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1bd2_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>1bd2</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>D</td>
+      <td>E</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>NSMFDY-ISSIKDK-AAMEGAQKLV-MNHEY-SVGAGI-ASSYPGG...</td>
+      <td>LLFGYPVYV</td>
+      <td>hla_a_02_01</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1bii_A-B-P_pmhc.pdb</td>
+      <td>1bii</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>P</td>
+      <td>A</td>
+      <td>B</td>
+      <td>NaN</td>
+      <td>RGPGRAFVTI</td>
+      <td>h2_dd</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1ddh_A-B-P_pmhc.pdb</td>
+      <td>1ddh</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>P</td>
+      <td>A</td>
+      <td>B</td>
+      <td>NaN</td>
+      <td>RGPGRAFVTI</td>
+      <td>h2_dd</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1duz_A-B-C_pmhc.pdb</td>
+      <td>1duz</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>NaN</td>
+      <td>LLFGYPVYV</td>
+      <td>hla_a_02_01</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>353</th>
+      <td>8gon_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>8gon</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>D</td>
+      <td>E</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>TSESDYY-QEAYKQQN-ASSGNTPLV-SGHNS-FNNNVP-ASTWGR...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>354</th>
+      <td>8gop_A-B_tcr.pdb</td>
+      <td>8gop</td>
+      <td>tcr</td>
+      <td>apo</td>
+      <td>A</td>
+      <td>B</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>TSESDYY-QEAYKQQN-ASSGNTPLV-SGHNS-FNNNVP-ASTWGR...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>355</th>
+      <td>8gvb_A-B-P-H-L_tcr_pmhc.pdb</td>
+      <td>8gvb</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>A</td>
+      <td>B</td>
+      <td>P</td>
+      <td>H</td>
+      <td>L</td>
+      <td>YGATPY-YFSGDTLV-AVGFTGGGNKLT-SEHNR-FQNEAQ-ASSD...</td>
+      <td>RYPLTFGW</td>
+      <td>hla_a_24_02</td>
+    </tr>
+    <tr>
+      <th>356</th>
+      <td>8gvg_A-B-P-H-L_tcr_pmhc.pdb</td>
+      <td>8gvg</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>A</td>
+      <td>B</td>
+      <td>P</td>
+      <td>H</td>
+      <td>L</td>
+      <td>YGATPY-YFSGDTLV-AVGFTGGGNKLT-SEHNR-FQNEAQ-ASSD...</td>
+      <td>RFPLTFGW</td>
+      <td>hla_a_24_02</td>
+    </tr>
+    <tr>
+      <th>357</th>
+      <td>8gvi_A-B-P-H-L_tcr_pmhc.pdb</td>
+      <td>8gvi</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>A</td>
+      <td>B</td>
+      <td>P</td>
+      <td>H</td>
+      <td>L</td>
+      <td>YGATPY-YFSGDTLV-AVVFTGGGNKLT-SEHNR-FQNEAQ-ASSL...</td>
+      <td>RYPLTFGW</td>
+      <td>hla_a_24_02</td>
+    </tr>
+  </tbody>
+</table>
+<p>358 rows × 12 columns</p>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>apo_holo_genes = apo_holo_summary.copy().merge(
+    stcrdab_summary,
+    how=&#39;left&#39;,
+    left_on=[&#39;pdb_id&#39;, &#39;alpha_chain&#39;, &#39;beta_chain&#39;],
+    right_on=[&#39;pdb&#39;, &#39;Achain&#39;, &#39;Bchain&#39;],
+).drop_duplicates([&#39;cdr_sequences_collated&#39;])[[&#39;alpha_subgroup&#39;, &#39;beta_subgroup&#39;]]
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>apo_holo_cdr_sequences = apo_holo_summary[&#39;cdr_sequences_collated&#39;].str.split(&#39;-&#39;).apply(pd.Series)
+apo_holo_cdr_sequences.columns = [&#39;cdr1_alpha&#39;, &#39;cdr2_alpha&#39;, &#39;cdr3_alpha&#39;, &#39;cdr1_beta&#39;, &#39;cdr2_beta&#39;, &#39;cdr3_beta&#39;]
+
+apo_holo_cdr_sequences = apo_holo_cdr_sequences.drop_duplicates()
+apo_holo_cdr_sequences = apo_holo_cdr_sequences.dropna()
+
+apo_holo_cdr_sequences
+apo_holo_cdr_sequences = apo_holo_cdr_sequences.melt(value_vars=apo_holo_cdr_sequences.columns,
+                                                     var_name=&#39;cdr_type&#39;,
+                                                     value_name=&#39;sequence&#39;)
+apo_holo_cdr_sequences[[&#39;cdr&#39;, &#39;chain_type&#39;]] = apo_holo_cdr_sequences[&#39;cdr_type&#39;].str.extract(&#39;cdr(\d)_(alpha|beta)&#39;)
+
+apo_holo_cdr_sequences[&#39;length&#39;] = apo_holo_cdr_sequences[&#39;sequence&#39;].str.len()
+
+apo_holo_cdr_sequences
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>cdr_type</th>
+      <th>sequence</th>
+      <th>cdr</th>
+      <th>chain_type</th>
+      <th>length</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>cdr1_alpha</td>
+      <td>DRGSQS</td>
+      <td>1</td>
+      <td>alpha</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>cdr1_alpha</td>
+      <td>NSMFDY</td>
+      <td>1</td>
+      <td>alpha</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>cdr1_alpha</td>
+      <td>TQDSSYF</td>
+      <td>1</td>
+      <td>alpha</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>cdr1_alpha</td>
+      <td>YSATPY</td>
+      <td>1</td>
+      <td>alpha</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>cdr1_alpha</td>
+      <td>TISGTDY</td>
+      <td>1</td>
+      <td>alpha</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>385</th>
+      <td>cdr3_beta</td>
+      <td>ASKVGPGQHNSPLH</td>
+      <td>3</td>
+      <td>beta</td>
+      <td>14</td>
+    </tr>
+    <tr>
+      <th>386</th>
+      <td>cdr3_beta</td>
+      <td>ASSYGTGINYGYT</td>
+      <td>3</td>
+      <td>beta</td>
+      <td>13</td>
+    </tr>
+    <tr>
+      <th>387</th>
+      <td>cdr3_beta</td>
+      <td>ASTWGRASTDTQY</td>
+      <td>3</td>
+      <td>beta</td>
+      <td>13</td>
+    </tr>
+    <tr>
+      <th>388</th>
+      <td>cdr3_beta</td>
+      <td>ASSDRDRVPETQY</td>
+      <td>3</td>
+      <td>beta</td>
+      <td>13</td>
+    </tr>
+    <tr>
+      <th>389</th>
+      <td>cdr3_beta</td>
+      <td>ASSLRDRVPETQY</td>
+      <td>3</td>
+      <td>beta</td>
+      <td>13</td>
+    </tr>
+  </tbody>
+</table>
+<p>390 rows × 5 columns</p>
+</div></div>
+</div>
+</section>
+</section>
+</section>
+<section id="Compare-CDR-Lengths">
+<h2>Compare CDR Lengths<a class="headerlink" href="#Compare-CDR-Lengths" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ots_sample_cdrs[&#39;source&#39;] = &#39;OTS&#39;
+apo_holo_cdr_sequences[&#39;source&#39;] = &#39;STCRDab&#39;
+
+cdr_lengths = pd.concat([ots_sample_cdrs, apo_holo_cdr_sequences])
+cdr_lengths
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sample_num</th>
+      <th>cdr_type</th>
+      <th>sequence</th>
+      <th>cdr</th>
+      <th>chain_type</th>
+      <th>length</th>
+      <th>source</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1.0</td>
+      <td>cdr1_aa_alpha</td>
+      <td>TISGNEY</td>
+      <td>1</td>
+      <td>alpha</td>
+      <td>7</td>
+      <td>OTS</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1.0</td>
+      <td>cdr1_aa_alpha</td>
+      <td>NSMFDY</td>
+      <td>1</td>
+      <td>alpha</td>
+      <td>6</td>
+      <td>OTS</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1.0</td>
+      <td>cdr1_aa_alpha</td>
+      <td>SSNFYA</td>
+      <td>1</td>
+      <td>alpha</td>
+      <td>6</td>
+      <td>OTS</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1.0</td>
+      <td>cdr1_aa_alpha</td>
+      <td>SSVPPY</td>
+      <td>1</td>
+      <td>alpha</td>
+      <td>6</td>
+      <td>OTS</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1.0</td>
+      <td>cdr1_aa_alpha</td>
+      <td>TSGFNG</td>
+      <td>1</td>
+      <td>alpha</td>
+      <td>6</td>
+      <td>OTS</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>385</th>
+      <td>NaN</td>
+      <td>cdr3_beta</td>
+      <td>ASKVGPGQHNSPLH</td>
+      <td>3</td>
+      <td>beta</td>
+      <td>14</td>
+      <td>STCRDab</td>
+    </tr>
+    <tr>
+      <th>386</th>
+      <td>NaN</td>
+      <td>cdr3_beta</td>
+      <td>ASSYGTGINYGYT</td>
+      <td>3</td>
+      <td>beta</td>
+      <td>13</td>
+      <td>STCRDab</td>
+    </tr>
+    <tr>
+      <th>387</th>
+      <td>NaN</td>
+      <td>cdr3_beta</td>
+      <td>ASTWGRASTDTQY</td>
+      <td>3</td>
+      <td>beta</td>
+      <td>13</td>
+      <td>STCRDab</td>
+    </tr>
+    <tr>
+      <th>388</th>
+      <td>NaN</td>
+      <td>cdr3_beta</td>
+      <td>ASSDRDRVPETQY</td>
+      <td>3</td>
+      <td>beta</td>
+      <td>13</td>
+      <td>STCRDab</td>
+    </tr>
+    <tr>
+      <th>389</th>
+      <td>NaN</td>
+      <td>cdr3_beta</td>
+      <td>ASSLRDRVPETQY</td>
+      <td>3</td>
+      <td>beta</td>
+      <td>13</td>
+      <td>STCRDab</td>
+    </tr>
+  </tbody>
+</table>
+<p>60390 rows × 7 columns</p>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ots_sample_cdrs_proptions = (ots_sample_cdrs.groupby([&#39;chain_type&#39;, &#39;cdr&#39;, &#39;sample_num&#39;])
+                                            [&#39;length&#39;]
+                                            .value_counts(normalize=True)
+                                            * 100)
+ots_sample_cdrs_proptions.name = &#39;percentage&#39;
+ots_sample_cdrs_proptions = ots_sample_cdrs_proptions.reset_index()
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ots_sample_cdrs_proptions_agg = (ots_sample_cdrs_proptions.groupby([&#39;chain_type&#39;, &#39;cdr&#39;, &#39;length&#39;])
+                                                          .agg({&#39;percentage&#39;: [&#39;mean&#39;, &#39;sem&#39;]})
+                                                          .fillna(0.0)
+                                                          .reset_index())
+ots_sample_cdrs_proptions_agg.columns = [&#39;_&#39;.join(col).rstrip(&#39;_&#39;).replace(&#39;_mean&#39;, &#39;&#39;)
+                                         for col in ots_sample_cdrs_proptions_agg.columns]
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>apo_holo_cdr_length_proportions = (apo_holo_cdr_sequences.groupby([&#39;chain_type&#39;, &#39;cdr&#39;])
+                                   [&#39;length&#39;]
+                                   .value_counts(normalize=True)
+                                   * 100)
+apo_holo_cdr_length_proportions.name = &#39;percentage&#39;
+apo_holo_cdr_length_proportions = apo_holo_cdr_length_proportions.reset_index()
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>cdr_length_proportions = ots_sample_cdrs_proptions_agg.merge(apo_holo_cdr_length_proportions,
+                                                             how=&#39;outer&#39;,
+                                                             on=[&#39;chain_type&#39;, &#39;cdr&#39;, &#39;length&#39;],
+                                                             suffixes=[&#39;_ots&#39;, &#39;_stcrdab&#39;]).fillna(0)
+
+
+cdr_length_proportions[&#39;difference&#39;] = (cdr_length_proportions[&#39;percentage_stcrdab&#39;]
+                                        - cdr_length_proportions[&#39;percentage_ots&#39;])
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>cdr_length_percentages = (cdr_lengths.groupby([&#39;chain_type&#39;, &#39;cdr&#39;, &#39;sample_num&#39;, &#39;source&#39;], dropna=False)
+                                     [&#39;length&#39;]
+                                     .value_counts(normalize=True)
+                                     * 100)
+cdr_length_percentages.name = &#39;percentage&#39;
+cdr_length_percentages = cdr_length_percentages.reset_index()
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>for (chain_type, cdr), group in cdr_length_percentages.groupby([&#39;chain_type&#39;, &#39;cdr&#39;]):
+    length_min = group[&#39;length&#39;].min()
+    length_max = group[&#39;length&#39;].max()
+    expected_length_values = set(range(length_min, length_max + 1))
+
+    actual_length_values = set(group[&#39;length&#39;].unique())
+    missing_length_values = expected_length_values - actual_length_values
+    missing_length_values = sorted(list(missing_length_values))
+
+    if len(missing_length_values) &gt; 0:
+        missing_entries = pd.DataFrame({&#39;chain_type&#39;: [chain_type for _ in missing_length_values],
+                                        &#39;cdr&#39;: [cdr for _ in missing_length_values],
+                                        &#39;source&#39;: [&#39;OTS&#39; for _ in missing_length_values],
+                                        &#39;length&#39;: missing_length_values,
+                                        &#39;percentage&#39;: [0.0 for _ in missing_length_values]})
+
+        cdr_length_percentages = pd.concat([cdr_length_percentages, missing_entries])
+
+cdr_length_percentages = cdr_length_percentages.reset_index(drop=True)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>grid = sns.catplot(cdr_length_percentages,
+            x=&#39;length&#39;,
+            y=&#39;percentage&#39;,
+            hue=&#39;source&#39;,
+            row=&#39;chain_type&#39;, col=&#39;cdr&#39;,
+            kind=&#39;bar&#39;, sharex=False)
+
+plt.show()
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/source_Ascertaining_the_generalisability_of_the_structure_data_23_0.png" src="../_images/source_Ascertaining_the_generalisability_of_the_structure_data_23_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>cdr_lengths.groupby([&#39;chain_type&#39;, &#39;cdr&#39;, &#39;source&#39;])[&#39;length&#39;].agg([pd.Series.mode, &#39;mean&#39;, &#39;std&#39;])
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th></th>
+      <th>mode</th>
+      <th>mean</th>
+      <th>std</th>
+    </tr>
+    <tr>
+      <th>chain_type</th>
+      <th>cdr</th>
+      <th>source</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="6" valign="top">alpha</th>
+      <th rowspan="2" valign="top">1</th>
+      <th>OTS</th>
+      <td>6</td>
+      <td>6.003800</td>
+      <td>0.570279</td>
+    </tr>
+    <tr>
+      <th>STCRDab</th>
+      <td>6</td>
+      <td>6.153846</td>
+      <td>0.565430</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">2</th>
+      <th>OTS</th>
+      <td>7</td>
+      <td>6.805900</td>
+      <td>1.031664</td>
+    </tr>
+    <tr>
+      <th>STCRDab</th>
+      <td>7</td>
+      <td>6.615385</td>
+      <td>1.026102</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">3</th>
+      <th>OTS</th>
+      <td>12</td>
+      <td>11.730200</td>
+      <td>1.692954</td>
+    </tr>
+    <tr>
+      <th>STCRDab</th>
+      <td>11</td>
+      <td>11.169231</td>
+      <td>1.616026</td>
+    </tr>
+    <tr>
+      <th rowspan="6" valign="top">beta</th>
+      <th rowspan="2" valign="top">1</th>
+      <th>OTS</th>
+      <td>5</td>
+      <td>5.116500</td>
+      <td>0.320840</td>
+    </tr>
+    <tr>
+      <th>STCRDab</th>
+      <td>5</td>
+      <td>5.061538</td>
+      <td>0.242186</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">2</th>
+      <th>OTS</th>
+      <td>6</td>
+      <td>6.092400</td>
+      <td>0.363147</td>
+    </tr>
+    <tr>
+      <th>STCRDab</th>
+      <td>6</td>
+      <td>5.984615</td>
+      <td>0.215950</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">3</th>
+      <th>OTS</th>
+      <td>13</td>
+      <td>12.568400</td>
+      <td>1.753918</td>
+    </tr>
+    <tr>
+      <th>STCRDab</th>
+      <td>13</td>
+      <td>11.846154</td>
+      <td>1.533285</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fig, axes = plt.subplots(ncols=3, nrows=2, tight_layout=True, sharey=True)
+plt.ylim([-100, 100])
+fig.suptitle(&#39;Relative frequency of structure CDR lengths compared to OTS&#39;)
+
+for i, chain_type in enumerate((&#39;alpha&#39;, &#39;beta&#39;)):
+    for j, cdr in enumerate((&#39;1&#39;, &#39;2&#39;, &#39;3&#39;)):
+        proportion_data = cdr_length_proportions.query(&quot;chain_type == @chain_type and cdr == @cdr&quot;)
+        colors = proportion_data[&#39;difference&#39;].map(lambda diff: &#39;lightblue&#39; if diff &lt; 0 else &#39;orange&#39;)
+
+        axes[i, j].bar(proportion_data[&#39;length&#39;], proportion_data[&#39;difference&#39;],
+                       yerr=proportion_data[&#39;percentage_sem&#39;],
+                       color=colors, edgecolor=&#39;black&#39;)
+
+        axes[i, j].set_title(f&#39;CDR{cdr}$\\{chain_type}$&#39;)
+        axes[i, j].set_xlabel(&#39;Loop Length&#39;)
+        axes[i, j].set_ylabel(&#39;Percentage (%)&#39;)
+
+plt.show()
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/source_Ascertaining_the_generalisability_of_the_structure_data_25_0.png" src="../_images/source_Ascertaining_the_generalisability_of_the_structure_data_25_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>for chain_type in (&#39;alpha&#39;, &#39;beta&#39;):
+    for cdr in (&#39;1&#39;, &#39;2&#39;, &#39;3&#39;):
+        proportion_data = cdr_length_proportions.query(&quot;chain_type == @chain_type and cdr == @cdr&quot;)
+        print(f&#39;CDR{cdr}{chain_type} RMSD:&#39;, round(rmsd(proportion_data[&#39;difference&#39;]), 2))
+
+print()
+print(&#39;Overall RMSD:&#39;, round(rmsd(cdr_length_proportions[&#39;difference&#39;]), 2))
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+CDR1alpha RMSD: 5.44
+CDR2alpha RMSD: 6.25
+CDR3alpha RMSD: 4.23
+CDR1beta RMSD: 5.5
+CDR2beta RMSD: 7.99
+CDR3beta RMSD: 2.48
+
+Overall RMSD: 4.47
+</pre></div></div>
+</div>
+<p>Overall, it seems that the distribution of lengths is similar between the <em>apo</em>-<em>holo</em> structures taken from the STCRDab and the background TCRs from OTS. The distributions look similar between the data sources, with a slightly larger variety for the OTS TCRs. Also, the mode length for each CDR type is the same between the OTS background and the dataset used in this analysis (6 for CDR1α, 7 for CDR2α, 11 for CDR3α, 5 for CDR1β, 6 for CDR2β, and 13 for CDR3β).</p>
+</section>
+<section id="Compare-TCR-V-Gene-Usage">
+<h2>Compare TCR V Gene Usage<a class="headerlink" href="#Compare-TCR-V-Gene-Usage" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ots_sample_genes[&#39;source&#39;] = &#39;OTS&#39;
+apo_holo_genes[&#39;source&#39;] = &#39;STCRDab&#39;
+
+gene_usage = pd.concat([ots_sample_genes, apo_holo_genes])
+gene_usage = gene_usage.dropna(subset=[&#39;alpha_subgroup&#39;, &#39;beta_subgroup&#39;])
+gene_usage = gene_usage.melt(id_vars=[&#39;sample_num&#39;, &#39;source&#39;],
+                             value_vars=[&#39;alpha_subgroup&#39;, &#39;beta_subgroup&#39;],
+                             var_name=&#39;subgroup&#39;, value_name=&#39;gene&#39;)
+
+gene_usage[&#39;subgroup_num&#39;] = gene_usage[&#39;gene&#39;].str.extract(r&#39;TR[A|B]V(\d+)&#39;, expand=False).apply(int)
+
+gene_usage
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sample_num</th>
+      <th>source</th>
+      <th>subgroup</th>
+      <th>gene</th>
+      <th>subgroup_num</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1.0</td>
+      <td>OTS</td>
+      <td>alpha_subgroup</td>
+      <td>TRAV26</td>
+      <td>26</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1.0</td>
+      <td>OTS</td>
+      <td>alpha_subgroup</td>
+      <td>TRAV29</td>
+      <td>29</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1.0</td>
+      <td>OTS</td>
+      <td>alpha_subgroup</td>
+      <td>TRAV24</td>
+      <td>24</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1.0</td>
+      <td>OTS</td>
+      <td>alpha_subgroup</td>
+      <td>TRAV8</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1.0</td>
+      <td>OTS</td>
+      <td>alpha_subgroup</td>
+      <td>TRAV1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>20121</th>
+      <td>NaN</td>
+      <td>STCRDab</td>
+      <td>beta_subgroup</td>
+      <td>TRBV7</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>20122</th>
+      <td>NaN</td>
+      <td>STCRDab</td>
+      <td>beta_subgroup</td>
+      <td>TRBV6</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>20123</th>
+      <td>NaN</td>
+      <td>STCRDab</td>
+      <td>beta_subgroup</td>
+      <td>TRBV6</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>20124</th>
+      <td>NaN</td>
+      <td>STCRDab</td>
+      <td>beta_subgroup</td>
+      <td>TRBV7</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>20125</th>
+      <td>NaN</td>
+      <td>STCRDab</td>
+      <td>beta_subgroup</td>
+      <td>TRBV7</td>
+      <td>7</td>
+    </tr>
+  </tbody>
+</table>
+<p>20126 rows × 5 columns</p>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>gene_usage_percentages = (gene_usage.groupby([&#39;subgroup&#39;, &#39;source&#39;, &#39;sample_num&#39;], dropna=False)
+                                    [[&#39;gene&#39;, &#39;subgroup_num&#39;]]
+                                    .value_counts(normalize=True)
+                                    * 100)
+gene_usage_percentages.name = &#39;percentage&#39;
+
+gene_usage_percentages = gene_usage_percentages.reset_index()
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>grid = sns.catplot(gene_usage_percentages.sort_values([&#39;subgroup&#39;, &#39;subgroup_num&#39;]),
+            row=&#39;subgroup&#39;,
+            x=&#39;gene&#39;, y=&#39;percentage&#39;,
+            hue=&#39;source&#39;,
+            kind=&#39;bar&#39;,
+            sharex=False)
+
+for ax in grid.axes.flat:
+    ax.set_xticklabels(ax.get_xticklabels(), rotation=90)
+
+grid.tight_layout(pad=3.0)
+
+plt.show()
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/var/scratch/bmcmaste/1915160/ipykernel_3725429/351373078.py:9: UserWarning: FixedFormatter should only be used together with FixedLocator
+  ax.set_xticklabels(ax.get_xticklabels(), rotation=90)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/source_Ascertaining_the_generalisability_of_the_structure_data_31_1.png" src="../_images/source_Ascertaining_the_generalisability_of_the_structure_data_31_1.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ots_sample_gene_usage_percentages = gene_usage_percentages.query(&quot;source == &#39;OTS&#39;&quot;)
+ots_sample_gene_usage_percentages_agg = (ots_sample_gene_usage_percentages.groupby([&#39;gene&#39;, &#39;subgroup&#39;, &#39;subgroup_num&#39;])
+                                                                          .agg({&#39;percentage&#39;: [&#39;mean&#39;, &#39;sem&#39;]})
+                                                                          .reset_index()
+                                                                          .fillna(0.0))
+
+ots_sample_gene_usage_percentages_agg.columns = [&#39;_&#39;.join(col).rstrip(&#39;_&#39;).replace(&#39;_mean&#39;, &#39;&#39;)
+                                                 for col in ots_sample_gene_usage_percentages_agg.columns]
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>apo_holo_gene_usage_percentages = gene_usage_percentages.query(&quot;source == &#39;STCRDab&#39;&quot;)
+gene_usage_percentages_compare = apo_holo_gene_usage_percentages.merge(ots_sample_gene_usage_percentages_agg,
+                                                                       how=&#39;outer&#39;,
+                                                                       on=[&#39;gene&#39;, &#39;subgroup&#39;, &#39;subgroup_num&#39;],
+                                                                       suffixes=(&#39;_stcrdab&#39;, &#39;_ots&#39;))
+
+gene_usage_percentages_compare = gene_usage_percentages_compare.drop([&#39;source&#39;, &#39;sample_num&#39;], axis=&#39;columns&#39;)
+gene_usage_percentages_compare = gene_usage_percentages_compare.fillna(0.0)
+
+gene_usage_percentages_compare[&#39;difference&#39;] = (gene_usage_percentages_compare[&#39;percentage_stcrdab&#39;]
+                                                - gene_usage_percentages_compare[&#39;percentage_ots&#39;])
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fig, axes = plt.subplots(nrows=2, constrained_layout=True, sharey=True)
+plt.ylim([-100, 100])
+fig.suptitle(&#39;Relative frequency of structure V gene usage compared to OTS&#39;)
+
+for i, subgroup in enumerate((&#39;alpha_subgroup&#39;, &#39;beta_subgroup&#39;)):
+    plot_data = gene_usage_percentages_compare.query(&#39;subgroup == @subgroup&#39;).sort_values(&#39;subgroup_num&#39;)
+
+    colors = plot_data[&#39;difference&#39;].map(lambda diff: &#39;lightblue&#39; if diff &lt; 0 else &#39;orange&#39;)
+
+    axes[i].bar(plot_data[&#39;gene&#39;],
+               plot_data[&#39;difference&#39;],
+               yerr=plot_data[&#39;percentage_sem&#39;],
+               color=colors,
+               edgecolor=&#39;black&#39;)
+
+    axes[i].set_xlabel(f&quot;TR{&#39;A&#39; if subgroup == &#39;alpha_subgroup&#39; else &#39;B&#39;}V Gene Usage&quot;)
+    axes[i].set_ylabel(&#39;Percentage (%)&#39;)
+    axes[i].tick_params(axis=&#39;x&#39;, labelrotation=90)
+
+plt.show()
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/source_Ascertaining_the_generalisability_of_the_structure_data_34_0.png" src="../_images/source_Ascertaining_the_generalisability_of_the_structure_data_34_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>print(&#39;TRAV Gene Usage RMSD:&#39;,
+      round(rmsd(gene_usage_percentages_compare.query(&quot;subgroup == &#39;alpha_subgroup&#39;&quot;)[&#39;difference&#39;]), 2))
+
+print(&#39;TRBV Gene Usage RMSD:&#39;,
+      round(rmsd(gene_usage_percentages_compare.query(&quot;subgroup == &#39;beta_subgroup&#39;&quot;)[&#39;difference&#39;]), 2))
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+TRAV Gene Usage RMSD: 4.18
+TRBV Gene Usage RMSD: 4.5
+</pre></div></div>
+</div>
+<p>The gene usage between <em>apo</em>-<em>holo</em> TCRs from STCRDab and the background TCRs from OTS is largely similar. There are a few exceptions in the STCRDab structures that show an over-representation of certain gene usages. For exampe, TRAV12, TRAV14, TRAV21, and TRBV6 all seem to be in higher abundance in the STCRDab data compared with the OTS background.</p>
+</section>
+<section id="Comparison-of-amino-acide-types-in-loops">
+<h2>Comparison of amino acide types in loops<a class="headerlink" href="#Comparison-of-amino-acide-types-in-loops" title="Link to this heading"></a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>AMINO_ACIDS = [&#39;A&#39;, &#39;C&#39;, &#39;D&#39;, &#39;E&#39;, &#39;F&#39;, &#39;G&#39;, &#39;H&#39;, &#39;I&#39;, &#39;K&#39;, &#39;L&#39;, &#39;M&#39;, &#39;N&#39;, &#39;P&#39;, &#39;Q&#39;, &#39;R&#39;, &#39;S&#39;, &#39;T&#39;, &#39;V&#39;, &#39;W&#39;, &#39;Y&#39;]
+
+def count_amino_acids(residues: pd.Series, normalize = True) -&gt; pd.Series:
+    counts = {res: 0 for res in AMINO_ACIDS}
+
+    for res in residues.tolist():
+        counts[res] += 1
+
+    if normalize:
+        num_residues = len(residues)
+        counts = {res: count / num_residues for res, count in counts.items()}
+
+    counts = pd.Series(counts)
+    counts.name = &#39;count&#39; if not normalize else &#39;proportion&#39;
+    counts.index.name = &#39;residue&#39;
+
+    return counts
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ots_sample_cdrs_residues = ots_sample_cdrs[[&#39;sample_num&#39;, &#39;chain_type&#39;, &#39;cdr&#39;, &#39;sequence&#39;]].copy()
+ots_sample_cdrs_residues[&#39;residue&#39;] = ots_sample_cdrs_residues[&#39;sequence&#39;].map(list)
+ots_sample_cdrs_residues = ots_sample_cdrs_residues.explode(&#39;residue&#39;)
+
+ots_sample_cdrs_residues_counts = (ots_sample_cdrs_residues.groupby([&#39;sample_num&#39;, &#39;chain_type&#39;, &#39;cdr&#39;])
+                                                            [&#39;residue&#39;]
+                                                            .apply(count_amino_acids))
+ots_sample_cdrs_residues_counts.name = &#39;proportion&#39;
+ots_sample_cdrs_residues_counts = ots_sample_cdrs_residues_counts.to_frame()
+ots_sample_cdrs_residues_counts = ots_sample_cdrs_residues_counts.reset_index()
+
+ots_sample_cdrs_residues_counts
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sample_num</th>
+      <th>chain_type</th>
+      <th>cdr</th>
+      <th>residue</th>
+      <th>proportion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>alpha</td>
+      <td>1</td>
+      <td>A</td>
+      <td>0.067791</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>alpha</td>
+      <td>1</td>
+      <td>C</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>alpha</td>
+      <td>1</td>
+      <td>D</td>
+      <td>0.062615</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>alpha</td>
+      <td>1</td>
+      <td>E</td>
+      <td>0.014527</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1</td>
+      <td>alpha</td>
+      <td>1</td>
+      <td>F</td>
+      <td>0.033228</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>1195</th>
+      <td>10</td>
+      <td>beta</td>
+      <td>3</td>
+      <td>S</td>
+      <td>0.181695</td>
+    </tr>
+    <tr>
+      <th>1196</th>
+      <td>10</td>
+      <td>beta</td>
+      <td>3</td>
+      <td>T</td>
+      <td>0.073013</td>
+    </tr>
+    <tr>
+      <th>1197</th>
+      <td>10</td>
+      <td>beta</td>
+      <td>3</td>
+      <td>V</td>
+      <td>0.021305</td>
+    </tr>
+    <tr>
+      <th>1198</th>
+      <td>10</td>
+      <td>beta</td>
+      <td>3</td>
+      <td>W</td>
+      <td>0.006623</td>
+    </tr>
+    <tr>
+      <th>1199</th>
+      <td>10</td>
+      <td>beta</td>
+      <td>3</td>
+      <td>Y</td>
+      <td>0.066949</td>
+    </tr>
+  </tbody>
+</table>
+<p>1200 rows × 5 columns</p>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ots_sample_cdrs_residues_counts_agg = (ots_sample_cdrs_residues_counts.groupby([&#39;chain_type&#39;, &#39;cdr&#39;, &#39;residue&#39;])
+                                                                      .agg({&#39;proportion&#39;: [&#39;mean&#39;, &#39;sem&#39;]})
+                                                                      .reset_index())
+
+ots_sample_cdrs_residues_counts_agg.columns = [&#39;_&#39;.join(col).rstrip(&#39;_&#39;).replace(&#39;_mean&#39;, &#39;&#39;)
+                                               for col in ots_sample_cdrs_residues_counts_agg.columns]
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>apo_holo_cdr_sequences_residues = apo_holo_cdr_sequences[[&#39;chain_type&#39;, &#39;cdr&#39;, &#39;sequence&#39;]].copy()
+apo_holo_cdr_sequences_residues[&#39;residue&#39;] = apo_holo_cdr_sequences_residues[&#39;sequence&#39;].map(list)
+apo_holo_cdr_sequences_residues = apo_holo_cdr_sequences_residues.explode(&#39;residue&#39;)
+
+apo_holo_cdr_sequences_residues_counts = (apo_holo_cdr_sequences_residues.groupby([&#39;chain_type&#39;, &#39;cdr&#39;])
+                                          [&#39;residue&#39;]
+                                          .apply(count_amino_acids))
+
+apo_holo_cdr_sequences_residues_counts.name = &#39;proportion&#39;
+apo_holo_cdr_sequences_residues_counts = apo_holo_cdr_sequences_residues_counts.to_frame()
+apo_holo_cdr_sequences_residues_counts = apo_holo_cdr_sequences_residues_counts.reset_index()
+
+apo_holo_cdr_sequences_residues_counts
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>chain_type</th>
+      <th>cdr</th>
+      <th>residue</th>
+      <th>proportion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>alpha</td>
+      <td>1</td>
+      <td>A</td>
+      <td>0.057500</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>alpha</td>
+      <td>1</td>
+      <td>C</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>alpha</td>
+      <td>1</td>
+      <td>D</td>
+      <td>0.092500</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>alpha</td>
+      <td>1</td>
+      <td>E</td>
+      <td>0.022500</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>alpha</td>
+      <td>1</td>
+      <td>F</td>
+      <td>0.035000</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>115</th>
+      <td>beta</td>
+      <td>3</td>
+      <td>S</td>
+      <td>0.180519</td>
+    </tr>
+    <tr>
+      <th>116</th>
+      <td>beta</td>
+      <td>3</td>
+      <td>T</td>
+      <td>0.059740</td>
+    </tr>
+    <tr>
+      <th>117</th>
+      <td>beta</td>
+      <td>3</td>
+      <td>V</td>
+      <td>0.019481</td>
+    </tr>
+    <tr>
+      <th>118</th>
+      <td>beta</td>
+      <td>3</td>
+      <td>W</td>
+      <td>0.011688</td>
+    </tr>
+    <tr>
+      <th>119</th>
+      <td>beta</td>
+      <td>3</td>
+      <td>Y</td>
+      <td>0.077922</td>
+    </tr>
+  </tbody>
+</table>
+<p>120 rows × 4 columns</p>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ots_sample_cdrs_residues_counts_agg[&#39;source&#39;] = &#39;ots&#39;
+apo_holo_cdr_sequences_residues_counts[&#39;source&#39;] = &#39;stcrdab&#39;
+
+cdr_residue_counts = pd.concat([ots_sample_cdrs_residues_counts_agg, apo_holo_cdr_sequences_residues_counts])
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>angles = np.linspace(0, 2 * np.pi, len(AMINO_ACIDS), endpoint=False).tolist()
+amino_acid_angles = dict(zip(AMINO_ACIDS, angles))
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fig, axes = plt.subplots(nrows=2, ncols=3,
+                         figsize=(15, 12),
+                         sharey=True,
+                         subplot_kw={&#39;projection&#39;: &#39;polar&#39;})
+
+lines = []
+for i, chain_type in enumerate((&#39;alpha&#39;, &#39;beta&#39;)):
+    for j, cdr in enumerate((&#39;1&#39;, &#39;2&#39;, &#39;3&#39;)):
+        for source in &#39;ots&#39;, &#39;stcrdab&#39;:
+            residue_counts = cdr_residue_counts[(cdr_residue_counts[&#39;source&#39;] == source)
+                                                &amp; (cdr_residue_counts[&#39;chain_type&#39;] == chain_type)
+                                                &amp; (cdr_residue_counts[&#39;cdr&#39;] == cdr)].sort_values(&#39;residue&#39;)
+
+            proportions = residue_counts[&#39;proportion&#39;].tolist()
+            label_angles = residue_counts[&#39;residue&#39;].map(amino_acid_angles).tolist()
+
+            # Join ends
+            proportions.append(proportions[0])
+            label_angles.append(label_angles[0])
+
+            line, = axes[i, j].plot(label_angles, proportions, marker=&#39;o&#39;, markersize=3, label=source)
+            axes[i, j].bar(label_angles, proportions, alpha=0.25, width=0.3)
+
+            lines.append(line)
+
+        axes[i, j].set_xticks(angles)
+        axes[i, j].set_xticklabels(AMINO_ACIDS)
+        axes[i, j].grid(which=&#39;major&#39;, axis=&#39;x&#39;, visible=False)
+
+        axes[i, j].set_title(f&#39;CDR{cdr}$\\{chain_type}$&#39;)
+
+unique_handles_labels = {}
+for line in lines:
+    label = line.get_label()
+    if label not in unique_handles_labels:
+        unique_handles_labels[label] = line
+
+labels, handles = zip(*unique_handles_labels.items())
+
+legend = fig.legend(handles, labels, title=&#39;Source&#39;, fontsize=&#39;large&#39;)
+legend.get_title().set_fontsize(&#39;large&#39;)
+
+fig.suptitle(&#39;Comparison of amino acids in CDR loops between selected structures and OTS&#39;,
+             fontsize=20)
+
+plt.show()
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/source_Ascertaining_the_generalisability_of_the_structure_data_44_0.png" src="../_images/source_Ascertaining_the_generalisability_of_the_structure_data_44_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>cdr_residue_counts_compare = cdr_residue_counts.pivot(index=[&#39;chain_type&#39;, &#39;cdr&#39;, &#39;residue&#39;],
+                                                      columns=&#39;source&#39;,
+                                                      values=&#39;proportion&#39;).reset_index()
+
+cdr_residue_counts_compare[&#39;difference&#39;] = cdr_residue_counts_compare[&#39;stcrdab&#39;] - cdr_residue_counts_compare[&#39;ots&#39;]
+
+print(cdr_residue_counts_compare.groupby([&#39;chain_type&#39;, &#39;cdr&#39;])[&#39;difference&#39;].agg(rmsd))
+
+print(f&quot;Overall RMSD: {rmsd(cdr_residue_counts_compare[&#39;difference&#39;]):.2e}&quot;)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+chain_type  cdr
+alpha       1      0.016588
+            2      0.014409
+            3      0.007707
+beta        1      0.028133
+            2      0.021649
+            3      0.007354
+Name: difference, dtype: float64
+Overall RMSD: 1.76e-02
+</pre></div></div>
+</div>
+</section>
+<section id="Selected-structures-coverage-of-canonical-classes">
+<h2>Selected structures coverage of canonical classes<a class="headerlink" href="#Selected-structures-coverage-of-canonical-classes" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>cdr_clusters = pd.read_csv(&#39;../data/processed/stcrdab_clusters.csv&#39;)
+cdr_clusters
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>cluster</th>
+      <th>chain_type</th>
+      <th>cdr</th>
+      <th>sequence</th>
+      <th>cluster_type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>7zt2_DE</td>
+      <td>12</td>
+      <td>alpha_chain</td>
+      <td>1</td>
+      <td>TSGFNG</td>
+      <td>pseudo</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>7zt3_DE</td>
+      <td>12</td>
+      <td>alpha_chain</td>
+      <td>1</td>
+      <td>TSGFNG</td>
+      <td>pseudo</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>7zt4_DE</td>
+      <td>12</td>
+      <td>alpha_chain</td>
+      <td>1</td>
+      <td>TSGFNG</td>
+      <td>pseudo</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>7zt5_DE</td>
+      <td>12</td>
+      <td>alpha_chain</td>
+      <td>1</td>
+      <td>TSGFNG</td>
+      <td>pseudo</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>7zt7_DE</td>
+      <td>12</td>
+      <td>alpha_chain</td>
+      <td>1</td>
+      <td>TSGFNG</td>
+      <td>pseudo</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>4807</th>
+      <td>6miv_CD</td>
+      <td>22</td>
+      <td>beta_chain</td>
+      <td>3</td>
+      <td>ASGDEGYTQY</td>
+      <td>canonical</td>
+    </tr>
+    <tr>
+      <th>4808</th>
+      <td>3rtq_CD</td>
+      <td>22</td>
+      <td>beta_chain</td>
+      <td>3</td>
+      <td>ASGDEGYTQY</td>
+      <td>canonical</td>
+    </tr>
+    <tr>
+      <th>4809</th>
+      <td>3dxa_NO</td>
+      <td>noise</td>
+      <td>beta_chain</td>
+      <td>3</td>
+      <td>ASRYRDDSYNEQF</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4810</th>
+      <td>1d9k_AB</td>
+      <td>noise</td>
+      <td>beta_chain</td>
+      <td>3</td>
+      <td>ASGGQGRAEQF</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4811</th>
+      <td>4gg6_GH</td>
+      <td>noise</td>
+      <td>beta_chain</td>
+      <td>3</td>
+      <td>ASSVAVSAGTYEQY</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+<p>4812 rows × 6 columns</p>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>cdr_clusters[[&#39;pdb_id&#39;, &#39;chains&#39;]] = cdr_clusters[&#39;name&#39;].str.split(&#39;_&#39;).apply(pd.Series)
+cdr_clusters[[&#39;alpha_chain&#39;, &#39;beta_chain&#39;]] = cdr_clusters[&#39;chains&#39;].apply(list).apply(pd.Series)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>common_columns = [&#39;pdb_id&#39;, &#39;alpha_chain&#39;, &#39;beta_chain&#39;]
+apo_holo_index = pd.MultiIndex.from_frame(apo_holo_summary[common_columns])
+
+cdr_clusters[&#39;in_apo_holo&#39;] = cdr_clusters[common_columns].apply(tuple, axis=1).isin(apo_holo_index)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>canonical_cdr_clusters = cdr_clusters.query(&quot;cluster_type == &#39;canonical&#39;&quot;).copy().reset_index(drop=True)
+canonical_cdr_clusters[&#39;cluster_num&#39;] = canonical_cdr_clusters[&#39;cluster&#39;].map(int)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>grouped = (canonical_cdr_clusters.groupby([&#39;chain_type&#39;, &#39;cdr&#39;, &#39;cluster&#39;, &#39;in_apo_holo&#39;])
+                                 .size()
+                                 .reset_index(name=&#39;count&#39;))
+total_counts = (canonical_cdr_clusters.groupby([&#39;chain_type&#39;, &#39;cdr&#39;])
+                                      .size()
+                                      .reset_index(name=&#39;total_count&#39;))
+
+grouped = grouped.merge(total_counts, on=[&#39;chain_type&#39;, &#39;cdr&#39;])
+grouped[&#39;percent&#39;] = grouped[&#39;count&#39;] / grouped[&#39;total_count&#39;] * 100
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>grouped[&#39;cluster_num&#39;] = grouped[&#39;cluster&#39;].apply(int)
+grouped = grouped.sort_values(&#39;cluster_num&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>grid = sns.displot(grouped,
+                   row=&#39;chain_type&#39;, col=&#39;cdr&#39;,
+                   x=&#39;cluster&#39;,
+                   weights=&#39;percent&#39;,
+                   hue=&#39;in_apo_holo&#39;, multiple=&#39;stack&#39;,
+                   facet_kws=dict(sharex=False))
+
+grid.set_axis_labels(&quot;Cluster&quot;, &quot;Percentage (%)&quot;)
+grid.set(ylim=(0, 100))
+
+plt.show()
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/source_Ascertaining_the_generalisability_of_the_structure_data_53_0.png" src="../_images/source_Ascertaining_the_generalisability_of_the_structure_data_53_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>apo_holo_coverage = (canonical_cdr_clusters.groupby([&#39;chain_type&#39;, &#39;cdr&#39;, &#39;cluster&#39;])
+                                           .apply(lambda group: group[&#39;in_apo_holo&#39;].any())
+                                           .value_counts(normalize=True) * 100)[True]
+
+print(f&#39;There is {apo_holo_coverage:.2f}% coverage of canonical clusters in the apo-holo dataset.&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+There is 78.26% coverage of canonical clusters in the apo-holo dataset.
+</pre></div></div>
+</div>
+</section>
+<section id="Conclusion">
+<h2>Conclusion<a class="headerlink" href="#Conclusion" title="Link to this heading"></a></h2>
+<p>Our analysis here shows that the conclusions drawn about TCRs from our structural analysis in this project should generalise well to other TCR:pMHC-I interactions where structure information is not currently available. The comparisons here show that the distribution of CDR lengths, amino acid compisition of CDR loops, and generally the distribution of V gene usage is comparable between the selected STCRDab structures and the background of TCRs sampled from OTS. However, it does seem that there
+is some over representation bias of certain V genes which may affect results. The analysis also shows that canonical CDR loop clusters are well represented in the selected analysis. We did not look at amino acid composition and other possible comparable properties from these sequences that could be done.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="notebooks.html" class="btn btn-neutral float-left" title="Analysis Notebooks" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Centre_of_mass_analysis.html" class="btn btn-neutral float-right" title="Centre of mass analysis" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Benjamin McMaster.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

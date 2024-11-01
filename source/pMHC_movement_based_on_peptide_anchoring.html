@@ -1,0 +1,1542 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pMHC movement based on peptide anchoring &mdash; tcr_pmhc_interface_analysis  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="pMHC movement between apo and holo conformations" href="pMHC_movement_between_apo_and_holo_conformations.html" />
+    <link rel="prev" title="Visualising CDR loop clustering" href="Visualising_CDR_loop_clustering.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            tcr_pmhc_interface_analysis
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Analysis Results</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="notebooks.html">Analysis Notebooks</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Ascertaining_the_generalisability_of_the_structure_data.html">Ascertaining the generalisability of the structure data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Centre_of_mass_analysis.html">Centre of mass analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Comparing_of_apo_and_holo_CDR_loop_clustering.html">Comparing <em>apo</em> and <em>holo</em> CDR loop clustering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Comparison_of_apo_and_holo_CDR_loops.html">Comparison of <em>apo</em> and **holo* CDR loops</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Identify_contact_residues_on_MHC_Class_I_molecules.html">Identify contact residues on MHC Class I molecules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Length_dependency_of_conformational_change.html">Length dependency of conformational change</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Per_residue_changes_of_TCR_CDR_between_apo_and_holo_structures.html">Per residue changes of TCR CDRs between apo and holo structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Summary_of_apo_holo_data.html">Summary of <em>apo</em>-<em>holo</em> data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Visualising_CDR_loop_clustering.html">Visualising CDR loop clustering</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">pMHC movement based on peptide anchoring</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Load-apo-holo-comparisons">Load <em>apo</em>-<em>holo</em> comparisons</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Load-summary-data">Load summary data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Annotate-apo-holo-data-with-allele-information">Annotate <em>apo</em>-<em>holo</em> data with allele information</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Combine-anchoring-information-with-apo-holo-comparisons">Combine anchoring information with <em>apo</em>-<em>holo</em> comparisons</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Visualising-the-results">Visualising the results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Conclusion">Conclusion</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pMHC_movement_between_apo_and_holo_conformations.html">pMHC movement between apo and holo conformations</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Command Line Applications</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="apps.html">Command Line Applications</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">tcr_pmhc_interface_analysis</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">tcr_pmhc_interface_analysis</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="notebooks.html">Analysis Notebooks</a></li>
+      <li class="breadcrumb-item active">pMHC movement based on peptide anchoring</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/source/pMHC_movement_based_on_peptide_anchoring.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pMHC-movement-based-on-peptide-anchoring">
+<h1>pMHC movement based on peptide anchoring<a class="headerlink" href="#pMHC-movement-based-on-peptide-anchoring" title="Link to this heading"></a></h1>
+<section id="Introduction">
+<h2>Introduction<a class="headerlink" href="#Introduction" title="Link to this heading"></a></h2>
+<p>In this notebook, <em>apo</em>-<em>holo</em> comparisons between different anchoring patterns of MHC alleles plotted next to each other. The anchoring patterns were determined by finding the peptide motifs of each MHC allele from the <a class="reference external" href="http://mhcmotifatlas.org/home">MHCMotifAtlas</a> and using these strong motifs as anchors for the peptide.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import seaborn as sns
+from python_pdb.formats.residue import THREE_TO_ONE_CODE
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>mhc_anchor_position_df = pd.read_csv(&#39;../data/external/mhc_motif_atlas.csv&#39;)
+mhc_anchor_position_df = mhc_anchor_position_df.query(&quot;grade in (&#39;high&#39;, &#39;dominant&#39;)&quot;)
+mhc_anchor_position_df = mhc_anchor_position_df.sort_values(&#39;allele_slug&#39;)
+mhc_anchor_position_df = mhc_anchor_position_df[[&#39;allele_slug&#39;, &#39;position&#39;, &#39;amino_acid&#39;, &#39;peptide_length&#39;]]
+mhc_anchor_position_df = mhc_anchor_position_df.reset_index(drop=True)
+
+mhc_anchor_position_df
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>allele_slug</th>
+      <th>position</th>
+      <th>amino_acid</th>
+      <th>peptide_length</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>hla_a_01_01</td>
+      <td>2</td>
+      <td>T</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>hla_a_01_01</td>
+      <td>3</td>
+      <td>D</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>hla_a_01_01</td>
+      <td>9</td>
+      <td>Y</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>hla_a_02_01</td>
+      <td>2</td>
+      <td>L</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>hla_a_02_01</td>
+      <td>9</td>
+      <td>L</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>319</th>
+      <td>hla_g_01_03</td>
+      <td>1</td>
+      <td>K</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>320</th>
+      <td>hla_g_01_04</td>
+      <td>1</td>
+      <td>R</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>321</th>
+      <td>hla_g_01_04</td>
+      <td>3</td>
+      <td>P</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>322</th>
+      <td>hla_g_01_04</td>
+      <td>1</td>
+      <td>K</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>323</th>
+      <td>hla_g_01_04</td>
+      <td>9</td>
+      <td>L</td>
+      <td>9</td>
+    </tr>
+  </tbody>
+</table>
+<p>324 rows × 4 columns</p>
+</div></div>
+</div>
+</section>
+<section id="Load-apo-holo-comparisons">
+<h2>Load <em>apo</em>-<em>holo</em> comparisons<a class="headerlink" href="#Load-apo-holo-comparisons" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>apo_holo_comparison = pd.read_csv(&#39;../data/processed/apo-holo-tcr-pmhc-class-I-comparisons/pmhc_per_res_apo_holo.csv&#39;)
+
+peptide_apo_holo_comparison = apo_holo_comparison.query(&quot;chain_type == &#39;antigen_chain&#39;&quot;).copy()
+peptide_apo_holo_comparison
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>complex_id</th>
+      <th>structure_x_name</th>
+      <th>structure_y_name</th>
+      <th>chain_type</th>
+      <th>residue_name</th>
+      <th>residue_seq_id</th>
+      <th>residue_insert_code</th>
+      <th>rmsd</th>
+      <th>ca_distance</th>
+      <th>chi_angle_change</th>
+      <th>com_distance</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>181</th>
+      <td>7ow6_D-E-C-A-B_tcr_pmhc</td>
+      <td>7ow4_A-B-C_pmhc.pdb</td>
+      <td>7ow4_D-E-F_pmhc.pdb</td>
+      <td>antigen_chain</td>
+      <td>VAL</td>
+      <td>1</td>
+      <td>NaN</td>
+      <td>0.354933</td>
+      <td>0.330887</td>
+      <td>0.200330</td>
+      <td>0.316020</td>
+    </tr>
+    <tr>
+      <th>182</th>
+      <td>7ow6_D-E-C-A-B_tcr_pmhc</td>
+      <td>7ow4_A-B-C_pmhc.pdb</td>
+      <td>7ow4_D-E-F_pmhc.pdb</td>
+      <td>antigen_chain</td>
+      <td>VAL</td>
+      <td>2</td>
+      <td>NaN</td>
+      <td>0.262440</td>
+      <td>0.073709</td>
+      <td>0.030793</td>
+      <td>0.085332</td>
+    </tr>
+    <tr>
+      <th>183</th>
+      <td>7ow6_D-E-C-A-B_tcr_pmhc</td>
+      <td>7ow4_A-B-C_pmhc.pdb</td>
+      <td>7ow4_D-E-F_pmhc.pdb</td>
+      <td>antigen_chain</td>
+      <td>VAL</td>
+      <td>3</td>
+      <td>NaN</td>
+      <td>0.256739</td>
+      <td>0.248310</td>
+      <td>-0.007898</td>
+      <td>0.215858</td>
+    </tr>
+    <tr>
+      <th>184</th>
+      <td>7ow6_D-E-C-A-B_tcr_pmhc</td>
+      <td>7ow4_A-B-C_pmhc.pdb</td>
+      <td>7ow4_D-E-F_pmhc.pdb</td>
+      <td>antigen_chain</td>
+      <td>GLY</td>
+      <td>4</td>
+      <td>NaN</td>
+      <td>0.568505</td>
+      <td>0.622876</td>
+      <td>NaN</td>
+      <td>0.318856</td>
+    </tr>
+    <tr>
+      <th>185</th>
+      <td>7ow6_D-E-C-A-B_tcr_pmhc</td>
+      <td>7ow4_A-B-C_pmhc.pdb</td>
+      <td>7ow4_D-E-F_pmhc.pdb</td>
+      <td>antigen_chain</td>
+      <td>GLY</td>
+      <td>7</td>
+      <td>NaN</td>
+      <td>0.346240</td>
+      <td>0.192317</td>
+      <td>NaN</td>
+      <td>0.324260</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>126149</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7rtd_A-B-C_pmhc.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>antigen_chain</td>
+      <td>ARG</td>
+      <td>5</td>
+      <td>NaN</td>
+      <td>1.064663</td>
+      <td>0.157924</td>
+      <td>0.364432</td>
+      <td>0.705033</td>
+    </tr>
+    <tr>
+      <th>126150</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7rtd_A-B-C_pmhc.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>antigen_chain</td>
+      <td>THR</td>
+      <td>6</td>
+      <td>NaN</td>
+      <td>0.421897</td>
+      <td>0.345439</td>
+      <td>0.097701</td>
+      <td>0.344074</td>
+    </tr>
+    <tr>
+      <th>126151</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7rtd_A-B-C_pmhc.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>antigen_chain</td>
+      <td>PHE</td>
+      <td>7</td>
+      <td>NaN</td>
+      <td>1.225982</td>
+      <td>0.317819</td>
+      <td>-0.347835</td>
+      <td>0.883236</td>
+    </tr>
+    <tr>
+      <th>126152</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7rtd_A-B-C_pmhc.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>antigen_chain</td>
+      <td>LEU</td>
+      <td>8</td>
+      <td>NaN</td>
+      <td>1.323615</td>
+      <td>0.310356</td>
+      <td>0.612672</td>
+      <td>0.270049</td>
+    </tr>
+    <tr>
+      <th>126153</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7rtd_A-B-C_pmhc.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>antigen_chain</td>
+      <td>LEU</td>
+      <td>9</td>
+      <td>NaN</td>
+      <td>1.599917</td>
+      <td>0.192969</td>
+      <td>0.885323</td>
+      <td>0.175807</td>
+    </tr>
+  </tbody>
+</table>
+<p>5838 rows × 11 columns</p>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>peptide_apo_holo_comparison[&#39;peptide_length&#39;] = \
+    peptide_apo_holo_comparison.groupby([&#39;complex_id&#39;,
+                                         &#39;structure_x_name&#39;,
+                                         &#39;structure_y_name&#39;]).transform(&#39;size&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>peptide_apo_holo_comparison[&#39;amino_acid&#39;] = peptide_apo_holo_comparison[&#39;residue_name&#39;].map(THREE_TO_ONE_CODE)
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Load-summary-data">
+<h2>Load summary data<a class="headerlink" href="#Load-summary-data" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>summary_df = pd.read_csv(&#39;../data/processed/apo-holo-tcr-pmhc-class-I/apo_holo_summary.csv&#39;)
+summary_df[&#39;group_name&#39;] = summary_df[&#39;file_name&#39;].str.replace(&#39;.pdb&#39;, &#39;&#39;)
+
+summary_df
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/var/scratch/bmcmaste/1915160/ipykernel_3863244/1956598565.py:2: FutureWarning: The default value of regex will change from True to False in a future version.
+  summary_df[&#39;group_name&#39;] = summary_df[&#39;file_name&#39;].str.replace(&#39;.pdb&#39;, &#39;&#39;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>file_name</th>
+      <th>pdb_id</th>
+      <th>structure_type</th>
+      <th>state</th>
+      <th>alpha_chain</th>
+      <th>beta_chain</th>
+      <th>antigen_chain</th>
+      <th>mhc_chain1</th>
+      <th>mhc_chain2</th>
+      <th>cdr_sequences_collated</th>
+      <th>peptide_sequence</th>
+      <th>mhc_slug</th>
+      <th>group_name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1ao7_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>1ao7</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>D</td>
+      <td>E</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>DRGSQS-IYSNGD-AVTTDSWGKLQ-MNHEY-SVGAGI-ASRPGLA...</td>
+      <td>LLFGYPVYV</td>
+      <td>hla_a_02_01</td>
+      <td>1ao7_D-E-C-A-B_tcr_pmhc</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1bd2_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>1bd2</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>D</td>
+      <td>E</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>NSMFDY-ISSIKDK-AAMEGAQKLV-MNHEY-SVGAGI-ASSYPGG...</td>
+      <td>LLFGYPVYV</td>
+      <td>hla_a_02_01</td>
+      <td>1bd2_D-E-C-A-B_tcr_pmhc</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1bii_A-B-P_pmhc.pdb</td>
+      <td>1bii</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>P</td>
+      <td>A</td>
+      <td>B</td>
+      <td>NaN</td>
+      <td>RGPGRAFVTI</td>
+      <td>h2_dd</td>
+      <td>1bii_A-B-P_pmhc</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1ddh_A-B-P_pmhc.pdb</td>
+      <td>1ddh</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>P</td>
+      <td>A</td>
+      <td>B</td>
+      <td>NaN</td>
+      <td>RGPGRAFVTI</td>
+      <td>h2_dd</td>
+      <td>1ddh_A-B-P_pmhc</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1duz_A-B-C_pmhc.pdb</td>
+      <td>1duz</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>NaN</td>
+      <td>LLFGYPVYV</td>
+      <td>hla_a_02_01</td>
+      <td>1duz_A-B-C_pmhc</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>353</th>
+      <td>8gon_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>8gon</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>D</td>
+      <td>E</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>TSESDYY-QEAYKQQN-ASSGNTPLV-SGHNS-FNNNVP-ASTWGR...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>8gon_D-E-C-A-B_tcr_pmhc</td>
+    </tr>
+    <tr>
+      <th>354</th>
+      <td>8gop_A-B_tcr.pdb</td>
+      <td>8gop</td>
+      <td>tcr</td>
+      <td>apo</td>
+      <td>A</td>
+      <td>B</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>TSESDYY-QEAYKQQN-ASSGNTPLV-SGHNS-FNNNVP-ASTWGR...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>8gop_A-B_tcr</td>
+    </tr>
+    <tr>
+      <th>355</th>
+      <td>8gvb_A-B-P-H-L_tcr_pmhc.pdb</td>
+      <td>8gvb</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>A</td>
+      <td>B</td>
+      <td>P</td>
+      <td>H</td>
+      <td>L</td>
+      <td>YGATPY-YFSGDTLV-AVGFTGGGNKLT-SEHNR-FQNEAQ-ASSD...</td>
+      <td>RYPLTFGW</td>
+      <td>hla_a_24_02</td>
+      <td>8gvb_A-B-P-H-L_tcr_pmhc</td>
+    </tr>
+    <tr>
+      <th>356</th>
+      <td>8gvg_A-B-P-H-L_tcr_pmhc.pdb</td>
+      <td>8gvg</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>A</td>
+      <td>B</td>
+      <td>P</td>
+      <td>H</td>
+      <td>L</td>
+      <td>YGATPY-YFSGDTLV-AVGFTGGGNKLT-SEHNR-FQNEAQ-ASSD...</td>
+      <td>RFPLTFGW</td>
+      <td>hla_a_24_02</td>
+      <td>8gvg_A-B-P-H-L_tcr_pmhc</td>
+    </tr>
+    <tr>
+      <th>357</th>
+      <td>8gvi_A-B-P-H-L_tcr_pmhc.pdb</td>
+      <td>8gvi</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>A</td>
+      <td>B</td>
+      <td>P</td>
+      <td>H</td>
+      <td>L</td>
+      <td>YGATPY-YFSGDTLV-AVVFTGGGNKLT-SEHNR-FQNEAQ-ASSL...</td>
+      <td>RYPLTFGW</td>
+      <td>hla_a_24_02</td>
+      <td>8gvi_A-B-P-H-L_tcr_pmhc</td>
+    </tr>
+  </tbody>
+</table>
+<p>358 rows × 13 columns</p>
+</div></div>
+</div>
+</section>
+<section id="Annotate-apo-holo-data-with-allele-information">
+<h2>Annotate <em>apo</em>-<em>holo</em> data with allele information<a class="headerlink" href="#Annotate-apo-holo-data-with-allele-information" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>peptide_apo_holo_comparison = peptide_apo_holo_comparison.merge(summary_df, how=&#39;left&#39;, left_on=&#39;complex_id&#39;, right_on=&#39;group_name&#39;)
+peptide_apo_holo_comparison
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>complex_id</th>
+      <th>structure_x_name</th>
+      <th>structure_y_name</th>
+      <th>chain_type</th>
+      <th>residue_name</th>
+      <th>residue_seq_id</th>
+      <th>residue_insert_code</th>
+      <th>rmsd</th>
+      <th>ca_distance</th>
+      <th>chi_angle_change</th>
+      <th>...</th>
+      <th>state</th>
+      <th>alpha_chain</th>
+      <th>beta_chain</th>
+      <th>antigen_chain</th>
+      <th>mhc_chain1</th>
+      <th>mhc_chain2</th>
+      <th>cdr_sequences_collated</th>
+      <th>peptide_sequence</th>
+      <th>mhc_slug</th>
+      <th>group_name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>7ow6_D-E-C-A-B_tcr_pmhc</td>
+      <td>7ow4_A-B-C_pmhc.pdb</td>
+      <td>7ow4_D-E-F_pmhc.pdb</td>
+      <td>antigen_chain</td>
+      <td>VAL</td>
+      <td>1</td>
+      <td>NaN</td>
+      <td>0.354933</td>
+      <td>0.330887</td>
+      <td>0.200330</td>
+      <td>...</td>
+      <td>holo</td>
+      <td>D</td>
+      <td>E</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>TRDTAYY-QPWWGEQN-AMSVPSGDGSYQFT-MNHEY-SVGEGT-A...</td>
+      <td>VVVGADGVGK</td>
+      <td>hla_a_11_01</td>
+      <td>7ow6_D-E-C-A-B_tcr_pmhc</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>7ow6_D-E-C-A-B_tcr_pmhc</td>
+      <td>7ow4_A-B-C_pmhc.pdb</td>
+      <td>7ow4_D-E-F_pmhc.pdb</td>
+      <td>antigen_chain</td>
+      <td>VAL</td>
+      <td>2</td>
+      <td>NaN</td>
+      <td>0.262440</td>
+      <td>0.073709</td>
+      <td>0.030793</td>
+      <td>...</td>
+      <td>holo</td>
+      <td>D</td>
+      <td>E</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>TRDTAYY-QPWWGEQN-AMSVPSGDGSYQFT-MNHEY-SVGEGT-A...</td>
+      <td>VVVGADGVGK</td>
+      <td>hla_a_11_01</td>
+      <td>7ow6_D-E-C-A-B_tcr_pmhc</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>7ow6_D-E-C-A-B_tcr_pmhc</td>
+      <td>7ow4_A-B-C_pmhc.pdb</td>
+      <td>7ow4_D-E-F_pmhc.pdb</td>
+      <td>antigen_chain</td>
+      <td>VAL</td>
+      <td>3</td>
+      <td>NaN</td>
+      <td>0.256739</td>
+      <td>0.248310</td>
+      <td>-0.007898</td>
+      <td>...</td>
+      <td>holo</td>
+      <td>D</td>
+      <td>E</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>TRDTAYY-QPWWGEQN-AMSVPSGDGSYQFT-MNHEY-SVGEGT-A...</td>
+      <td>VVVGADGVGK</td>
+      <td>hla_a_11_01</td>
+      <td>7ow6_D-E-C-A-B_tcr_pmhc</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>7ow6_D-E-C-A-B_tcr_pmhc</td>
+      <td>7ow4_A-B-C_pmhc.pdb</td>
+      <td>7ow4_D-E-F_pmhc.pdb</td>
+      <td>antigen_chain</td>
+      <td>GLY</td>
+      <td>4</td>
+      <td>NaN</td>
+      <td>0.568505</td>
+      <td>0.622876</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>holo</td>
+      <td>D</td>
+      <td>E</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>TRDTAYY-QPWWGEQN-AMSVPSGDGSYQFT-MNHEY-SVGEGT-A...</td>
+      <td>VVVGADGVGK</td>
+      <td>hla_a_11_01</td>
+      <td>7ow6_D-E-C-A-B_tcr_pmhc</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>7ow6_D-E-C-A-B_tcr_pmhc</td>
+      <td>7ow4_A-B-C_pmhc.pdb</td>
+      <td>7ow4_D-E-F_pmhc.pdb</td>
+      <td>antigen_chain</td>
+      <td>GLY</td>
+      <td>7</td>
+      <td>NaN</td>
+      <td>0.346240</td>
+      <td>0.192317</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>holo</td>
+      <td>D</td>
+      <td>E</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>TRDTAYY-QPWWGEQN-AMSVPSGDGSYQFT-MNHEY-SVGEGT-A...</td>
+      <td>VVVGADGVGK</td>
+      <td>hla_a_11_01</td>
+      <td>7ow6_D-E-C-A-B_tcr_pmhc</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>5833</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7rtd_A-B-C_pmhc.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>antigen_chain</td>
+      <td>ARG</td>
+      <td>5</td>
+      <td>NaN</td>
+      <td>1.064663</td>
+      <td>0.157924</td>
+      <td>0.364432</td>
+      <td>...</td>
+      <td>holo</td>
+      <td>D</td>
+      <td>E</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>DRGSQS-IYSNGD-AVNRDDKII-SEHNR-FQNEAQ-ASSPDIEQY</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+    </tr>
+    <tr>
+      <th>5834</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7rtd_A-B-C_pmhc.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>antigen_chain</td>
+      <td>THR</td>
+      <td>6</td>
+      <td>NaN</td>
+      <td>0.421897</td>
+      <td>0.345439</td>
+      <td>0.097701</td>
+      <td>...</td>
+      <td>holo</td>
+      <td>D</td>
+      <td>E</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>DRGSQS-IYSNGD-AVNRDDKII-SEHNR-FQNEAQ-ASSPDIEQY</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+    </tr>
+    <tr>
+      <th>5835</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7rtd_A-B-C_pmhc.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>antigen_chain</td>
+      <td>PHE</td>
+      <td>7</td>
+      <td>NaN</td>
+      <td>1.225982</td>
+      <td>0.317819</td>
+      <td>-0.347835</td>
+      <td>...</td>
+      <td>holo</td>
+      <td>D</td>
+      <td>E</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>DRGSQS-IYSNGD-AVNRDDKII-SEHNR-FQNEAQ-ASSPDIEQY</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+    </tr>
+    <tr>
+      <th>5836</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7rtd_A-B-C_pmhc.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>antigen_chain</td>
+      <td>LEU</td>
+      <td>8</td>
+      <td>NaN</td>
+      <td>1.323615</td>
+      <td>0.310356</td>
+      <td>0.612672</td>
+      <td>...</td>
+      <td>holo</td>
+      <td>D</td>
+      <td>E</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>DRGSQS-IYSNGD-AVNRDDKII-SEHNR-FQNEAQ-ASSPDIEQY</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+    </tr>
+    <tr>
+      <th>5837</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7rtd_A-B-C_pmhc.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>antigen_chain</td>
+      <td>LEU</td>
+      <td>9</td>
+      <td>NaN</td>
+      <td>1.599917</td>
+      <td>0.192969</td>
+      <td>0.885323</td>
+      <td>...</td>
+      <td>holo</td>
+      <td>D</td>
+      <td>E</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>DRGSQS-IYSNGD-AVNRDDKII-SEHNR-FQNEAQ-ASSPDIEQY</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+    </tr>
+  </tbody>
+</table>
+<p>5838 rows × 26 columns</p>
+</div></div>
+</div>
+</section>
+<section id="Combine-anchoring-information-with-apo-holo-comparisons">
+<h2>Combine anchoring information with <em>apo</em>-<em>holo</em> comparisons<a class="headerlink" href="#Combine-anchoring-information-with-apo-holo-comparisons" title="Link to this heading"></a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>mhc_anchor_position_df[&#39;anchor&#39;] = True
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>peptide_apo_holo_comparison = peptide_apo_holo_comparison.merge(
+    mhc_anchor_position_df,
+    how=&#39;left&#39;,
+    left_on=[&#39;mhc_slug&#39;, &#39;residue_seq_id&#39;, &#39;amino_acid&#39;, &#39;peptide_length&#39;],
+    right_on=[&#39;allele_slug&#39;, &#39;position&#39;, &#39;amino_acid&#39;, &#39;peptide_length&#39;],
+)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def collate_anchors(group: pd.DataFrame) -&gt; list[int]:
+    return sorted(group[group[&#39;anchor&#39;] == True][&#39;residue_seq_id&#39;].unique().tolist())
+
+anchoring_strategies = peptide_apo_holo_comparison.groupby([&#39;structure_x_name&#39;, &#39;structure_y_name&#39;]).apply(collate_anchors)
+anchoring_strategies.name = &#39;anchoring_strategy&#39;
+anchoring_strategies = anchoring_strategies.reset_index()
+
+peptide_apo_holo_comparison = peptide_apo_holo_comparison.merge(anchoring_strategies, how=&#39;left&#39;, on=[&#39;structure_x_name&#39;, &#39;structure_y_name&#39;])
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def markup_anchor(anchors: list[int]) -&gt; str:
+    anchors = [f&#39;p{anchor}&#39; for anchor in anchors]
+    return &#39;-&#39;.join(anchors)
+
+peptide_apo_holo_comparison[&#39;anchoring_strategy_str&#39;] = peptide_apo_holo_comparison[&#39;anchoring_strategy&#39;].map(markup_anchor)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def find_dominant_anchor(group: pd.DataFrame) -&gt; str:
+    anchor_types = group[&#39;anchoring_strategy_str&#39;].unique()
+    lengths = np.array([len(anchor) for anchor in anchor_types])
+    index = np.argmax(lengths)
+
+    return anchor_types[index]
+
+dominant_anchors = peptide_apo_holo_comparison.groupby(&#39;mhc_slug&#39;).apply(find_dominant_anchor)
+dominant_anchors.name = &#39;dominant_anchor&#39;
+dominant_anchors = dominant_anchors.reset_index()
+
+peptide_apo_holo_comparison = peptide_apo_holo_comparison.merge(dominant_anchors, how=&#39;left&#39;, on=&#39;mhc_slug&#39;)
+</pre></div>
+</div>
+</div>
+<p>The below correction is applied as it is assumed that those peptide marked as solely ‘p2’ or ‘p9’ anchors are most likely still anchored by something at either end that is not necessarily the high or dominant motif.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>peptide_apo_holo_comparison[&#39;dominant_anchor&#39;] = peptide_apo_holo_comparison[&#39;dominant_anchor&#39;].map(
+    lambda strategy: &#39;p2-p9&#39; if strategy in (&#39;p2&#39;, &#39;p9&#39;) else strategy
+)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>peptide_apo_holo_comparison_with_anchor = peptide_apo_holo_comparison.query(&quot;anchoring_strategy_str != &#39;&#39;&quot;)
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Visualising-the-results">
+<h2>Visualising the results<a class="headerlink" href="#Visualising-the-results" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>g = sns.catplot(peptide_apo_holo_comparison_with_anchor,
+                col=&#39;dominant_anchor&#39;,
+                x=&#39;residue_seq_id&#39;, y=&#39;rmsd&#39;,
+                sharex=False,
+                color=&#39;salmon&#39;,
+                kind=&#39;bar&#39;)
+
+def annotate(data, **kws):
+    groups = data.groupby([&#39;mhc_slug&#39;, &#39;peptide_sequence&#39;])
+    ax = plt.gca()
+    ax.text(0.45, 0.9, f&#39;n={len(groups)}&#39;, fontsize=16, transform=ax.transAxes)
+
+g.map_dataframe(annotate)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/source_pMHC_movement_based_on_peptide_anchoring_22_0.png" src="../_images/source_pMHC_movement_based_on_peptide_anchoring_22_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>max_rmsd = peptide_apo_holo_comparison_with_anchor[&#39;rmsd&#39;].max()
+
+for mhc_slug, group in peptide_apo_holo_comparison_with_anchor.groupby(&#39;mhc_slug&#39;):
+    print(mhc_slug)
+    print(group[&#39;dominant_anchor&#39;].unique()[0])
+    plot = sns.barplot(group, x=&#39;residue_seq_id&#39;, y=&#39;rmsd&#39;, color=&#39;salmon&#39;)
+    plot.set_ylim((0, np.ceil(max_rmsd)))
+    plt.show()
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+hla_a_02_01
+p2-p9
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_1.png" src="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_1.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+hla_a_02_06
+p2-p9
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_3.png" src="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_3.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+hla_a_03_01
+p2-p9
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_5.png" src="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_5.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+hla_a_24_02
+p2-p9
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_7.png" src="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_7.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+hla_b_08_01
+p2-p5-p9
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_9.png" src="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_9.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+hla_b_35_01
+p2-p9
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_11.png" src="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_11.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+hla_b_37_01
+p2-p5-p9
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_13.png" src="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_13.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+hla_b_42_01
+p2-p9
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_15.png" src="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_15.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+hla_b_44_05
+p2-p9
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_17.png" src="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_17.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+hla_b_53_01
+p2-p9
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_19.png" src="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_19.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+hla_b_81_01
+p2-p9
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_21.png" src="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_21.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+hla_c_08_02
+p2-p3
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_23.png" src="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_23.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+hla_e_01_03
+p2-p9
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_25.png" src="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_25.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>sns.barplot(peptide_apo_holo_comparison_with_anchor,
+            hue=&#39;dominant_anchor&#39;,
+            x=&#39;residue_seq_id&#39;, y=&#39;rmsd&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;AxesSubplot: xlabel=&#39;residue_seq_id&#39;, ylabel=&#39;rmsd&#39;&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/source_pMHC_movement_based_on_peptide_anchoring_24_1.png" src="../_images/source_pMHC_movement_based_on_peptide_anchoring_24_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>representative_alleles = (peptide_apo_holo_comparison_with_anchor.groupby(&#39;dominant_anchor&#39;)[[&#39;dominant_anchor&#39;, &#39;mhc_slug&#39;]]
+                                                                 .sample(1, random_state=1)
+                                                                 .reset_index(drop=True))
+representative_alleles
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>dominant_anchor</th>
+      <th>mhc_slug</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>p2-p3</td>
+      <td>hla_c_08_02</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>p2-p5-p9</td>
+      <td>hla_b_08_01</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>p2-p9</td>
+      <td>hla_a_02_01</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>sns.barplot(peptide_apo_holo_comparison_with_anchor.query(&quot;mhc_slug.isin(@representative_alleles[&#39;mhc_slug&#39;])&quot;),
+            hue=&#39;mhc_slug&#39;,
+            x=&#39;residue_seq_id&#39;, y=&#39;rmsd&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;AxesSubplot: xlabel=&#39;residue_seq_id&#39;, ylabel=&#39;rmsd&#39;&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/source_pMHC_movement_based_on_peptide_anchoring_26_1.png" src="../_images/source_pMHC_movement_based_on_peptide_anchoring_26_1.png" />
+</div>
+</div>
+</section>
+<section id="Conclusion">
+<h2>Conclusion<a class="headerlink" href="#Conclusion" title="Link to this heading"></a></h2>
+<p>From the visualisations it is clear that the profile of peptide conformational changes depends on the mhc allele and how the peptides are anchored by the allele.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Visualising_CDR_loop_clustering.html" class="btn btn-neutral float-left" title="Visualising CDR loop clustering" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pMHC_movement_between_apo_and_holo_conformations.html" class="btn btn-neutral float-right" title="pMHC movement between apo and holo conformations" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Benjamin McMaster.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

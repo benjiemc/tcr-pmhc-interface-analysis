@@ -1,0 +1,22 @@
+tcr_pmhc_interface_analysis.apps.download_stcrdab
+=================================================
+.. code-block:: text
+
+   usage: python -m tcr_pmhc_interface_analysis.apps.download_stcrdab
+          [-h] [--log-level {debug,info,warning,error}] output
+   
+   Download all of the STCRDab structures to a specified output path.
+   
+   positional arguments:
+     output                path to the downloaded data directory eg.
+                           some/path/stcrdab
+   
+   options:
+     -h, --help            show this help message and exit
+   
+   Logging:
+     Options for logging
+   
+     --log-level {debug,info,warning,error}
+                           Level to log messages at (Default: 'warning')
+   

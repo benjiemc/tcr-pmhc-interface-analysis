@@ -1,0 +1,36 @@
+tcr_pmhc_interface_analysis.apps.sample_ots
+===========================================
+.. code-block:: text
+
+   usage: python -m tcr_pmhc_interface_analysis.apps.sample_ots
+          [-h] [--sample-size SAMPLE_SIZE] [--num NUM] [--seed SEED]
+          [--redundant] [--columns COLUMNS [COLUMNS ...]] --output OUTPUT
+          [--log-level {debug,info,warning,error}]
+          path
+   
+   Sample OTS sequences and select columns.
+   
+   positional arguments:
+     path                  path to OTS files
+   
+   options:
+     -h, --help            show this help message and exit
+     --sample-size SAMPLE_SIZE
+                           size of samples (Default: 1000)
+     --num NUM, -n NUM     number of samples to take (Default: 1)
+     --seed SEED           Seed for sampling (Default: None)
+     --redundant           do not remove redundant TCRs based on input columns
+     --columns COLUMNS [COLUMNS ...]
+                           relevant columns to include (Default: cdr1_aa_alpha,
+                           cdr2_aa_alpha, cdr3_aa_alpha, cdr1_aa_beta,
+                           cdr2_aa_beta, cdr3_aa_beta, v_call_alpha, v_call_beta,
+                           j_call_alpha, j_call_beta)
+     --output OUTPUT, -o OUTPUT
+                           path to output csv
+   
+   Logging:
+     Options for logging
+   
+     --log-level {debug,info,warning,error}
+                           Level to log messages at (Default: 'warning')
+   

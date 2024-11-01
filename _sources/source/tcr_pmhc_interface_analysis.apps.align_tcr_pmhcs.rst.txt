@@ -1,0 +1,30 @@
+tcr_pmhc_interface_analysis.apps.align_tcr_pmhcs
+================================================
+.. code-block:: text
+
+   usage: python -m tcr_pmhc_interface_analysis.apps.align_tcr_pmhcs
+          [-h] [--output OUTPUT] [--only-holo]
+          [--log-level {debug,info,warning,error}]
+          structures
+   
+   Align TCR, pMHC, and TCR:pMHC on the TCR framework region or the floor of the MHC antigen binding groove.
+   
+   Requirements:
+       - PyMOL: https://www.pymol.org/
+   
+   positional arguments:
+     structures            path to the structures to align
+   
+   options:
+     -h, --help            show this help message and exit
+     --output OUTPUT, -o OUTPUT
+                           path to output the aligned files
+     --only-holo           only align the holo structures based on either TCR CDR
+                           sequences or mhc allele and peptide sequence.
+   
+   Logging:
+     Options for logging
+   
+     --log-level {debug,info,warning,error}
+                           Level to log messages at (Default: 'warning')
+   

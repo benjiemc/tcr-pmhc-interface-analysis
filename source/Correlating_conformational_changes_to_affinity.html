@@ -1,0 +1,2852 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Correlating conformational changes to affinity &mdash; tcr_pmhc_interface_analysis  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            tcr_pmhc_interface_analysis
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Analysis Results</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="notebooks.html">Analysis Notebooks</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Command Line Applications</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="apps.html">Command Line Applications</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">tcr_pmhc_interface_analysis</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">tcr_pmhc_interface_analysis</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Correlating conformational changes to affinity</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/source/Correlating_conformational_changes_to_affinity.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Correlating-conformational-changes-to-affinity">
+<h1>Correlating conformational changes to affinity<a class="headerlink" href="#Correlating-conformational-changes-to-affinity" title="Link to this heading"></a></h1>
+<section id="Introduction">
+<h2>Introduction<a class="headerlink" href="#Introduction" title="Link to this heading"></a></h2>
+<p>The following notebook aims to correlate the changes observed between <em>apo</em> and <em>holo</em> conformations with the affinity of the interactions. The ATLAS dataset is be used to collect affinities on the interactions.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import re
+
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import scipy
+import seaborn as sns
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Loading-and-cleaning-the-ATLAS-dataset">
+<h2>Loading and cleaning the ATLAS dataset<a class="headerlink" href="#Loading-and-cleaning-the-ATLAS-dataset" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>atlas = pd.read_excel(&#39;../data/external/ATLAS.xlsx&#39;, sheet_name=&#39;Mutants_052016&#39;, index_col=&#39;Index&#39;)
+atlas
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>TCRname</th>
+      <th>MHCname</th>
+      <th>MHCname_PDB</th>
+      <th>MHC_mut</th>
+      <th>MHC_mut_chain</th>
+      <th>TCR_mut</th>
+      <th>Kd_microM</th>
+      <th>Kon_per_M_per_s</th>
+      <th>Koff_per_s</th>
+      <th>Kd_wt/Kd_mut</th>
+      <th>...</th>
+      <th>TCR_mut_chain</th>
+      <th>CDR</th>
+      <th>wtCDRseq</th>
+      <th>TCR_PDB_chain</th>
+      <th>PMID</th>
+      <th>Exp. Method</th>
+      <th>SPR SensorChip</th>
+      <th>Immobilized Ligand</th>
+      <th>Coupling Method</th>
+      <th>Analyte</th>
+    </tr>
+    <tr>
+      <th>Index</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>LC13</td>
+      <td>HLA-B*08:01</td>
+      <td>HLA-B*08:01</td>
+      <td>WT</td>
+      <td>NaN</td>
+      <td>WT</td>
+      <td>12.5 +/- 2.1</td>
+      <td>\N</td>
+      <td>\N</td>
+      <td>1</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>\N</td>
+      <td>\N</td>
+      <td>\N</td>
+      <td>15640805</td>
+      <td>Biacore 3000</td>
+      <td>CM5</td>
+      <td>FLRGRAYGL-HLA-B*08:01</td>
+      <td>direct</td>
+      <td>LC13 WT</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>LC13</td>
+      <td>HLA-B*08:01</td>
+      <td>HLA-B*08:01</td>
+      <td>WT</td>
+      <td>NaN</td>
+      <td>S25A</td>
+      <td>14.8 +/- 0.55</td>
+      <td>\N</td>
+      <td>\N</td>
+      <td>0.84</td>
+      <td>...</td>
+      <td>A</td>
+      <td>CDR1</td>
+      <td>TISGTDY</td>
+      <td>D</td>
+      <td>15640805</td>
+      <td>Biacore 3000</td>
+      <td>CM5</td>
+      <td>FLRGRAYGL-HLA-B*08:01</td>
+      <td>direct</td>
+      <td>LC13 S25A</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>LC13</td>
+      <td>HLA-B*08:01</td>
+      <td>HLA-B*08:01</td>
+      <td>WT</td>
+      <td>NaN</td>
+      <td>T26A</td>
+      <td>19.4 +/- 0.55</td>
+      <td>\N</td>
+      <td>\N</td>
+      <td>0.64</td>
+      <td>...</td>
+      <td>A</td>
+      <td>CDR1</td>
+      <td>TISGTDY</td>
+      <td>D</td>
+      <td>15640805</td>
+      <td>Biacore 3000</td>
+      <td>CM5</td>
+      <td>FLRGRAYGL-HLA-B*08:01</td>
+      <td>direct</td>
+      <td>LC13 T26A</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>LC13</td>
+      <td>HLA-B*08:01</td>
+      <td>HLA-B*08:01</td>
+      <td>WT</td>
+      <td>NaN</td>
+      <td>S28A</td>
+      <td>11.7 +/- 0.85</td>
+      <td>\N</td>
+      <td>\N</td>
+      <td>1.07</td>
+      <td>...</td>
+      <td>A</td>
+      <td>CDR1</td>
+      <td>TISGTDY</td>
+      <td>D</td>
+      <td>15640805</td>
+      <td>Biacore 3000</td>
+      <td>CM5</td>
+      <td>FLRGRAYGL-HLA-B*08:01</td>
+      <td>direct</td>
+      <td>LC13 S28A</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>LC13</td>
+      <td>HLA-B*08:01</td>
+      <td>HLA-B*08:01</td>
+      <td>WT</td>
+      <td>NaN</td>
+      <td>T30A</td>
+      <td>33.7 +/- 1.2</td>
+      <td>\N</td>
+      <td>\N</td>
+      <td>0.37</td>
+      <td>...</td>
+      <td>A</td>
+      <td>CDR1</td>
+      <td>TISGTDY</td>
+      <td>D</td>
+      <td>15640805</td>
+      <td>Biacore 3000</td>
+      <td>CM5</td>
+      <td>FLRGRAYGL-HLA-B*08:01</td>
+      <td>direct</td>
+      <td>LC13 T30A</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>690</th>
+      <td>2B4</td>
+      <td>I-Ek</td>
+      <td>I-Ek</td>
+      <td>WT</td>
+      <td>NaN</td>
+      <td>WT</td>
+      <td>n.d.</td>
+      <td>n.d.</td>
+      <td>n.d.</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>12152083</td>
+      <td>Biacore</td>
+      <td>NaN</td>
+      <td>ANERADLIAYLKQAAK-IEk</td>
+      <td>indirect</td>
+      <td>2B4 WT</td>
+    </tr>
+    <tr>
+      <th>691</th>
+      <td>2B4</td>
+      <td>I-Ek</td>
+      <td>I-Ek</td>
+      <td>WT</td>
+      <td>NaN</td>
+      <td>WT</td>
+      <td>33.8</td>
+      <td>3950</td>
+      <td>0.134</td>
+      <td>0.16</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>12152083</td>
+      <td>Biacore</td>
+      <td>NaN</td>
+      <td>ANERADLIAYLKQASK-IEk</td>
+      <td>indirect</td>
+      <td>2B4 WT</td>
+    </tr>
+    <tr>
+      <th>692</th>
+      <td>2B4</td>
+      <td>I-Ek</td>
+      <td>I-Ek</td>
+      <td>WT</td>
+      <td>NaN</td>
+      <td>WT</td>
+      <td>43.4</td>
+      <td>4030</td>
+      <td>680</td>
+      <td>0.13</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>12152083</td>
+      <td>Biacore</td>
+      <td>NaN</td>
+      <td>ANERADLIAYLKQANK-IEk</td>
+      <td>indirect</td>
+      <td>2B4 WT</td>
+    </tr>
+    <tr>
+      <th>693</th>
+      <td>2B4</td>
+      <td>I-Ek</td>
+      <td>I-Ek</td>
+      <td>WT</td>
+      <td>NaN</td>
+      <td>WT</td>
+      <td>42.9</td>
+      <td>4200</td>
+      <td>0.18</td>
+      <td>0.13</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>12152083</td>
+      <td>Biacore</td>
+      <td>NaN</td>
+      <td>ANERADLIAFLKQASK-IEk</td>
+      <td>indirect</td>
+      <td>2B4 WT</td>
+    </tr>
+    <tr>
+      <th>694</th>
+      <td>2C</td>
+      <td>H-2Ld</td>
+      <td>H-2Ld</td>
+      <td>WT</td>
+      <td>NaN</td>
+      <td>WT</td>
+      <td>1.2</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>19755422</td>
+      <td>flow cytometry</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+<p>694 rows × 32 columns</p>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>atlas_with_pdb = atlas.query(&#39;true_PDB.notna()&#39;).copy()
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>atlas_with_pdb_wt = atlas_with_pdb.query(&quot;MHC_mut == TCR_mut == &#39;WT&#39;&quot;).copy()
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pattern = re.compile(r&#39;\s*\+/\-\s*&#39;)
+
+kds = atlas_with_pdb_wt[&#39;Kd_microM&#39;].apply(str).map(pattern.split).apply(pd.Series)
+kds.columns = [&#39;kd&#39;, &#39;error&#39;]
+kds = kds.replace(&#39;n.d.&#39;, np.nan)
+kds.loc[kds[&#39;kd&#39;].fillna(&#39;&#39;).str.startswith(&#39;&gt;&#39;), &#39;kd&#39;] = np.nan
+
+kds[&#39;kd&#39;] = kds[&#39;kd&#39;].apply(float)
+kds[&#39;error&#39;] = kds[&#39;error&#39;].apply(float)
+
+atlas_with_pdb_wt[[&#39;kd&#39;, &#39;kd_error&#39;]] = kds
+
+atlas_with_pdb_wt = atlas_with_pdb_wt[atlas_with_pdb_wt[&#39;kd&#39;].notnull()].copy()
+
+atlas_with_pdb_wt
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>TCRname</th>
+      <th>MHCname</th>
+      <th>MHCname_PDB</th>
+      <th>MHC_mut</th>
+      <th>MHC_mut_chain</th>
+      <th>TCR_mut</th>
+      <th>Kd_microM</th>
+      <th>Kon_per_M_per_s</th>
+      <th>Koff_per_s</th>
+      <th>Kd_wt/Kd_mut</th>
+      <th>...</th>
+      <th>wtCDRseq</th>
+      <th>TCR_PDB_chain</th>
+      <th>PMID</th>
+      <th>Exp. Method</th>
+      <th>SPR SensorChip</th>
+      <th>Immobilized Ligand</th>
+      <th>Coupling Method</th>
+      <th>Analyte</th>
+      <th>kd</th>
+      <th>kd_error</th>
+    </tr>
+    <tr>
+      <th>Index</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>LC13</td>
+      <td>HLA-B*08:01</td>
+      <td>HLA-B*08:01</td>
+      <td>WT</td>
+      <td>NaN</td>
+      <td>WT</td>
+      <td>12.5 +/- 2.1</td>
+      <td>\N</td>
+      <td>\N</td>
+      <td>1</td>
+      <td>...</td>
+      <td>\N</td>
+      <td>\N</td>
+      <td>15640805</td>
+      <td>Biacore 3000</td>
+      <td>CM5</td>
+      <td>FLRGRAYGL-HLA-B*08:01</td>
+      <td>direct</td>
+      <td>LC13 WT</td>
+      <td>12.500000</td>
+      <td>2.1</td>
+    </tr>
+    <tr>
+      <th>40</th>
+      <td>JM22</td>
+      <td>HLA-A*02:01</td>
+      <td>HLA-A*02:01</td>
+      <td>WT</td>
+      <td>NaN</td>
+      <td>WT</td>
+      <td>5.2</td>
+      <td>31000</td>
+      <td>0.16</td>
+      <td>1</td>
+      <td>...</td>
+      <td>\N</td>
+      <td>\N</td>
+      <td>18275829</td>
+      <td>Biacore 2000</td>
+      <td>CM5</td>
+      <td>GILGFVFTL-HLA-A*02:01</td>
+      <td>indirect</td>
+      <td>JM22 WT</td>
+      <td>5.200000</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>63</th>
+      <td>A6</td>
+      <td>HLA-A*02:01</td>
+      <td>HLA-A*02:01</td>
+      <td>WT</td>
+      <td>NaN</td>
+      <td>WT</td>
+      <td>2.113503</td>
+      <td>51100</td>
+      <td>0.108</td>
+      <td>1</td>
+      <td>...</td>
+      <td>\N</td>
+      <td>\N</td>
+      <td>18767161</td>
+      <td>Biacore 3000</td>
+      <td>CM5</td>
+      <td>A6 WT</td>
+      <td>direct</td>
+      <td>LLFGYPVYV-HLA-A*02:01</td>
+      <td>2.113503</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>90</th>
+      <td>RA14</td>
+      <td>HLA-A*02:01</td>
+      <td>HLA-A*02:01</td>
+      <td>WT</td>
+      <td>NaN</td>
+      <td>WT</td>
+      <td>27.7 +/- 2.3</td>
+      <td>\N</td>
+      <td>\N</td>
+      <td>1</td>
+      <td>...</td>
+      <td>\N</td>
+      <td>\N</td>
+      <td>19542454</td>
+      <td>Biacore 3000</td>
+      <td>CM5</td>
+      <td>RA14 WT</td>
+      <td>direct</td>
+      <td>NLVPMVATV-HLA-A*02:01</td>
+      <td>27.700000</td>
+      <td>2.3</td>
+    </tr>
+    <tr>
+      <th>100</th>
+      <td>MEL5</td>
+      <td>HLA-A*02:01</td>
+      <td>HLA-A*02:01</td>
+      <td>WT</td>
+      <td>NaN</td>
+      <td>WT</td>
+      <td>18</td>
+      <td>\N</td>
+      <td>\N</td>
+      <td>0.36</td>
+      <td>...</td>
+      <td>\N</td>
+      <td>\N</td>
+      <td>19605354</td>
+      <td>Biacore T100</td>
+      <td>CM5</td>
+      <td>ELAGIGILTV-HLA-A*02:01</td>
+      <td>indirect</td>
+      <td>MEL5 WT</td>
+      <td>18.000000</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>665</th>
+      <td>42F3</td>
+      <td>H-2Ld</td>
+      <td>H-2Ld</td>
+      <td>WT</td>
+      <td>NaN</td>
+      <td>WT</td>
+      <td>48</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>22301545</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>48.000000</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>666</th>
+      <td>J809.B5</td>
+      <td>I-Ab</td>
+      <td>I-Ab</td>
+      <td>WT</td>
+      <td>NaN</td>
+      <td>WT</td>
+      <td>32</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>24813203</td>
+      <td>Biacore 3000</td>
+      <td>NaN</td>
+      <td>FEAQKAKANKAVD-IAb</td>
+      <td>indirect</td>
+      <td>J809.B5 WT</td>
+      <td>32.000000</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>668</th>
+      <td>14.C6</td>
+      <td>I-Ab</td>
+      <td>I-Ab</td>
+      <td>WT</td>
+      <td>NaN</td>
+      <td>WT</td>
+      <td>5</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>24813203</td>
+      <td>Biacore 3000</td>
+      <td>NaN</td>
+      <td>FEAQKAKANKAVD-IAb</td>
+      <td>indirect</td>
+      <td>14.C6 WT</td>
+      <td>5.000000</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>669</th>
+      <td>2B4</td>
+      <td>I-Ek</td>
+      <td>I-Ek</td>
+      <td>WT</td>
+      <td>NaN</td>
+      <td>WT</td>
+      <td>5.5</td>
+      <td>4000</td>
+      <td>0.022</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>12152083</td>
+      <td>Biacore</td>
+      <td>NaN</td>
+      <td>ANERADLIAYLKQATK-IEk</td>
+      <td>indirect</td>
+      <td>2B4 WT</td>
+      <td>5.500000</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>694</th>
+      <td>2C</td>
+      <td>H-2Ld</td>
+      <td>H-2Ld</td>
+      <td>WT</td>
+      <td>NaN</td>
+      <td>WT</td>
+      <td>1.2</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>19755422</td>
+      <td>flow cytometry</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.200000</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+<p>100 rows × 34 columns</p>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>atlas_with_pdb_wt[&#39;pdb_id&#39;] = atlas_with_pdb[&#39;true_PDB&#39;].str.lower()
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>num_structures_in_atlas = len(atlas_with_pdb_wt[&#39;pdb_id&#39;].unique())
+
+print(&#39;There are&#39;, num_structures_in_atlas, &#39;structures in the ATLAS dataset with affinity data for the wild type structures&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+There are 73 structures in the ATLAS dataset with affinity data for the wild type structures
+</pre></div></div>
+</div>
+</section>
+<section id="Loading-apo-holo-dataset">
+<h2>Loading apo-holo dataset<a class="headerlink" href="#Loading-apo-holo-dataset" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>summary_df = pd.read_csv(&#39;../data/processed/apo-holo-tcr-pmhc-class-I/apo_holo_summary.csv&#39;)
+summary_df
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>file_name</th>
+      <th>pdb_id</th>
+      <th>structure_type</th>
+      <th>state</th>
+      <th>alpha_chain</th>
+      <th>beta_chain</th>
+      <th>antigen_chain</th>
+      <th>mhc_chain1</th>
+      <th>mhc_chain2</th>
+      <th>cdr_sequences_collated</th>
+      <th>peptide_sequence</th>
+      <th>mhc_slug</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1ao7_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>1ao7</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>D</td>
+      <td>E</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>DRGSQS-IYSNGD-AVTTDSWGKLQ-MNHEY-SVGAGI-ASRPGLA...</td>
+      <td>LLFGYPVYV</td>
+      <td>hla_a_02_01</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1bd2_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>1bd2</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>D</td>
+      <td>E</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>NSMFDY-ISSIKDK-AAMEGAQKLV-MNHEY-SVGAGI-ASSYPGG...</td>
+      <td>LLFGYPVYV</td>
+      <td>hla_a_02_01</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1bii_A-B-P_pmhc.pdb</td>
+      <td>1bii</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>P</td>
+      <td>A</td>
+      <td>B</td>
+      <td>NaN</td>
+      <td>RGPGRAFVTI</td>
+      <td>h2_dd</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1ddh_A-B-P_pmhc.pdb</td>
+      <td>1ddh</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>P</td>
+      <td>A</td>
+      <td>B</td>
+      <td>NaN</td>
+      <td>RGPGRAFVTI</td>
+      <td>h2_dd</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1duz_A-B-C_pmhc.pdb</td>
+      <td>1duz</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>NaN</td>
+      <td>LLFGYPVYV</td>
+      <td>hla_a_02_01</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>353</th>
+      <td>8gon_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>8gon</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>D</td>
+      <td>E</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>TSESDYY-QEAYKQQN-ASSGNTPLV-SGHNS-FNNNVP-ASTWGR...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>354</th>
+      <td>8gop_A-B_tcr.pdb</td>
+      <td>8gop</td>
+      <td>tcr</td>
+      <td>apo</td>
+      <td>A</td>
+      <td>B</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>TSESDYY-QEAYKQQN-ASSGNTPLV-SGHNS-FNNNVP-ASTWGR...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>355</th>
+      <td>8gvb_A-B-P-H-L_tcr_pmhc.pdb</td>
+      <td>8gvb</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>A</td>
+      <td>B</td>
+      <td>P</td>
+      <td>H</td>
+      <td>L</td>
+      <td>YGATPY-YFSGDTLV-AVGFTGGGNKLT-SEHNR-FQNEAQ-ASSD...</td>
+      <td>RYPLTFGW</td>
+      <td>hla_a_24_02</td>
+    </tr>
+    <tr>
+      <th>356</th>
+      <td>8gvg_A-B-P-H-L_tcr_pmhc.pdb</td>
+      <td>8gvg</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>A</td>
+      <td>B</td>
+      <td>P</td>
+      <td>H</td>
+      <td>L</td>
+      <td>YGATPY-YFSGDTLV-AVGFTGGGNKLT-SEHNR-FQNEAQ-ASSD...</td>
+      <td>RFPLTFGW</td>
+      <td>hla_a_24_02</td>
+    </tr>
+    <tr>
+      <th>357</th>
+      <td>8gvi_A-B-P-H-L_tcr_pmhc.pdb</td>
+      <td>8gvi</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>A</td>
+      <td>B</td>
+      <td>P</td>
+      <td>H</td>
+      <td>L</td>
+      <td>YGATPY-YFSGDTLV-AVVFTGGGNKLT-SEHNR-FQNEAQ-ASSL...</td>
+      <td>RYPLTFGW</td>
+      <td>hla_a_24_02</td>
+    </tr>
+  </tbody>
+</table>
+<p>358 rows × 12 columns</p>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>summary_df[&#39;id&#39;] = summary_df[&#39;file_name&#39;].str.replace(r&#39;.pdb$&#39;, &#39;&#39;, regex=True)
+summary_df = summary_df.set_index(&#39;id&#39;)
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Loading-TCR-data">
+<h2>Loading TCR data<a class="headerlink" href="#Loading-TCR-data" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>conformational_change_tcr = pd.read_csv(&#39;../data/processed/apo-holo-tcr-pmhc-class-I-comparisons/rmsd_cdr_fw_align_results.csv&#39;)
+conformational_change_tcr
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>complex_id</th>
+      <th>structure_x_name</th>
+      <th>structure_y_name</th>
+      <th>chain_type</th>
+      <th>cdr</th>
+      <th>rmsd</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qeu_A-B_tcr.pdb</td>
+      <td>alpha_chain</td>
+      <td>1</td>
+      <td>1.932806</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qeu_A-B_tcr.pdb</td>
+      <td>alpha_chain</td>
+      <td>2</td>
+      <td>1.308598</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qeu_A-B_tcr.pdb</td>
+      <td>alpha_chain</td>
+      <td>3</td>
+      <td>1.244062</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qeu_A-B_tcr.pdb</td>
+      <td>beta_chain</td>
+      <td>1</td>
+      <td>0.809066</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qeu_A-B_tcr.pdb</td>
+      <td>beta_chain</td>
+      <td>2</td>
+      <td>0.688597</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>1581</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7n1d_A-B_tcr.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>alpha_chain</td>
+      <td>2</td>
+      <td>0.810170</td>
+    </tr>
+    <tr>
+      <th>1582</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7n1d_A-B_tcr.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>alpha_chain</td>
+      <td>3</td>
+      <td>0.563263</td>
+    </tr>
+    <tr>
+      <th>1583</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7n1d_A-B_tcr.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>beta_chain</td>
+      <td>1</td>
+      <td>0.399182</td>
+    </tr>
+    <tr>
+      <th>1584</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7n1d_A-B_tcr.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>beta_chain</td>
+      <td>2</td>
+      <td>0.284455</td>
+    </tr>
+    <tr>
+      <th>1585</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7n1d_A-B_tcr.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>beta_chain</td>
+      <td>3</td>
+      <td>0.432453</td>
+    </tr>
+  </tbody>
+</table>
+<p>1586 rows × 6 columns</p>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>conformational_change_tcr = conformational_change_tcr.merge(
+    summary_df[[&#39;file_name&#39;, &#39;pdb_id&#39;, &#39;structure_type&#39;, &#39;state&#39;]],
+    how=&#39;left&#39;,
+    left_on=&#39;structure_x_name&#39;,
+    right_on=&#39;file_name&#39;,
+).merge(
+    summary_df[[&#39;file_name&#39;, &#39;pdb_id&#39;, &#39;structure_type&#39;, &#39;state&#39;]],
+    how=&#39;left&#39;,
+    left_on=&#39;structure_y_name&#39;,
+    right_on=&#39;file_name&#39;,
+    suffixes=(&#39;_x&#39;, &#39;_y&#39;)
+).merge(
+    summary_df[[&#39;cdr_sequences_collated&#39;, &#39;peptide_sequence&#39;, &#39;mhc_slug&#39;]],
+    how=&#39;left&#39;,
+    left_on=&#39;complex_id&#39;,
+    right_index=True,
+)
+
+conformational_change_tcr
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>complex_id</th>
+      <th>structure_x_name</th>
+      <th>structure_y_name</th>
+      <th>chain_type</th>
+      <th>cdr</th>
+      <th>rmsd</th>
+      <th>file_name_x</th>
+      <th>pdb_id_x</th>
+      <th>structure_type_x</th>
+      <th>state_x</th>
+      <th>file_name_y</th>
+      <th>pdb_id_y</th>
+      <th>structure_type_y</th>
+      <th>state_y</th>
+      <th>cdr_sequences_collated</th>
+      <th>peptide_sequence</th>
+      <th>mhc_slug</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qeu_A-B_tcr.pdb</td>
+      <td>alpha_chain</td>
+      <td>1</td>
+      <td>1.932806</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qdg</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>3qeu_A-B_tcr.pdb</td>
+      <td>3qeu</td>
+      <td>tcr</td>
+      <td>apo</td>
+      <td>DRGSQS-IYSNGD-AVNFGGGKLI-MRHNA-SNTAGT-ASSLSFGTEAF</td>
+      <td>ELAGIGILTV</td>
+      <td>hla_a_02_01</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qeu_A-B_tcr.pdb</td>
+      <td>alpha_chain</td>
+      <td>2</td>
+      <td>1.308598</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qdg</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>3qeu_A-B_tcr.pdb</td>
+      <td>3qeu</td>
+      <td>tcr</td>
+      <td>apo</td>
+      <td>DRGSQS-IYSNGD-AVNFGGGKLI-MRHNA-SNTAGT-ASSLSFGTEAF</td>
+      <td>ELAGIGILTV</td>
+      <td>hla_a_02_01</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qeu_A-B_tcr.pdb</td>
+      <td>alpha_chain</td>
+      <td>3</td>
+      <td>1.244062</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qdg</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>3qeu_A-B_tcr.pdb</td>
+      <td>3qeu</td>
+      <td>tcr</td>
+      <td>apo</td>
+      <td>DRGSQS-IYSNGD-AVNFGGGKLI-MRHNA-SNTAGT-ASSLSFGTEAF</td>
+      <td>ELAGIGILTV</td>
+      <td>hla_a_02_01</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qeu_A-B_tcr.pdb</td>
+      <td>beta_chain</td>
+      <td>1</td>
+      <td>0.809066</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qdg</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>3qeu_A-B_tcr.pdb</td>
+      <td>3qeu</td>
+      <td>tcr</td>
+      <td>apo</td>
+      <td>DRGSQS-IYSNGD-AVNFGGGKLI-MRHNA-SNTAGT-ASSLSFGTEAF</td>
+      <td>ELAGIGILTV</td>
+      <td>hla_a_02_01</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qeu_A-B_tcr.pdb</td>
+      <td>beta_chain</td>
+      <td>2</td>
+      <td>0.688597</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qdg</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>3qeu_A-B_tcr.pdb</td>
+      <td>3qeu</td>
+      <td>tcr</td>
+      <td>apo</td>
+      <td>DRGSQS-IYSNGD-AVNFGGGKLI-MRHNA-SNTAGT-ASSLSFGTEAF</td>
+      <td>ELAGIGILTV</td>
+      <td>hla_a_02_01</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>1581</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7n1d_A-B_tcr.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>alpha_chain</td>
+      <td>2</td>
+      <td>0.810170</td>
+      <td>7n1d_A-B_tcr.pdb</td>
+      <td>7n1d</td>
+      <td>tcr</td>
+      <td>apo</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>7rtr</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>DRGSQS-IYSNGD-AVNRDDKII-SEHNR-FQNEAQ-ASSPDIEQY</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+    </tr>
+    <tr>
+      <th>1582</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7n1d_A-B_tcr.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>alpha_chain</td>
+      <td>3</td>
+      <td>0.563263</td>
+      <td>7n1d_A-B_tcr.pdb</td>
+      <td>7n1d</td>
+      <td>tcr</td>
+      <td>apo</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>7rtr</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>DRGSQS-IYSNGD-AVNRDDKII-SEHNR-FQNEAQ-ASSPDIEQY</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+    </tr>
+    <tr>
+      <th>1583</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7n1d_A-B_tcr.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>beta_chain</td>
+      <td>1</td>
+      <td>0.399182</td>
+      <td>7n1d_A-B_tcr.pdb</td>
+      <td>7n1d</td>
+      <td>tcr</td>
+      <td>apo</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>7rtr</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>DRGSQS-IYSNGD-AVNRDDKII-SEHNR-FQNEAQ-ASSPDIEQY</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+    </tr>
+    <tr>
+      <th>1584</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7n1d_A-B_tcr.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>beta_chain</td>
+      <td>2</td>
+      <td>0.284455</td>
+      <td>7n1d_A-B_tcr.pdb</td>
+      <td>7n1d</td>
+      <td>tcr</td>
+      <td>apo</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>7rtr</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>DRGSQS-IYSNGD-AVNRDDKII-SEHNR-FQNEAQ-ASSPDIEQY</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+    </tr>
+    <tr>
+      <th>1585</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7n1d_A-B_tcr.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>beta_chain</td>
+      <td>3</td>
+      <td>0.432453</td>
+      <td>7n1d_A-B_tcr.pdb</td>
+      <td>7n1d</td>
+      <td>tcr</td>
+      <td>apo</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>7rtr</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>DRGSQS-IYSNGD-AVNRDDKII-SEHNR-FQNEAQ-ASSPDIEQY</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+    </tr>
+  </tbody>
+</table>
+<p>1586 rows × 17 columns</p>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>conformational_change_tcr[&#39;comparison&#39;] = conformational_change_tcr[&#39;state_x&#39;] + &#39;-&#39; + conformational_change_tcr[&#39;state_y&#39;]
+conformational_change_tcr[&#39;comparison&#39;] = conformational_change_tcr[&#39;comparison&#39;].map(lambda entry: &#39;apo-holo&#39; if entry == &#39;holo-apo&#39; else entry)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>conformational_change_tcr[&#39;structure_comparison&#39;] = conformational_change_tcr.apply(
+    lambda row: &#39;-&#39;.join(sorted([row.structure_x_name, row.structure_y_name])),
+    axis=&#39;columns&#39;,
+)
+conformational_change_tcr = conformational_change_tcr.drop_duplicates([&#39;structure_comparison&#39;,
+                                                                       &#39;chain_type&#39;,
+                                                                       &#39;cdr&#39;]).copy()
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>conformational_change_tcr
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>complex_id</th>
+      <th>structure_x_name</th>
+      <th>structure_y_name</th>
+      <th>chain_type</th>
+      <th>cdr</th>
+      <th>rmsd</th>
+      <th>file_name_x</th>
+      <th>pdb_id_x</th>
+      <th>structure_type_x</th>
+      <th>state_x</th>
+      <th>file_name_y</th>
+      <th>pdb_id_y</th>
+      <th>structure_type_y</th>
+      <th>state_y</th>
+      <th>cdr_sequences_collated</th>
+      <th>peptide_sequence</th>
+      <th>mhc_slug</th>
+      <th>comparison</th>
+      <th>structure_comparison</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qeu_A-B_tcr.pdb</td>
+      <td>alpha_chain</td>
+      <td>1</td>
+      <td>1.932806</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qdg</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>3qeu_A-B_tcr.pdb</td>
+      <td>3qeu</td>
+      <td>tcr</td>
+      <td>apo</td>
+      <td>DRGSQS-IYSNGD-AVNFGGGKLI-MRHNA-SNTAGT-ASSLSFGTEAF</td>
+      <td>ELAGIGILTV</td>
+      <td>hla_a_02_01</td>
+      <td>apo-holo</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb-3qeu_A-B_tcr.pdb</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qeu_A-B_tcr.pdb</td>
+      <td>alpha_chain</td>
+      <td>2</td>
+      <td>1.308598</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qdg</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>3qeu_A-B_tcr.pdb</td>
+      <td>3qeu</td>
+      <td>tcr</td>
+      <td>apo</td>
+      <td>DRGSQS-IYSNGD-AVNFGGGKLI-MRHNA-SNTAGT-ASSLSFGTEAF</td>
+      <td>ELAGIGILTV</td>
+      <td>hla_a_02_01</td>
+      <td>apo-holo</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb-3qeu_A-B_tcr.pdb</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qeu_A-B_tcr.pdb</td>
+      <td>alpha_chain</td>
+      <td>3</td>
+      <td>1.244062</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qdg</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>3qeu_A-B_tcr.pdb</td>
+      <td>3qeu</td>
+      <td>tcr</td>
+      <td>apo</td>
+      <td>DRGSQS-IYSNGD-AVNFGGGKLI-MRHNA-SNTAGT-ASSLSFGTEAF</td>
+      <td>ELAGIGILTV</td>
+      <td>hla_a_02_01</td>
+      <td>apo-holo</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb-3qeu_A-B_tcr.pdb</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qeu_A-B_tcr.pdb</td>
+      <td>beta_chain</td>
+      <td>1</td>
+      <td>0.809066</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qdg</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>3qeu_A-B_tcr.pdb</td>
+      <td>3qeu</td>
+      <td>tcr</td>
+      <td>apo</td>
+      <td>DRGSQS-IYSNGD-AVNFGGGKLI-MRHNA-SNTAGT-ASSLSFGTEAF</td>
+      <td>ELAGIGILTV</td>
+      <td>hla_a_02_01</td>
+      <td>apo-holo</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb-3qeu_A-B_tcr.pdb</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qeu_A-B_tcr.pdb</td>
+      <td>beta_chain</td>
+      <td>2</td>
+      <td>0.688597</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qdg</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>3qeu_A-B_tcr.pdb</td>
+      <td>3qeu</td>
+      <td>tcr</td>
+      <td>apo</td>
+      <td>DRGSQS-IYSNGD-AVNFGGGKLI-MRHNA-SNTAGT-ASSLSFGTEAF</td>
+      <td>ELAGIGILTV</td>
+      <td>hla_a_02_01</td>
+      <td>apo-holo</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb-3qeu_A-B_tcr.pdb</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>1581</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7n1d_A-B_tcr.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>alpha_chain</td>
+      <td>2</td>
+      <td>0.810170</td>
+      <td>7n1d_A-B_tcr.pdb</td>
+      <td>7n1d</td>
+      <td>tcr</td>
+      <td>apo</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>7rtr</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>DRGSQS-IYSNGD-AVNRDDKII-SEHNR-FQNEAQ-ASSPDIEQY</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+      <td>apo-holo</td>
+      <td>7n1d_A-B_tcr.pdb-7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+    </tr>
+    <tr>
+      <th>1582</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7n1d_A-B_tcr.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>alpha_chain</td>
+      <td>3</td>
+      <td>0.563263</td>
+      <td>7n1d_A-B_tcr.pdb</td>
+      <td>7n1d</td>
+      <td>tcr</td>
+      <td>apo</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>7rtr</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>DRGSQS-IYSNGD-AVNRDDKII-SEHNR-FQNEAQ-ASSPDIEQY</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+      <td>apo-holo</td>
+      <td>7n1d_A-B_tcr.pdb-7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+    </tr>
+    <tr>
+      <th>1583</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7n1d_A-B_tcr.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>beta_chain</td>
+      <td>1</td>
+      <td>0.399182</td>
+      <td>7n1d_A-B_tcr.pdb</td>
+      <td>7n1d</td>
+      <td>tcr</td>
+      <td>apo</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>7rtr</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>DRGSQS-IYSNGD-AVNRDDKII-SEHNR-FQNEAQ-ASSPDIEQY</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+      <td>apo-holo</td>
+      <td>7n1d_A-B_tcr.pdb-7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+    </tr>
+    <tr>
+      <th>1584</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7n1d_A-B_tcr.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>beta_chain</td>
+      <td>2</td>
+      <td>0.284455</td>
+      <td>7n1d_A-B_tcr.pdb</td>
+      <td>7n1d</td>
+      <td>tcr</td>
+      <td>apo</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>7rtr</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>DRGSQS-IYSNGD-AVNRDDKII-SEHNR-FQNEAQ-ASSPDIEQY</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+      <td>apo-holo</td>
+      <td>7n1d_A-B_tcr.pdb-7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+    </tr>
+    <tr>
+      <th>1585</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7n1d_A-B_tcr.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>beta_chain</td>
+      <td>3</td>
+      <td>0.432453</td>
+      <td>7n1d_A-B_tcr.pdb</td>
+      <td>7n1d</td>
+      <td>tcr</td>
+      <td>apo</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>7rtr</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>DRGSQS-IYSNGD-AVNRDDKII-SEHNR-FQNEAQ-ASSPDIEQY</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+      <td>apo-holo</td>
+      <td>7n1d_A-B_tcr.pdb-7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+    </tr>
+  </tbody>
+</table>
+<p>1172 rows × 19 columns</p>
+</div></div>
+</div>
+</section>
+<section id="Loading-pMHC-Data">
+<h2>Loading pMHC Data<a class="headerlink" href="#Loading-pMHC-Data" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>conformational_change_pmhc = pd.read_csv(&#39;../data/processed/apo-holo-tcr-pmhc-class-I-comparisons/pmhc_tcr_contact_apo_holo.csv&#39;)
+conformational_change_pmhc
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>complex_id</th>
+      <th>structure_x_name</th>
+      <th>structure_y_name</th>
+      <th>chain_type</th>
+      <th>tcr_contact</th>
+      <th>rmsd</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc</td>
+      <td>1jf1_A-B-C_pmhc.pdb</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>mhc_chain1</td>
+      <td>False</td>
+      <td>0.630013</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc</td>
+      <td>1jf1_A-B-C_pmhc.pdb</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>mhc_chain1</td>
+      <td>True</td>
+      <td>0.582077</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>7ow6_D-E-C-A-B_tcr_pmhc</td>
+      <td>7ow4_A-B-C_pmhc.pdb</td>
+      <td>7ow4_D-E-F_pmhc.pdb</td>
+      <td>antigen_chain</td>
+      <td>False</td>
+      <td>0.349159</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>7ow6_D-E-C-A-B_tcr_pmhc</td>
+      <td>7ow4_A-B-C_pmhc.pdb</td>
+      <td>7ow4_D-E-F_pmhc.pdb</td>
+      <td>mhc_chain1</td>
+      <td>False</td>
+      <td>0.306333</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>7ow6_D-E-C-A-B_tcr_pmhc</td>
+      <td>7ow4_A-B-C_pmhc.pdb</td>
+      <td>7ow4_D-E-F_pmhc.pdb</td>
+      <td>mhc_chain1</td>
+      <td>True</td>
+      <td>0.265103</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>1989</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7p3d_A-B-C_pmhc.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>mhc_chain1</td>
+      <td>False</td>
+      <td>0.497769</td>
+    </tr>
+    <tr>
+      <th>1990</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7p3d_A-B-C_pmhc.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>mhc_chain1</td>
+      <td>True</td>
+      <td>0.458372</td>
+    </tr>
+    <tr>
+      <th>1991</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7rtd_A-B-C_pmhc.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>antigen_chain</td>
+      <td>False</td>
+      <td>0.455078</td>
+    </tr>
+    <tr>
+      <th>1992</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7rtd_A-B-C_pmhc.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>mhc_chain1</td>
+      <td>False</td>
+      <td>0.449558</td>
+    </tr>
+    <tr>
+      <th>1993</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7rtd_A-B-C_pmhc.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>mhc_chain1</td>
+      <td>True</td>
+      <td>0.493225</td>
+    </tr>
+  </tbody>
+</table>
+<p>1994 rows × 6 columns</p>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>conformational_change_pmhc = conformational_change_pmhc.merge(
+    summary_df[[&#39;file_name&#39;, &#39;pdb_id&#39;, &#39;structure_type&#39;, &#39;state&#39;]],
+    how=&#39;left&#39;,
+    left_on=&#39;structure_x_name&#39;,
+    right_on=&#39;file_name&#39;,
+).merge(
+    summary_df[[&#39;file_name&#39;, &#39;pdb_id&#39;, &#39;structure_type&#39;, &#39;state&#39;]],
+    how=&#39;left&#39;,
+    left_on=&#39;structure_y_name&#39;,
+    right_on=&#39;file_name&#39;,
+    suffixes=(&#39;_x&#39;, &#39;_y&#39;)
+).merge(
+    summary_df[[&#39;cdr_sequences_collated&#39;, &#39;peptide_sequence&#39;, &#39;mhc_slug&#39;]],
+    how=&#39;left&#39;,
+    left_on=&#39;complex_id&#39;,
+    right_index=True,
+)
+
+conformational_change_pmhc
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>complex_id</th>
+      <th>structure_x_name</th>
+      <th>structure_y_name</th>
+      <th>chain_type</th>
+      <th>tcr_contact</th>
+      <th>rmsd</th>
+      <th>file_name_x</th>
+      <th>pdb_id_x</th>
+      <th>structure_type_x</th>
+      <th>state_x</th>
+      <th>file_name_y</th>
+      <th>pdb_id_y</th>
+      <th>structure_type_y</th>
+      <th>state_y</th>
+      <th>cdr_sequences_collated</th>
+      <th>peptide_sequence</th>
+      <th>mhc_slug</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc</td>
+      <td>1jf1_A-B-C_pmhc.pdb</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>mhc_chain1</td>
+      <td>False</td>
+      <td>0.630013</td>
+      <td>1jf1_A-B-C_pmhc.pdb</td>
+      <td>1jf1</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qdg</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>DRGSQS-IYSNGD-AVNFGGGKLI-MRHNA-SNTAGT-ASSLSFGTEAF</td>
+      <td>ELAGIGILTV</td>
+      <td>hla_a_02_01</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc</td>
+      <td>1jf1_A-B-C_pmhc.pdb</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>mhc_chain1</td>
+      <td>True</td>
+      <td>0.582077</td>
+      <td>1jf1_A-B-C_pmhc.pdb</td>
+      <td>1jf1</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qdg</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>DRGSQS-IYSNGD-AVNFGGGKLI-MRHNA-SNTAGT-ASSLSFGTEAF</td>
+      <td>ELAGIGILTV</td>
+      <td>hla_a_02_01</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>7ow6_D-E-C-A-B_tcr_pmhc</td>
+      <td>7ow4_A-B-C_pmhc.pdb</td>
+      <td>7ow4_D-E-F_pmhc.pdb</td>
+      <td>antigen_chain</td>
+      <td>False</td>
+      <td>0.349159</td>
+      <td>7ow4_A-B-C_pmhc.pdb</td>
+      <td>7ow4</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>7ow4_D-E-F_pmhc.pdb</td>
+      <td>7ow4</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>TRDTAYY-QPWWGEQN-AMSVPSGDGSYQFT-MNHEY-SVGEGT-A...</td>
+      <td>VVVGADGVGK</td>
+      <td>hla_a_11_01</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>7ow6_D-E-C-A-B_tcr_pmhc</td>
+      <td>7ow4_A-B-C_pmhc.pdb</td>
+      <td>7ow4_D-E-F_pmhc.pdb</td>
+      <td>mhc_chain1</td>
+      <td>False</td>
+      <td>0.306333</td>
+      <td>7ow4_A-B-C_pmhc.pdb</td>
+      <td>7ow4</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>7ow4_D-E-F_pmhc.pdb</td>
+      <td>7ow4</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>TRDTAYY-QPWWGEQN-AMSVPSGDGSYQFT-MNHEY-SVGEGT-A...</td>
+      <td>VVVGADGVGK</td>
+      <td>hla_a_11_01</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>7ow6_D-E-C-A-B_tcr_pmhc</td>
+      <td>7ow4_A-B-C_pmhc.pdb</td>
+      <td>7ow4_D-E-F_pmhc.pdb</td>
+      <td>mhc_chain1</td>
+      <td>True</td>
+      <td>0.265103</td>
+      <td>7ow4_A-B-C_pmhc.pdb</td>
+      <td>7ow4</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>7ow4_D-E-F_pmhc.pdb</td>
+      <td>7ow4</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>TRDTAYY-QPWWGEQN-AMSVPSGDGSYQFT-MNHEY-SVGEGT-A...</td>
+      <td>VVVGADGVGK</td>
+      <td>hla_a_11_01</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>1989</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7p3d_A-B-C_pmhc.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>mhc_chain1</td>
+      <td>False</td>
+      <td>0.497769</td>
+      <td>7p3d_A-B-C_pmhc.pdb</td>
+      <td>7p3d</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>7rtr</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>DRGSQS-IYSNGD-AVNRDDKII-SEHNR-FQNEAQ-ASSPDIEQY</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+    </tr>
+    <tr>
+      <th>1990</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7p3d_A-B-C_pmhc.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>mhc_chain1</td>
+      <td>True</td>
+      <td>0.458372</td>
+      <td>7p3d_A-B-C_pmhc.pdb</td>
+      <td>7p3d</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>7rtr</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>DRGSQS-IYSNGD-AVNRDDKII-SEHNR-FQNEAQ-ASSPDIEQY</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+    </tr>
+    <tr>
+      <th>1991</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7rtd_A-B-C_pmhc.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>antigen_chain</td>
+      <td>False</td>
+      <td>0.455078</td>
+      <td>7rtd_A-B-C_pmhc.pdb</td>
+      <td>7rtd</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>7rtr</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>DRGSQS-IYSNGD-AVNRDDKII-SEHNR-FQNEAQ-ASSPDIEQY</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+    </tr>
+    <tr>
+      <th>1992</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7rtd_A-B-C_pmhc.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>mhc_chain1</td>
+      <td>False</td>
+      <td>0.449558</td>
+      <td>7rtd_A-B-C_pmhc.pdb</td>
+      <td>7rtd</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>7rtr</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>DRGSQS-IYSNGD-AVNRDDKII-SEHNR-FQNEAQ-ASSPDIEQY</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+    </tr>
+    <tr>
+      <th>1993</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7rtd_A-B-C_pmhc.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>mhc_chain1</td>
+      <td>True</td>
+      <td>0.493225</td>
+      <td>7rtd_A-B-C_pmhc.pdb</td>
+      <td>7rtd</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>7rtr</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>DRGSQS-IYSNGD-AVNRDDKII-SEHNR-FQNEAQ-ASSPDIEQY</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+    </tr>
+  </tbody>
+</table>
+<p>1994 rows × 17 columns</p>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>conformational_change_pmhc[&#39;comparison&#39;] = conformational_change_pmhc[&#39;state_x&#39;] + &#39;-&#39; + conformational_change_pmhc[&#39;state_y&#39;]
+conformational_change_pmhc[&#39;comparison&#39;] = conformational_change_pmhc[&#39;comparison&#39;].map(lambda entry: &#39;apo-holo&#39; if entry == &#39;holo-apo&#39; else entry)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>conformational_change_pmhc[&#39;structure_comparison&#39;] = conformational_change_pmhc.apply(
+    lambda row: &#39;-&#39;.join(sorted([row.structure_x_name, row.structure_y_name])),
+    axis=&#39;columns&#39;,
+)
+conformational_change_pmhc = conformational_change_pmhc.drop_duplicates([&#39;structure_comparison&#39;,
+                                                                         &#39;chain_type&#39;,
+                                                                         &#39;tcr_contact&#39;]).copy()
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def name_domain(chain_type: str, tcr_contact: bool) -&gt; str:
+    match chain_type:
+        case &#39;antigen_chain&#39;:
+            return &#39;peptide&#39;
+
+        case &#39;mhc_chain1&#39;:
+            if tcr_contact:
+                return &#39;mhc_tcr_contact&#39;
+
+            return &#39;mhc&#39;
+
+conformational_change_pmhc[&#39;domain&#39;] = conformational_change_pmhc.apply(lambda row: name_domain(row.chain_type, row.tcr_contact), axis=&#39;columns&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>conformational_change_pmhc
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>complex_id</th>
+      <th>structure_x_name</th>
+      <th>structure_y_name</th>
+      <th>chain_type</th>
+      <th>tcr_contact</th>
+      <th>rmsd</th>
+      <th>file_name_x</th>
+      <th>pdb_id_x</th>
+      <th>structure_type_x</th>
+      <th>state_x</th>
+      <th>file_name_y</th>
+      <th>pdb_id_y</th>
+      <th>structure_type_y</th>
+      <th>state_y</th>
+      <th>cdr_sequences_collated</th>
+      <th>peptide_sequence</th>
+      <th>mhc_slug</th>
+      <th>comparison</th>
+      <th>structure_comparison</th>
+      <th>domain</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc</td>
+      <td>1jf1_A-B-C_pmhc.pdb</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>mhc_chain1</td>
+      <td>False</td>
+      <td>0.630013</td>
+      <td>1jf1_A-B-C_pmhc.pdb</td>
+      <td>1jf1</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qdg</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>DRGSQS-IYSNGD-AVNFGGGKLI-MRHNA-SNTAGT-ASSLSFGTEAF</td>
+      <td>ELAGIGILTV</td>
+      <td>hla_a_02_01</td>
+      <td>apo-holo</td>
+      <td>1jf1_A-B-C_pmhc.pdb-3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>mhc</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc</td>
+      <td>1jf1_A-B-C_pmhc.pdb</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>mhc_chain1</td>
+      <td>True</td>
+      <td>0.582077</td>
+      <td>1jf1_A-B-C_pmhc.pdb</td>
+      <td>1jf1</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qdg</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>DRGSQS-IYSNGD-AVNFGGGKLI-MRHNA-SNTAGT-ASSLSFGTEAF</td>
+      <td>ELAGIGILTV</td>
+      <td>hla_a_02_01</td>
+      <td>apo-holo</td>
+      <td>1jf1_A-B-C_pmhc.pdb-3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>mhc_tcr_contact</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>7ow6_D-E-C-A-B_tcr_pmhc</td>
+      <td>7ow4_A-B-C_pmhc.pdb</td>
+      <td>7ow4_D-E-F_pmhc.pdb</td>
+      <td>antigen_chain</td>
+      <td>False</td>
+      <td>0.349159</td>
+      <td>7ow4_A-B-C_pmhc.pdb</td>
+      <td>7ow4</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>7ow4_D-E-F_pmhc.pdb</td>
+      <td>7ow4</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>TRDTAYY-QPWWGEQN-AMSVPSGDGSYQFT-MNHEY-SVGEGT-A...</td>
+      <td>VVVGADGVGK</td>
+      <td>hla_a_11_01</td>
+      <td>apo-apo</td>
+      <td>7ow4_A-B-C_pmhc.pdb-7ow4_D-E-F_pmhc.pdb</td>
+      <td>peptide</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>7ow6_D-E-C-A-B_tcr_pmhc</td>
+      <td>7ow4_A-B-C_pmhc.pdb</td>
+      <td>7ow4_D-E-F_pmhc.pdb</td>
+      <td>mhc_chain1</td>
+      <td>False</td>
+      <td>0.306333</td>
+      <td>7ow4_A-B-C_pmhc.pdb</td>
+      <td>7ow4</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>7ow4_D-E-F_pmhc.pdb</td>
+      <td>7ow4</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>TRDTAYY-QPWWGEQN-AMSVPSGDGSYQFT-MNHEY-SVGEGT-A...</td>
+      <td>VVVGADGVGK</td>
+      <td>hla_a_11_01</td>
+      <td>apo-apo</td>
+      <td>7ow4_A-B-C_pmhc.pdb-7ow4_D-E-F_pmhc.pdb</td>
+      <td>mhc</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>7ow6_D-E-C-A-B_tcr_pmhc</td>
+      <td>7ow4_A-B-C_pmhc.pdb</td>
+      <td>7ow4_D-E-F_pmhc.pdb</td>
+      <td>mhc_chain1</td>
+      <td>True</td>
+      <td>0.265103</td>
+      <td>7ow4_A-B-C_pmhc.pdb</td>
+      <td>7ow4</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>7ow4_D-E-F_pmhc.pdb</td>
+      <td>7ow4</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>TRDTAYY-QPWWGEQN-AMSVPSGDGSYQFT-MNHEY-SVGEGT-A...</td>
+      <td>VVVGADGVGK</td>
+      <td>hla_a_11_01</td>
+      <td>apo-apo</td>
+      <td>7ow4_A-B-C_pmhc.pdb-7ow4_D-E-F_pmhc.pdb</td>
+      <td>mhc_tcr_contact</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>1989</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7p3d_A-B-C_pmhc.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>mhc_chain1</td>
+      <td>False</td>
+      <td>0.497769</td>
+      <td>7p3d_A-B-C_pmhc.pdb</td>
+      <td>7p3d</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>7rtr</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>DRGSQS-IYSNGD-AVNRDDKII-SEHNR-FQNEAQ-ASSPDIEQY</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+      <td>apo-holo</td>
+      <td>7p3d_A-B-C_pmhc.pdb-7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>mhc</td>
+    </tr>
+    <tr>
+      <th>1990</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7p3d_A-B-C_pmhc.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>mhc_chain1</td>
+      <td>True</td>
+      <td>0.458372</td>
+      <td>7p3d_A-B-C_pmhc.pdb</td>
+      <td>7p3d</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>7rtr</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>DRGSQS-IYSNGD-AVNRDDKII-SEHNR-FQNEAQ-ASSPDIEQY</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+      <td>apo-holo</td>
+      <td>7p3d_A-B-C_pmhc.pdb-7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>mhc_tcr_contact</td>
+    </tr>
+    <tr>
+      <th>1991</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7rtd_A-B-C_pmhc.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>antigen_chain</td>
+      <td>False</td>
+      <td>0.455078</td>
+      <td>7rtd_A-B-C_pmhc.pdb</td>
+      <td>7rtd</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>7rtr</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>DRGSQS-IYSNGD-AVNRDDKII-SEHNR-FQNEAQ-ASSPDIEQY</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+      <td>apo-holo</td>
+      <td>7rtd_A-B-C_pmhc.pdb-7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>peptide</td>
+    </tr>
+    <tr>
+      <th>1992</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7rtd_A-B-C_pmhc.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>mhc_chain1</td>
+      <td>False</td>
+      <td>0.449558</td>
+      <td>7rtd_A-B-C_pmhc.pdb</td>
+      <td>7rtd</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>7rtr</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>DRGSQS-IYSNGD-AVNRDDKII-SEHNR-FQNEAQ-ASSPDIEQY</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+      <td>apo-holo</td>
+      <td>7rtd_A-B-C_pmhc.pdb-7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>mhc</td>
+    </tr>
+    <tr>
+      <th>1993</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7rtd_A-B-C_pmhc.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>mhc_chain1</td>
+      <td>True</td>
+      <td>0.493225</td>
+      <td>7rtd_A-B-C_pmhc.pdb</td>
+      <td>7rtd</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>7rtr</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>DRGSQS-IYSNGD-AVNRDDKII-SEHNR-FQNEAQ-ASSPDIEQY</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+      <td>apo-holo</td>
+      <td>7rtd_A-B-C_pmhc.pdb-7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>mhc_tcr_contact</td>
+    </tr>
+  </tbody>
+</table>
+<p>1382 rows × 20 columns</p>
+</div></div>
+</div>
+</section>
+<section id="Combining-datasets-(affinity-and-conformational-change)">
+<h2>Combining datasets (affinity and conformational change)<a class="headerlink" href="#Combining-datasets-(affinity-and-conformational-change)" title="Link to this heading"></a></h2>
+<section id="TCR-data">
+<h3>TCR data<a class="headerlink" href="#TCR-data" title="Link to this heading"></a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def get_holo_pdb_id(state_x: str, pdb_id_x: str, state_y: str, pdb_id_y: str) -&gt; str | None:
+    if state_x == &#39;holo&#39;:
+        return pdb_id_x
+
+    if state_y == &#39;holo&#39;:
+        return pdb_id_y
+
+    return None
+
+conformational_change_tcr[&#39;holo_pdb_id&#39;] = conformational_change_tcr.apply(lambda row: get_holo_pdb_id(row.state_x, row.pdb_id_x, row.state_y, row.pdb_id_y), axis=&#39;columns&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>combined_data_set_tcr = conformational_change_tcr.merge(atlas_with_pdb_wt, how=&#39;inner&#39;, left_on=&#39;holo_pdb_id&#39;, right_on=&#39;pdb_id&#39;)
+</pre></div>
+</div>
+</div>
+</section>
+<section id="pMHC-data">
+<h3>pMHC data<a class="headerlink" href="#pMHC-data" title="Link to this heading"></a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def get_holo_pdb_id(state_x: str, pdb_id_x: str, state_y: str, pdb_id_y: str) -&gt; str | None:
+    if state_x == &#39;holo&#39;:
+        return pdb_id_x
+
+    if state_y == &#39;holo&#39;:
+        return pdb_id_y
+
+    return None
+
+conformational_change_pmhc[&#39;holo_pdb_id&#39;] = conformational_change_pmhc.apply(lambda row: get_holo_pdb_id(row.state_x, row.pdb_id_x, row.state_y, row.pdb_id_y), axis=&#39;columns&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>combined_data_set_pmhc = conformational_change_pmhc.merge(atlas_with_pdb_wt, how=&#39;inner&#39;, left_on=&#39;holo_pdb_id&#39;, right_on=&#39;pdb_id&#39;)
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+<section id="Visualising-results">
+<h2>Visualising results<a class="headerlink" href="#Visualising-results" title="Link to this heading"></a></h2>
+<section id="Conformational-Change-of-the-TCRs-versus-affinity">
+<h3>Conformational Change of the TCRs versus affinity<a class="headerlink" href="#Conformational-Change-of-the-TCRs-versus-affinity" title="Link to this heading"></a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>combined_data_set_norm_tcr = combined_data_set_tcr.groupby([&#39;cdr_sequences_collated&#39;, &#39;chain_type&#39;, &#39;cdr&#39;, &#39;kd&#39;])[&#39;rmsd&#39;].mean().reset_index()
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>num_tcrs = len(combined_data_set_norm_tcr[&#39;cdr_sequences_collated&#39;].unique())
+
+print(&#39;There are&#39;, num_tcrs, &#39;TCRs that also have affinity data for there interactions with pMHC molecules&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+There are 13 TCRs that also have affinity data for there interactions with pMHC molecules
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>g = sns.lmplot(combined_data_set_norm_tcr, x=&#39;rmsd&#39;, y=&#39;kd&#39;, row=&#39;chain_type&#39;, col=&#39;cdr&#39;, facet_kws=dict(sharex=False))
+
+def annotate(data, **kws):
+    r, p = scipy.stats.pearsonr(data[&#39;rmsd&#39;], data[&#39;kd&#39;])
+    ax = plt.gca()
+    ax.text(0.4, 0.9, f&#39;$r^2={r**2:.2f}, p={p:.2e}$&#39;, fontsize=12, transform=ax.transAxes)
+
+g.map_dataframe(annotate)
+
+plt.show()
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/source_Correlating_conformational_changes_to_affinity_37_0.png" src="../_images/source_Correlating_conformational_changes_to_affinity_37_0.png" />
+</div>
+</div>
+</section>
+<section id="Conformational-change-of-pMHC-versus-affinity">
+<h3>Conformational change of pMHC versus affinity<a class="headerlink" href="#Conformational-change-of-pMHC-versus-affinity" title="Link to this heading"></a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>combined_data_set_norm_pmhc = combined_data_set_pmhc.groupby([&#39;mhc_slug&#39;, &#39;peptide_sequence&#39;, &#39;domain&#39;, &#39;kd&#39;])[&#39;rmsd&#39;].mean().reset_index()
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>num_pmhcs = len(combined_data_set_norm_pmhc.groupby([&#39;mhc_slug&#39;, &#39;peptide_sequence&#39;]))
+
+print(&#39;There are&#39;, num_pmhcs, &#39;pMHCs that also have affinity data for there interactions with TCR molecules&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+There are 23 pMHCs that also have affinity data for there interactions with TCR molecules
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>g = sns.lmplot(combined_data_set_norm_pmhc, x=&#39;rmsd&#39;, y=&#39;kd&#39;, col=&#39;domain&#39;, facet_kws=dict(sharex=False))
+
+def annotate(data, **kws):
+    r, p = scipy.stats.pearsonr(data[&#39;rmsd&#39;], data[&#39;kd&#39;])
+    ax = plt.gca()
+    ax.text(0.4, 0.9, f&#39;$r^2={r**2:.2f}, p={p:.2e}$&#39;, fontsize=12, transform=ax.transAxes)
+
+g.map_dataframe(annotate)
+
+plt.show()
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/source_Correlating_conformational_changes_to_affinity_41_0.png" src="../_images/source_Correlating_conformational_changes_to_affinity_41_0.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="Conclusion">
+<h2>Conclusion<a class="headerlink" href="#Conclusion" title="Link to this heading"></a></h2>
+<p>Overall, there seems to be low correlation between the binding affinity of a TCR-pMHC and the amount of conformational change the interface undergoes. Only the CDR-A2, CDR-A3, and CDR-B3 loops had any correlation but even there the correlation was very low (&lt;10%).</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Benjamin McMaster.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

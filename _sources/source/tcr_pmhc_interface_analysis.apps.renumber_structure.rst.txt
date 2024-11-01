@@ -1,0 +1,27 @@
+tcr_pmhc_interface_analysis.apps.renumber_structure
+===================================================
+.. code-block:: text
+
+   usage: python -m tcr_pmhc_interface_analysis.apps.renumber_structure
+          [-h] [--output OUTPUT] [--log-level {debug,info,warning,error}]
+          structure
+   
+   Renumber TCR structure following either IMGT or Aho numbering.
+   
+   Requirements:
+       - ANARCI: https://github.com/oxpig/ANARCI
+   
+   positional arguments:
+     structure             path to the pdb structure file
+   
+   options:
+     -h, --help            show this help message and exit
+     --output OUTPUT, -o OUTPUT
+                           name of output structure file
+   
+   Logging:
+     Options for logging
+   
+     --log-level {debug,info,warning,error}
+                           Level to log messages at (Default: 'warning')
+   
