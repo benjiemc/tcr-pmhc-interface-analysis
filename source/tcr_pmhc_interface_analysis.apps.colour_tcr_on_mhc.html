@@ -94,7 +94,44 @@
              
   <section id="tcr-pmhc-interface-analysis-apps-colour-tcr-on-mhc">
 <h1>tcr_pmhc_interface_analysis.apps.colour_tcr_on_mhc<a class="headerlink" href="#tcr-pmhc-interface-analysis-apps-colour-tcr-on-mhc" title="Link to this heading"></a></h1>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>usage: python -m tcr_pmhc_interface_analysis.apps.colour_tcr_on_mhc
+       [-h] --output OUTPUT --contacts-path CONTACTS_PATH --mhc-chain-id
+       MHC_CHAIN_ID --antigen-chain-id ANTIGEN_CHAIN_ID
+       [--num-contacts-cutoff NUM_CONTACTS_CUTOFF]
+       [--percentage-contacts-cutoff PERCENTAGE_CONTACTS_CUTOFF]
+       [--dominant-peptide-contacts DOMINANT_PEPTIDE_CONTACTS [DOMINANT_PEPTIDE_CONTACTS ...]]
+       [--log-level {debug,info,warning,error}]
+       mhc_path
+
+positional arguments:
+  mhc_path              path to the template MHC PDB file to colour with the
+                        contact information
+
+options:
+  -h, --help            show this help message and exit
+  --output OUTPUT, -o OUTPUT
+                        name of output pymol session
+  --contacts-path CONTACTS_PATH
+                        path to the CSV file containg contacts information
+  --mhc-chain-id MHC_CHAIN_ID
+                        chain id of the main MHC chain
+  --antigen-chain-id ANTIGEN_CHAIN_ID
+                        chain id of the antigen
+  --num-contacts-cutoff NUM_CONTACTS_CUTOFF
+                        number of contacts needed to highlight the MHC residue
+                        with contact information (Default: 100)
+  --percentage-contacts-cutoff PERCENTAGE_CONTACTS_CUTOFF
+                        A percentage cutoff instead of the raw count numbers,
+                        will override `--num-contacts-cutoff` (Default: None)
+  --dominant-peptide-contacts DOMINANT_PEPTIDE_CONTACTS [DOMINANT_PEPTIDE_CONTACTS ...]
+                        list of dominat CDRs for each peptide contact postion
+                        (CDR-A3, CDR-A3, ..., CDR-B3)
+
+Logging:
+  Options for logging
+
+  --log-level {debug,info,warning,error}
+                        Level to log messages at (Default: &#39;warning&#39;)
 </pre></div>
 </div>
 </section>
