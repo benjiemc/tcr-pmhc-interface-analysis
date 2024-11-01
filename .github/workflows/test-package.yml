@@ -16,6 +16,7 @@ jobs:
       - name: Setup environment
         run: |
             make environment
+            conda run -n tcr-pmhc-interface-analysis pip install '.[develop]'
       - name: Lint package
         run: conda run -n tcr-pmhc-interface-analysis make lint
       - name: Test package
