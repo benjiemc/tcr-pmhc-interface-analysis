@@ -8,7 +8,6 @@ import argparse
 import logging
 import sys
 
-import anarci
 from python_pdb.formats.residue import THREE_TO_ONE_CODE
 from python_pdb.parsers import parse_pdb, stringify_structure
 
@@ -31,6 +30,13 @@ def main():
     '''Entry point for script.'''
     args = parser.parse_args()
     setup_logger(logger, args.log_level)
+
+    try:
+        import anarci
+
+    except ImportError:
+        logger.error('Anarci not found. Please follow install instructions here: https://github.com/oxpig/ANARCI')
+        sys.exit(1)
 
     with open(args.structure, 'r') as fh:
         pdb_contents = fh.read()

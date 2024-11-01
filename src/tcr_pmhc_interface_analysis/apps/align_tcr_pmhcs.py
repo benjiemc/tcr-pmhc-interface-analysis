@@ -1,4 +1,9 @@
-'''Align TCR, pMHC, and TCR:pMHC on the TCR framework region or the floor of the MHC antigen binding groove.'''
+'''Align TCR, pMHC, and TCR:pMHC on the TCR framework region or the floor of the MHC antigen binding groove.
+
+Requirements:
+    - PyMOL: https://www.pymol.org/
+
+'''
 import argparse
 import glob
 import logging
@@ -6,7 +11,6 @@ import os
 import sys
 
 import pandas as pd
-from pymol import cmd
 
 from tcr_pmhc_interface_analysis.apps._log import add_logging_arguments, setup_logger
 from tcr_pmhc_interface_analysis.imgt_numbering import IMGT_CDR, IMGT_VARIABLE_DOMAIN
@@ -46,33 +50,38 @@ def get_framework_selection() -> str:
     return ' or '.join([f'resi {index}' for index in indices])
 
 
-def align_tcr(mobile_path: str, alpha_chain_id: str, beta_chain_id: str, name: str = 'tcr') -> None:
-    '''Align a group of TCRs to a reference structure.'''
-    cmd.load(mobile_path, name)
-
-    framework_selection = (f'{name} and '
-                           f'(chain {alpha_chain_id} or chain {beta_chain_id}) and '
-                           f'({get_framework_selection()})')
-    cmd.select(f'{name}-Fw', framework_selection)
-
-    cmd.align(f'{name}-Fw', 'target-Fw')
-
-
-def align_pmhc(mobile_path: str, mhc_chain_id: str, name: str = 'pmhc') -> None:
-    '''Align a (TCR-)pMHC to a reference structure already loaded in the environment.'''
-    cmd.load(mobile_path, name)
-
-    floor_selection = (f'{name} and '
-                       f'chain {mhc_chain_id} and '
-                       f'({get_floor_selection()})')
-    cmd.select(f'{name}-floor', floor_selection)
-
-    cmd.align(f'{name}-floor', 'target-floor')
-
-
 def main():
     args = parser.parse_args()
     setup_logger(logger, args.log_level)
+
+    try:
+        from pymol import cmd
+
+    except ImportError:
+        logger.error('PyMOL not found. Please install: https://www.pymol.org/')
+        sys.exit(1)
+
+    def align_tcr(mobile_path: str, alpha_chain_id: str, beta_chain_id: str, name: str = 'tcr') -> None:
+        '''Align a group of TCRs to a reference structure.'''
+        cmd.load(mobile_path, name)
+
+        framework_selection = (f'{name} and '
+                               f'(chain {alpha_chain_id} or chain {beta_chain_id}) and '
+                               f'({get_framework_selection()})')
+        cmd.select(f'{name}-Fw', framework_selection)
+
+        cmd.align(f'{name}-Fw', 'target-Fw')
+
+    def align_pmhc(mobile_path: str, mhc_chain_id: str, name: str = 'pmhc') -> None:
+        '''Align a (TCR-)pMHC to a reference structure already loaded in the environment.'''
+        cmd.load(mobile_path, name)
+
+        floor_selection = (f'{name} and '
+                           f'chain {mhc_chain_id} and '
+                           f'({get_floor_selection()})')
+        cmd.select(f'{name}-floor', floor_selection)
+
+        cmd.align(f'{name}-floor', 'target-floor')
 
     summary_path, = glob.glob(os.path.join(args.structures, '*summary.csv'))
     summary_df = pd.read_csv(summary_path)
