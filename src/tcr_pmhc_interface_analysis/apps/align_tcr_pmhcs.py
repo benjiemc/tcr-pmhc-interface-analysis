@@ -1,3 +1,4 @@
+'''Align TCR, pMHC, and TCR:pMHC on the TCR framework region or the floor of the MHC antigen binding groove.'''
 import argparse
 import glob
 import logging

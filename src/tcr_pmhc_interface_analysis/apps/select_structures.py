@@ -1,3 +1,4 @@
+'''Select apo and holo structures from the STCRDab and Histo.fyi.'''
 import argparse
 import glob
 import logging

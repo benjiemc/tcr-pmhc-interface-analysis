@@ -1,3 +1,4 @@
+'''Compute the differences between the apo and holo forms of TCR, pMHC, and TCR:pMHCs.'''
 import argparse
 import glob
 import logging
