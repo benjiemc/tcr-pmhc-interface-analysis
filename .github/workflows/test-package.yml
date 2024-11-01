@@ -1,0 +1,23 @@
+name: Test package
+
+on: [push, pull_request]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+            auto-activate-base: true
+            activate-environment: ""
+      - name: Setup environment
+        run: |
+            make environment
+            conda activate tcr-pmhc-interface-analysis
+      - name: Lint package
+        run: make lint
+      - name: Test package
+        run: make test
