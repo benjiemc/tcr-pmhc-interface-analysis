@@ -1,6 +1,8 @@
+'''Compute the pairwise DTW distance between all loops in the STCRDab.'''
 import argparse
 import logging
 import os
+import sys
 
 import numpy as np
 import pandas as pd
@@ -14,7 +16,9 @@ from tcr_pmhc_interface_analysis.utils import get_coords
 
 logger = logging.getLogger()
 
-parser = argparse.ArgumentParser(description='Compute the pairwise DTW distance between all loops in the STCRDab')
+parser = argparse.ArgumentParser(prog=f'python -m {sys.modules[__name__].__spec__.name}',
+                                 description=__doc__,
+                                 formatter_class=argparse.RawDescriptionHelpFormatter)
 
 parser.add_argument('stcrdab', help='Path to STCRDab')
 parser.add_argument('--output', '-o', help='Path to output location')

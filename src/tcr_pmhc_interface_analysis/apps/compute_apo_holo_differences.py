@@ -3,6 +3,7 @@ import glob
 import logging
 import os
 import re
+import sys
 
 import numpy as np
 import pandas as pd
@@ -19,7 +20,9 @@ logger = logging.getLogger()
 
 MEASURMENT_CHOICES = ['rmsd', 'ca_distance', 'chi_angle_change', 'com_distance']
 
-parser = argparse.ArgumentParser()
+parser = argparse.ArgumentParser(prog=f'python -m {sys.modules[__name__].__spec__.name}',
+                                 description=__doc__,
+                                 formatter_class=argparse.RawDescriptionHelpFormatter)
 
 parser.add_argument('input', help='path to data directory')
 parser.add_argument('--output', '-o', help='path to output file')

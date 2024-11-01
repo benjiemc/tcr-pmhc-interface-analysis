@@ -2,6 +2,7 @@ import argparse
 import glob
 import logging
 import os
+import sys
 
 import pandas as pd
 from pymol import cmd
@@ -11,7 +12,9 @@ from tcr_pmhc_interface_analysis.imgt_numbering import IMGT_CDR, IMGT_VARIABLE_D
 
 logger = logging.getLogger()
 
-parser = argparse.ArgumentParser()
+parser = argparse.ArgumentParser(prog=f'python -m {sys.modules[__name__].__spec__.name}',
+                                 description=__doc__,
+                                 formatter_class=argparse.RawDescriptionHelpFormatter)
 
 parser.add_argument('structures', help='path to the structures to align')
 parser.add_argument('--output', '-o', help='path to output the aligned files')

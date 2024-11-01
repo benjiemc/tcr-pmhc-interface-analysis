@@ -12,6 +12,7 @@ the effect of the same loop finding the same conformation.
 import argparse
 import logging
 import os
+import sys
 
 import hdbscan
 import numpy as np
@@ -24,7 +25,9 @@ from tcr_pmhc_interface_analysis.processing import annotate_tcr_pmhc_df
 
 logger = logging.getLogger()
 
-parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawTextHelpFormatter)
+parser = argparse.ArgumentParser(prog=f'python -m {sys.modules[__name__].__spec__.name}',
+                                 description=__doc__,
+                                 formatter_class=argparse.RawDescriptionHelpFormatter)
 
 
 parser.add_argument('structure_names', help='path to the structure names file')

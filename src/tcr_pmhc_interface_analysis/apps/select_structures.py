@@ -2,6 +2,7 @@ import argparse
 import glob
 import logging
 import os
+import sys
 
 import numpy as np
 import pandas as pd
@@ -19,7 +20,10 @@ from tcr_pmhc_interface_analysis.stcrdab_utils import (get_ab_tcr_mhc_class_Is_f
 
 logger = logging.getLogger()
 
-parser = argparse.ArgumentParser()
+parser = argparse.ArgumentParser(prog=f'python -m {sys.modules[__name__].__spec__.name}',
+                                 description=__doc__,
+                                 formatter_class=argparse.RawDescriptionHelpFormatter)
+
 parser.add_argument('stcrdab', help='Path to STCRDab')
 parser.add_argument('--resolution-cutoff', type=float, default=3.50,
                     help='Maximum resolution allowed from the structures (Default: 3.50)')

@@ -3,6 +3,7 @@ import argparse
 import glob
 import logging
 import os
+import sys
 
 import numpy as np
 import pandas as pd
@@ -11,7 +12,9 @@ from tcr_pmhc_interface_analysis.apps._log import add_logging_arguments, setup_l
 
 logger = logging.getLogger()
 
-parser = argparse.ArgumentParser(description=__doc__)
+parser = argparse.ArgumentParser(prog=f'python -m {sys.modules[__name__].__spec__.name}',
+                                 description=__doc__,
+                                 formatter_class=argparse.RawDescriptionHelpFormatter)
 
 DEFAULT_COLUMNS = ['cdr1_aa_alpha', 'cdr2_aa_alpha', 'cdr3_aa_alpha',
                    'cdr1_aa_beta', 'cdr2_aa_beta', 'cdr3_aa_beta',

@@ -11,9 +11,9 @@ app_names = []
 for app in cli_apps:
     app_name = app.strip('src/').replace('/', '.').rstrip('.py')
 
-    app_doc = subprocess.run(['python', app, '--help'],
+    app_doc = subprocess.run(['python', '-m', app_name, '--help'],
                              stdout=subprocess.PIPE,
-                             stderr=subprocess.DEVNULL,
+                             stderr=None,
                              universal_newlines=True).stdout
 
     with open(os.path.join(sys.argv[1], app_name + '.rst'), 'w') as fh:

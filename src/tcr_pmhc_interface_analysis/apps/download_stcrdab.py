@@ -2,6 +2,7 @@
 import argparse
 import logging
 import os
+import sys
 
 import requests
 
@@ -9,7 +10,9 @@ from tcr_pmhc_interface_analysis.apps._log import add_logging_arguments, setup_l
 
 logger = logging.getLogger(__name__)
 
-parser = argparse.ArgumentParser()
+parser = argparse.ArgumentParser(prog=f'python -m {sys.modules[__name__].__spec__.name}',
+                                 description=__doc__,
+                                 formatter_class=argparse.RawDescriptionHelpFormatter)
 parser.add_argument('output', help='path to the downloaded data directory eg. some/path/stcrdab')
 
 add_logging_arguments(parser)

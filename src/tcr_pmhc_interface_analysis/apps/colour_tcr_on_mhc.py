@@ -1,6 +1,7 @@
 import argparse
 import logging
 import re
+import sys
 
 import pandas as pd
 from pymol import cmd
@@ -25,7 +26,9 @@ def pymol_session_file(arg_value, pat=re.compile(r'\.pse$')):
     return arg_value
 
 
-parser = argparse.ArgumentParser()
+parser = argparse.ArgumentParser(prog=f'python -m {sys.modules[__name__].__spec__.name}',
+                                 description=__doc__,
+                                 formatter_class=argparse.RawDescriptionHelpFormatter)
 
 parser.add_argument('mhc_path', help='path to the template MHC PDB file to colour with the contact information')
 parser.add_argument('--output', '-o', required=True, type=pymol_session_file, help='name of output pymol session')
