@@ -1,4 +1,13 @@
 complex_id,structure_x_name,structure_y_name,chain_type,tcr_contact,rmsd
+1ao7_D-E-C-A-B_tcr_pmhc,1ao7_D-E-C-A-B_tcr_pmhc.pdb,3ixa_D-E-F_pmhc.pdb,antigen_chain,False,0.6663989254026285
+1ao7_D-E-C-A-B_tcr_pmhc,1ao7_D-E-C-A-B_tcr_pmhc.pdb,3ixa_D-E-F_pmhc.pdb,mhc_chain1,False,0.7495346738295218
+1ao7_D-E-C-A-B_tcr_pmhc,1ao7_D-E-C-A-B_tcr_pmhc.pdb,3ixa_D-E-F_pmhc.pdb,mhc_chain1,True,1.3349571388250636
+1ao7_D-E-C-A-B_tcr_pmhc,1ao7_D-E-C-A-B_tcr_pmhc.pdb,1duz_A-B-C_pmhc.pdb,antigen_chain,False,1.13104824781655
+1ao7_D-E-C-A-B_tcr_pmhc,1ao7_D-E-C-A-B_tcr_pmhc.pdb,1duz_A-B-C_pmhc.pdb,mhc_chain1,False,0.5882791167947039
+1ao7_D-E-C-A-B_tcr_pmhc,1ao7_D-E-C-A-B_tcr_pmhc.pdb,1duz_A-B-C_pmhc.pdb,mhc_chain1,True,0.7073608493634076
+1ao7_D-E-C-A-B_tcr_pmhc,3ixa_D-E-F_pmhc.pdb,1duz_A-B-C_pmhc.pdb,antigen_chain,False,1.0946426357492194
+1ao7_D-E-C-A-B_tcr_pmhc,3ixa_D-E-F_pmhc.pdb,1duz_A-B-C_pmhc.pdb,mhc_chain1,False,0.6430703065699109
+1ao7_D-E-C-A-B_tcr_pmhc,3ixa_D-E-F_pmhc.pdb,1duz_A-B-C_pmhc.pdb,mhc_chain1,True,1.3838676186461982
 1bd2_D-E-C-A-B_tcr_pmhc,3ixa_D-E-F_pmhc.pdb,1duz_A-B-C_pmhc.pdb,antigen_chain,False,1.103896130379424
 1bd2_D-E-C-A-B_tcr_pmhc,3ixa_D-E-F_pmhc.pdb,1duz_A-B-C_pmhc.pdb,mhc_chain1,False,0.6451149742226808
 1bd2_D-E-C-A-B_tcr_pmhc,3ixa_D-E-F_pmhc.pdb,1duz_A-B-C_pmhc.pdb,mhc_chain1,True,1.3921872292367865
@@ -44,12 +53,3 @@ complex_id,structure_x_name,structure_y_name,chain_type,tcr_contact,rmsd
 1bd2_D-E-C-A-B_tcr_pmhc,1hhk_D-E-F_pmhc.pdb,1bd2_D-E-C-A-B_tcr_pmhc.pdb,antigen_chain,False,1.221932338097691
 1bd2_D-E-C-A-B_tcr_pmhc,1hhk_D-E-F_pmhc.pdb,1bd2_D-E-C-A-B_tcr_pmhc.pdb,mhc_chain1,False,0.46825966606666547
 1bd2_D-E-C-A-B_tcr_pmhc,1hhk_D-E-F_pmhc.pdb,1bd2_D-E-C-A-B_tcr_pmhc.pdb,mhc_chain1,True,0.46577828318944725
-1ao7_D-E-C-A-B_tcr_pmhc,1ao7_D-E-C-A-B_tcr_pmhc.pdb,3ixa_D-E-F_pmhc.pdb,antigen_chain,False,0.6663989254026285
-1ao7_D-E-C-A-B_tcr_pmhc,1ao7_D-E-C-A-B_tcr_pmhc.pdb,3ixa_D-E-F_pmhc.pdb,mhc_chain1,False,0.7495346738295218
-1ao7_D-E-C-A-B_tcr_pmhc,1ao7_D-E-C-A-B_tcr_pmhc.pdb,3ixa_D-E-F_pmhc.pdb,mhc_chain1,True,1.3349571388250636
-1ao7_D-E-C-A-B_tcr_pmhc,1ao7_D-E-C-A-B_tcr_pmhc.pdb,1duz_A-B-C_pmhc.pdb,antigen_chain,False,1.13104824781655
-1ao7_D-E-C-A-B_tcr_pmhc,1ao7_D-E-C-A-B_tcr_pmhc.pdb,1duz_A-B-C_pmhc.pdb,mhc_chain1,False,0.5882791167947039
-1ao7_D-E-C-A-B_tcr_pmhc,1ao7_D-E-C-A-B_tcr_pmhc.pdb,1duz_A-B-C_pmhc.pdb,mhc_chain1,True,0.7073608493634076
-1ao7_D-E-C-A-B_tcr_pmhc,3ixa_D-E-F_pmhc.pdb,1duz_A-B-C_pmhc.pdb,antigen_chain,False,1.0946426357492194
-1ao7_D-E-C-A-B_tcr_pmhc,3ixa_D-E-F_pmhc.pdb,1duz_A-B-C_pmhc.pdb,mhc_chain1,False,0.6430703065699109
-1ao7_D-E-C-A-B_tcr_pmhc,3ixa_D-E-F_pmhc.pdb,1duz_A-B-C_pmhc.pdb,mhc_chain1,True,1.3838676186461982

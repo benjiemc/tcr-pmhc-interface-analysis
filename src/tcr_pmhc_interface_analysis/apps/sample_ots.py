@@ -40,7 +40,7 @@ def main() -> None:
     setup_logger(logger, args.log_level)
 
     ots = []
-    for file_ in glob.glob(os.path.join(args.path, '*.csv*')):
+    for file_ in sorted(glob.glob(os.path.join(args.path, '*.csv*')), key=os.path.basename):
         logger.info('Collecting %s', os.path.basename(file_))
         ots.append(pd.read_csv(file_, skiprows=1))
 

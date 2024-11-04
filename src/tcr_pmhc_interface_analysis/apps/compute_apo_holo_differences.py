@@ -67,8 +67,8 @@ def main():
     summary_path, = glob.glob(os.path.join(args.input, '*summary.csv'))
     summary_df = pd.read_csv(summary_path)
 
-    complexes = [complex_id for complex_id in os.listdir(args.input)
-                 if os.path.isdir(os.path.join(args.input, complex_id))]
+    complexes = sorted([complex_id for complex_id in os.listdir(args.input)
+                        if os.path.isdir(os.path.join(args.input, complex_id))])
     num_complexes = len(complexes)
 
     info = {
