@@ -75,14 +75,14 @@ conda env create -f environment.yml
 conda run -n tcr-pmhc-interface-analysis python -m pip install .
 ```
 
-This will install all of the required dependencies into a new environment and ensure the distributed code is installed and available as well.
+This will install all of the required dependencies into a new environment and ensure the distributed code is installed and available.
 The environment can then be activated using the following command:
 
 ```
 conda activate tcr-pmhc-interface-analysis
 ```
 
-Run the test pipeline to be sure everything has been installed correctly:
+The testing pipeline can be run to ensure everything has been installed correctly using the following command (you will need the additional testing tools that can be installed with `pip install '.[develop]'`):
 
 ```
 make test
@@ -100,7 +100,7 @@ make all
 This provides a wrapper around the following steps `make data`, `make analysis`, and `make notebooks`.
 However, running all stages in one command will be highly resource intensive and therefore it may be more desirable to run each stage individually depending on the target system.
 
-Alternatively, the `make <COMMAND> --recon` may help ascertain what commands are run in each stage of the analysis and these can be run individually.
+the `make <COMMAND> --recon` may help ascertain what commands are run in each stage of the analysis and these can be run individually.
 
 > **_IMPORTANT NOTE_**: The processed data used for the results reported in the manuscript has been provided for reproducibility.
 > If you want to run the analysis with updated data, the provided data must be renamed or deleted (or each command can be run individually) as the make workflow will not run commands with existing outputs.
