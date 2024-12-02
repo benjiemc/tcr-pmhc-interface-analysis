@@ -24,7 +24,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Summary of apo-holo data" href="Summary_of_apo_holo_data.html" />
-    <link rel="prev" title="Length dependency of conformational change" href="Length_dependency_of_conformational_change.html" /> 
+    <link rel="prev" title="Modalities of TCR interactions with pMHCs" href="Modalities_of_TCR_interactions_with_pMHC.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -51,10 +51,12 @@
 <li class="toctree-l1 current"><a class="reference internal" href="notebooks.html">Analysis Notebooks</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="Ascertaining_the_generalisability_of_the_structure_data.html">Ascertaining the generalisability of the structure data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Centre_of_mass_analysis.html">Centre of mass analysis</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Comparing_of_apo_and_holo_CDR_loop_clustering.html">Comparing <em>apo</em> and <em>holo</em> CDR loop clustering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Compare_d_scores.html">Compare D-scores</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Comparing_apo_and_holo_CDR_loop_clustering.html">Comparing <em>apo</em> and <em>holo</em> CDR loop clustering</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Comparison_of_apo_and_holo_CDR_loops.html">Comparison of <em>apo</em> and <em>holo</em> CDR loops</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Identify_contact_residues_on_MHC_Class_I_molecules.html">Identify contact residues on MHC Class I molecules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Length_dependency_of_conformational_change.html">Length dependency of conformational change</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Modalities_of_TCR_interactions_with_pMHC.html">Modalities of TCR interactions with pMHCs</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Per residue changes of TCR CDRs between apo and holo structures</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#Introduction">Introduction</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#Loading-Data">Loading Data</a></li>
@@ -286,7 +288,7 @@ results
       <td>...</td>
     </tr>
     <tr>
-      <th>12051</th>
+      <th>6228</th>
       <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
       <td>7n1d_A-B_tcr.pdb</td>
       <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
@@ -301,7 +303,7 @@ results
       <td>0.208659</td>
     </tr>
     <tr>
-      <th>12052</th>
+      <th>6229</th>
       <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
       <td>7n1d_A-B_tcr.pdb</td>
       <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
@@ -316,7 +318,7 @@ results
       <td>0.829175</td>
     </tr>
     <tr>
-      <th>12053</th>
+      <th>6230</th>
       <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
       <td>7n1d_A-B_tcr.pdb</td>
       <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
@@ -331,7 +333,7 @@ results
       <td>0.995351</td>
     </tr>
     <tr>
-      <th>12054</th>
+      <th>6231</th>
       <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
       <td>7n1d_A-B_tcr.pdb</td>
       <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
@@ -346,7 +348,7 @@ results
       <td>0.166472</td>
     </tr>
     <tr>
-      <th>12055</th>
+      <th>6232</th>
       <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
       <td>7n1d_A-B_tcr.pdb</td>
       <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
@@ -362,7 +364,7 @@ results
     </tr>
   </tbody>
 </table>
-<p>12056 rows × 12 columns</p>
+<p>6233 rows × 12 columns</p>
 </div></div>
 </div>
 <div class="nbinput docutils container">
@@ -371,22 +373,13 @@ results
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>summary_df = pd.read_csv(&#39;../data/processed/apo-holo-tcr-pmhc-class-I/apo_holo_summary.csv&#39;)
 
-ids = summary_df[&#39;file_name&#39;].str.replace(&#39;.pdb&#39;, &#39;&#39;)
+ids = summary_df[&#39;file_name&#39;].str.replace(&#39;.pdb&#39;, &#39;&#39;, regex=False)
 ids.name = &#39;id&#39;
 summary_df = summary_df.set_index(ids)
 
 summary_df
 </pre></div>
 </div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-/var/scratch/bmcmaste/1760251/ipykernel_1034960/322943147.py:3: FutureWarning: The default value of regex will change from True to False in a future version.
-  ids = summary_df[&#39;file_name&#39;].str.replace(&#39;.pdb&#39;, &#39;&#39;)
-</pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
@@ -457,6 +450,36 @@ summary_df
       <td>hla_a_02_01</td>
     </tr>
     <tr>
+      <th>1b0g_C-A-B_pmhc</th>
+      <td>1b0g_C-A-B_pmhc.pdb</td>
+      <td>1b0g</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>NaN</td>
+      <td>ALWGFFPVL</td>
+      <td>hla_a_02_01</td>
+    </tr>
+    <tr>
+      <th>1b0g_F-D-E_pmhc</th>
+      <td>1b0g_F-D-E_pmhc.pdb</td>
+      <td>1b0g</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>F</td>
+      <td>D</td>
+      <td>E</td>
+      <td>NaN</td>
+      <td>ALWGFFPVL</td>
+      <td>hla_a_02_01</td>
+    </tr>
+    <tr>
       <th>1bd2_D-E-C-A-B_tcr_pmhc</th>
       <td>1bd2_D-E-C-A-B_tcr_pmhc.pdb</td>
       <td>1bd2</td>
@@ -472,8 +495,8 @@ summary_df
       <td>hla_a_02_01</td>
     </tr>
     <tr>
-      <th>1bii_A-B-P_pmhc</th>
-      <td>1bii_A-B-P_pmhc.pdb</td>
+      <th>1bii_P-A-B_pmhc</th>
+      <td>1bii_P-A-B_pmhc.pdb</td>
       <td>1bii</td>
       <td>pmhc</td>
       <td>apo</td>
@@ -485,36 +508,6 @@ summary_df
       <td>NaN</td>
       <td>RGPGRAFVTI</td>
       <td>h2_dd</td>
-    </tr>
-    <tr>
-      <th>1ddh_A-B-P_pmhc</th>
-      <td>1ddh_A-B-P_pmhc.pdb</td>
-      <td>1ddh</td>
-      <td>pmhc</td>
-      <td>apo</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>P</td>
-      <td>A</td>
-      <td>B</td>
-      <td>NaN</td>
-      <td>RGPGRAFVTI</td>
-      <td>h2_dd</td>
-    </tr>
-    <tr>
-      <th>1duz_A-B-C_pmhc</th>
-      <td>1duz_A-B-C_pmhc.pdb</td>
-      <td>1duz</td>
-      <td>pmhc</td>
-      <td>apo</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>C</td>
-      <td>A</td>
-      <td>B</td>
-      <td>NaN</td>
-      <td>LLFGYPVYV</td>
-      <td>hla_a_02_01</td>
     </tr>
     <tr>
       <th>...</th>
@@ -532,9 +525,24 @@ summary_df
       <td>...</td>
     </tr>
     <tr>
-      <th>8gon_D-E-C-A-B_tcr_pmhc</th>
-      <td>8gon_D-E-C-A-B_tcr_pmhc.pdb</td>
-      <td>8gon</td>
+      <th>7rtd_C-A-B_pmhc</th>
+      <td>7rtd_C-A-B_pmhc.pdb</td>
+      <td>7rtd</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>NaN</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+    </tr>
+    <tr>
+      <th>7rtr_D-E-C-A-B_tcr_pmhc</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>7rtr</td>
       <td>tcr_pmhc</td>
       <td>holo</td>
       <td>D</td>
@@ -542,24 +550,9 @@ summary_df
       <td>C</td>
       <td>A</td>
       <td>B</td>
-      <td>TSESDYY-QEAYKQQN-ASSGNTPLV-SGHNS-FNNNVP-ASTWGR...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>8gop_A-B_tcr</th>
-      <td>8gop_A-B_tcr.pdb</td>
-      <td>8gop</td>
-      <td>tcr</td>
-      <td>apo</td>
-      <td>A</td>
-      <td>B</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>TSESDYY-QEAYKQQN-ASSGNTPLV-SGHNS-FNNNVP-ASTWGR...</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>DRGSQS-IYSNGD-AVNRDDKII-SEHNR-FQNEAQ-ASSPDIEQY</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
     </tr>
     <tr>
       <th>8gvb_A-B-P-H-L_tcr_pmhc</th>
@@ -608,7 +601,7 @@ summary_df
     </tr>
   </tbody>
 </table>
-<p>358 rows × 12 columns</p>
+<p>391 rows × 12 columns</p>
 </div></div>
 </div>
 <div class="nbinput nblast docutils container">
@@ -754,10 +747,10 @@ results = results.drop_duplicates([&#39;structure_comparison&#39;,
       <td>ALA</td>
       <td>27</td>
       <td>NaN</td>
-      <td>0.508006</td>
-      <td>0.739782</td>
+      <td>0.505979</td>
+      <td>0.727144</td>
       <td>NaN</td>
-      <td>0.528628</td>
+      <td>0.518151</td>
       <td>27</td>
     </tr>
     <tr>
@@ -769,10 +762,10 @@ results = results.drop_duplicates([&#39;structure_comparison&#39;,
       <td>GLY</td>
       <td>29</td>
       <td>NaN</td>
-      <td>0.881840</td>
-      <td>0.898233</td>
+      <td>0.914903</td>
+      <td>0.930089</td>
       <td>NaN</td>
-      <td>0.816910</td>
+      <td>0.854811</td>
       <td>29</td>
     </tr>
     <tr>
@@ -784,10 +777,10 @@ results = results.drop_duplicates([&#39;structure_comparison&#39;,
       <td>PRO</td>
       <td>37</td>
       <td>NaN</td>
-      <td>0.572616</td>
-      <td>0.749906</td>
-      <td>-0.030074</td>
-      <td>0.541702</td>
+      <td>0.423195</td>
+      <td>0.503712</td>
+      <td>-0.025853</td>
+      <td>0.389174</td>
       <td>37</td>
     </tr>
     <tr>
@@ -799,10 +792,10 @@ results = results.drop_duplicates([&#39;structure_comparison&#39;,
       <td>SER</td>
       <td>38</td>
       <td>NaN</td>
-      <td>0.502938</td>
-      <td>0.630893</td>
-      <td>-0.117107</td>
-      <td>0.568768</td>
+      <td>0.401867</td>
+      <td>0.469748</td>
+      <td>-0.121133</td>
+      <td>0.433753</td>
       <td>38</td>
     </tr>
     <tr>
@@ -814,10 +807,10 @@ results = results.drop_duplicates([&#39;structure_comparison&#39;,
       <td>THR</td>
       <td>28</td>
       <td>NaN</td>
-      <td>0.499294</td>
-      <td>1.930195</td>
-      <td>3.759095</td>
-      <td>0.572771</td>
+      <td>0.510473</td>
+      <td>1.928260</td>
+      <td>3.726374</td>
+      <td>0.564129</td>
       <td>28</td>
     </tr>
     <tr>
@@ -836,7 +829,7 @@ results = results.drop_duplicates([&#39;structure_comparison&#39;,
       <td>...</td>
     </tr>
     <tr>
-      <th>1629</th>
+      <th>1442</th>
       <td>YSGSPE-HISR-ALSGFNNAGNMLT-SGHAT-FQNNGV-ASSLGGA...</td>
       <td>apo-holo</td>
       <td>beta_chain</td>
@@ -851,7 +844,7 @@ results = results.drop_duplicates([&#39;structure_comparison&#39;,
       <td>108</td>
     </tr>
     <tr>
-      <th>1630</th>
+      <th>1443</th>
       <td>YSGSPE-HISR-ALSGFNNAGNMLT-SGHAT-FQNNGV-ASSLGGA...</td>
       <td>apo-holo</td>
       <td>beta_chain</td>
@@ -866,7 +859,7 @@ results = results.drop_duplicates([&#39;structure_comparison&#39;,
       <td>106</td>
     </tr>
     <tr>
-      <th>1631</th>
+      <th>1444</th>
       <td>YSGSPE-HISR-ALSGFNNAGNMLT-SGHAT-FQNNGV-ASSLGGA...</td>
       <td>apo-holo</td>
       <td>beta_chain</td>
@@ -881,7 +874,7 @@ results = results.drop_duplicates([&#39;structure_comparison&#39;,
       <td>107</td>
     </tr>
     <tr>
-      <th>1632</th>
+      <th>1445</th>
       <td>YSGSPE-HISR-ALSGFNNAGNMLT-SGHAT-FQNNGV-ASSLGGA...</td>
       <td>apo-holo</td>
       <td>beta_chain</td>
@@ -896,7 +889,7 @@ results = results.drop_duplicates([&#39;structure_comparison&#39;,
       <td>115</td>
     </tr>
     <tr>
-      <th>1633</th>
+      <th>1446</th>
       <td>YSGSPE-HISR-ALSGFNNAGNMLT-SGHAT-FQNNGV-ASSLGGA...</td>
       <td>apo-holo</td>
       <td>beta_chain</td>
@@ -912,7 +905,7 @@ results = results.drop_duplicates([&#39;structure_comparison&#39;,
     </tr>
   </tbody>
 </table>
-<p>1132 rows × 12 columns</p>
+<p>992 rows × 12 columns</p>
 </div></div>
 </div>
 </section>
@@ -924,7 +917,7 @@ results = results.drop_duplicates([&#39;structure_comparison&#39;,
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>sns.catplot(results.sort_values(&#39;resi&#39;),
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>sns.catplot(results.sort_values([&#39;resi&#39;, &#39;chain_type&#39;, &#39;cdr&#39;]),
             x=&#39;resi&#39;, y=&#39;ca_distance&#39;,
             row=&#39;chain_type&#39;, col=&#39;cdr&#39;,
             color=&#39;salmon&#39;,
@@ -933,11 +926,20 @@ results = results.drop_duplicates([&#39;structure_comparison&#39;,
 </pre></div>
 </div>
 </div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;seaborn.axisgrid.FacetGrid at 0x7f9a2a00b2b0&gt;
+</pre></div></div>
+</div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/source_Per_residue_changes_of_TCR_CDR_between_apo_and_holo_structures_18_0.svg" src="../_images/source_Per_residue_changes_of_TCR_CDR_between_apo_and_holo_structures_18_0.svg" />
+<img alt="../_images/source_Per_residue_changes_of_TCR_CDR_between_apo_and_holo_structures_18_1.svg" src="../_images/source_Per_residue_changes_of_TCR_CDR_between_apo_and_holo_structures_18_1.svg" />
 </div>
 </div>
 </section>
@@ -947,7 +949,7 @@ results = results.drop_duplicates([&#39;structure_comparison&#39;,
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>sns.catplot(results.sort_values(&#39;resi&#39;),
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>sns.catplot(results.sort_values([&#39;resi&#39;, &#39;chain_type&#39;, &#39;cdr&#39;]),
             x=&#39;resi&#39;, y=&#39;rmsd&#39;,
             row=&#39;chain_type&#39;, col=&#39;cdr&#39;,
             color=&#39;salmon&#39;,
@@ -956,11 +958,20 @@ results = results.drop_duplicates([&#39;structure_comparison&#39;,
 </pre></div>
 </div>
 </div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;seaborn.axisgrid.FacetGrid at 0x7f9a2a00af50&gt;
+</pre></div></div>
+</div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/source_Per_residue_changes_of_TCR_CDR_between_apo_and_holo_structures_20_0.svg" src="../_images/source_Per_residue_changes_of_TCR_CDR_between_apo_and_holo_structures_20_0.svg" />
+<img alt="../_images/source_Per_residue_changes_of_TCR_CDR_between_apo_and_holo_structures_20_1.svg" src="../_images/source_Per_residue_changes_of_TCR_CDR_between_apo_and_holo_structures_20_1.svg" />
 </div>
 </div>
 </section>
@@ -970,7 +981,7 @@ results = results.drop_duplicates([&#39;structure_comparison&#39;,
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>sns.catplot(results.sort_values(&#39;resi&#39;),
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>sns.catplot(results.sort_values([&#39;resi&#39;, &#39;chain_type&#39;, &#39;cdr&#39;]),
             x=&#39;resi&#39;, y=&#39;com_distance&#39;,
             row=&#39;chain_type&#39;, col=&#39;cdr&#39;,
             color=&#39;salmon&#39;,
@@ -979,11 +990,20 @@ results = results.drop_duplicates([&#39;structure_comparison&#39;,
 </pre></div>
 </div>
 </div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;seaborn.axisgrid.FacetGrid at 0x7f9a2996ae30&gt;
+</pre></div></div>
+</div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/source_Per_residue_changes_of_TCR_CDR_between_apo_and_holo_structures_22_0.svg" src="../_images/source_Per_residue_changes_of_TCR_CDR_between_apo_and_holo_structures_22_0.svg" />
+<img alt="../_images/source_Per_residue_changes_of_TCR_CDR_between_apo_and_holo_structures_22_1.svg" src="../_images/source_Per_residue_changes_of_TCR_CDR_between_apo_and_holo_structures_22_1.svg" />
 </div>
 </div>
 </section>
@@ -993,7 +1013,7 @@ results = results.drop_duplicates([&#39;structure_comparison&#39;,
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>aa_types = results[&#39;residue_name&#39;].map({
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>results[&#39;aa_type&#39;] = results[&#39;residue_name&#39;].map({
     &#39;ARG&#39;: &#39;Charged&#39;,
     &#39;HIS&#39;: &#39;Charged&#39;,
     &#39;LYS&#39;: &#39;Charged&#39;,
@@ -1015,13 +1035,6 @@ results = results.drop_duplicates([&#39;structure_comparison&#39;,
     &#39;TYR&#39;: &#39;Hydrophobic&#39;,
     &#39;TRP&#39;: &#39;Hydrophobic&#39;,
 })
-
-colour = aa_types.map({
-    &#39;Charged&#39;: &#39;lightblue&#39;,
-    &#39;Polar&#39;: &#39;orange&#39;,
-    &#39;Special&#39;: &#39;yellow&#39;,
-    &#39;Hydrophobic&#39;: &#39;pink&#39;,
-})
 </pre></div>
 </div>
 </div>
@@ -1038,7 +1051,7 @@ results[&#39;aa_mean&#39;] = results[&#39;residue_name&#39;].map(aa_means)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>sns.barplot(results.sort_values(&#39;aa_mean&#39;, ascending=False), y=&#39;rmsd&#39;, x=&#39;residue_name&#39;, palette=colour)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>sns.barplot(results.sort_values(&#39;aa_mean&#39;, ascending=False), y=&#39;rmsd&#39;, x=&#39;residue_name&#39;, hue=&#39;aa_type&#39;)
 plt.xticks(rotation=-45)
 print()
 </pre></div>
@@ -1092,7 +1105,7 @@ print()
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>sns.scatterplot(x=num_side_chain_heavy_atoms, y=results[&#39;rmsd&#39;], hue=aa_types)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>sns.scatterplot(x=num_side_chain_heavy_atoms, y=results[&#39;rmsd&#39;], hue=results[&#39;aa_type&#39;])
 plt.xlabel(&#39;number of heavy atoms in side chain&#39;)
 plt.show()
 </pre></div>
@@ -1122,7 +1135,7 @@ results[&#39;chi_angle_change_deg_mag&#39;] = results[&#39;chi_angle_change_mag&
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>sns.catplot(results.sort_values(&#39;resi&#39;),
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>sns.catplot(results.sort_values([&#39;resi&#39;, &#39;chain_type&#39;, &#39;cdr&#39;]),
             x=&#39;resi&#39;, y=&#39;chi_angle_change&#39;,
             row=&#39;chain_type&#39;, col=&#39;cdr&#39;,
             color=&#39;salmon&#39;,
@@ -1132,51 +1145,26 @@ results[&#39;chi_angle_change_deg_mag&#39;] = results[&#39;chi_angle_change_mag&
 </div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-/home/b/bmcmaste/.local/lib/python3.10/site-packages/seaborn/algorithms.py:98: RuntimeWarning: Mean of empty slice
-  boot_dist.append(f(*sample, **func_kwargs))
-/home/b/bmcmaste/.local/lib/python3.10/site-packages/seaborn/algorithms.py:98: RuntimeWarning: Mean of empty slice
-  boot_dist.append(f(*sample, **func_kwargs))
-/home/b/bmcmaste/.local/lib/python3.10/site-packages/seaborn/algorithms.py:98: RuntimeWarning: Mean of empty slice
-  boot_dist.append(f(*sample, **func_kwargs))
-/home/b/bmcmaste/.local/lib/python3.10/site-packages/seaborn/algorithms.py:98: RuntimeWarning: Mean of empty slice
-  boot_dist.append(f(*sample, **func_kwargs))
-/home/b/bmcmaste/.local/lib/python3.10/site-packages/seaborn/algorithms.py:98: RuntimeWarning: Mean of empty slice
-  boot_dist.append(f(*sample, **func_kwargs))
-/home/b/bmcmaste/.local/lib/python3.10/site-packages/seaborn/algorithms.py:98: RuntimeWarning: Mean of empty slice
-  boot_dist.append(f(*sample, **func_kwargs))
-/home/b/bmcmaste/.local/lib/python3.10/site-packages/seaborn/algorithms.py:98: RuntimeWarning: Mean of empty slice
-  boot_dist.append(f(*sample, **func_kwargs))
-/home/b/bmcmaste/.local/lib/python3.10/site-packages/numpy/lib/nanfunctions.py:1560: RuntimeWarning: All-NaN slice encountered
-  r, k = function_base._ureduce(a,
-/home/b/bmcmaste/.local/lib/python3.10/site-packages/seaborn/algorithms.py:98: RuntimeWarning: Mean of empty slice
-  boot_dist.append(f(*sample, **func_kwargs))
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;seaborn.axisgrid.FacetGrid at 0x7fb9bd787c40&gt;
+&lt;seaborn.axisgrid.FacetGrid at 0x7f9a2a20bf70&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/source_Per_residue_changes_of_TCR_CDR_between_apo_and_holo_structures_31_2.svg" src="../_images/source_Per_residue_changes_of_TCR_CDR_between_apo_and_holo_structures_31_2.svg" />
+<img alt="../_images/source_Per_residue_changes_of_TCR_CDR_between_apo_and_holo_structures_31_1.svg" src="../_images/source_Per_residue_changes_of_TCR_CDR_between_apo_and_holo_structures_31_1.svg" />
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>sns.catplot(results.sort_values(&#39;resi&#39;),
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>sns.catplot(results.sort_values([&#39;resi&#39;, &#39;chain_type&#39;, &#39;cdr&#39;]),
             x=&#39;resi&#39;, y=&#39;chi_angle_change_mag&#39;,
             row=&#39;chain_type&#39;, col=&#39;cdr&#39;,
             color=&#39;salmon&#39;,
@@ -1186,49 +1174,26 @@ results[&#39;chi_angle_change_deg_mag&#39;] = results[&#39;chi_angle_change_mag&
 </div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-/home/b/bmcmaste/.local/lib/python3.10/site-packages/seaborn/algorithms.py:98: RuntimeWarning: Mean of empty slice
-  boot_dist.append(f(*sample, **func_kwargs))
-/home/b/bmcmaste/.local/lib/python3.10/site-packages/seaborn/algorithms.py:98: RuntimeWarning: Mean of empty slice
-  boot_dist.append(f(*sample, **func_kwargs))
-/home/b/bmcmaste/.local/lib/python3.10/site-packages/seaborn/algorithms.py:98: RuntimeWarning: Mean of empty slice
-  boot_dist.append(f(*sample, **func_kwargs))
-/home/b/bmcmaste/.local/lib/python3.10/site-packages/seaborn/algorithms.py:98: RuntimeWarning: Mean of empty slice
-  boot_dist.append(f(*sample, **func_kwargs))
-/home/b/bmcmaste/.local/lib/python3.10/site-packages/seaborn/algorithms.py:98: RuntimeWarning: Mean of empty slice
-  boot_dist.append(f(*sample, **func_kwargs))
-/home/b/bmcmaste/.local/lib/python3.10/site-packages/seaborn/algorithms.py:98: RuntimeWarning: Mean of empty slice
-  boot_dist.append(f(*sample, **func_kwargs))
-/home/b/bmcmaste/.local/lib/python3.10/site-packages/numpy/lib/nanfunctions.py:1560: RuntimeWarning: All-NaN slice encountered
-  r, k = function_base._ureduce(a,
-/home/b/bmcmaste/.local/lib/python3.10/site-packages/seaborn/algorithms.py:98: RuntimeWarning: Mean of empty slice
-  boot_dist.append(f(*sample, **func_kwargs))
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;seaborn.axisgrid.FacetGrid at 0x7fb9bd018bb0&gt;
+&lt;seaborn.axisgrid.FacetGrid at 0x7f9a29bfeb90&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/source_Per_residue_changes_of_TCR_CDR_between_apo_and_holo_structures_32_2.svg" src="../_images/source_Per_residue_changes_of_TCR_CDR_between_apo_and_holo_structures_32_2.svg" />
+<img alt="../_images/source_Per_residue_changes_of_TCR_CDR_between_apo_and_holo_structures_32_1.svg" src="../_images/source_Per_residue_changes_of_TCR_CDR_between_apo_and_holo_structures_32_1.svg" />
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>sns.catplot(results.sort_values(&#39;resi&#39;),
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>sns.catplot(results.sort_values([&#39;resi&#39;, &#39;chain_type&#39;, &#39;cdr&#39;]),
             x=&#39;resi&#39;, y=&#39;chi_angle_change_deg_mag&#39;,
             row=&#39;chain_type&#39;, col=&#39;cdr&#39;,
             color=&#39;salmon&#39;,
@@ -1238,28 +1203,12 @@ results[&#39;chi_angle_change_deg_mag&#39;] = results[&#39;chi_angle_change_mag&
 </div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
 </div>
-<div class="output_area stderr docutils container">
+<div class="output_area docutils container">
 <div class="highlight"><pre>
-/home/b/bmcmaste/.local/lib/python3.10/site-packages/seaborn/algorithms.py:98: RuntimeWarning: Mean of empty slice
-  boot_dist.append(f(*sample, **func_kwargs))
-/home/b/bmcmaste/.local/lib/python3.10/site-packages/seaborn/algorithms.py:98: RuntimeWarning: Mean of empty slice
-  boot_dist.append(f(*sample, **func_kwargs))
-/home/b/bmcmaste/.local/lib/python3.10/site-packages/seaborn/algorithms.py:98: RuntimeWarning: Mean of empty slice
-  boot_dist.append(f(*sample, **func_kwargs))
-/home/b/bmcmaste/.local/lib/python3.10/site-packages/seaborn/algorithms.py:98: RuntimeWarning: Mean of empty slice
-  boot_dist.append(f(*sample, **func_kwargs))
-/home/b/bmcmaste/.local/lib/python3.10/site-packages/seaborn/algorithms.py:98: RuntimeWarning: Mean of empty slice
-  boot_dist.append(f(*sample, **func_kwargs))
-/home/b/bmcmaste/.local/lib/python3.10/site-packages/seaborn/algorithms.py:98: RuntimeWarning: Mean of empty slice
-  boot_dist.append(f(*sample, **func_kwargs))
-/home/b/bmcmaste/.local/lib/python3.10/site-packages/numpy/lib/nanfunctions.py:1560: RuntimeWarning: All-NaN slice encountered
-  r, k = function_base._ureduce(a,
-/home/b/bmcmaste/.local/lib/python3.10/site-packages/seaborn/algorithms.py:98: RuntimeWarning: Mean of empty slice
-  boot_dist.append(f(*sample, **func_kwargs))
-/home/b/bmcmaste/.local/lib/python3.10/site-packages/seaborn/algorithms.py:98: RuntimeWarning: Mean of empty slice
-  boot_dist.append(f(*sample, **func_kwargs))
+&lt;seaborn.axisgrid.FacetGrid at 0x7f9a23a0b910&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -1281,7 +1230,7 @@ results[&#39;chi_angle_change_deg_mag&#39;] = results[&#39;chi_angle_change_mag&
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="Length_dependency_of_conformational_change.html" class="btn btn-neutral float-left" title="Length dependency of conformational change" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Modalities_of_TCR_interactions_with_pMHC.html" class="btn btn-neutral float-left" title="Modalities of TCR interactions with pMHCs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="Summary_of_apo_holo_data.html" class="btn btn-neutral float-right" title="Summary of apo-holo data" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

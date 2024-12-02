@@ -51,10 +51,12 @@
 <li class="toctree-l1 current"><a class="reference internal" href="notebooks.html">Analysis Notebooks</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="Ascertaining_the_generalisability_of_the_structure_data.html">Ascertaining the generalisability of the structure data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Centre_of_mass_analysis.html">Centre of mass analysis</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Comparing_of_apo_and_holo_CDR_loop_clustering.html">Comparing <em>apo</em> and <em>holo</em> CDR loop clustering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Compare_d_scores.html">Compare D-scores</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Comparing_apo_and_holo_CDR_loop_clustering.html">Comparing <em>apo</em> and <em>holo</em> CDR loop clustering</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Comparison_of_apo_and_holo_CDR_loops.html">Comparison of <em>apo</em> and <em>holo</em> CDR loops</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Identify_contact_residues_on_MHC_Class_I_molecules.html">Identify contact residues on MHC Class I molecules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Length_dependency_of_conformational_change.html">Length dependency of conformational change</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Modalities_of_TCR_interactions_with_pMHC.html">Modalities of TCR interactions with pMHCs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Per_residue_changes_of_TCR_CDR_between_apo_and_holo_structures.html">Per residue changes of TCR CDRs between apo and holo structures</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Summary_of_apo_holo_data.html">Summary of <em>apo</em>-<em>holo</em> data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Visualising_CDR_loop_clustering.html">Visualising CDR loop clustering</a></li>
@@ -124,7 +126,7 @@ from python_pdb.formats.residue import THREE_TO_ONE_CODE
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>mhc_anchor_position_df = pd.read_csv(&#39;../data/external/mhc_motif_atlas.csv&#39;)
@@ -138,8 +140,7 @@ mhc_anchor_position_df
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
 <div>
@@ -302,73 +303,73 @@ peptide_apo_holo_comparison
   <tbody>
     <tr>
       <th>181</th>
-      <td>7ow6_D-E-C-A-B_tcr_pmhc</td>
-      <td>7ow4_A-B-C_pmhc.pdb</td>
-      <td>7ow4_D-E-F_pmhc.pdb</td>
+      <td>5c0a_D-E-C-A-B_tcr_pmhc</td>
+      <td>5c0a_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>5n1y_C-A-B_pmhc.pdb</td>
       <td>antigen_chain</td>
-      <td>VAL</td>
+      <td>MET</td>
       <td>1</td>
       <td>NaN</td>
-      <td>0.354933</td>
-      <td>0.330887</td>
-      <td>0.200330</td>
-      <td>0.316020</td>
+      <td>0.700531</td>
+      <td>0.237162</td>
+      <td>1.570636</td>
+      <td>0.364628</td>
     </tr>
     <tr>
       <th>182</th>
-      <td>7ow6_D-E-C-A-B_tcr_pmhc</td>
-      <td>7ow4_A-B-C_pmhc.pdb</td>
-      <td>7ow4_D-E-F_pmhc.pdb</td>
+      <td>5c0a_D-E-C-A-B_tcr_pmhc</td>
+      <td>5c0a_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>5n1y_C-A-B_pmhc.pdb</td>
       <td>antigen_chain</td>
       <td>VAL</td>
       <td>2</td>
       <td>NaN</td>
-      <td>0.262440</td>
-      <td>0.073709</td>
-      <td>0.030793</td>
-      <td>0.085332</td>
+      <td>0.114569</td>
+      <td>0.089359</td>
+      <td>0.009407</td>
+      <td>0.043732</td>
     </tr>
     <tr>
       <th>183</th>
-      <td>7ow6_D-E-C-A-B_tcr_pmhc</td>
-      <td>7ow4_A-B-C_pmhc.pdb</td>
-      <td>7ow4_D-E-F_pmhc.pdb</td>
+      <td>5c0a_D-E-C-A-B_tcr_pmhc</td>
+      <td>5c0a_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>5n1y_C-A-B_pmhc.pdb</td>
       <td>antigen_chain</td>
-      <td>VAL</td>
+      <td>TRP</td>
       <td>3</td>
       <td>NaN</td>
-      <td>0.256739</td>
-      <td>0.248310</td>
-      <td>-0.007898</td>
-      <td>0.215858</td>
+      <td>0.400840</td>
+      <td>0.233532</td>
+      <td>-0.019115</td>
+      <td>0.363989</td>
     </tr>
     <tr>
       <th>184</th>
-      <td>7ow6_D-E-C-A-B_tcr_pmhc</td>
-      <td>7ow4_A-B-C_pmhc.pdb</td>
-      <td>7ow4_D-E-F_pmhc.pdb</td>
+      <td>5c0a_D-E-C-A-B_tcr_pmhc</td>
+      <td>5c0a_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>5n1y_C-A-B_pmhc.pdb</td>
       <td>antigen_chain</td>
       <td>GLY</td>
       <td>4</td>
       <td>NaN</td>
-      <td>0.568505</td>
-      <td>0.622876</td>
+      <td>0.495618</td>
+      <td>0.262271</td>
       <td>NaN</td>
-      <td>0.318856</td>
+      <td>0.448252</td>
     </tr>
     <tr>
       <th>185</th>
-      <td>7ow6_D-E-C-A-B_tcr_pmhc</td>
-      <td>7ow4_A-B-C_pmhc.pdb</td>
-      <td>7ow4_D-E-F_pmhc.pdb</td>
+      <td>5c0a_D-E-C-A-B_tcr_pmhc</td>
+      <td>5c0a_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>5n1y_C-A-B_pmhc.pdb</td>
       <td>antigen_chain</td>
-      <td>GLY</td>
-      <td>7</td>
+      <td>PRO</td>
+      <td>5</td>
       <td>NaN</td>
-      <td>0.346240</td>
-      <td>0.192317</td>
-      <td>NaN</td>
-      <td>0.324260</td>
+      <td>0.734430</td>
+      <td>0.486409</td>
+      <td>-0.842595</td>
+      <td>0.536198</td>
     </tr>
     <tr>
       <th>...</th>
@@ -385,9 +386,9 @@ peptide_apo_holo_comparison
       <td>...</td>
     </tr>
     <tr>
-      <th>126149</th>
+      <th>209372</th>
       <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
-      <td>7rtd_A-B-C_pmhc.pdb</td>
+      <td>7rtd_C-A-B_pmhc.pdb</td>
       <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
       <td>antigen_chain</td>
       <td>ARG</td>
@@ -399,9 +400,9 @@ peptide_apo_holo_comparison
       <td>0.705033</td>
     </tr>
     <tr>
-      <th>126150</th>
+      <th>209373</th>
       <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
-      <td>7rtd_A-B-C_pmhc.pdb</td>
+      <td>7rtd_C-A-B_pmhc.pdb</td>
       <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
       <td>antigen_chain</td>
       <td>THR</td>
@@ -413,9 +414,9 @@ peptide_apo_holo_comparison
       <td>0.344074</td>
     </tr>
     <tr>
-      <th>126151</th>
+      <th>209374</th>
       <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
-      <td>7rtd_A-B-C_pmhc.pdb</td>
+      <td>7rtd_C-A-B_pmhc.pdb</td>
       <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
       <td>antigen_chain</td>
       <td>PHE</td>
@@ -427,9 +428,9 @@ peptide_apo_holo_comparison
       <td>0.883236</td>
     </tr>
     <tr>
-      <th>126152</th>
+      <th>209375</th>
       <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
-      <td>7rtd_A-B-C_pmhc.pdb</td>
+      <td>7rtd_C-A-B_pmhc.pdb</td>
       <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
       <td>antigen_chain</td>
       <td>LEU</td>
@@ -441,9 +442,9 @@ peptide_apo_holo_comparison
       <td>0.270049</td>
     </tr>
     <tr>
-      <th>126153</th>
+      <th>209376</th>
       <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
-      <td>7rtd_A-B-C_pmhc.pdb</td>
+      <td>7rtd_C-A-B_pmhc.pdb</td>
       <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
       <td>antigen_chain</td>
       <td>LEU</td>
@@ -456,7 +457,7 @@ peptide_apo_holo_comparison
     </tr>
   </tbody>
 </table>
-<p>5838 rows × 11 columns</p>
+<p>9857 rows × 11 columns</p>
 </div></div>
 </div>
 <div class="nbinput nblast docutils container">
@@ -497,7 +498,7 @@ summary_df
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-/var/scratch/bmcmaste/1915160/ipykernel_3863244/1956598565.py:2: FutureWarning: The default value of regex will change from True to False in a future version.
+/var/scratch/bmcmaste/2178229/ipykernel_2204500/1956598565.py:2: FutureWarning: The default value of regex will change from True to False in a future version.
   summary_df[&#39;group_name&#39;] = summary_df[&#39;file_name&#39;].str.replace(&#39;.pdb&#39;, &#39;&#39;)
 </pre></div></div>
 </div>
@@ -558,6 +559,38 @@ summary_df
     </tr>
     <tr>
       <th>1</th>
+      <td>1b0g_C-A-B_pmhc.pdb</td>
+      <td>1b0g</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>NaN</td>
+      <td>ALWGFFPVL</td>
+      <td>hla_a_02_01</td>
+      <td>1b0g_C-A-B_pmhc</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1b0g_F-D-E_pmhc.pdb</td>
+      <td>1b0g</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>F</td>
+      <td>D</td>
+      <td>E</td>
+      <td>NaN</td>
+      <td>ALWGFFPVL</td>
+      <td>hla_a_02_01</td>
+      <td>1b0g_F-D-E_pmhc</td>
+    </tr>
+    <tr>
+      <th>3</th>
       <td>1bd2_D-E-C-A-B_tcr_pmhc.pdb</td>
       <td>1bd2</td>
       <td>tcr_pmhc</td>
@@ -573,8 +606,8 @@ summary_df
       <td>1bd2_D-E-C-A-B_tcr_pmhc</td>
     </tr>
     <tr>
-      <th>2</th>
-      <td>1bii_A-B-P_pmhc.pdb</td>
+      <th>4</th>
+      <td>1bii_P-A-B_pmhc.pdb</td>
       <td>1bii</td>
       <td>pmhc</td>
       <td>apo</td>
@@ -586,39 +619,7 @@ summary_df
       <td>NaN</td>
       <td>RGPGRAFVTI</td>
       <td>h2_dd</td>
-      <td>1bii_A-B-P_pmhc</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>1ddh_A-B-P_pmhc.pdb</td>
-      <td>1ddh</td>
-      <td>pmhc</td>
-      <td>apo</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>P</td>
-      <td>A</td>
-      <td>B</td>
-      <td>NaN</td>
-      <td>RGPGRAFVTI</td>
-      <td>h2_dd</td>
-      <td>1ddh_A-B-P_pmhc</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>1duz_A-B-C_pmhc.pdb</td>
-      <td>1duz</td>
-      <td>pmhc</td>
-      <td>apo</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>C</td>
-      <td>A</td>
-      <td>B</td>
-      <td>NaN</td>
-      <td>LLFGYPVYV</td>
-      <td>hla_a_02_01</td>
-      <td>1duz_A-B-C_pmhc</td>
+      <td>1bii_P-A-B_pmhc</td>
     </tr>
     <tr>
       <th>...</th>
@@ -637,9 +638,25 @@ summary_df
       <td>...</td>
     </tr>
     <tr>
-      <th>353</th>
-      <td>8gon_D-E-C-A-B_tcr_pmhc.pdb</td>
-      <td>8gon</td>
+      <th>386</th>
+      <td>7rtd_C-A-B_pmhc.pdb</td>
+      <td>7rtd</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>NaN</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+      <td>7rtd_C-A-B_pmhc</td>
+    </tr>
+    <tr>
+      <th>387</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>7rtr</td>
       <td>tcr_pmhc</td>
       <td>holo</td>
       <td>D</td>
@@ -647,29 +664,13 @@ summary_df
       <td>C</td>
       <td>A</td>
       <td>B</td>
-      <td>TSESDYY-QEAYKQQN-ASSGNTPLV-SGHNS-FNNNVP-ASTWGR...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>8gon_D-E-C-A-B_tcr_pmhc</td>
+      <td>DRGSQS-IYSNGD-AVNRDDKII-SEHNR-FQNEAQ-ASSPDIEQY</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
     </tr>
     <tr>
-      <th>354</th>
-      <td>8gop_A-B_tcr.pdb</td>
-      <td>8gop</td>
-      <td>tcr</td>
-      <td>apo</td>
-      <td>A</td>
-      <td>B</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>TSESDYY-QEAYKQQN-ASSGNTPLV-SGHNS-FNNNVP-ASTWGR...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>8gop_A-B_tcr</td>
-    </tr>
-    <tr>
-      <th>355</th>
+      <th>388</th>
       <td>8gvb_A-B-P-H-L_tcr_pmhc.pdb</td>
       <td>8gvb</td>
       <td>tcr_pmhc</td>
@@ -685,7 +686,7 @@ summary_df
       <td>8gvb_A-B-P-H-L_tcr_pmhc</td>
     </tr>
     <tr>
-      <th>356</th>
+      <th>389</th>
       <td>8gvg_A-B-P-H-L_tcr_pmhc.pdb</td>
       <td>8gvg</td>
       <td>tcr_pmhc</td>
@@ -701,7 +702,7 @@ summary_df
       <td>8gvg_A-B-P-H-L_tcr_pmhc</td>
     </tr>
     <tr>
-      <th>357</th>
+      <th>390</th>
       <td>8gvi_A-B-P-H-L_tcr_pmhc.pdb</td>
       <td>8gvi</td>
       <td>tcr_pmhc</td>
@@ -718,7 +719,7 @@ summary_df
     </tr>
   </tbody>
 </table>
-<p>358 rows × 13 columns</p>
+<p>391 rows × 13 columns</p>
 </div></div>
 </div>
 </section>
@@ -782,16 +783,16 @@ peptide_apo_holo_comparison
   <tbody>
     <tr>
       <th>0</th>
-      <td>7ow6_D-E-C-A-B_tcr_pmhc</td>
-      <td>7ow4_A-B-C_pmhc.pdb</td>
-      <td>7ow4_D-E-F_pmhc.pdb</td>
+      <td>5c0a_D-E-C-A-B_tcr_pmhc</td>
+      <td>5c0a_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>5n1y_C-A-B_pmhc.pdb</td>
       <td>antigen_chain</td>
-      <td>VAL</td>
+      <td>MET</td>
       <td>1</td>
       <td>NaN</td>
-      <td>0.354933</td>
-      <td>0.330887</td>
-      <td>0.200330</td>
+      <td>0.700531</td>
+      <td>0.237162</td>
+      <td>1.570636</td>
       <td>...</td>
       <td>holo</td>
       <td>D</td>
@@ -799,23 +800,23 @@ peptide_apo_holo_comparison
       <td>C</td>
       <td>A</td>
       <td>B</td>
-      <td>TRDTAYY-QPWWGEQN-AMSVPSGDGSYQFT-MNHEY-SVGEGT-A...</td>
-      <td>VVVGADGVGK</td>
-      <td>hla_a_11_01</td>
-      <td>7ow6_D-E-C-A-B_tcr_pmhc</td>
+      <td>NSAFQY-TYSSGN-AMRGDSSYKLI-SGHDY-FNNNVP-ASSLWEK...</td>
+      <td>MVWGPDPLYV</td>
+      <td>hla_a_02_01</td>
+      <td>5c0a_D-E-C-A-B_tcr_pmhc</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>7ow6_D-E-C-A-B_tcr_pmhc</td>
-      <td>7ow4_A-B-C_pmhc.pdb</td>
-      <td>7ow4_D-E-F_pmhc.pdb</td>
+      <td>5c0a_D-E-C-A-B_tcr_pmhc</td>
+      <td>5c0a_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>5n1y_C-A-B_pmhc.pdb</td>
       <td>antigen_chain</td>
       <td>VAL</td>
       <td>2</td>
       <td>NaN</td>
-      <td>0.262440</td>
-      <td>0.073709</td>
-      <td>0.030793</td>
+      <td>0.114569</td>
+      <td>0.089359</td>
+      <td>0.009407</td>
       <td>...</td>
       <td>holo</td>
       <td>D</td>
@@ -823,23 +824,23 @@ peptide_apo_holo_comparison
       <td>C</td>
       <td>A</td>
       <td>B</td>
-      <td>TRDTAYY-QPWWGEQN-AMSVPSGDGSYQFT-MNHEY-SVGEGT-A...</td>
-      <td>VVVGADGVGK</td>
-      <td>hla_a_11_01</td>
-      <td>7ow6_D-E-C-A-B_tcr_pmhc</td>
+      <td>NSAFQY-TYSSGN-AMRGDSSYKLI-SGHDY-FNNNVP-ASSLWEK...</td>
+      <td>MVWGPDPLYV</td>
+      <td>hla_a_02_01</td>
+      <td>5c0a_D-E-C-A-B_tcr_pmhc</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>7ow6_D-E-C-A-B_tcr_pmhc</td>
-      <td>7ow4_A-B-C_pmhc.pdb</td>
-      <td>7ow4_D-E-F_pmhc.pdb</td>
+      <td>5c0a_D-E-C-A-B_tcr_pmhc</td>
+      <td>5c0a_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>5n1y_C-A-B_pmhc.pdb</td>
       <td>antigen_chain</td>
-      <td>VAL</td>
+      <td>TRP</td>
       <td>3</td>
       <td>NaN</td>
-      <td>0.256739</td>
-      <td>0.248310</td>
-      <td>-0.007898</td>
+      <td>0.400840</td>
+      <td>0.233532</td>
+      <td>-0.019115</td>
       <td>...</td>
       <td>holo</td>
       <td>D</td>
@@ -847,22 +848,22 @@ peptide_apo_holo_comparison
       <td>C</td>
       <td>A</td>
       <td>B</td>
-      <td>TRDTAYY-QPWWGEQN-AMSVPSGDGSYQFT-MNHEY-SVGEGT-A...</td>
-      <td>VVVGADGVGK</td>
-      <td>hla_a_11_01</td>
-      <td>7ow6_D-E-C-A-B_tcr_pmhc</td>
+      <td>NSAFQY-TYSSGN-AMRGDSSYKLI-SGHDY-FNNNVP-ASSLWEK...</td>
+      <td>MVWGPDPLYV</td>
+      <td>hla_a_02_01</td>
+      <td>5c0a_D-E-C-A-B_tcr_pmhc</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>7ow6_D-E-C-A-B_tcr_pmhc</td>
-      <td>7ow4_A-B-C_pmhc.pdb</td>
-      <td>7ow4_D-E-F_pmhc.pdb</td>
+      <td>5c0a_D-E-C-A-B_tcr_pmhc</td>
+      <td>5c0a_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>5n1y_C-A-B_pmhc.pdb</td>
       <td>antigen_chain</td>
       <td>GLY</td>
       <td>4</td>
       <td>NaN</td>
-      <td>0.568505</td>
-      <td>0.622876</td>
+      <td>0.495618</td>
+      <td>0.262271</td>
       <td>NaN</td>
       <td>...</td>
       <td>holo</td>
@@ -871,23 +872,23 @@ peptide_apo_holo_comparison
       <td>C</td>
       <td>A</td>
       <td>B</td>
-      <td>TRDTAYY-QPWWGEQN-AMSVPSGDGSYQFT-MNHEY-SVGEGT-A...</td>
-      <td>VVVGADGVGK</td>
-      <td>hla_a_11_01</td>
-      <td>7ow6_D-E-C-A-B_tcr_pmhc</td>
+      <td>NSAFQY-TYSSGN-AMRGDSSYKLI-SGHDY-FNNNVP-ASSLWEK...</td>
+      <td>MVWGPDPLYV</td>
+      <td>hla_a_02_01</td>
+      <td>5c0a_D-E-C-A-B_tcr_pmhc</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>7ow6_D-E-C-A-B_tcr_pmhc</td>
-      <td>7ow4_A-B-C_pmhc.pdb</td>
-      <td>7ow4_D-E-F_pmhc.pdb</td>
+      <td>5c0a_D-E-C-A-B_tcr_pmhc</td>
+      <td>5c0a_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>5n1y_C-A-B_pmhc.pdb</td>
       <td>antigen_chain</td>
-      <td>GLY</td>
-      <td>7</td>
+      <td>PRO</td>
+      <td>5</td>
       <td>NaN</td>
-      <td>0.346240</td>
-      <td>0.192317</td>
-      <td>NaN</td>
+      <td>0.734430</td>
+      <td>0.486409</td>
+      <td>-0.842595</td>
       <td>...</td>
       <td>holo</td>
       <td>D</td>
@@ -895,10 +896,10 @@ peptide_apo_holo_comparison
       <td>C</td>
       <td>A</td>
       <td>B</td>
-      <td>TRDTAYY-QPWWGEQN-AMSVPSGDGSYQFT-MNHEY-SVGEGT-A...</td>
-      <td>VVVGADGVGK</td>
-      <td>hla_a_11_01</td>
-      <td>7ow6_D-E-C-A-B_tcr_pmhc</td>
+      <td>NSAFQY-TYSSGN-AMRGDSSYKLI-SGHDY-FNNNVP-ASSLWEK...</td>
+      <td>MVWGPDPLYV</td>
+      <td>hla_a_02_01</td>
+      <td>5c0a_D-E-C-A-B_tcr_pmhc</td>
     </tr>
     <tr>
       <th>...</th>
@@ -925,9 +926,9 @@ peptide_apo_holo_comparison
       <td>...</td>
     </tr>
     <tr>
-      <th>5833</th>
+      <th>9852</th>
       <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
-      <td>7rtd_A-B-C_pmhc.pdb</td>
+      <td>7rtd_C-A-B_pmhc.pdb</td>
       <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
       <td>antigen_chain</td>
       <td>ARG</td>
@@ -949,9 +950,9 @@ peptide_apo_holo_comparison
       <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
     </tr>
     <tr>
-      <th>5834</th>
+      <th>9853</th>
       <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
-      <td>7rtd_A-B-C_pmhc.pdb</td>
+      <td>7rtd_C-A-B_pmhc.pdb</td>
       <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
       <td>antigen_chain</td>
       <td>THR</td>
@@ -973,9 +974,9 @@ peptide_apo_holo_comparison
       <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
     </tr>
     <tr>
-      <th>5835</th>
+      <th>9854</th>
       <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
-      <td>7rtd_A-B-C_pmhc.pdb</td>
+      <td>7rtd_C-A-B_pmhc.pdb</td>
       <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
       <td>antigen_chain</td>
       <td>PHE</td>
@@ -997,9 +998,9 @@ peptide_apo_holo_comparison
       <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
     </tr>
     <tr>
-      <th>5836</th>
+      <th>9855</th>
       <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
-      <td>7rtd_A-B-C_pmhc.pdb</td>
+      <td>7rtd_C-A-B_pmhc.pdb</td>
       <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
       <td>antigen_chain</td>
       <td>LEU</td>
@@ -1021,9 +1022,9 @@ peptide_apo_holo_comparison
       <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
     </tr>
     <tr>
-      <th>5837</th>
+      <th>9856</th>
       <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
-      <td>7rtd_A-B-C_pmhc.pdb</td>
+      <td>7rtd_C-A-B_pmhc.pdb</td>
       <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
       <td>antigen_chain</td>
       <td>LEU</td>
@@ -1046,7 +1047,7 @@ peptide_apo_holo_comparison
     </tr>
   </tbody>
 </table>
-<p>5838 rows × 26 columns</p>
+<p>9857 rows × 26 columns</p>
 </div></div>
 </div>
 </section>
@@ -1161,11 +1162,20 @@ g.map_dataframe(annotate)
 </pre></div>
 </div>
 </div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;seaborn.axisgrid.FacetGrid at 0x7f6443502380&gt;
+</pre></div></div>
+</div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/source_pMHC_movement_based_on_peptide_anchoring_22_0.png" src="../_images/source_pMHC_movement_based_on_peptide_anchoring_22_0.png" />
+<img alt="../_images/source_pMHC_movement_based_on_peptide_anchoring_22_1.png" src="../_images/source_pMHC_movement_based_on_peptide_anchoring_22_1.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
@@ -1204,7 +1214,7 @@ p2-p9
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-hla_a_02_06
+hla_a_24_02
 p2-p9
 </pre></div></div>
 </div>
@@ -1220,7 +1230,7 @@ p2-p9
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-hla_a_03_01
+hla_b_07_02
 p2-p9
 </pre></div></div>
 </div>
@@ -1236,22 +1246,6 @@ p2-p9
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-hla_a_24_02
-p2-p9
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_7.png" src="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_7.png" />
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
 hla_b_08_01
 p2-p5-p9
 </pre></div></div>
@@ -1260,7 +1254,7 @@ p2-p5-p9
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_9.png" src="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_9.png" />
+<img alt="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_7.png" src="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_7.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
@@ -1276,7 +1270,7 @@ p2-p9
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_11.png" src="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_11.png" />
+<img alt="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_9.png" src="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_9.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
@@ -1292,7 +1286,7 @@ p2-p5-p9
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_13.png" src="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_13.png" />
+<img alt="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_11.png" src="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_11.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
@@ -1308,7 +1302,7 @@ p2-p9
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_15.png" src="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_15.png" />
+<img alt="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_13.png" src="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_13.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
@@ -1324,7 +1318,7 @@ p2-p9
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_17.png" src="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_17.png" />
+<img alt="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_15.png" src="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_15.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
@@ -1340,7 +1334,7 @@ p2-p9
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_19.png" src="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_19.png" />
+<img alt="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_17.png" src="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_17.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
@@ -1356,23 +1350,7 @@ p2-p9
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_21.png" src="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_21.png" />
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-hla_c_08_02
-p2-p3
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_23.png" src="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_23.png" />
+<img alt="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_19.png" src="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_19.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
@@ -1388,7 +1366,7 @@ p2-p9
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_25.png" src="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_25.png" />
+<img alt="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_21.png" src="../_images/source_pMHC_movement_based_on_peptide_anchoring_23_21.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
@@ -1418,7 +1396,7 @@ p2-p9
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>representative_alleles = (peptide_apo_holo_comparison_with_anchor.groupby(&#39;dominant_anchor&#39;)[[&#39;dominant_anchor&#39;, &#39;mhc_slug&#39;]]
@@ -1429,8 +1407,7 @@ representative_alleles
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
 <div>
@@ -1458,18 +1435,13 @@ representative_alleles
   <tbody>
     <tr>
       <th>0</th>
-      <td>p2-p3</td>
-      <td>hla_c_08_02</td>
-    </tr>
-    <tr>
-      <th>1</th>
       <td>p2-p5-p9</td>
       <td>hla_b_08_01</td>
     </tr>
     <tr>
-      <th>2</th>
+      <th>1</th>
       <td>p2-p9</td>
-      <td>hla_a_02_01</td>
+      <td>hla_e_01_03</td>
     </tr>
   </tbody>
 </table>

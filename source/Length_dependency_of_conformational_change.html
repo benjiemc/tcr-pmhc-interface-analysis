@@ -23,7 +23,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Per residue changes of TCR CDRs between apo and holo structures" href="Per_residue_changes_of_TCR_CDR_between_apo_and_holo_structures.html" />
+    <link rel="next" title="Modalities of TCR interactions with pMHCs" href="Modalities_of_TCR_interactions_with_pMHC.html" />
     <link rel="prev" title="Identify contact residues on MHC Class I molecules" href="Identify_contact_residues_on_MHC_Class_I_molecules.html" /> 
 </head>
 
@@ -51,24 +51,31 @@
 <li class="toctree-l1 current"><a class="reference internal" href="notebooks.html">Analysis Notebooks</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="Ascertaining_the_generalisability_of_the_structure_data.html">Ascertaining the generalisability of the structure data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Centre_of_mass_analysis.html">Centre of mass analysis</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Comparing_of_apo_and_holo_CDR_loop_clustering.html">Comparing <em>apo</em> and <em>holo</em> CDR loop clustering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Compare_d_scores.html">Compare D-scores</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Comparing_apo_and_holo_CDR_loop_clustering.html">Comparing <em>apo</em> and <em>holo</em> CDR loop clustering</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Comparison_of_apo_and_holo_CDR_loops.html">Comparison of <em>apo</em> and <em>holo</em> CDR loops</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Identify_contact_residues_on_MHC_Class_I_molecules.html">Identify contact residues on MHC Class I molecules</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Length dependency of conformational change</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#Introduction">Introduction</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Loading-data">Loading data</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#Loading-meta-data">Loading meta data</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#Merging-data-and-metadata">Merging data and metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Loading-Meta-data">Loading Meta data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#TCR-Analysis">TCR Analysis</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Load-Data">Load Data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Merge-with-metadata">Merge with metadata</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Normalise-data">Normalise data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Visualise-Results">Visualise Results</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#Visualising-results">Visualising results</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#Alignment-on-Framework-region">Alignment on Framework region</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#Alignment-on-loops">Alignment on loops</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Peptide-Analysis">Peptide Analysis</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Load-data">Load data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id2">Merge with metadata</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id3">Normalise data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Visualise-results">Visualise results</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#Conclusion">Conclusion</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="Modalities_of_TCR_interactions_with_pMHC.html">Modalities of TCR interactions with pMHCs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Per_residue_changes_of_TCR_CDR_between_apo_and_holo_structures.html">Per residue changes of TCR CDRs between apo and holo structures</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Summary_of_apo_holo_data.html">Summary of <em>apo</em>-<em>holo</em> data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Visualising_CDR_loop_clustering.html">Visualising CDR loop clustering</a></li>
@@ -115,27 +122,29 @@
 <h1>Length dependency of conformational change<a class="headerlink" href="#Length-dependency-of-conformational-change" title="Link to this heading"></a></h1>
 <section id="Introduction">
 <h2>Introduction<a class="headerlink" href="#Introduction" title="Link to this heading"></a></h2>
-<p>In this notebook, we set out to determine if there was a correlation between conformational change and the length of CDR loops. We looked at both the correlation of bulk movements when loops where aligned on the framework regions and also the deformation effects when loops are aligned to one another.</p>
+<p>In this notebook, we set out to determine if there was a correlation between conformational change and the length of CDR loops or peptides. We looked at both the correlation of bulk movements when loops where aligned on the framework regions and also the deformation effects when loops are aligned to one another. All peptide conformations are measure from alignment on the antigen binding groove floor.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import matplotlib.pyplot as plt
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import os
+
+import matplotlib.pyplot as plt
 import pandas as pd
+import numpy as np
 import scipy
 import seaborn as sns
 </pre></div>
 </div>
 </div>
 </section>
-<section id="Loading-data">
-<h2>Loading data<a class="headerlink" href="#Loading-data" title="Link to this heading"></a></h2>
+<section id="Loading-Meta-data">
+<h2>Loading Meta data<a class="headerlink" href="#Loading-Meta-data" title="Link to this heading"></a></h2>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>results_fw_align = pd.read_csv(&#39;../data/processed/apo-holo-tcr-pmhc-class-I-comparisons/rmsd_cdr_fw_align_results.csv&#39;)
-results_fw_align[&#39;alignment&#39;] = &#39;framework&#39;
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>DATA_DIR = &#39;../data/processed/apo-holo-tcr-pmhc-class-I-comparisons&#39;
 </pre></div>
 </div>
 </div>
@@ -143,22 +152,355 @@ results_fw_align[&#39;alignment&#39;] = &#39;framework&#39;
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>results_loop_align = pd.read_csv(&#39;../data/processed/apo-holo-tcr-pmhc-class-I-comparisons/rmsd_cdr_loop_align_results.csv&#39;)
-results_loop_align[&#39;alignment&#39;] = &#39;loop&#39;
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>apo_holo_summary_df = pd.read_csv(&#39;../data/processed/apo-holo-tcr-pmhc-class-I/apo_holo_summary.csv&#39;)
+
+apo_holo_summary_df[&#39;id&#39;] = apo_holo_summary_df[&#39;file_name&#39;].str.replace(&#39;.pdb$&#39;, &#39;&#39;, regex=True)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>cdr_types = [&#39;CDR-A1&#39;, &#39;CDR-A2&#39;, &#39;CDR-A3&#39;,&#39;CDR-B1&#39;, &#39;CDR-B2&#39;, &#39;CDR-B3&#39;]
+apo_holo_summary_df[cdr_types] = apo_holo_summary_df[&#39;cdr_sequences_collated&#39;].str.split(&#39;-&#39;).apply(pd.Series)
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>results = pd.concat([results_fw_align, results_loop_align])
-results
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>apo_holo_summary_df
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>file_name</th>
+      <th>pdb_id</th>
+      <th>structure_type</th>
+      <th>state</th>
+      <th>alpha_chain</th>
+      <th>beta_chain</th>
+      <th>antigen_chain</th>
+      <th>mhc_chain1</th>
+      <th>mhc_chain2</th>
+      <th>cdr_sequences_collated</th>
+      <th>peptide_sequence</th>
+      <th>mhc_slug</th>
+      <th>id</th>
+      <th>CDR-A1</th>
+      <th>CDR-A2</th>
+      <th>CDR-A3</th>
+      <th>CDR-B1</th>
+      <th>CDR-B2</th>
+      <th>CDR-B3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1ao7_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>1ao7</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>D</td>
+      <td>E</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>DRGSQS-IYSNGD-AVTTDSWGKLQ-MNHEY-SVGAGI-ASRPGLA...</td>
+      <td>LLFGYPVYV</td>
+      <td>hla_a_02_01</td>
+      <td>1ao7_D-E-C-A-B_tcr_pmhc</td>
+      <td>DRGSQS</td>
+      <td>IYSNGD</td>
+      <td>AVTTDSWGKLQ</td>
+      <td>MNHEY</td>
+      <td>SVGAGI</td>
+      <td>ASRPGLAGGRPEQY</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1b0g_C-A-B_pmhc.pdb</td>
+      <td>1b0g</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>NaN</td>
+      <td>ALWGFFPVL</td>
+      <td>hla_a_02_01</td>
+      <td>1b0g_C-A-B_pmhc</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1b0g_F-D-E_pmhc.pdb</td>
+      <td>1b0g</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>F</td>
+      <td>D</td>
+      <td>E</td>
+      <td>NaN</td>
+      <td>ALWGFFPVL</td>
+      <td>hla_a_02_01</td>
+      <td>1b0g_F-D-E_pmhc</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1bd2_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>1bd2</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>D</td>
+      <td>E</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>NSMFDY-ISSIKDK-AAMEGAQKLV-MNHEY-SVGAGI-ASSYPGG...</td>
+      <td>LLFGYPVYV</td>
+      <td>hla_a_02_01</td>
+      <td>1bd2_D-E-C-A-B_tcr_pmhc</td>
+      <td>NSMFDY</td>
+      <td>ISSIKDK</td>
+      <td>AAMEGAQKLV</td>
+      <td>MNHEY</td>
+      <td>SVGAGI</td>
+      <td>ASSYPGGGFYEQY</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1bii_P-A-B_pmhc.pdb</td>
+      <td>1bii</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>P</td>
+      <td>A</td>
+      <td>B</td>
+      <td>NaN</td>
+      <td>RGPGRAFVTI</td>
+      <td>h2_dd</td>
+      <td>1bii_P-A-B_pmhc</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>386</th>
+      <td>7rtd_C-A-B_pmhc.pdb</td>
+      <td>7rtd</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>NaN</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+      <td>7rtd_C-A-B_pmhc</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>387</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>7rtr</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>D</td>
+      <td>E</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>DRGSQS-IYSNGD-AVNRDDKII-SEHNR-FQNEAQ-ASSPDIEQY</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>DRGSQS</td>
+      <td>IYSNGD</td>
+      <td>AVNRDDKII</td>
+      <td>SEHNR</td>
+      <td>FQNEAQ</td>
+      <td>ASSPDIEQY</td>
+    </tr>
+    <tr>
+      <th>388</th>
+      <td>8gvb_A-B-P-H-L_tcr_pmhc.pdb</td>
+      <td>8gvb</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>A</td>
+      <td>B</td>
+      <td>P</td>
+      <td>H</td>
+      <td>L</td>
+      <td>YGATPY-YFSGDTLV-AVGFTGGGNKLT-SEHNR-FQNEAQ-ASSD...</td>
+      <td>RYPLTFGW</td>
+      <td>hla_a_24_02</td>
+      <td>8gvb_A-B-P-H-L_tcr_pmhc</td>
+      <td>YGATPY</td>
+      <td>YFSGDTLV</td>
+      <td>AVGFTGGGNKLT</td>
+      <td>SEHNR</td>
+      <td>FQNEAQ</td>
+      <td>ASSDRDRVPETQY</td>
+    </tr>
+    <tr>
+      <th>389</th>
+      <td>8gvg_A-B-P-H-L_tcr_pmhc.pdb</td>
+      <td>8gvg</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>A</td>
+      <td>B</td>
+      <td>P</td>
+      <td>H</td>
+      <td>L</td>
+      <td>YGATPY-YFSGDTLV-AVGFTGGGNKLT-SEHNR-FQNEAQ-ASSD...</td>
+      <td>RFPLTFGW</td>
+      <td>hla_a_24_02</td>
+      <td>8gvg_A-B-P-H-L_tcr_pmhc</td>
+      <td>YGATPY</td>
+      <td>YFSGDTLV</td>
+      <td>AVGFTGGGNKLT</td>
+      <td>SEHNR</td>
+      <td>FQNEAQ</td>
+      <td>ASSDRDRVPETQY</td>
+    </tr>
+    <tr>
+      <th>390</th>
+      <td>8gvi_A-B-P-H-L_tcr_pmhc.pdb</td>
+      <td>8gvi</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>A</td>
+      <td>B</td>
+      <td>P</td>
+      <td>H</td>
+      <td>L</td>
+      <td>YGATPY-YFSGDTLV-AVVFTGGGNKLT-SEHNR-FQNEAQ-ASSL...</td>
+      <td>RYPLTFGW</td>
+      <td>hla_a_24_02</td>
+      <td>8gvi_A-B-P-H-L_tcr_pmhc</td>
+      <td>YGATPY</td>
+      <td>YFSGDTLV</td>
+      <td>AVVFTGGGNKLT</td>
+      <td>SEHNR</td>
+      <td>FQNEAQ</td>
+      <td>ASSLRDRVPETQY</td>
+    </tr>
+  </tbody>
+</table>
+<p>391 rows × 19 columns</p>
+</div></div>
+</div>
+</section>
+<section id="TCR-Analysis">
+<h2>TCR Analysis<a class="headerlink" href="#TCR-Analysis" title="Link to this heading"></a></h2>
+<section id="Load-Data">
+<h3>Load Data<a class="headerlink" href="#Load-Data" title="Link to this heading"></a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>results_tcr_fw_align = pd.read_csv(os.path.join(DATA_DIR, &#39;rmsd_cdr_fw_align_results.csv&#39;))
+results_tcr_fw_align[&#39;alignment&#39;] = &#39;framework&#39;
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>results_tcr_loop_align = pd.read_csv(os.path.join(DATA_DIR, &#39;rmsd_cdr_loop_align_results.csv&#39;))
+results_tcr_loop_align[&#39;alignment&#39;] = &#39;loop&#39;
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>results_tcr = pd.concat([results_tcr_fw_align, results_tcr_loop_align])
+results_tcr
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -251,7 +593,7 @@ results
       <td>...</td>
     </tr>
     <tr>
-      <th>1581</th>
+      <th>809</th>
       <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
       <td>7n1d_A-B_tcr.pdb</td>
       <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
@@ -261,7 +603,7 @@ results
       <td>loop</td>
     </tr>
     <tr>
-      <th>1582</th>
+      <th>810</th>
       <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
       <td>7n1d_A-B_tcr.pdb</td>
       <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
@@ -271,7 +613,7 @@ results
       <td>loop</td>
     </tr>
     <tr>
-      <th>1583</th>
+      <th>811</th>
       <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
       <td>7n1d_A-B_tcr.pdb</td>
       <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
@@ -281,7 +623,7 @@ results
       <td>loop</td>
     </tr>
     <tr>
-      <th>1584</th>
+      <th>812</th>
       <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
       <td>7n1d_A-B_tcr.pdb</td>
       <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
@@ -291,7 +633,7 @@ results
       <td>loop</td>
     </tr>
     <tr>
-      <th>1585</th>
+      <th>813</th>
       <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
       <td>7n1d_A-B_tcr.pdb</td>
       <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
@@ -302,257 +644,17 @@ results
     </tr>
   </tbody>
 </table>
-<p>3172 rows × 7 columns</p>
+<p>1628 rows × 7 columns</p>
 </div></div>
 </div>
-<section id="Loading-meta-data">
-<h3>Loading meta data<a class="headerlink" href="#Loading-meta-data" title="Link to this heading"></a></h3>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>apo_holo_summary_df = pd.read_csv(&#39;../data/processed/apo-holo-tcr-pmhc-class-I/apo_holo_summary.csv&#39;)
-
-apo_holo_summary_df[&#39;id&#39;] = apo_holo_summary_df[&#39;file_name&#39;].str.replace(&#39;.pdb$&#39;, &#39;&#39;, regex=True)
-
-apo_holo_summary_df
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
-</pre></div>
-</div>
-<div class="output_area rendered_html docutils container">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>file_name</th>
-      <th>pdb_id</th>
-      <th>structure_type</th>
-      <th>state</th>
-      <th>alpha_chain</th>
-      <th>beta_chain</th>
-      <th>antigen_chain</th>
-      <th>mhc_chain1</th>
-      <th>mhc_chain2</th>
-      <th>cdr_sequences_collated</th>
-      <th>peptide_sequence</th>
-      <th>mhc_slug</th>
-      <th>id</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>1ao7_D-E-C-A-B_tcr_pmhc.pdb</td>
-      <td>1ao7</td>
-      <td>tcr_pmhc</td>
-      <td>holo</td>
-      <td>D</td>
-      <td>E</td>
-      <td>C</td>
-      <td>A</td>
-      <td>B</td>
-      <td>DRGSQS-IYSNGD-AVTTDSWGKLQ-MNHEY-SVGAGI-ASRPGLA...</td>
-      <td>LLFGYPVYV</td>
-      <td>hla_a_02_01</td>
-      <td>1ao7_D-E-C-A-B_tcr_pmhc</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>1bd2_D-E-C-A-B_tcr_pmhc.pdb</td>
-      <td>1bd2</td>
-      <td>tcr_pmhc</td>
-      <td>holo</td>
-      <td>D</td>
-      <td>E</td>
-      <td>C</td>
-      <td>A</td>
-      <td>B</td>
-      <td>NSMFDY-ISSIKDK-AAMEGAQKLV-MNHEY-SVGAGI-ASSYPGG...</td>
-      <td>LLFGYPVYV</td>
-      <td>hla_a_02_01</td>
-      <td>1bd2_D-E-C-A-B_tcr_pmhc</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>1bii_A-B-P_pmhc.pdb</td>
-      <td>1bii</td>
-      <td>pmhc</td>
-      <td>apo</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>P</td>
-      <td>A</td>
-      <td>B</td>
-      <td>NaN</td>
-      <td>RGPGRAFVTI</td>
-      <td>h2_dd</td>
-      <td>1bii_A-B-P_pmhc</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>1ddh_A-B-P_pmhc.pdb</td>
-      <td>1ddh</td>
-      <td>pmhc</td>
-      <td>apo</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>P</td>
-      <td>A</td>
-      <td>B</td>
-      <td>NaN</td>
-      <td>RGPGRAFVTI</td>
-      <td>h2_dd</td>
-      <td>1ddh_A-B-P_pmhc</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>1duz_A-B-C_pmhc.pdb</td>
-      <td>1duz</td>
-      <td>pmhc</td>
-      <td>apo</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>C</td>
-      <td>A</td>
-      <td>B</td>
-      <td>NaN</td>
-      <td>LLFGYPVYV</td>
-      <td>hla_a_02_01</td>
-      <td>1duz_A-B-C_pmhc</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>353</th>
-      <td>8gon_D-E-C-A-B_tcr_pmhc.pdb</td>
-      <td>8gon</td>
-      <td>tcr_pmhc</td>
-      <td>holo</td>
-      <td>D</td>
-      <td>E</td>
-      <td>C</td>
-      <td>A</td>
-      <td>B</td>
-      <td>TSESDYY-QEAYKQQN-ASSGNTPLV-SGHNS-FNNNVP-ASTWGR...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>8gon_D-E-C-A-B_tcr_pmhc</td>
-    </tr>
-    <tr>
-      <th>354</th>
-      <td>8gop_A-B_tcr.pdb</td>
-      <td>8gop</td>
-      <td>tcr</td>
-      <td>apo</td>
-      <td>A</td>
-      <td>B</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>TSESDYY-QEAYKQQN-ASSGNTPLV-SGHNS-FNNNVP-ASTWGR...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>8gop_A-B_tcr</td>
-    </tr>
-    <tr>
-      <th>355</th>
-      <td>8gvb_A-B-P-H-L_tcr_pmhc.pdb</td>
-      <td>8gvb</td>
-      <td>tcr_pmhc</td>
-      <td>holo</td>
-      <td>A</td>
-      <td>B</td>
-      <td>P</td>
-      <td>H</td>
-      <td>L</td>
-      <td>YGATPY-YFSGDTLV-AVGFTGGGNKLT-SEHNR-FQNEAQ-ASSD...</td>
-      <td>RYPLTFGW</td>
-      <td>hla_a_24_02</td>
-      <td>8gvb_A-B-P-H-L_tcr_pmhc</td>
-    </tr>
-    <tr>
-      <th>356</th>
-      <td>8gvg_A-B-P-H-L_tcr_pmhc.pdb</td>
-      <td>8gvg</td>
-      <td>tcr_pmhc</td>
-      <td>holo</td>
-      <td>A</td>
-      <td>B</td>
-      <td>P</td>
-      <td>H</td>
-      <td>L</td>
-      <td>YGATPY-YFSGDTLV-AVGFTGGGNKLT-SEHNR-FQNEAQ-ASSD...</td>
-      <td>RFPLTFGW</td>
-      <td>hla_a_24_02</td>
-      <td>8gvg_A-B-P-H-L_tcr_pmhc</td>
-    </tr>
-    <tr>
-      <th>357</th>
-      <td>8gvi_A-B-P-H-L_tcr_pmhc.pdb</td>
-      <td>8gvi</td>
-      <td>tcr_pmhc</td>
-      <td>holo</td>
-      <td>A</td>
-      <td>B</td>
-      <td>P</td>
-      <td>H</td>
-      <td>L</td>
-      <td>YGATPY-YFSGDTLV-AVVFTGGGNKLT-SEHNR-FQNEAQ-ASSL...</td>
-      <td>RYPLTFGW</td>
-      <td>hla_a_24_02</td>
-      <td>8gvi_A-B-P-H-L_tcr_pmhc</td>
-    </tr>
-  </tbody>
-</table>
-<p>358 rows × 13 columns</p>
-</div></div>
-</div>
+</section>
+<section id="Merge-with-metadata">
+<h3>Merge with metadata<a class="headerlink" href="#Merge-with-metadata" title="Link to this heading"></a></h3>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>cdr_types = [&#39;CDR-A1&#39;, &#39;CDR-A2&#39;, &#39;CDR-A3&#39;,&#39;CDR-B1&#39;, &#39;CDR-B2&#39;, &#39;CDR-B3&#39;]
-apo_holo_summary_df[cdr_types] = apo_holo_summary_df[&#39;cdr_sequences_collated&#39;].str.split(&#39;-&#39;).apply(pd.Series)
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>apo_holo_summary_df = apo_holo_summary_df.melt(
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>apo_holo_summary_cdrs_df = apo_holo_summary_df.melt(
     id_vars=[col for col in apo_holo_summary_df.columns if col not in cdr_types],
     var_name=&#39;cdr_type&#39;,
     value_name=&#39;cdr_sequence&#39;,
@@ -562,34 +664,33 @@ apo_holo_summary_df[cdr_types] = apo_holo_summary_df[&#39;cdr_sequences_collated
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>apo_holo_summary_df[[&#39;chain_type&#39;, &#39;cdr&#39;]] = apo_holo_summary_df[&#39;cdr_type&#39;].map(
-    lambda cdr_type: (&#39;alpha_chain&#39; if cdr_type[-2] == &#39;A&#39; else &#39;beta_chain&#39;,
-                      int(cdr_type[-1]))
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>apo_holo_summary_cdrs_df[[&#39;chain_type&#39;, &#39;cdr&#39;]] = apo_holo_summary_cdrs_df[&#39;cdr_type&#39;].map(
+    lambda cdr_type: (&#39;alpha_chain&#39; if cdr_type[-2] == &#39;A&#39; else &#39;beta_chain&#39;, int(cdr_type[-1]))
 ).apply(pd.Series)
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>apo_holo_summary_df[&#39;cdr_length&#39;] = apo_holo_summary_df[&#39;cdr_sequence&#39;].str.len()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>apo_holo_summary_cdrs_df[&#39;cdr_length&#39;] = apo_holo_summary_cdrs_df[&#39;cdr_sequence&#39;].str.len()
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>apo_holo_summary_df
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>apo_holo_summary_cdrs_df
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -655,6 +756,48 @@ apo_holo_summary_df[cdr_types] = apo_holo_summary_df[&#39;cdr_sequences_collated
     </tr>
     <tr>
       <th>1</th>
+      <td>1b0g_C-A-B_pmhc.pdb</td>
+      <td>1b0g</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>NaN</td>
+      <td>ALWGFFPVL</td>
+      <td>hla_a_02_01</td>
+      <td>1b0g_C-A-B_pmhc</td>
+      <td>CDR-A1</td>
+      <td>NaN</td>
+      <td>alpha_chain</td>
+      <td>1</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1b0g_F-D-E_pmhc.pdb</td>
+      <td>1b0g</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>F</td>
+      <td>D</td>
+      <td>E</td>
+      <td>NaN</td>
+      <td>ALWGFFPVL</td>
+      <td>hla_a_02_01</td>
+      <td>1b0g_F-D-E_pmhc</td>
+      <td>CDR-A1</td>
+      <td>NaN</td>
+      <td>alpha_chain</td>
+      <td>1</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
       <td>1bd2_D-E-C-A-B_tcr_pmhc.pdb</td>
       <td>1bd2</td>
       <td>tcr_pmhc</td>
@@ -675,8 +818,8 @@ apo_holo_summary_df[cdr_types] = apo_holo_summary_df[&#39;cdr_sequences_collated
       <td>6.0</td>
     </tr>
     <tr>
-      <th>2</th>
-      <td>1bii_A-B-P_pmhc.pdb</td>
+      <th>4</th>
+      <td>1bii_P-A-B_pmhc.pdb</td>
       <td>1bii</td>
       <td>pmhc</td>
       <td>apo</td>
@@ -688,49 +831,7 @@ apo_holo_summary_df[cdr_types] = apo_holo_summary_df[&#39;cdr_sequences_collated
       <td>NaN</td>
       <td>RGPGRAFVTI</td>
       <td>h2_dd</td>
-      <td>1bii_A-B-P_pmhc</td>
-      <td>CDR-A1</td>
-      <td>NaN</td>
-      <td>alpha_chain</td>
-      <td>1</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>1ddh_A-B-P_pmhc.pdb</td>
-      <td>1ddh</td>
-      <td>pmhc</td>
-      <td>apo</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>P</td>
-      <td>A</td>
-      <td>B</td>
-      <td>NaN</td>
-      <td>RGPGRAFVTI</td>
-      <td>h2_dd</td>
-      <td>1ddh_A-B-P_pmhc</td>
-      <td>CDR-A1</td>
-      <td>NaN</td>
-      <td>alpha_chain</td>
-      <td>1</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>1duz_A-B-C_pmhc.pdb</td>
-      <td>1duz</td>
-      <td>pmhc</td>
-      <td>apo</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>C</td>
-      <td>A</td>
-      <td>B</td>
-      <td>NaN</td>
-      <td>LLFGYPVYV</td>
-      <td>hla_a_02_01</td>
-      <td>1duz_A-B-C_pmhc</td>
+      <td>1bii_P-A-B_pmhc</td>
       <td>CDR-A1</td>
       <td>NaN</td>
       <td>alpha_chain</td>
@@ -759,9 +860,30 @@ apo_holo_summary_df[cdr_types] = apo_holo_summary_df[&#39;cdr_sequences_collated
       <td>...</td>
     </tr>
     <tr>
-      <th>2143</th>
-      <td>8gon_D-E-C-A-B_tcr_pmhc.pdb</td>
-      <td>8gon</td>
+      <th>2341</th>
+      <td>7rtd_C-A-B_pmhc.pdb</td>
+      <td>7rtd</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>NaN</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+      <td>7rtd_C-A-B_pmhc</td>
+      <td>CDR-B3</td>
+      <td>NaN</td>
+      <td>beta_chain</td>
+      <td>3</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2342</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>7rtr</td>
       <td>tcr_pmhc</td>
       <td>holo</td>
       <td>D</td>
@@ -769,39 +891,18 @@ apo_holo_summary_df[cdr_types] = apo_holo_summary_df[&#39;cdr_sequences_collated
       <td>C</td>
       <td>A</td>
       <td>B</td>
-      <td>TSESDYY-QEAYKQQN-ASSGNTPLV-SGHNS-FNNNVP-ASTWGR...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>8gon_D-E-C-A-B_tcr_pmhc</td>
+      <td>DRGSQS-IYSNGD-AVNRDDKII-SEHNR-FQNEAQ-ASSPDIEQY</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
       <td>CDR-B3</td>
-      <td>ASTWGRASTDTQY</td>
+      <td>ASSPDIEQY</td>
       <td>beta_chain</td>
       <td>3</td>
-      <td>13.0</td>
+      <td>9.0</td>
     </tr>
     <tr>
-      <th>2144</th>
-      <td>8gop_A-B_tcr.pdb</td>
-      <td>8gop</td>
-      <td>tcr</td>
-      <td>apo</td>
-      <td>A</td>
-      <td>B</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>TSESDYY-QEAYKQQN-ASSGNTPLV-SGHNS-FNNNVP-ASTWGR...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>8gop_A-B_tcr</td>
-      <td>CDR-B3</td>
-      <td>ASTWGRASTDTQY</td>
-      <td>beta_chain</td>
-      <td>3</td>
-      <td>13.0</td>
-    </tr>
-    <tr>
-      <th>2145</th>
+      <th>2343</th>
       <td>8gvb_A-B-P-H-L_tcr_pmhc.pdb</td>
       <td>8gvb</td>
       <td>tcr_pmhc</td>
@@ -822,7 +923,7 @@ apo_holo_summary_df[cdr_types] = apo_holo_summary_df[&#39;cdr_sequences_collated
       <td>13.0</td>
     </tr>
     <tr>
-      <th>2146</th>
+      <th>2344</th>
       <td>8gvg_A-B-P-H-L_tcr_pmhc.pdb</td>
       <td>8gvg</td>
       <td>tcr_pmhc</td>
@@ -843,7 +944,7 @@ apo_holo_summary_df[cdr_types] = apo_holo_summary_df[&#39;cdr_sequences_collated
       <td>13.0</td>
     </tr>
     <tr>
-      <th>2147</th>
+      <th>2345</th>
       <td>8gvi_A-B-P-H-L_tcr_pmhc.pdb</td>
       <td>8gvi</td>
       <td>tcr_pmhc</td>
@@ -865,36 +966,33 @@ apo_holo_summary_df[cdr_types] = apo_holo_summary_df[&#39;cdr_sequences_collated
     </tr>
   </tbody>
 </table>
-<p>2148 rows × 18 columns</p>
+<p>2346 rows × 18 columns</p>
 </div></div>
 </div>
-</section>
-<section id="Merging-data-and-metadata">
-<h3>Merging data and metadata<a class="headerlink" href="#Merging-data-and-metadata" title="Link to this heading"></a></h3>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>results = results.merge(
-    apo_holo_summary_df[[&#39;file_name&#39;, &#39;pdb_id&#39;, &#39;structure_type&#39;, &#39;state&#39;]],
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>results_tcr = results_tcr.merge(
+    apo_holo_summary_cdrs_df[[&#39;file_name&#39;, &#39;pdb_id&#39;, &#39;structure_type&#39;, &#39;state&#39;]],
     how=&#39;left&#39;,
     left_on=&#39;structure_x_name&#39;,
     right_on=&#39;file_name&#39;,
 ).merge(
-    apo_holo_summary_df[[&#39;file_name&#39;, &#39;pdb_id&#39;, &#39;structure_type&#39;, &#39;state&#39;]],
+    apo_holo_summary_cdrs_df[[&#39;file_name&#39;, &#39;pdb_id&#39;, &#39;structure_type&#39;, &#39;state&#39;]],
     how=&#39;left&#39;,
     left_on=&#39;structure_y_name&#39;,
     right_on=&#39;file_name&#39;,
 ).merge(
-    apo_holo_summary_df[[&#39;id&#39;,
-                         &#39;cdr_sequences_collated&#39;,
-                         &#39;peptide_sequence&#39;,
-                         &#39;mhc_slug&#39;,
-                         &#39;cdr_sequence&#39;,
-                         &#39;cdr_length&#39;,
-                         &#39;cdr_type&#39;,
-                         &#39;chain_type&#39;,
-                         &#39;cdr&#39;]],
+    apo_holo_summary_cdrs_df[[&#39;id&#39;,
+                              &#39;cdr_sequences_collated&#39;,
+                              &#39;peptide_sequence&#39;,
+                              &#39;mhc_slug&#39;,
+                              &#39;cdr_sequence&#39;,
+                              &#39;cdr_length&#39;,
+                              &#39;cdr_type&#39;,
+                              &#39;chain_type&#39;,
+                              &#39;cdr&#39;]],
     how=&#39;left&#39;,
     left_on=[&#39;complex_id&#39;, &#39;chain_type&#39;, &#39;cdr&#39;],
     right_on=[&#39;id&#39;, &#39;chain_type&#39;, &#39;cdr&#39;],
@@ -902,53 +1000,56 @@ apo_holo_summary_df[cdr_types] = apo_holo_summary_df[&#39;cdr_sequences_collated
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>results[&#39;comparison&#39;] = results[&#39;state_x&#39;] + &#39;-&#39; + results[&#39;state_y&#39;]
-results[&#39;comparison&#39;] = results[&#39;comparison&#39;].map(lambda entry: &#39;apo-holo&#39; if entry == &#39;holo-apo&#39; else entry)
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>results[&#39;structure_comparison&#39;] = results.apply(
-    lambda row: &#39;-&#39;.join(sorted([row.structure_x_name, row.structure_y_name])),
-    axis=&#39;columns&#39;,
-)
-results = results.drop_duplicates([&#39;structure_comparison&#39;, &#39;chain_type&#39;, &#39;cdr&#39;, &#39;alignment&#39;])
-</pre></div>
-</div>
-</div>
+</section>
+<section id="Normalise-data">
+<h3>Normalise data<a class="headerlink" href="#Normalise-data" title="Link to this heading"></a></h3>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>results = results.groupby([&#39;cdr_sequences_collated&#39;,
-                           &#39;alignment&#39;,
-                           &#39;comparison&#39;,
-                           &#39;cdr_length&#39;,
-                           &#39;cdr_sequence&#39;,
-                           &#39;cdr_type&#39;,
-                           &#39;chain_type&#39;,
-                           &#39;cdr&#39;])[&#39;rmsd&#39;].mean().reset_index()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>results_tcr[&#39;comparison&#39;] = results_tcr[&#39;state_x&#39;] + &#39;-&#39; + results_tcr[&#39;state_y&#39;]
+results_tcr[&#39;comparison&#39;] = results_tcr[&#39;comparison&#39;].map(lambda entry: &#39;apo-holo&#39; if entry == &#39;holo-apo&#39; else entry)
+results_tcr = results_tcr.query(&quot;comparison == &#39;apo-holo&#39;&quot;).reset_index(drop=True)
 </pre></div>
 </div>
 </div>
-</section>
-</section>
-<section id="Visualising-results">
-<h2>Visualising results<a class="headerlink" href="#Visualising-results" title="Link to this heading"></a></h2>
-<section id="Alignment-on-Framework-region">
-<h3>Alignment on Framework region<a class="headerlink" href="#Alignment-on-Framework-region" title="Link to this heading"></a></h3>
-<div class="nbinput docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>data = results.query(&quot;alignment == &#39;framework&#39;&quot;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>results_tcr[&#39;structure_comparison&#39;] = results_tcr.apply(
+    lambda row: &#39;-&#39;.join(sorted([row.structure_x_name, row.structure_y_name])),
+    axis=&#39;columns&#39;,
+)
+results_tcr = results_tcr.drop_duplicates([&#39;structure_comparison&#39;, &#39;chain_type&#39;, &#39;cdr&#39;, &#39;alignment&#39;])
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>results_tcr = results_tcr.groupby([&#39;cdr_sequences_collated&#39;,
+                                   &#39;alignment&#39;,
+                                   &#39;comparison&#39;,
+                                   &#39;cdr_length&#39;,
+                                   &#39;cdr_sequence&#39;,
+                                   &#39;cdr_type&#39;,
+                                   &#39;chain_type&#39;,
+                                   &#39;cdr&#39;])[&#39;rmsd&#39;].mean().reset_index()
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Visualise-Results">
+<h3>Visualise Results<a class="headerlink" href="#Visualise-Results" title="Link to this heading"></a></h3>
+<section id="Alignment-on-Framework-region">
+<h4>Alignment on Framework region<a class="headerlink" href="#Alignment-on-Framework-region" title="Link to this heading"></a></h4>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>data = results_tcr.query(&quot;alignment == &#39;framework&#39;&quot;)
 
 r, p_val = scipy.stats.pearsonr(data[&#39;cdr_length&#39;], data[&#39;rmsd&#39;])
 
@@ -965,17 +1066,17 @@ plt.show()
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/source_Length_dependency_of_conformational_change_21_0.png" src="../_images/source_Length_dependency_of_conformational_change_21_0.png" />
+<img alt="../_images/source_Length_dependency_of_conformational_change_25_0.png" src="../_images/source_Length_dependency_of_conformational_change_25_0.png" />
 </div>
 </div>
 </section>
 <section id="Alignment-on-loops">
-<h3>Alignment on loops<a class="headerlink" href="#Alignment-on-loops" title="Link to this heading"></a></h3>
+<h4>Alignment on loops<a class="headerlink" href="#Alignment-on-loops" title="Link to this heading"></a></h4>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>data = results.query(&quot;alignment == &#39;loop&#39;&quot;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>data = results_tcr.query(&quot;alignment == &#39;loop&#39;&quot;)
 
 r, p_val = scipy.stats.pearsonr(data[&#39;cdr_length&#39;], data[&#39;rmsd&#39;])
 
@@ -992,14 +1093,1184 @@ plt.show()
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/source_Length_dependency_of_conformational_change_23_0.png" src="../_images/source_Length_dependency_of_conformational_change_23_0.png" />
+<img alt="../_images/source_Length_dependency_of_conformational_change_27_0.png" src="../_images/source_Length_dependency_of_conformational_change_27_0.png" />
+</div>
+</div>
+</section>
+<section id="TCR-apex-calculations">
+<h4>TCR apex calculations<a class="headerlink" href="#TCR-apex-calculations" title="Link to this heading"></a></h4>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>results_per_res_tcr = pd.read_csv(os.path.join(DATA_DIR, &#39;tcr_per_res_apo_holo_loop_align.csv&#39;))
+results_per_res_tcr
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>complex_id</th>
+      <th>structure_x_name</th>
+      <th>structure_y_name</th>
+      <th>chain_type</th>
+      <th>cdr</th>
+      <th>residue_name</th>
+      <th>residue_seq_id</th>
+      <th>residue_insert_code</th>
+      <th>rmsd</th>
+      <th>ca_distance</th>
+      <th>chi_angle_change</th>
+      <th>com_distance</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qeu_A-B_tcr.pdb</td>
+      <td>alpha_chain</td>
+      <td>1</td>
+      <td>ASP</td>
+      <td>27</td>
+      <td>NaN</td>
+      <td>4.922807</td>
+      <td>2.215234</td>
+      <td>-1.001709</td>
+      <td>3.836500</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qeu_A-B_tcr.pdb</td>
+      <td>alpha_chain</td>
+      <td>1</td>
+      <td>ARG</td>
+      <td>28</td>
+      <td>NaN</td>
+      <td>7.683418</td>
+      <td>2.322292</td>
+      <td>-1.010462</td>
+      <td>6.119157</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qeu_A-B_tcr.pdb</td>
+      <td>alpha_chain</td>
+      <td>1</td>
+      <td>GLY</td>
+      <td>29</td>
+      <td>NaN</td>
+      <td>0.657793</td>
+      <td>0.718576</td>
+      <td>NaN</td>
+      <td>0.452200</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qeu_A-B_tcr.pdb</td>
+      <td>alpha_chain</td>
+      <td>1</td>
+      <td>SER</td>
+      <td>36</td>
+      <td>NaN</td>
+      <td>1.224430</td>
+      <td>0.404912</td>
+      <td>-2.505061</td>
+      <td>0.866544</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qeu_A-B_tcr.pdb</td>
+      <td>alpha_chain</td>
+      <td>1</td>
+      <td>GLN</td>
+      <td>37</td>
+      <td>NaN</td>
+      <td>1.133408</td>
+      <td>0.467132</td>
+      <td>0.667185</td>
+      <td>0.798590</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>6228</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7n1d_A-B_tcr.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>beta_chain</td>
+      <td>3</td>
+      <td>ASP</td>
+      <td>109</td>
+      <td>NaN</td>
+      <td>0.507077</td>
+      <td>0.180564</td>
+      <td>0.198956</td>
+      <td>0.208659</td>
+    </tr>
+    <tr>
+      <th>6229</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7n1d_A-B_tcr.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>beta_chain</td>
+      <td>3</td>
+      <td>ILE</td>
+      <td>114</td>
+      <td>NaN</td>
+      <td>2.164965</td>
+      <td>0.158682</td>
+      <td>3.679442</td>
+      <td>0.829175</td>
+    </tr>
+    <tr>
+      <th>6230</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7n1d_A-B_tcr.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>beta_chain</td>
+      <td>3</td>
+      <td>GLU</td>
+      <td>115</td>
+      <td>NaN</td>
+      <td>1.577728</td>
+      <td>0.195887</td>
+      <td>3.091039</td>
+      <td>0.995351</td>
+    </tr>
+    <tr>
+      <th>6231</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7n1d_A-B_tcr.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>beta_chain</td>
+      <td>3</td>
+      <td>GLN</td>
+      <td>116</td>
+      <td>NaN</td>
+      <td>0.204783</td>
+      <td>0.197683</td>
+      <td>-0.014126</td>
+      <td>0.166472</td>
+    </tr>
+    <tr>
+      <th>6232</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7n1d_A-B_tcr.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>beta_chain</td>
+      <td>3</td>
+      <td>TYR</td>
+      <td>117</td>
+      <td>NaN</td>
+      <td>0.180118</td>
+      <td>0.164981</td>
+      <td>-0.024244</td>
+      <td>0.170852</td>
+    </tr>
+  </tbody>
+</table>
+<p>6233 rows × 12 columns</p>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>results_per_res_tcr = results_per_res_tcr.merge(
+    apo_holo_summary_cdrs_df[[&#39;file_name&#39;, &#39;pdb_id&#39;, &#39;structure_type&#39;, &#39;state&#39;]],
+    how=&#39;left&#39;,
+    left_on=&#39;structure_x_name&#39;,
+    right_on=&#39;file_name&#39;,
+).merge(
+    apo_holo_summary_cdrs_df[[&#39;file_name&#39;, &#39;pdb_id&#39;, &#39;structure_type&#39;, &#39;state&#39;]],
+    how=&#39;left&#39;,
+    left_on=&#39;structure_y_name&#39;,
+    right_on=&#39;file_name&#39;,
+).merge(
+    apo_holo_summary_cdrs_df[[&#39;id&#39;,
+                              &#39;cdr_sequences_collated&#39;,
+                              &#39;peptide_sequence&#39;,
+                              &#39;mhc_slug&#39;,
+                              &#39;cdr_sequence&#39;,
+                              &#39;cdr_length&#39;,
+                              &#39;cdr_type&#39;,
+                              &#39;chain_type&#39;,
+                              &#39;cdr&#39;]],
+    how=&#39;left&#39;,
+    left_on=[&#39;complex_id&#39;, &#39;chain_type&#39;, &#39;cdr&#39;],
+    right_on=[&#39;id&#39;, &#39;chain_type&#39;, &#39;cdr&#39;],
+)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>results_per_res_tcr[&#39;comparison&#39;] = results_per_res_tcr[&#39;state_x&#39;] + &#39;-&#39; + results_per_res_tcr[&#39;state_y&#39;]
+results_per_res_tcr[&#39;comparison&#39;] = results_per_res_tcr[&#39;comparison&#39;].map(
+    lambda entry: &#39;apo-holo&#39; if entry == &#39;holo-apo&#39; else entry
+)
+results_per_res_tcr = results_per_res_tcr.query(&quot;comparison == &#39;apo-holo&#39;&quot;).reset_index(drop=True)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>results_per_res_tcr[&#39;structure_comparison&#39;] = results_per_res_tcr.apply(
+    lambda row: &#39;-&#39;.join(sorted([row.structure_x_name, row.structure_y_name])),
+    axis=&#39;columns&#39;,
+)
+results_per_res_tcr = results_per_res_tcr.drop_duplicates([&#39;structure_comparison&#39;, &#39;chain_type&#39;, &#39;cdr&#39;,
+                                                           &#39;residue_name&#39;, &#39;residue_seq_id&#39;, &#39;residue_insert_code&#39;])
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>results_per_res_tcr
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>complex_id</th>
+      <th>structure_x_name</th>
+      <th>structure_y_name</th>
+      <th>chain_type</th>
+      <th>cdr</th>
+      <th>residue_name</th>
+      <th>residue_seq_id</th>
+      <th>residue_insert_code</th>
+      <th>rmsd</th>
+      <th>ca_distance</th>
+      <th>...</th>
+      <th>state_y</th>
+      <th>id</th>
+      <th>cdr_sequences_collated</th>
+      <th>peptide_sequence</th>
+      <th>mhc_slug</th>
+      <th>cdr_sequence</th>
+      <th>cdr_length</th>
+      <th>cdr_type</th>
+      <th>comparison</th>
+      <th>structure_comparison</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qeu_A-B_tcr.pdb</td>
+      <td>alpha_chain</td>
+      <td>1</td>
+      <td>ASP</td>
+      <td>27</td>
+      <td>NaN</td>
+      <td>4.922807</td>
+      <td>2.215234</td>
+      <td>...</td>
+      <td>apo</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc</td>
+      <td>DRGSQS-IYSNGD-AVNFGGGKLI-MRHNA-SNTAGT-ASSLSFGTEAF</td>
+      <td>ELAGIGILTV</td>
+      <td>hla_a_02_01</td>
+      <td>DRGSQS</td>
+      <td>6.0</td>
+      <td>CDR-A1</td>
+      <td>apo-holo</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb-3qeu_A-B_tcr.pdb</td>
+    </tr>
+    <tr>
+      <th>36</th>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qeu_A-B_tcr.pdb</td>
+      <td>alpha_chain</td>
+      <td>1</td>
+      <td>ARG</td>
+      <td>28</td>
+      <td>NaN</td>
+      <td>7.683418</td>
+      <td>2.322292</td>
+      <td>...</td>
+      <td>apo</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc</td>
+      <td>DRGSQS-IYSNGD-AVNFGGGKLI-MRHNA-SNTAGT-ASSLSFGTEAF</td>
+      <td>ELAGIGILTV</td>
+      <td>hla_a_02_01</td>
+      <td>DRGSQS</td>
+      <td>6.0</td>
+      <td>CDR-A1</td>
+      <td>apo-holo</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb-3qeu_A-B_tcr.pdb</td>
+    </tr>
+    <tr>
+      <th>72</th>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qeu_A-B_tcr.pdb</td>
+      <td>alpha_chain</td>
+      <td>1</td>
+      <td>GLY</td>
+      <td>29</td>
+      <td>NaN</td>
+      <td>0.657793</td>
+      <td>0.718576</td>
+      <td>...</td>
+      <td>apo</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc</td>
+      <td>DRGSQS-IYSNGD-AVNFGGGKLI-MRHNA-SNTAGT-ASSLSFGTEAF</td>
+      <td>ELAGIGILTV</td>
+      <td>hla_a_02_01</td>
+      <td>DRGSQS</td>
+      <td>6.0</td>
+      <td>CDR-A1</td>
+      <td>apo-holo</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb-3qeu_A-B_tcr.pdb</td>
+    </tr>
+    <tr>
+      <th>108</th>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qeu_A-B_tcr.pdb</td>
+      <td>alpha_chain</td>
+      <td>1</td>
+      <td>SER</td>
+      <td>36</td>
+      <td>NaN</td>
+      <td>1.224430</td>
+      <td>0.404912</td>
+      <td>...</td>
+      <td>apo</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc</td>
+      <td>DRGSQS-IYSNGD-AVNFGGGKLI-MRHNA-SNTAGT-ASSLSFGTEAF</td>
+      <td>ELAGIGILTV</td>
+      <td>hla_a_02_01</td>
+      <td>DRGSQS</td>
+      <td>6.0</td>
+      <td>CDR-A1</td>
+      <td>apo-holo</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb-3qeu_A-B_tcr.pdb</td>
+    </tr>
+    <tr>
+      <th>144</th>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qeu_A-B_tcr.pdb</td>
+      <td>alpha_chain</td>
+      <td>1</td>
+      <td>GLN</td>
+      <td>37</td>
+      <td>NaN</td>
+      <td>1.133408</td>
+      <td>0.467132</td>
+      <td>...</td>
+      <td>apo</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc</td>
+      <td>DRGSQS-IYSNGD-AVNFGGGKLI-MRHNA-SNTAGT-ASSLSFGTEAF</td>
+      <td>ELAGIGILTV</td>
+      <td>hla_a_02_01</td>
+      <td>DRGSQS</td>
+      <td>6.0</td>
+      <td>CDR-A1</td>
+      <td>apo-holo</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb-3qeu_A-B_tcr.pdb</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>158220</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7n1d_A-B_tcr.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>beta_chain</td>
+      <td>3</td>
+      <td>ASP</td>
+      <td>109</td>
+      <td>NaN</td>
+      <td>0.507077</td>
+      <td>0.180564</td>
+      <td>...</td>
+      <td>holo</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>DRGSQS-IYSNGD-AVNRDDKII-SEHNR-FQNEAQ-ASSPDIEQY</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+      <td>ASSPDIEQY</td>
+      <td>9.0</td>
+      <td>CDR-B3</td>
+      <td>apo-holo</td>
+      <td>7n1d_A-B_tcr.pdb-7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+    </tr>
+    <tr>
+      <th>158256</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7n1d_A-B_tcr.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>beta_chain</td>
+      <td>3</td>
+      <td>ILE</td>
+      <td>114</td>
+      <td>NaN</td>
+      <td>2.164965</td>
+      <td>0.158682</td>
+      <td>...</td>
+      <td>holo</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>DRGSQS-IYSNGD-AVNRDDKII-SEHNR-FQNEAQ-ASSPDIEQY</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+      <td>ASSPDIEQY</td>
+      <td>9.0</td>
+      <td>CDR-B3</td>
+      <td>apo-holo</td>
+      <td>7n1d_A-B_tcr.pdb-7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+    </tr>
+    <tr>
+      <th>158292</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7n1d_A-B_tcr.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>beta_chain</td>
+      <td>3</td>
+      <td>GLU</td>
+      <td>115</td>
+      <td>NaN</td>
+      <td>1.577728</td>
+      <td>0.195887</td>
+      <td>...</td>
+      <td>holo</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>DRGSQS-IYSNGD-AVNRDDKII-SEHNR-FQNEAQ-ASSPDIEQY</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+      <td>ASSPDIEQY</td>
+      <td>9.0</td>
+      <td>CDR-B3</td>
+      <td>apo-holo</td>
+      <td>7n1d_A-B_tcr.pdb-7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+    </tr>
+    <tr>
+      <th>158328</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7n1d_A-B_tcr.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>beta_chain</td>
+      <td>3</td>
+      <td>GLN</td>
+      <td>116</td>
+      <td>NaN</td>
+      <td>0.204783</td>
+      <td>0.197683</td>
+      <td>...</td>
+      <td>holo</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>DRGSQS-IYSNGD-AVNRDDKII-SEHNR-FQNEAQ-ASSPDIEQY</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+      <td>ASSPDIEQY</td>
+      <td>9.0</td>
+      <td>CDR-B3</td>
+      <td>apo-holo</td>
+      <td>7n1d_A-B_tcr.pdb-7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+    </tr>
+    <tr>
+      <th>158364</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7n1d_A-B_tcr.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>beta_chain</td>
+      <td>3</td>
+      <td>TYR</td>
+      <td>117</td>
+      <td>NaN</td>
+      <td>0.180118</td>
+      <td>0.164981</td>
+      <td>...</td>
+      <td>holo</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>DRGSQS-IYSNGD-AVNRDDKII-SEHNR-FQNEAQ-ASSPDIEQY</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+      <td>ASSPDIEQY</td>
+      <td>9.0</td>
+      <td>CDR-B3</td>
+      <td>apo-holo</td>
+      <td>7n1d_A-B_tcr.pdb-7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+    </tr>
+  </tbody>
+</table>
+<p>4400 rows × 29 columns</p>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def compute_apex_movement(loop: pd.DataFrame) -&gt; float:
+    loop_len = len(loop)
+
+    if loop_len % 2 == 0:
+        return np.mean([loop.iloc[loop_len // 2][&#39;ca_distance&#39;], loop.iloc[(loop_len // 2) - 1][&#39;ca_distance&#39;]])
+
+    return loop.iloc[loop_len // 2][&#39;ca_distance&#39;]
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>results_tcr_apex = results_per_res_tcr.groupby([&#39;structure_x_name&#39;,
+                                                &#39;structure_y_name&#39;,
+                                                &#39;cdr_type&#39;,
+                                                &#39;cdr&#39;,
+                                                &#39;chain_type&#39;,
+                                                &#39;cdr_length&#39;]).apply(compute_apex_movement)
+results_tcr_apex.name = &#39;apex_ca_distance&#39;
+results_tcr_apex = results_tcr_apex.reset_index()
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>results_tcr_apex
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>structure_x_name</th>
+      <th>structure_y_name</th>
+      <th>cdr_type</th>
+      <th>cdr</th>
+      <th>chain_type</th>
+      <th>cdr_length</th>
+      <th>apex_ca_distance</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1ao7_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qh3_A-B_tcr.pdb</td>
+      <td>CDR-A1</td>
+      <td>1</td>
+      <td>alpha_chain</td>
+      <td>6.0</td>
+      <td>0.153049</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1ao7_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qh3_A-B_tcr.pdb</td>
+      <td>CDR-A2</td>
+      <td>2</td>
+      <td>alpha_chain</td>
+      <td>6.0</td>
+      <td>0.447122</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1ao7_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qh3_A-B_tcr.pdb</td>
+      <td>CDR-A3</td>
+      <td>3</td>
+      <td>alpha_chain</td>
+      <td>11.0</td>
+      <td>2.461146</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1ao7_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qh3_A-B_tcr.pdb</td>
+      <td>CDR-B1</td>
+      <td>1</td>
+      <td>beta_chain</td>
+      <td>5.0</td>
+      <td>0.319232</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1ao7_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qh3_A-B_tcr.pdb</td>
+      <td>CDR-B2</td>
+      <td>2</td>
+      <td>beta_chain</td>
+      <td>6.0</td>
+      <td>0.167444</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>569</th>
+      <td>7r7z_A-B_tcr.pdb</td>
+      <td>7r80_A-B-E-C-D_tcr_pmhc.pdb</td>
+      <td>CDR-A2</td>
+      <td>2</td>
+      <td>alpha_chain</td>
+      <td>7.0</td>
+      <td>0.173771</td>
+    </tr>
+    <tr>
+      <th>570</th>
+      <td>7r7z_A-B_tcr.pdb</td>
+      <td>7r80_A-B-E-C-D_tcr_pmhc.pdb</td>
+      <td>CDR-A3</td>
+      <td>3</td>
+      <td>alpha_chain</td>
+      <td>11.0</td>
+      <td>0.508615</td>
+    </tr>
+    <tr>
+      <th>571</th>
+      <td>7r7z_A-B_tcr.pdb</td>
+      <td>7r80_A-B-E-C-D_tcr_pmhc.pdb</td>
+      <td>CDR-B1</td>
+      <td>1</td>
+      <td>beta_chain</td>
+      <td>5.0</td>
+      <td>0.108211</td>
+    </tr>
+    <tr>
+      <th>572</th>
+      <td>7r7z_A-B_tcr.pdb</td>
+      <td>7r80_A-B-E-C-D_tcr_pmhc.pdb</td>
+      <td>CDR-B2</td>
+      <td>2</td>
+      <td>beta_chain</td>
+      <td>6.0</td>
+      <td>0.219891</td>
+    </tr>
+    <tr>
+      <th>573</th>
+      <td>7r7z_A-B_tcr.pdb</td>
+      <td>7r80_A-B-E-C-D_tcr_pmhc.pdb</td>
+      <td>CDR-B3</td>
+      <td>3</td>
+      <td>beta_chain</td>
+      <td>13.0</td>
+      <td>0.789117</td>
+    </tr>
+  </tbody>
+</table>
+<p>574 rows × 7 columns</p>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>r, p_val = scipy.stats.pearsonr(results_tcr_apex[&#39;cdr_length&#39;], results_tcr_apex[&#39;apex_ca_distance&#39;])
+
+sns.lmplot(results_tcr_apex.sort_values(&#39;cdr_type&#39;), x=&#39;cdr_length&#39;, y=&#39;apex_ca_distance&#39;, scatter=False)
+sns.scatterplot(results_tcr_apex.sort_values(&#39;cdr_type&#39;), x=&#39;cdr_length&#39;, y=&#39;apex_ca_distance&#39;, hue=&#39;cdr_type&#39;)
+
+plt.text(6.75, 4, f&#39;$r^2$ = {r**2: .2f}, p-value = {p_val: .2e}&#39;)
+
+plt.show()
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/source_Length_dependency_of_conformational_change_37_0.png" src="../_images/source_Length_dependency_of_conformational_change_37_0.png" />
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="Peptide-Analysis">
+<h2>Peptide Analysis<a class="headerlink" href="#Peptide-Analysis" title="Link to this heading"></a></h2>
+<section id="Load-data">
+<h3>Load data<a class="headerlink" href="#Load-data" title="Link to this heading"></a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>results_peptide = pd.read_csv(os.path.join(DATA_DIR, &#39;pmhc_tcr_contact_apo_holo.csv&#39;))
+
+results_peptide = results_peptide.query(&quot;chain_type == &#39;antigen_chain&#39;&quot;)
+results_peptide = results_peptide.drop(columns=[&#39;chain_type&#39;, &#39;tcr_contact&#39;])
+
+results_peptide
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>complex_id</th>
+      <th>structure_x_name</th>
+      <th>structure_y_name</th>
+      <th>rmsd</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2</th>
+      <td>5c0a_D-E-C-A-B_tcr_pmhc</td>
+      <td>5c0a_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>5n1y_C-A-B_pmhc.pdb</td>
+      <td>0.448858</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>5wlg_D-E-C-A-B_tcr_pmhc</td>
+      <td>5wlg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>5wli_C-A-B_pmhc.pdb</td>
+      <td>0.498148</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>5wlg_D-E-C-A-B_tcr_pmhc</td>
+      <td>5wlg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>5wli_F-D-E_pmhc.pdb</td>
+      <td>0.519507</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>5wlg_D-E-C-A-B_tcr_pmhc</td>
+      <td>5wlg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>5wli_I-G-H_pmhc.pdb</td>
+      <td>0.459025</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>5wlg_D-E-C-A-B_tcr_pmhc</td>
+      <td>5wlg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>5wli_L-J-K_pmhc.pdb</td>
+      <td>0.494705</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>3301</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7n6d_O-M-N_pmhc.pdb</td>
+      <td>7rtd_C-A-B_pmhc.pdb</td>
+      <td>0.486296</td>
+    </tr>
+    <tr>
+      <th>3304</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7n6d_O-M-N_pmhc.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>0.448905</td>
+    </tr>
+    <tr>
+      <th>3307</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7p3d_C-A-B_pmhc.pdb</td>
+      <td>7rtd_C-A-B_pmhc.pdb</td>
+      <td>0.773692</td>
+    </tr>
+    <tr>
+      <th>3310</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7p3d_C-A-B_pmhc.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>0.765295</td>
+    </tr>
+    <tr>
+      <th>3313</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7rtd_C-A-B_pmhc.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>0.455078</td>
+    </tr>
+  </tbody>
+</table>
+<p>1096 rows × 4 columns</p>
+</div></div>
+</div>
+</section>
+<section id="id2">
+<h3>Merge with metadata<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>apo_holo_summary_df[&#39;peptide_length&#39;] = apo_holo_summary_df[&#39;peptide_sequence&#39;].str.len()
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>results_peptide = results_peptide.merge(
+    apo_holo_summary_df[[&#39;file_name&#39;, &#39;pdb_id&#39;, &#39;state&#39;]],
+    how=&#39;left&#39;,
+    left_on=&#39;structure_x_name&#39;,
+    right_on=&#39;file_name&#39;,
+).merge(
+    apo_holo_summary_df[[&#39;file_name&#39;, &#39;pdb_id&#39;, &#39;state&#39;]],
+    how=&#39;left&#39;,
+    left_on=&#39;structure_y_name&#39;,
+    right_on=&#39;file_name&#39;,
+).merge(
+    apo_holo_summary_df[[&#39;id&#39;, &#39;peptide_sequence&#39;, &#39;peptide_length&#39;, &#39;mhc_slug&#39;]],
+    how=&#39;left&#39;,
+    left_on=&#39;complex_id&#39;,
+    right_on=&#39;id&#39;,
+)
+</pre></div>
+</div>
+</div>
+</section>
+<section id="id3">
+<h3>Normalise data<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>results_peptide[&#39;comparison&#39;] = results_peptide[&#39;state_x&#39;] + &#39;-&#39; + results_peptide[&#39;state_y&#39;]
+results_peptide[&#39;comparison&#39;] = results_peptide[&#39;comparison&#39;].map(
+    lambda entry: &#39;apo-holo&#39; if entry == &#39;holo-apo&#39; else entry,
+)
+results_peptide = results_peptide.query(&quot;comparison == &#39;apo-holo&#39;&quot;).reset_index(drop=True)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>results_peptide[&#39;structure_comparison&#39;] = results_peptide.apply(
+    lambda row: &#39;-&#39;.join(sorted([row.structure_x_name, row.structure_y_name])),
+    axis=&#39;columns&#39;,
+)
+results_peptide = results_peptide.drop_duplicates(&#39;structure_comparison&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>results_peptide = results_peptide.groupby([&#39;peptide_sequence&#39;,
+                                           &#39;comparison&#39;,
+                                           &#39;peptide_length&#39;,
+                                           &#39;mhc_slug&#39;])[&#39;rmsd&#39;].mean().reset_index()
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>results_peptide
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>peptide_sequence</th>
+      <th>comparison</th>
+      <th>peptide_length</th>
+      <th>mhc_slug</th>
+      <th>rmsd</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>AAGIGILTV</td>
+      <td>apo-holo</td>
+      <td>9.0</td>
+      <td>hla_a_02_01</td>
+      <td>1.025622</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>ALGIGILTV</td>
+      <td>apo-holo</td>
+      <td>9.0</td>
+      <td>hla_a_02_01</td>
+      <td>1.274516</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>ALWGFFPVL</td>
+      <td>apo-holo</td>
+      <td>9.0</td>
+      <td>hla_a_02_01</td>
+      <td>0.351748</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>ALWGPDPAAA</td>
+      <td>apo-holo</td>
+      <td>10.0</td>
+      <td>hla_a_02_01</td>
+      <td>0.703094</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>APRGPHGGAASGL</td>
+      <td>apo-holo</td>
+      <td>13.0</td>
+      <td>hla_b_07_02</td>
+      <td>3.523593</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>75</th>
+      <td>VVVGAGGVGK</td>
+      <td>apo-holo</td>
+      <td>10.0</td>
+      <td>hla_a_11_01</td>
+      <td>1.483028</td>
+    </tr>
+    <tr>
+      <th>76</th>
+      <td>YGFRNVVHI</td>
+      <td>apo-holo</td>
+      <td>9.0</td>
+      <td>h2_db</td>
+      <td>0.275006</td>
+    </tr>
+    <tr>
+      <th>77</th>
+      <td>YLGGPDFPTI</td>
+      <td>apo-holo</td>
+      <td>10.0</td>
+      <td>hla_a_02_01</td>
+      <td>0.868938</td>
+    </tr>
+    <tr>
+      <th>78</th>
+      <td>YLQPRTFLL</td>
+      <td>apo-holo</td>
+      <td>9.0</td>
+      <td>hla_a_02_01</td>
+      <td>0.584577</td>
+    </tr>
+    <tr>
+      <th>79</th>
+      <td>YQFGPDFPIA</td>
+      <td>apo-holo</td>
+      <td>10.0</td>
+      <td>hla_a_02_01</td>
+      <td>0.408370</td>
+    </tr>
+  </tbody>
+</table>
+<p>80 rows × 5 columns</p>
+</div></div>
+</div>
+</section>
+<section id="Visualise-results">
+<h3>Visualise results<a class="headerlink" href="#Visualise-results" title="Link to this heading"></a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>r, p_val = scipy.stats.pearsonr(results_peptide[&#39;peptide_length&#39;], results_peptide[&#39;rmsd&#39;])
+
+sns.lmplot(results_peptide.sort_values(&#39;mhc_slug&#39;), x=&#39;peptide_length&#39;, y=&#39;rmsd&#39;, scatter=False)
+ax = sns.scatterplot(results_peptide.sort_values(&#39;mhc_slug&#39;), x=&#39;peptide_length&#39;, y=&#39;rmsd&#39;, hue=&#39;mhc_slug&#39;)
+sns.move_legend(ax, &quot;upper left&quot;, bbox_to_anchor=(1, 1))
+
+plt.text(8.5, 4, f&#39;$r^2$ = {r**2: .2f}, p-value = {p_val: .2e}&#39;)
+
+plt.show()
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/source_Length_dependency_of_conformational_change_50_0.png" src="../_images/source_Length_dependency_of_conformational_change_50_0.png" />
 </div>
 </div>
 </section>
 </section>
 <section id="Conclusion">
 <h2>Conclusion<a class="headerlink" href="#Conclusion" title="Link to this heading"></a></h2>
-<p>There is a correlation in both paradigms, framework alignment and loop alignment, but the correlation is much stronger looking at the loop alignments. The increased correlation for loop alignments make sense since the conformational changes from the framework regions can be driven by other parts of the protein, but when the loops are aligned together, the only differences can be driven by changes in the loops themselves, implying the loop length has more of an effect.</p>
+<p>Both TCR CDR loops and peptides show a correlation between length and amount of conformational change. For the TCRs, there is a correlation in both paradigms, framework alignment and loop alignment, but the correlation is much stronger looking at the loop alignments. The increased correlation for loop alignments make sense since the conformational changes from the framework regions can be driven by other parts of the protein, but when the loops are aligned together, the only differences can be
+driven by changes in the loops themselves, implying the loop length has more of an effect.</p>
 </section>
 </section>
 
@@ -1008,7 +2279,7 @@ plt.show()
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="Identify_contact_residues_on_MHC_Class_I_molecules.html" class="btn btn-neutral float-left" title="Identify contact residues on MHC Class I molecules" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="Per_residue_changes_of_TCR_CDR_between_apo_and_holo_structures.html" class="btn btn-neutral float-right" title="Per residue changes of TCR CDRs between apo and holo structures" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="Modalities_of_TCR_interactions_with_pMHC.html" class="btn btn-neutral float-right" title="Modalities of TCR interactions with pMHCs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

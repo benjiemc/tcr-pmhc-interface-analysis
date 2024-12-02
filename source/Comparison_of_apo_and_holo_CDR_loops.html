@@ -24,7 +24,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Identify contact residues on MHC Class I molecules" href="Identify_contact_residues_on_MHC_Class_I_molecules.html" />
-    <link rel="prev" title="Comparing apo and holo CDR loop clustering" href="Comparing_of_apo_and_holo_CDR_loop_clustering.html" /> 
+    <link rel="prev" title="Comparing apo and holo CDR loop clustering" href="Comparing_apo_and_holo_CDR_loop_clustering.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -51,7 +51,8 @@
 <li class="toctree-l1 current"><a class="reference internal" href="notebooks.html">Analysis Notebooks</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="Ascertaining_the_generalisability_of_the_structure_data.html">Ascertaining the generalisability of the structure data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Centre_of_mass_analysis.html">Centre of mass analysis</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Comparing_of_apo_and_holo_CDR_loop_clustering.html">Comparing <em>apo</em> and <em>holo</em> CDR loop clustering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Compare_d_scores.html">Compare D-scores</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Comparing_apo_and_holo_CDR_loop_clustering.html">Comparing <em>apo</em> and <em>holo</em> CDR loop clustering</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Comparison of <em>apo</em> and <em>holo</em> CDR loops</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#Introduction">Introduction</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#Calculating-RMSD-between-conformations">Calculating RMSD between conformations</a><ul>
@@ -69,6 +70,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="Identify_contact_residues_on_MHC_Class_I_molecules.html">Identify contact residues on MHC Class I molecules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Length_dependency_of_conformational_change.html">Length dependency of conformational change</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Modalities_of_TCR_interactions_with_pMHC.html">Modalities of TCR interactions with pMHCs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Per_residue_changes_of_TCR_CDR_between_apo_and_holo_structures.html">Per residue changes of TCR CDRs between apo and holo structures</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Summary_of_apo_holo_data.html">Summary of <em>apo</em>-<em>holo</em> data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Visualising_CDR_loop_clustering.html">Visualising CDR loop clustering</a></li>
@@ -230,6 +232,36 @@ summary_df
       <td>hla_a_02_01</td>
     </tr>
     <tr>
+      <th>1b0g_C-A-B_pmhc</th>
+      <td>1b0g_C-A-B_pmhc.pdb</td>
+      <td>1b0g</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>NaN</td>
+      <td>ALWGFFPVL</td>
+      <td>hla_a_02_01</td>
+    </tr>
+    <tr>
+      <th>1b0g_F-D-E_pmhc</th>
+      <td>1b0g_F-D-E_pmhc.pdb</td>
+      <td>1b0g</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>F</td>
+      <td>D</td>
+      <td>E</td>
+      <td>NaN</td>
+      <td>ALWGFFPVL</td>
+      <td>hla_a_02_01</td>
+    </tr>
+    <tr>
       <th>1bd2_D-E-C-A-B_tcr_pmhc</th>
       <td>1bd2_D-E-C-A-B_tcr_pmhc.pdb</td>
       <td>1bd2</td>
@@ -245,8 +277,8 @@ summary_df
       <td>hla_a_02_01</td>
     </tr>
     <tr>
-      <th>1bii_A-B-P_pmhc</th>
-      <td>1bii_A-B-P_pmhc.pdb</td>
+      <th>1bii_P-A-B_pmhc</th>
+      <td>1bii_P-A-B_pmhc.pdb</td>
       <td>1bii</td>
       <td>pmhc</td>
       <td>apo</td>
@@ -258,36 +290,6 @@ summary_df
       <td>NaN</td>
       <td>RGPGRAFVTI</td>
       <td>h2_dd</td>
-    </tr>
-    <tr>
-      <th>1ddh_A-B-P_pmhc</th>
-      <td>1ddh_A-B-P_pmhc.pdb</td>
-      <td>1ddh</td>
-      <td>pmhc</td>
-      <td>apo</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>P</td>
-      <td>A</td>
-      <td>B</td>
-      <td>NaN</td>
-      <td>RGPGRAFVTI</td>
-      <td>h2_dd</td>
-    </tr>
-    <tr>
-      <th>1duz_A-B-C_pmhc</th>
-      <td>1duz_A-B-C_pmhc.pdb</td>
-      <td>1duz</td>
-      <td>pmhc</td>
-      <td>apo</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>C</td>
-      <td>A</td>
-      <td>B</td>
-      <td>NaN</td>
-      <td>LLFGYPVYV</td>
-      <td>hla_a_02_01</td>
     </tr>
     <tr>
       <th>...</th>
@@ -305,9 +307,24 @@ summary_df
       <td>...</td>
     </tr>
     <tr>
-      <th>8gon_D-E-C-A-B_tcr_pmhc</th>
-      <td>8gon_D-E-C-A-B_tcr_pmhc.pdb</td>
-      <td>8gon</td>
+      <th>7rtd_C-A-B_pmhc</th>
+      <td>7rtd_C-A-B_pmhc.pdb</td>
+      <td>7rtd</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>NaN</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+    </tr>
+    <tr>
+      <th>7rtr_D-E-C-A-B_tcr_pmhc</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>7rtr</td>
       <td>tcr_pmhc</td>
       <td>holo</td>
       <td>D</td>
@@ -315,24 +332,9 @@ summary_df
       <td>C</td>
       <td>A</td>
       <td>B</td>
-      <td>TSESDYY-QEAYKQQN-ASSGNTPLV-SGHNS-FNNNVP-ASTWGR...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>8gop_A-B_tcr</th>
-      <td>8gop_A-B_tcr.pdb</td>
-      <td>8gop</td>
-      <td>tcr</td>
-      <td>apo</td>
-      <td>A</td>
-      <td>B</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>TSESDYY-QEAYKQQN-ASSGNTPLV-SGHNS-FNNNVP-ASTWGR...</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>DRGSQS-IYSNGD-AVNRDDKII-SEHNR-FQNEAQ-ASSPDIEQY</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
     </tr>
     <tr>
       <th>8gvb_A-B-P-H-L_tcr_pmhc</th>
@@ -381,7 +383,7 @@ summary_df
     </tr>
   </tbody>
 </table>
-<p>358 rows × 12 columns</p>
+<p>391 rows × 12 columns</p>
 </div></div>
 </div>
 </section>
@@ -590,7 +592,7 @@ results_framework = results_framework.drop_duplicates([&#39;structure_comparison
       <td>apo-holo</td>
       <td>1</td>
       <td>alpha_chain</td>
-      <td>1.193604</td>
+      <td>1.267393</td>
       <td>Movement (1.0 to 2.0 Å)</td>
     </tr>
     <tr>
@@ -599,7 +601,7 @@ results_framework = results_framework.drop_duplicates([&#39;structure_comparison
       <td>apo-holo</td>
       <td>1</td>
       <td>beta_chain</td>
-      <td>0.473654</td>
+      <td>0.372470</td>
       <td>Little Movement (&lt;0.5 Å)</td>
     </tr>
     <tr>
@@ -608,7 +610,7 @@ results_framework = results_framework.drop_duplicates([&#39;structure_comparison
       <td>apo-holo</td>
       <td>2</td>
       <td>alpha_chain</td>
-      <td>0.905868</td>
+      <td>0.736941</td>
       <td>Some Movement (0.5 to 1.0 Å)</td>
     </tr>
     <tr>
@@ -617,7 +619,7 @@ results_framework = results_framework.drop_duplicates([&#39;structure_comparison
       <td>apo-holo</td>
       <td>2</td>
       <td>beta_chain</td>
-      <td>0.865963</td>
+      <td>0.909569</td>
       <td>Some Movement (0.5 to 1.0 Å)</td>
     </tr>
     <tr>
@@ -626,7 +628,7 @@ results_framework = results_framework.drop_duplicates([&#39;structure_comparison
       <td>apo-holo</td>
       <td>3</td>
       <td>alpha_chain</td>
-      <td>2.635113</td>
+      <td>2.747458</td>
       <td>Large Movement (2.0 to 4.0 Å)</td>
     </tr>
     <tr>
@@ -639,7 +641,7 @@ results_framework = results_framework.drop_duplicates([&#39;structure_comparison
       <td>...</td>
     </tr>
     <tr>
-      <th>318</th>
+      <th>366</th>
       <td>YSGSPE-HISR-ALSGFNNAGNMLT-SGHAT-FQNNGV-ASSLGGA...</td>
       <td>apo-holo</td>
       <td>1</td>
@@ -648,7 +650,7 @@ results_framework = results_framework.drop_duplicates([&#39;structure_comparison
       <td>Some Movement (0.5 to 1.0 Å)</td>
     </tr>
     <tr>
-      <th>319</th>
+      <th>367</th>
       <td>YSGSPE-HISR-ALSGFNNAGNMLT-SGHAT-FQNNGV-ASSLGGA...</td>
       <td>apo-holo</td>
       <td>2</td>
@@ -657,7 +659,7 @@ results_framework = results_framework.drop_duplicates([&#39;structure_comparison
       <td>Large Movement (2.0 to 4.0 Å)</td>
     </tr>
     <tr>
-      <th>320</th>
+      <th>368</th>
       <td>YSGSPE-HISR-ALSGFNNAGNMLT-SGHAT-FQNNGV-ASSLGGA...</td>
       <td>apo-holo</td>
       <td>2</td>
@@ -666,7 +668,7 @@ results_framework = results_framework.drop_duplicates([&#39;structure_comparison
       <td>Some Movement (0.5 to 1.0 Å)</td>
     </tr>
     <tr>
-      <th>321</th>
+      <th>369</th>
       <td>YSGSPE-HISR-ALSGFNNAGNMLT-SGHAT-FQNNGV-ASSLGGA...</td>
       <td>apo-holo</td>
       <td>3</td>
@@ -675,7 +677,7 @@ results_framework = results_framework.drop_duplicates([&#39;structure_comparison
       <td>Movement (1.0 to 2.0 Å)</td>
     </tr>
     <tr>
-      <th>322</th>
+      <th>370</th>
       <td>YSGSPE-HISR-ALSGFNNAGNMLT-SGHAT-FQNNGV-ASSLGGA...</td>
       <td>apo-holo</td>
       <td>3</td>
@@ -685,7 +687,7 @@ results_framework = results_framework.drop_duplicates([&#39;structure_comparison
     </tr>
   </tbody>
 </table>
-<p>323 rows × 6 columns</p>
+<p>371 rows × 6 columns</p>
 </div></div>
 </div>
 </section>
@@ -816,7 +818,7 @@ results_loop = results_loop.drop_duplicates([&#39;structure_comparison&#39;, &#3
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>results_loop
@@ -824,8 +826,7 @@ results_loop = results_loop.drop_duplicates([&#39;structure_comparison&#39;, &#3
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
 <div>
@@ -861,7 +862,7 @@ results_loop = results_loop.drop_duplicates([&#39;structure_comparison&#39;, &#3
       <td>apo-holo</td>
       <td>1</td>
       <td>alpha_chain</td>
-      <td>0.801538</td>
+      <td>0.773921</td>
       <td>Some Movement (0.5 to 1.0 Å)</td>
     </tr>
     <tr>
@@ -870,7 +871,7 @@ results_loop = results_loop.drop_duplicates([&#39;structure_comparison&#39;, &#3
       <td>apo-holo</td>
       <td>1</td>
       <td>beta_chain</td>
-      <td>0.239049</td>
+      <td>0.233623</td>
       <td>Little Movement (&lt;0.5 Å)</td>
     </tr>
     <tr>
@@ -879,8 +880,8 @@ results_loop = results_loop.drop_duplicates([&#39;structure_comparison&#39;, &#3
       <td>apo-holo</td>
       <td>2</td>
       <td>alpha_chain</td>
-      <td>0.725440</td>
-      <td>Some Movement (0.5 to 1.0 Å)</td>
+      <td>0.438770</td>
+      <td>Little Movement (&lt;0.5 Å)</td>
     </tr>
     <tr>
       <th>3</th>
@@ -888,7 +889,7 @@ results_loop = results_loop.drop_duplicates([&#39;structure_comparison&#39;, &#3
       <td>apo-holo</td>
       <td>2</td>
       <td>beta_chain</td>
-      <td>0.774079</td>
+      <td>0.777213</td>
       <td>Some Movement (0.5 to 1.0 Å)</td>
     </tr>
     <tr>
@@ -897,7 +898,7 @@ results_loop = results_loop.drop_duplicates([&#39;structure_comparison&#39;, &#3
       <td>apo-holo</td>
       <td>3</td>
       <td>alpha_chain</td>
-      <td>1.210009</td>
+      <td>1.235649</td>
       <td>Movement (1.0 to 2.0 Å)</td>
     </tr>
     <tr>
@@ -910,7 +911,7 @@ results_loop = results_loop.drop_duplicates([&#39;structure_comparison&#39;, &#3
       <td>...</td>
     </tr>
     <tr>
-      <th>318</th>
+      <th>366</th>
       <td>YSGSPE-HISR-ALSGFNNAGNMLT-SGHAT-FQNNGV-ASSLGGA...</td>
       <td>apo-holo</td>
       <td>1</td>
@@ -919,7 +920,7 @@ results_loop = results_loop.drop_duplicates([&#39;structure_comparison&#39;, &#3
       <td>Little Movement (&lt;0.5 Å)</td>
     </tr>
     <tr>
-      <th>319</th>
+      <th>367</th>
       <td>YSGSPE-HISR-ALSGFNNAGNMLT-SGHAT-FQNNGV-ASSLGGA...</td>
       <td>apo-holo</td>
       <td>2</td>
@@ -928,7 +929,7 @@ results_loop = results_loop.drop_duplicates([&#39;structure_comparison&#39;, &#3
       <td>Movement (1.0 to 2.0 Å)</td>
     </tr>
     <tr>
-      <th>320</th>
+      <th>368</th>
       <td>YSGSPE-HISR-ALSGFNNAGNMLT-SGHAT-FQNNGV-ASSLGGA...</td>
       <td>apo-holo</td>
       <td>2</td>
@@ -937,7 +938,7 @@ results_loop = results_loop.drop_duplicates([&#39;structure_comparison&#39;, &#3
       <td>Little Movement (&lt;0.5 Å)</td>
     </tr>
     <tr>
-      <th>321</th>
+      <th>369</th>
       <td>YSGSPE-HISR-ALSGFNNAGNMLT-SGHAT-FQNNGV-ASSLGGA...</td>
       <td>apo-holo</td>
       <td>3</td>
@@ -946,7 +947,7 @@ results_loop = results_loop.drop_duplicates([&#39;structure_comparison&#39;, &#3
       <td>Movement (1.0 to 2.0 Å)</td>
     </tr>
     <tr>
-      <th>322</th>
+      <th>370</th>
       <td>YSGSPE-HISR-ALSGFNNAGNMLT-SGHAT-FQNNGV-ASSLGGA...</td>
       <td>apo-holo</td>
       <td>3</td>
@@ -956,7 +957,7 @@ results_loop = results_loop.drop_duplicates([&#39;structure_comparison&#39;, &#3
     </tr>
   </tbody>
 </table>
-<p>323 rows × 6 columns</p>
+<p>371 rows × 6 columns</p>
 </div></div>
 </div>
 </section>
@@ -1055,70 +1056,70 @@ results_framework.query(&quot;comparison == &#39;apo-holo&#39;&quot;).groupby([&
     <tr>
       <th rowspan="3" valign="top">alpha_chain</th>
       <th>1</th>
-      <td>25.0</td>
-      <td>1.625591</td>
-      <td>1.126121</td>
-      <td>0.172478</td>
-      <td>0.849734</td>
-      <td>1.308559</td>
-      <td>2.056843</td>
-      <td>5.547374</td>
+      <td>22.0</td>
+      <td>1.688538</td>
+      <td>1.118687</td>
+      <td>0.516638</td>
+      <td>0.892867</td>
+      <td>1.567689</td>
+      <td>2.080515</td>
+      <td>5.527264</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>24.0</td>
-      <td>1.360652</td>
-      <td>0.725418</td>
+      <td>21.0</td>
+      <td>1.327793</td>
+      <td>0.721653</td>
       <td>0.496448</td>
-      <td>0.894783</td>
-      <td>1.121992</td>
-      <td>1.509622</td>
-      <td>3.170339</td>
+      <td>0.861526</td>
+      <td>1.062559</td>
+      <td>1.427239</td>
+      <td>3.075190</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>25.0</td>
-      <td>2.205034</td>
-      <td>1.666278</td>
-      <td>0.157864</td>
-      <td>1.124128</td>
-      <td>1.678234</td>
-      <td>2.635113</td>
-      <td>7.883364</td>
+      <td>22.0</td>
+      <td>2.378904</td>
+      <td>1.668149</td>
+      <td>0.545553</td>
+      <td>1.420477</td>
+      <td>1.851111</td>
+      <td>2.925171</td>
+      <td>7.818020</td>
     </tr>
     <tr>
       <th rowspan="3" valign="top">beta_chain</th>
       <th>1</th>
-      <td>25.0</td>
-      <td>0.818192</td>
-      <td>0.428709</td>
-      <td>0.211640</td>
-      <td>0.504221</td>
-      <td>0.770227</td>
-      <td>0.983855</td>
-      <td>2.106660</td>
+      <td>22.0</td>
+      <td>0.823919</td>
+      <td>0.448008</td>
+      <td>0.322518</td>
+      <td>0.473089</td>
+      <td>0.746551</td>
+      <td>0.988184</td>
+      <td>2.121011</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>25.0</td>
-      <td>0.879987</td>
-      <td>0.718325</td>
+      <td>22.0</td>
+      <td>0.911582</td>
+      <td>0.769147</td>
       <td>0.311457</td>
-      <td>0.526078</td>
-      <td>0.705481</td>
-      <td>0.947803</td>
+      <td>0.452917</td>
+      <td>0.779960</td>
+      <td>0.959763</td>
       <td>3.928769</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>25.0</td>
-      <td>1.375520</td>
-      <td>0.977938</td>
-      <td>0.142801</td>
-      <td>0.705002</td>
-      <td>1.001740</td>
-      <td>1.823828</td>
-      <td>3.820573</td>
+      <td>22.0</td>
+      <td>1.498268</td>
+      <td>0.976070</td>
+      <td>0.451473</td>
+      <td>0.894738</td>
+      <td>1.051407</td>
+      <td>1.986540</td>
+      <td>3.849010</td>
     </tr>
   </tbody>
 </table>
@@ -1139,7 +1140,7 @@ results_framework.query(&quot;comparison == &#39;apo-holo&#39;&quot;).groupby([&
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;seaborn.axisgrid.FacetGrid at 0x7f9d0735eb30&gt;
+&lt;seaborn.axisgrid.FacetGrid at 0x7f7f4ebb42e0&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -1150,7 +1151,7 @@ results_framework.query(&quot;comparison == &#39;apo-holo&#39;&quot;).groupby([&
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>treatments = [(group, df[&#39;rmsd&#39;].to_numpy()) for group, df in results_framework.query(&quot;comparison == &#39;apo-holo&#39;&quot;).groupby([&#39;chain_type&#39;, &#39;cdr&#39;])]
@@ -1163,11 +1164,11 @@ print(scipy.stats.kruskal(*[values for _, values in treatments]))
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-KruskalResult(statistic=33.47222908277405, pvalue=3.0322000362602383e-06)
+KruskalResult(statistic=35.4925691934713, pvalue=1.1997168153031063e-06)
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>combos = [(((chain_x, cdr_x), sample_x), ((chain_y, cdr_y), sample_y))
@@ -1204,8 +1205,7 @@ framework_stats
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
 <div>
@@ -1242,8 +1242,8 @@ framework_stats
       <td>1</td>
       <td>beta_chain</td>
       <td>1</td>
-      <td>3.346992</td>
-      <td>0.000817</td>
+      <td>3.427003</td>
+      <td>0.000610</td>
       <td>True</td>
     </tr>
     <tr>
@@ -1252,8 +1252,8 @@ framework_stats
       <td>2</td>
       <td>beta_chain</td>
       <td>2</td>
-      <td>3.380000</td>
-      <td>0.000725</td>
+      <td>2.672612</td>
+      <td>0.007526</td>
       <td>True</td>
     </tr>
     <tr>
@@ -1262,8 +1262,8 @@ framework_stats
       <td>3</td>
       <td>beta_chain</td>
       <td>3</td>
-      <td>2.202223</td>
-      <td>0.027650</td>
+      <td>2.206427</td>
+      <td>0.027354</td>
       <td>False</td>
     </tr>
   </tbody>
@@ -1271,7 +1271,7 @@ framework_stats
 </div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>combos = list(itertools.combinations([(cdr, df[&#39;rmsd&#39;].to_numpy())
@@ -1304,8 +1304,7 @@ framework_stats
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
 <div>
@@ -1338,24 +1337,24 @@ framework_stats
       <th>0</th>
       <td>1</td>
       <td>2</td>
-      <td>0.335930</td>
-      <td>0.736924</td>
+      <td>0.517867</td>
+      <td>0.604551</td>
       <td>False</td>
     </tr>
     <tr>
       <th>1</th>
       <td>1</td>
       <td>3</td>
-      <td>-2.343899</td>
-      <td>0.019083</td>
-      <td>False</td>
+      <td>-2.854099</td>
+      <td>0.004316</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>2</th>
       <td>2</td>
       <td>3</td>
-      <td>-2.820412</td>
-      <td>0.004796</td>
+      <td>-3.540175</td>
+      <td>0.000400</td>
       <td>True</td>
     </tr>
   </tbody>
@@ -1369,12 +1368,13 @@ framework_stats
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>movement_counts = results_framework.query(&quot;comparison == &#39;apo-holo&#39;&quot;)[&#39;movement&#39;].dropna().value_counts()
 movement_counts = movement_counts[movement_counts &gt; 0]
+movement_counts = movement_counts.sort_index()
 
 ax = movement_counts.plot.pie(title=&#39;CDR Movement from Framework Alignment&#39;,
-                              autopct=&#39;%1.2f%%&#39;,
-                              legend=True,
-                              ylabel=&#39;&#39;,
-                              labeldistance=None)
+                            autopct=&#39;%1.2f%%&#39;,
+                            legend=True,
+                            ylabel=&#39;&#39;,
+                            labeldistance=None)
 ax.legend(bbox_to_anchor=(1, 1), loc=&#39;upper left&#39;)
 
 plt.show()
@@ -1388,11 +1388,55 @@ plt.show()
 <img alt="../_images/source_Comparison_of_apo_and_holo_CDR_loops_46_0.png" src="../_images/source_Comparison_of_apo_and_holo_CDR_loops_46_0.png" />
 </div>
 </div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fig, axes = plt.subplots(nrows=2, ncols=3, figsize=(12, 8))
+
+lines = []
+
+for i, chain_type in enumerate((&#39;alpha_chain&#39;, &#39;beta_chain&#39;)):
+    for j, cdr in enumerate((1, 2, 3)):
+        movement_counts = results_framework.query(
+            &quot;comparison == &#39;apo-holo&#39; and cdr == @cdr and chain_type == @chain_type&quot;
+        )[&#39;movement&#39;].dropna().value_counts()
+
+        movement_counts = movement_counts[movement_counts &gt; 0]
+        movement_counts = movement_counts.sort_index()
+
+        ax = movement_counts.plot.pie(
+            title=&#39;CDR&#39; + str(cdr) + (r&#39;$\alpha$&#39; if chain_type == &#39;alpha_chain&#39; else r&#39;$\beta$&#39;),
+            autopct=&#39;%1.2f%%&#39;,
+            legend=False,
+            ylabel=&#39;&#39;,
+            labeldistance=None,
+            ax=axes[i, j],
+        )
+        lines.append(ax)
+
+lines_labels = [fig.axes[0].get_legend_handles_labels()]
+lines, labels = [sum(lol, []) for lol in zip(*lines_labels)]
+fig.legend(lines, labels, bbox_to_anchor=(1.05, 1))
+
+fig.suptitle(&#39;CDR Movement from Framework Alignment&#39;, fontsize=16)
+
+plt.show()
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/source_Comparison_of_apo_and_holo_CDR_loops_47_0.png" src="../_images/source_Comparison_of_apo_and_holo_CDR_loops_47_0.png" />
+</div>
+</div>
 </section>
 <section id="id2">
 <h4>Loop Alignment<a class="headerlink" href="#id2" title="Link to this heading"></a></h4>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>results_loop[&#39;chain_type_formatted&#39;] = results_loop[&#39;chain_type&#39;].str.replace(&#39;_&#39;, &#39; &#39;).str.title()
@@ -1400,7 +1444,7 @@ plt.show()
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>sns.boxplot(data=results_loop.query(&quot;comparison == &#39;apo-holo&#39;&quot;), y=&#39;rmsd&#39;, x=&#39;cdr&#39;, hue=&#39;chain_type_formatted&#39;)
@@ -1425,11 +1469,11 @@ results_loop.query(&quot;comparison == &#39;apo-holo&#39;&quot;).groupby([&#39;c
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/source_Comparison_of_apo_and_holo_CDR_loops_49_0.png" src="../_images/source_Comparison_of_apo_and_holo_CDR_loops_49_0.png" />
+<img alt="../_images/source_Comparison_of_apo_and_holo_CDR_loops_50_0.png" src="../_images/source_Comparison_of_apo_and_holo_CDR_loops_50_0.png" />
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -1478,69 +1522,69 @@ results_loop.query(&quot;comparison == &#39;apo-holo&#39;&quot;).groupby([&#39;c
     <tr>
       <th rowspan="3" valign="top">alpha_chain</th>
       <th>1</th>
-      <td>25.0</td>
-      <td>0.539703</td>
-      <td>0.370003</td>
-      <td>0.037604</td>
-      <td>0.265344</td>
-      <td>0.398626</td>
-      <td>0.865431</td>
+      <td>22.0</td>
+      <td>0.498767</td>
+      <td>0.346897</td>
+      <td>0.022408</td>
+      <td>0.268565</td>
+      <td>0.360193</td>
+      <td>0.751915</td>
       <td>1.317612</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>24.0</td>
-      <td>0.644121</td>
-      <td>0.446783</td>
+      <td>21.0</td>
+      <td>0.592797</td>
+      <td>0.434249</td>
       <td>0.215395</td>
-      <td>0.294647</td>
-      <td>0.439994</td>
-      <td>0.979735</td>
-      <td>1.684088</td>
+      <td>0.277901</td>
+      <td>0.405613</td>
+      <td>0.879081</td>
+      <td>1.748959</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>25.0</td>
-      <td>1.121232</td>
-      <td>0.650441</td>
-      <td>0.077000</td>
-      <td>0.584030</td>
-      <td>1.083251</td>
-      <td>1.423754</td>
+      <td>22.0</td>
+      <td>1.202180</td>
+      <td>0.624488</td>
+      <td>0.414519</td>
+      <td>0.700162</td>
+      <td>1.159450</td>
+      <td>1.462535</td>
       <td>2.495455</td>
     </tr>
     <tr>
       <th rowspan="3" valign="top">beta_chain</th>
       <th>1</th>
-      <td>25.0</td>
-      <td>0.279281</td>
-      <td>0.184982</td>
-      <td>0.110227</td>
-      <td>0.149009</td>
-      <td>0.214492</td>
-      <td>0.363066</td>
-      <td>0.744923</td>
+      <td>22.0</td>
+      <td>0.270704</td>
+      <td>0.164392</td>
+      <td>0.113593</td>
+      <td>0.150641</td>
+      <td>0.203997</td>
+      <td>0.361489</td>
+      <td>0.613358</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>25.0</td>
-      <td>0.339790</td>
-      <td>0.232802</td>
-      <td>0.056751</td>
-      <td>0.191979</td>
-      <td>0.248698</td>
-      <td>0.398983</td>
-      <td>0.988705</td>
+      <td>22.0</td>
+      <td>0.346270</td>
+      <td>0.239926</td>
+      <td>0.140385</td>
+      <td>0.193959</td>
+      <td>0.242435</td>
+      <td>0.413456</td>
+      <td>1.005001</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>25.0</td>
-      <td>0.886316</td>
-      <td>0.691293</td>
-      <td>0.102327</td>
-      <td>0.341379</td>
-      <td>0.693077</td>
-      <td>1.220448</td>
+      <td>22.0</td>
+      <td>0.968526</td>
+      <td>0.689371</td>
+      <td>0.215410</td>
+      <td>0.473122</td>
+      <td>0.745160</td>
+      <td>1.355077</td>
       <td>2.503307</td>
     </tr>
   </tbody>
@@ -1548,7 +1592,7 @@ results_loop.query(&quot;comparison == &#39;apo-holo&#39;&quot;).groupby([&#39;c
 </div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>sns.displot(results_loop.query(&quot;comparison == &#39;apo-holo&#39;&quot;),
@@ -1557,23 +1601,23 @@ results_loop.query(&quot;comparison == &#39;apo-holo&#39;&quot;).groupby([&#39;c
 </div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;seaborn.axisgrid.FacetGrid at 0x7f9d03eedc30&gt;
+&lt;seaborn.axisgrid.FacetGrid at 0x7f7f4b860f10&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/source_Comparison_of_apo_and_holo_CDR_loops_50_1.png" src="../_images/source_Comparison_of_apo_and_holo_CDR_loops_50_1.png" />
+<img alt="../_images/source_Comparison_of_apo_and_holo_CDR_loops_51_1.png" src="../_images/source_Comparison_of_apo_and_holo_CDR_loops_51_1.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>treatments = [(group, df[&#39;rmsd&#39;].to_numpy()) for group, df in results_loop.query(&quot;comparison == &#39;apo-holo&#39;&quot;).groupby([&#39;chain_type&#39;, &#39;cdr&#39;])]
@@ -1586,11 +1630,11 @@ print(scipy.stats.kruskal(*[values for _, values in treatments]))
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-KruskalResult(statistic=48.69824429530195, pvalue=2.5578145006489472e-09)
+KruskalResult(statistic=54.747881311378876, pvalue=1.4709296709056658e-10)
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>combos = [(((chain_x, cdr_x), sample_x), ((chain_y, cdr_y), sample_y))
@@ -1628,8 +1672,7 @@ loop_stats
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
 <div>
@@ -1666,8 +1709,8 @@ loop_stats
       <td>1</td>
       <td>beta_chain</td>
       <td>1</td>
-      <td>3.172366</td>
-      <td>0.001512</td>
+      <td>2.769770</td>
+      <td>0.005610</td>
       <td>True</td>
     </tr>
     <tr>
@@ -1676,8 +1719,8 @@ loop_stats
       <td>2</td>
       <td>beta_chain</td>
       <td>2</td>
-      <td>3.120000</td>
-      <td>0.001809</td>
+      <td>2.769798</td>
+      <td>0.005609</td>
       <td>True</td>
     </tr>
     <tr>
@@ -1686,8 +1729,8 @@ loop_stats
       <td>3</td>
       <td>beta_chain</td>
       <td>3</td>
-      <td>1.600735</td>
-      <td>0.109436</td>
+      <td>1.502248</td>
+      <td>0.133033</td>
       <td>False</td>
     </tr>
   </tbody>
@@ -1695,7 +1738,7 @@ loop_stats
 </div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>combos = list(itertools.combinations([(cdr, df[&#39;rmsd&#39;].to_numpy())
@@ -1728,8 +1771,7 @@ loop_stats
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
 <div>
@@ -1762,24 +1804,24 @@ loop_stats
       <th>0</th>
       <td>1</td>
       <td>2</td>
-      <td>-1.252739</td>
-      <td>2.103007e-01</td>
+      <td>-1.230996</td>
+      <td>2.183243e-01</td>
       <td>False</td>
     </tr>
     <tr>
       <th>1</th>
       <td>1</td>
       <td>3</td>
-      <td>-5.053170</td>
-      <td>4.345369e-07</td>
+      <td>-5.816687</td>
+      <td>6.002526e-09</td>
       <td>True</td>
     </tr>
     <tr>
       <th>2</th>
       <td>2</td>
       <td>3</td>
-      <td>-4.325099</td>
-      <td>1.524634e-05</td>
+      <td>-5.127736</td>
+      <td>2.932472e-07</td>
       <td>True</td>
     </tr>
   </tbody>
@@ -1788,7 +1830,7 @@ loop_stats
 </div>
 <p>The figure above shows there appears to be an increase in the movement of CDR3 compared to CDR1 and CDR2 and that the alpha chain has more movement than the beta chain of the TCR. In this alignment procedure, the CDR-1 and CDR-2 loops median drop below the noise level line, indicating that these show different effects to the CDR3 loops.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>movement_counts = results_loop.query(&quot;comparison == &#39;apo-holo&#39;&quot;)[&#39;movement&#39;].dropna().value_counts()
@@ -1809,11 +1851,11 @@ plt.show()
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/source_Comparison_of_apo_and_holo_CDR_loops_55_0.png" src="../_images/source_Comparison_of_apo_and_holo_CDR_loops_55_0.png" />
+<img alt="../_images/source_Comparison_of_apo_and_holo_CDR_loops_56_0.png" src="../_images/source_Comparison_of_apo_and_holo_CDR_loops_56_0.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>results_loop.query(&quot;comparison == &#39;apo-holo&#39;&quot;)[&#39;movement&#39;].dropna().value_counts()
@@ -1821,18 +1863,62 @@ plt.show()
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Little Movement (&lt;0.5 Å)         83
-Some Movement (0.5 to 1.0 Å)     37
-Movement (1.0 to 2.0 Å)          23
+Little Movement (&lt;0.5 Å)         74
+Some Movement (0.5 to 1.0 Å)     29
+Movement (1.0 to 2.0 Å)          22
 Large Movement (2.0 to 4.0 Å)     6
 Significant Movement (&gt;4.0 Å)     0
 Name: movement, dtype: int64
 </pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[48]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fig, axes = plt.subplots(nrows=2, ncols=3, figsize=(12, 8))
+
+lines = []
+
+for i, chain_type in enumerate((&#39;alpha_chain&#39;, &#39;beta_chain&#39;)):
+    for j, cdr in enumerate((1, 2, 3)):
+        movement_counts = results_loop.query(
+            &quot;comparison == &#39;apo-holo&#39; and cdr == @cdr and chain_type == @chain_type&quot;
+        )[&#39;movement&#39;].dropna().value_counts()
+
+        movement_counts = movement_counts[movement_counts &gt; 0]
+        movement_counts = movement_counts.sort_index()
+
+        ax = movement_counts.plot.pie(
+            title=&#39;CDR&#39; + str(cdr) + (r&#39;$\alpha$&#39; if chain_type == &#39;alpha_chain&#39; else r&#39;$\beta$&#39;),
+            autopct=&#39;%1.2f%%&#39;,
+            legend=False,
+            ylabel=&#39;&#39;,
+            labeldistance=None,
+            ax=axes[i, j],
+        )
+        lines.append(ax)
+
+lines_labels = [fig.axes[0].get_legend_handles_labels()]
+lines, labels = [sum(lol, []) for lol in zip(*lines_labels)]
+fig.legend(lines, labels, bbox_to_anchor=(1.05, 1))
+
+fig.suptitle(&#39;CDR Movement from Loop Alignment&#39;, fontsize=16)
+
+plt.show()
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/source_Comparison_of_apo_and_holo_CDR_loops_58_0.png" src="../_images/source_Comparison_of_apo_and_holo_CDR_loops_58_0.png" />
+</div>
 </div>
 </section>
 </section>
@@ -1842,7 +1928,7 @@ Name: movement, dtype: int64
 <section id="id3">
 <h4>Framework Alignment<a class="headerlink" href="#id3" title="Link to this heading"></a></h4>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>sns.catplot(results_framework.sort_values([&#39;comparison&#39;, &#39;chain_type&#39;, &#39;cdr&#39;]),
@@ -1854,15 +1940,24 @@ Name: movement, dtype: int64
 </pre></div>
 </div>
 </div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;seaborn.axisgrid.FacetGrid at 0x7f7f4c13a890&gt;
+</pre></div></div>
+</div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/source_Comparison_of_apo_and_holo_CDR_loops_59_0.png" src="../_images/source_Comparison_of_apo_and_holo_CDR_loops_59_0.png" />
+<img alt="../_images/source_Comparison_of_apo_and_holo_CDR_loops_61_1.png" src="../_images/source_Comparison_of_apo_and_holo_CDR_loops_61_1.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[48]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>sns.displot(results_framework.sort_values([&#39;comparison&#39;, &#39;chain_type&#39;, &#39;cdr&#39;]),
@@ -1875,23 +1970,23 @@ Name: movement, dtype: int64
 </div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[48]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;seaborn.axisgrid.FacetGrid at 0x7f9d02e1fa00&gt;
+&lt;seaborn.axisgrid.FacetGrid at 0x7f7f48d3d630&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/source_Comparison_of_apo_and_holo_CDR_loops_60_1.png" src="../_images/source_Comparison_of_apo_and_holo_CDR_loops_60_1.png" />
+<img alt="../_images/source_Comparison_of_apo_and_holo_CDR_loops_62_1.png" src="../_images/source_Comparison_of_apo_and_holo_CDR_loops_62_1.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>results_framework.groupby([&#39;comparison&#39;, &#39;chain_type&#39;, &#39;cdr&#39;]).size()
@@ -1899,35 +1994,34 @@ Name: movement, dtype: int64
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 comparison  chain_type   cdr
-apo-apo     alpha_chain  1      11
-                         2      11
-                         3      11
-            beta_chain   1      11
-                         2      11
-                         3      11
-apo-holo    alpha_chain  1      25
-                         2      24
-                         3      25
-            beta_chain   1      25
-                         2      25
-                         3      25
-holo-holo   alpha_chain  1      18
-                         2      18
-                         3      18
-            beta_chain   1      18
-                         2      18
-                         3      18
+apo-apo     alpha_chain  1      10
+                         2      10
+                         3      10
+            beta_chain   1      10
+                         2      10
+                         3      10
+apo-holo    alpha_chain  1      22
+                         2      21
+                         3      22
+            beta_chain   1      22
+                         2      22
+                         3      22
+holo-holo   alpha_chain  1      30
+                         2      30
+                         3      30
+            beta_chain   1      30
+                         2      30
+                         3      30
 dtype: int64
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>treatment_options = [&#39;comparison&#39;, &#39;chain_type&#39;, &#39;cdr&#39;]
@@ -1942,11 +2036,11 @@ print(scipy.stats.kruskal(*[values for _, values in treatments]))
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-KruskalResult(statistic=112.0659833804159, pvalue=4.924957542598049e-16)
+KruskalResult(statistic=136.04243752942966, pvalue=1.2772577873614328e-20)
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>combos = []
@@ -1997,8 +2091,7 @@ momvement_statistics_fw
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area rendered_html docutils container">
 <div>
@@ -2039,9 +2132,9 @@ momvement_statistics_fw
       <td>apo-holo</td>
       <td>alpha_chain</td>
       <td>1</td>
-      <td>-2.558466</td>
-      <td>1.05e-02</td>
-      <td>False</td>
+      <td>-3.130495</td>
+      <td>1.75e-03</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>1</th>
@@ -2051,8 +2144,8 @@ momvement_statistics_fw
       <td>holo-holo</td>
       <td>alpha_chain</td>
       <td>1</td>
-      <td>0.404520</td>
-      <td>6.86e-01</td>
+      <td>0.156174</td>
+      <td>8.76e-01</td>
       <td>False</td>
     </tr>
     <tr>
@@ -2063,8 +2156,8 @@ momvement_statistics_fw
       <td>apo-holo</td>
       <td>alpha_chain</td>
       <td>2</td>
-      <td>-2.274141</td>
-      <td>2.30e-02</td>
+      <td>-2.577720</td>
+      <td>9.95e-03</td>
       <td>False</td>
     </tr>
     <tr>
@@ -2075,8 +2168,8 @@ momvement_statistics_fw
       <td>holo-holo</td>
       <td>alpha_chain</td>
       <td>2</td>
-      <td>0.404520</td>
-      <td>6.86e-01</td>
+      <td>0.124939</td>
+      <td>9.01e-01</td>
       <td>False</td>
     </tr>
     <tr>
@@ -2087,8 +2180,8 @@ momvement_statistics_fw
       <td>apo-holo</td>
       <td>alpha_chain</td>
       <td>3</td>
-      <td>-2.215048</td>
-      <td>2.68e-02</td>
+      <td>-2.601970</td>
+      <td>9.27e-03</td>
       <td>False</td>
     </tr>
     <tr>
@@ -2099,8 +2192,8 @@ momvement_statistics_fw
       <td>holo-holo</td>
       <td>alpha_chain</td>
       <td>3</td>
-      <td>2.112493</td>
-      <td>3.46e-02</td>
+      <td>1.811616</td>
+      <td>7.00e-02</td>
       <td>False</td>
     </tr>
     <tr>
@@ -2111,8 +2204,8 @@ momvement_statistics_fw
       <td>apo-holo</td>
       <td>beta_chain</td>
       <td>1</td>
-      <td>-1.356502</td>
-      <td>1.75e-01</td>
+      <td>-1.300985</td>
+      <td>1.93e-01</td>
       <td>False</td>
     </tr>
     <tr>
@@ -2123,8 +2216,8 @@ momvement_statistics_fw
       <td>holo-holo</td>
       <td>beta_chain</td>
       <td>1</td>
-      <td>1.303453</td>
-      <td>1.92e-01</td>
+      <td>1.061982</td>
+      <td>2.88e-01</td>
       <td>False</td>
     </tr>
     <tr>
@@ -2135,8 +2228,8 @@ momvement_statistics_fw
       <td>apo-holo</td>
       <td>beta_chain</td>
       <td>2</td>
-      <td>-0.188880</td>
-      <td>8.50e-01</td>
+      <td>-0.813116</td>
+      <td>4.16e-01</td>
       <td>False</td>
     </tr>
     <tr>
@@ -2147,8 +2240,8 @@ momvement_statistics_fw
       <td>holo-holo</td>
       <td>beta_chain</td>
       <td>2</td>
-      <td>2.382173</td>
-      <td>1.72e-02</td>
+      <td>1.749146</td>
+      <td>8.03e-02</td>
       <td>False</td>
     </tr>
     <tr>
@@ -2159,8 +2252,8 @@ momvement_statistics_fw
       <td>apo-holo</td>
       <td>beta_chain</td>
       <td>3</td>
-      <td>-1.390844</td>
-      <td>1.64e-01</td>
+      <td>-1.707543</td>
+      <td>8.77e-02</td>
       <td>False</td>
     </tr>
     <tr>
@@ -2171,8 +2264,8 @@ momvement_statistics_fw
       <td>holo-holo</td>
       <td>beta_chain</td>
       <td>3</td>
-      <td>2.112493</td>
-      <td>3.46e-02</td>
+      <td>1.874085</td>
+      <td>6.09e-02</td>
       <td>False</td>
     </tr>
     <tr>
@@ -2183,8 +2276,8 @@ momvement_statistics_fw
       <td>holo-holo</td>
       <td>alpha_chain</td>
       <td>1</td>
-      <td>3.495798</td>
-      <td>4.73e-04</td>
+      <td>4.834162</td>
+      <td>1.34e-06</td>
       <td>True</td>
     </tr>
     <tr>
@@ -2195,8 +2288,8 @@ momvement_statistics_fw
       <td>holo-holo</td>
       <td>alpha_chain</td>
       <td>2</td>
-      <td>3.507467</td>
-      <td>4.52e-04</td>
+      <td>3.636405</td>
+      <td>2.76e-04</td>
       <td>True</td>
     </tr>
     <tr>
@@ -2207,8 +2300,8 @@ momvement_statistics_fw
       <td>holo-holo</td>
       <td>alpha_chain</td>
       <td>3</td>
-      <td>4.529767</td>
-      <td>5.90e-06</td>
+      <td>5.223118</td>
+      <td>1.76e-07</td>
       <td>True</td>
     </tr>
     <tr>
@@ -2219,8 +2312,8 @@ momvement_statistics_fw
       <td>holo-holo</td>
       <td>beta_chain</td>
       <td>1</td>
-      <td>3.372707</td>
-      <td>7.44e-04</td>
+      <td>3.759904</td>
+      <td>1.70e-04</td>
       <td>True</td>
     </tr>
     <tr>
@@ -2231,8 +2324,8 @@ momvement_statistics_fw
       <td>holo-holo</td>
       <td>beta_chain</td>
       <td>2</td>
-      <td>3.692745</td>
-      <td>2.22e-04</td>
+      <td>3.148688</td>
+      <td>1.64e-03</td>
       <td>True</td>
     </tr>
     <tr>
@@ -2243,8 +2336,8 @@ momvement_statistics_fw
       <td>holo-holo</td>
       <td>beta_chain</td>
       <td>3</td>
-      <td>3.988164</td>
-      <td>6.66e-05</td>
+      <td>4.723032</td>
+      <td>2.32e-06</td>
       <td>True</td>
     </tr>
   </tbody>
@@ -2252,7 +2345,7 @@ momvement_statistics_fw
 </div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[52]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[54]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>combos = list(itertools.combinations(treatments, 2))
@@ -2283,7 +2376,7 @@ pd.DataFrame({
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[52]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[54]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -2325,8 +2418,8 @@ pd.DataFrame({
       <td>apo-apo</td>
       <td>alpha_chain</td>
       <td>2</td>
-      <td>-0.229828</td>
-      <td>0.818226</td>
+      <td>-0.302372</td>
+      <td>0.762369</td>
       <td>False</td>
     </tr>
     <tr>
@@ -2337,8 +2430,8 @@ pd.DataFrame({
       <td>apo-apo</td>
       <td>alpha_chain</td>
       <td>3</td>
-      <td>-1.214803</td>
-      <td>0.224441</td>
+      <td>-1.360672</td>
+      <td>0.173617</td>
       <td>False</td>
     </tr>
     <tr>
@@ -2349,8 +2442,8 @@ pd.DataFrame({
       <td>apo-apo</td>
       <td>beta_chain</td>
       <td>1</td>
-      <td>0.164163</td>
-      <td>0.869603</td>
+      <td>-0.226779</td>
+      <td>0.820596</td>
       <td>False</td>
     </tr>
     <tr>
@@ -2361,8 +2454,8 @@ pd.DataFrame({
       <td>apo-apo</td>
       <td>beta_chain</td>
       <td>2</td>
-      <td>-0.361158</td>
-      <td>0.717982</td>
+      <td>-0.604743</td>
+      <td>0.545350</td>
       <td>False</td>
     </tr>
     <tr>
@@ -2373,8 +2466,8 @@ pd.DataFrame({
       <td>apo-apo</td>
       <td>beta_chain</td>
       <td>3</td>
-      <td>-0.623818</td>
-      <td>0.532747</td>
+      <td>-0.982708</td>
+      <td>0.325751</td>
       <td>False</td>
     </tr>
     <tr>
@@ -2397,8 +2490,8 @@ pd.DataFrame({
       <td>holo-holo</td>
       <td>beta_chain</td>
       <td>2</td>
-      <td>0.601133</td>
-      <td>0.547751</td>
+      <td>0.650515</td>
+      <td>0.515360</td>
       <td>False</td>
     </tr>
     <tr>
@@ -2409,8 +2502,8 @@ pd.DataFrame({
       <td>holo-holo</td>
       <td>beta_chain</td>
       <td>3</td>
-      <td>0.664411</td>
-      <td>0.506428</td>
+      <td>1.153185</td>
+      <td>0.248834</td>
       <td>False</td>
     </tr>
     <tr>
@@ -2421,8 +2514,8 @@ pd.DataFrame({
       <td>holo-holo</td>
       <td>beta_chain</td>
       <td>2</td>
-      <td>0.506218</td>
-      <td>0.612704</td>
+      <td>-1.005341</td>
+      <td>0.314733</td>
       <td>False</td>
     </tr>
     <tr>
@@ -2433,8 +2526,8 @@ pd.DataFrame({
       <td>holo-holo</td>
       <td>beta_chain</td>
       <td>3</td>
-      <td>0.474579</td>
-      <td>0.635087</td>
+      <td>-0.266120</td>
+      <td>0.790147</td>
       <td>False</td>
     </tr>
     <tr>
@@ -2445,8 +2538,8 @@ pd.DataFrame({
       <td>holo-holo</td>
       <td>beta_chain</td>
       <td>3</td>
-      <td>-0.158193</td>
-      <td>0.874305</td>
+      <td>0.591377</td>
+      <td>0.554268</td>
       <td>False</td>
     </tr>
   </tbody>
@@ -2459,7 +2552,7 @@ pd.DataFrame({
 <section id="id4">
 <h4>Loop Alignment<a class="headerlink" href="#id4" title="Link to this heading"></a></h4>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[53]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>sns.catplot(results_loop.sort_values([&#39;comparison&#39;, &#39;chain_type&#39;, &#39;cdr&#39;]),
@@ -2471,15 +2564,24 @@ pd.DataFrame({
 </pre></div>
 </div>
 </div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;seaborn.axisgrid.FacetGrid at 0x7f7f4b710d00&gt;
+</pre></div></div>
+</div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/source_Comparison_of_apo_and_holo_CDR_loops_67_0.png" src="../_images/source_Comparison_of_apo_and_holo_CDR_loops_67_0.png" />
+<img alt="../_images/source_Comparison_of_apo_and_holo_CDR_loops_69_1.png" src="../_images/source_Comparison_of_apo_and_holo_CDR_loops_69_1.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[54]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[56]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>sns.displot(results_loop.sort_values([&#39;comparison&#39;, &#39;chain_type&#39;, &#39;cdr&#39;]),
@@ -2492,23 +2594,23 @@ pd.DataFrame({
 </div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[54]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[56]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;seaborn.axisgrid.FacetGrid at 0x7f9d0366b1f0&gt;
+&lt;seaborn.axisgrid.FacetGrid at 0x7f7f487adf00&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/source_Comparison_of_apo_and_holo_CDR_loops_68_1.png" src="../_images/source_Comparison_of_apo_and_holo_CDR_loops_68_1.png" />
+<img alt="../_images/source_Comparison_of_apo_and_holo_CDR_loops_70_1.png" src="../_images/source_Comparison_of_apo_and_holo_CDR_loops_70_1.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>results_loop.groupby([&#39;comparison&#39;, &#39;chain_type&#39;, &#39;cdr&#39;]).size()
@@ -2516,35 +2618,34 @@ pd.DataFrame({
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 comparison  chain_type   cdr
-apo-apo     alpha_chain  1      11
-                         2      11
-                         3      11
-            beta_chain   1      11
-                         2      11
-                         3      11
-apo-holo    alpha_chain  1      25
-                         2      24
-                         3      25
-            beta_chain   1      25
-                         2      25
-                         3      25
-holo-holo   alpha_chain  1      18
-                         2      18
-                         3      18
-            beta_chain   1      18
-                         2      18
-                         3      18
+apo-apo     alpha_chain  1      10
+                         2      10
+                         3      10
+            beta_chain   1      10
+                         2      10
+                         3      10
+apo-holo    alpha_chain  1      22
+                         2      21
+                         3      22
+            beta_chain   1      22
+                         2      22
+                         3      22
+holo-holo   alpha_chain  1      30
+                         2      30
+                         3      30
+            beta_chain   1      30
+                         2      30
+                         3      30
 dtype: int64
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[56]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>treatment_options = [&#39;comparison&#39;, &#39;chain_type&#39;, &#39;cdr&#39;]
@@ -2559,11 +2660,11 @@ print(scipy.stats.kruskal(*[values for _, values in treatments]))
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-KruskalResult(statistic=106.74425009179026, pvalue=4.928764973630228e-15)
+KruskalResult(statistic=123.30531506577063, pvalue=3.608293657679283e-18)
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[57]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[59]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>combos = []
@@ -2614,7 +2715,7 @@ momvement_statistics_loop
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[57]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[59]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -2656,8 +2757,8 @@ momvement_statistics_loop
       <td>apo-holo</td>
       <td>alpha_chain</td>
       <td>1</td>
-      <td>-2.592808</td>
-      <td>9.52e-03</td>
+      <td>-2.317380</td>
+      <td>2.05e-02</td>
       <td>False</td>
     </tr>
     <tr>
@@ -2668,8 +2769,8 @@ momvement_statistics_loop
       <td>holo-holo</td>
       <td>alpha_chain</td>
       <td>1</td>
-      <td>-1.663026</td>
-      <td>9.63e-02</td>
+      <td>-1.311860</td>
+      <td>1.90e-01</td>
       <td>False</td>
     </tr>
     <tr>
@@ -2680,8 +2781,8 @@ momvement_statistics_loop
       <td>apo-holo</td>
       <td>alpha_chain</td>
       <td>2</td>
-      <td>-3.979747</td>
-      <td>6.90e-05</td>
+      <td>-3.718679</td>
+      <td>2.00e-04</td>
       <td>True</td>
     </tr>
     <tr>
@@ -2692,9 +2793,9 @@ momvement_statistics_loop
       <td>holo-holo</td>
       <td>alpha_chain</td>
       <td>2</td>
-      <td>-2.517013</td>
-      <td>1.18e-02</td>
-      <td>False</td>
+      <td>-3.310884</td>
+      <td>9.30e-04</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>4</th>
@@ -2704,8 +2805,8 @@ momvement_statistics_loop
       <td>apo-holo</td>
       <td>alpha_chain</td>
       <td>3</td>
-      <td>-1.974655</td>
-      <td>4.83e-02</td>
+      <td>-1.951478</td>
+      <td>5.10e-02</td>
       <td>False</td>
     </tr>
     <tr>
@@ -2716,8 +2817,8 @@ momvement_statistics_loop
       <td>holo-holo</td>
       <td>alpha_chain</td>
       <td>3</td>
-      <td>1.303453</td>
-      <td>1.92e-01</td>
+      <td>1.093216</td>
+      <td>2.74e-01</td>
       <td>False</td>
     </tr>
     <tr>
@@ -2728,8 +2829,8 @@ momvement_statistics_loop
       <td>apo-holo</td>
       <td>beta_chain</td>
       <td>1</td>
-      <td>-1.665579</td>
-      <td>9.58e-02</td>
+      <td>-1.666887</td>
+      <td>9.55e-02</td>
       <td>False</td>
     </tr>
     <tr>
@@ -2740,8 +2841,8 @@ momvement_statistics_loop
       <td>holo-holo</td>
       <td>beta_chain</td>
       <td>1</td>
-      <td>-0.764093</td>
-      <td>4.45e-01</td>
+      <td>-1.468033</td>
+      <td>1.42e-01</td>
       <td>False</td>
     </tr>
     <tr>
@@ -2752,8 +2853,8 @@ momvement_statistics_loop
       <td>apo-holo</td>
       <td>beta_chain</td>
       <td>2</td>
-      <td>-1.150451</td>
-      <td>2.50e-01</td>
+      <td>-0.894427</td>
+      <td>3.71e-01</td>
       <td>False</td>
     </tr>
     <tr>
@@ -2764,8 +2865,8 @@ momvement_statistics_loop
       <td>holo-holo</td>
       <td>beta_chain</td>
       <td>2</td>
-      <td>0.898933</td>
-      <td>3.69e-01</td>
+      <td>0.374817</td>
+      <td>7.08e-01</td>
       <td>False</td>
     </tr>
     <tr>
@@ -2776,8 +2877,8 @@ momvement_statistics_loop
       <td>apo-holo</td>
       <td>beta_chain</td>
       <td>3</td>
-      <td>-1.837288</td>
-      <td>6.62e-02</td>
+      <td>-1.829510</td>
+      <td>6.73e-02</td>
       <td>False</td>
     </tr>
     <tr>
@@ -2788,8 +2889,8 @@ momvement_statistics_loop
       <td>holo-holo</td>
       <td>beta_chain</td>
       <td>3</td>
-      <td>0.539360</td>
-      <td>5.90e-01</td>
+      <td>0.562226</td>
+      <td>5.74e-01</td>
       <td>False</td>
     </tr>
     <tr>
@@ -2800,8 +2901,8 @@ momvement_statistics_loop
       <td>holo-holo</td>
       <td>alpha_chain</td>
       <td>1</td>
-      <td>1.821754</td>
-      <td>6.85e-02</td>
+      <td>2.778254</td>
+      <td>5.47e-03</td>
       <td>False</td>
     </tr>
     <tr>
@@ -2812,8 +2913,8 @@ momvement_statistics_loop
       <td>holo-holo</td>
       <td>alpha_chain</td>
       <td>2</td>
-      <td>2.262062</td>
-      <td>2.37e-02</td>
+      <td>1.588535</td>
+      <td>1.12e-01</td>
       <td>False</td>
     </tr>
     <tr>
@@ -2824,8 +2925,8 @@ momvement_statistics_loop
       <td>holo-holo</td>
       <td>alpha_chain</td>
       <td>3</td>
-      <td>4.283584</td>
-      <td>1.84e-05</td>
+      <td>4.611902</td>
+      <td>3.99e-06</td>
       <td>True</td>
     </tr>
     <tr>
@@ -2836,8 +2937,8 @@ momvement_statistics_loop
       <td>holo-holo</td>
       <td>beta_chain</td>
       <td>1</td>
-      <td>0.960114</td>
-      <td>3.37e-01</td>
+      <td>0.685303</td>
+      <td>4.93e-01</td>
       <td>False</td>
     </tr>
     <tr>
@@ -2848,8 +2949,8 @@ momvement_statistics_loop
       <td>holo-holo</td>
       <td>beta_chain</td>
       <td>2</td>
-      <td>2.708013</td>
-      <td>6.77e-03</td>
+      <td>1.648431</td>
+      <td>9.93e-02</td>
       <td>False</td>
     </tr>
     <tr>
@@ -2860,8 +2961,8 @@ momvement_statistics_loop
       <td>holo-holo</td>
       <td>beta_chain</td>
       <td>3</td>
-      <td>3.594272</td>
-      <td>3.25e-04</td>
+      <td>4.278511</td>
+      <td>1.88e-05</td>
       <td>True</td>
     </tr>
   </tbody>
@@ -2869,7 +2970,7 @@ momvement_statistics_loop
 </div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[58]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[60]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>combos = list(itertools.combinations(treatments, 2))
@@ -2900,7 +3001,7 @@ pd.DataFrame({
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[58]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[60]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -2942,8 +3043,8 @@ pd.DataFrame({
       <td>apo-apo</td>
       <td>alpha_chain</td>
       <td>2</td>
-      <td>0.689483</td>
-      <td>0.490520</td>
+      <td>0.604743</td>
+      <td>0.545350</td>
       <td>False</td>
     </tr>
     <tr>
@@ -2954,8 +3055,8 @@ pd.DataFrame({
       <td>apo-apo</td>
       <td>alpha_chain</td>
       <td>3</td>
-      <td>-2.134113</td>
-      <td>0.032834</td>
+      <td>-2.116601</td>
+      <td>0.034294</td>
       <td>False</td>
     </tr>
     <tr>
@@ -2966,8 +3067,8 @@ pd.DataFrame({
       <td>apo-apo</td>
       <td>beta_chain</td>
       <td>1</td>
-      <td>0.558153</td>
-      <td>0.576740</td>
+      <td>0.680336</td>
+      <td>0.496292</td>
       <td>False</td>
     </tr>
     <tr>
@@ -2978,8 +3079,8 @@ pd.DataFrame({
       <td>apo-apo</td>
       <td>beta_chain</td>
       <td>2</td>
-      <td>-0.820813</td>
-      <td>0.411753</td>
+      <td>-0.755929</td>
+      <td>0.449692</td>
       <td>False</td>
     </tr>
     <tr>
@@ -2990,8 +3091,8 @@ pd.DataFrame({
       <td>apo-apo</td>
       <td>beta_chain</td>
       <td>3</td>
-      <td>-1.280468</td>
-      <td>0.200381</td>
+      <td>-1.360672</td>
+      <td>0.173617</td>
       <td>False</td>
     </tr>
     <tr>
@@ -3014,8 +3115,8 @@ pd.DataFrame({
       <td>holo-holo</td>
       <td>beta_chain</td>
       <td>2</td>
-      <td>2.056509</td>
-      <td>0.039733</td>
+      <td>2.690765</td>
+      <td>0.007129</td>
       <td>False</td>
     </tr>
     <tr>
@@ -3026,8 +3127,8 @@ pd.DataFrame({
       <td>holo-holo</td>
       <td>beta_chain</td>
       <td>3</td>
-      <td>0.727688</td>
-      <td>0.466805</td>
+      <td>1.626287</td>
+      <td>0.103889</td>
       <td>False</td>
     </tr>
     <tr>
@@ -3038,8 +3139,8 @@ pd.DataFrame({
       <td>holo-holo</td>
       <td>beta_chain</td>
       <td>2</td>
-      <td>0.284747</td>
-      <td>0.775838</td>
+      <td>-0.931419</td>
+      <td>0.351637</td>
       <td>False</td>
     </tr>
     <tr>
@@ -3050,8 +3151,8 @@ pd.DataFrame({
       <td>holo-holo</td>
       <td>beta_chain</td>
       <td>3</td>
-      <td>-1.328821</td>
-      <td>0.183907</td>
+      <td>-1.877622</td>
+      <td>0.060433</td>
       <td>False</td>
     </tr>
     <tr>
@@ -3062,8 +3163,8 @@ pd.DataFrame({
       <td>holo-holo</td>
       <td>beta_chain</td>
       <td>3</td>
-      <td>-1.676846</td>
-      <td>0.093573</td>
+      <td>-0.887066</td>
+      <td>0.375044</td>
       <td>False</td>
     </tr>
   </tbody>
@@ -3085,7 +3186,7 @@ pd.DataFrame({
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="Comparing_of_apo_and_holo_CDR_loop_clustering.html" class="btn btn-neutral float-left" title="Comparing apo and holo CDR loop clustering" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Comparing_apo_and_holo_CDR_loop_clustering.html" class="btn btn-neutral float-left" title="Comparing apo and holo CDR loop clustering" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="Identify_contact_residues_on_MHC_Class_I_molecules.html" class="btn btn-neutral float-right" title="Identify contact residues on MHC Class I molecules" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

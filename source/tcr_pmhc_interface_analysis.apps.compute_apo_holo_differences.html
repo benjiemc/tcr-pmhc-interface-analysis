@@ -98,7 +98,8 @@
        [-h] [--output OUTPUT] [--select-entities {tcr,pmhc}]
        [--pmhc-tcr-contact-residues PMHC_TCR_CONTACT_RESIDUES [PMHC_TCR_CONTACT_RESIDUES ...]]
        [--align-entities] [--per-residue] [--crop-to-abd]
-       [--per-residue-measurements {rmsd,ca_distance,chi_angle_change,com_distance,all} [{rmsd,ca_distance,chi_angle_change,com_distance,all} ...]]
+       [--num-anchors NUM_ANCHORS]
+       [--per-residue-measurements {rmsd,ca_distance,chi_angle_change,com_distance,d_score,all} [{rmsd,ca_distance,chi_angle_change,com_distance,d_score,all} ...]]
        [--log-level {debug,info,warning,error}]
        input
 
@@ -122,7 +123,10 @@ options:
                         oppose to the entity as a whole.
   --crop-to-abd         Crop MHC entities to the antigen binding domain when
                         performing comparisons
-  --per-residue-measurements {rmsd,ca_distance,chi_angle_change,com_distance,all} [{rmsd,ca_distance,chi_angle_change,com_distance,all} ...]
+  --num-anchors NUM_ANCHORS
+                        number of anchor residues for CDR loops to include
+                        (Default: 0)
+  --per-residue-measurements {rmsd,ca_distance,chi_angle_change,com_distance,d_score,all} [{rmsd,ca_distance,chi_angle_change,com_distance,d_score,all} ...]
                         Measurments to take between residues if `--per-
                         residue` is selected.
 

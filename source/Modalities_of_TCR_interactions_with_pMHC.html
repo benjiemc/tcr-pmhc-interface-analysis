@@ -1,0 +1,2217 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Modalities of TCR interactions with pMHCs &mdash; tcr_pmhc_interface_analysis  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Per residue changes of TCR CDRs between apo and holo structures" href="Per_residue_changes_of_TCR_CDR_between_apo_and_holo_structures.html" />
+    <link rel="prev" title="Length dependency of conformational change" href="Length_dependency_of_conformational_change.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            tcr_pmhc_interface_analysis
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Analysis Results</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="notebooks.html">Analysis Notebooks</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Ascertaining_the_generalisability_of_the_structure_data.html">Ascertaining the generalisability of the structure data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Centre_of_mass_analysis.html">Centre of mass analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Compare_d_scores.html">Compare D-scores</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Comparing_apo_and_holo_CDR_loop_clustering.html">Comparing <em>apo</em> and <em>holo</em> CDR loop clustering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Comparison_of_apo_and_holo_CDR_loops.html">Comparison of <em>apo</em> and <em>holo</em> CDR loops</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Identify_contact_residues_on_MHC_Class_I_molecules.html">Identify contact residues on MHC Class I molecules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Length_dependency_of_conformational_change.html">Length dependency of conformational change</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Modalities of TCR interactions with pMHCs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#TCR-CDR-Analysis">TCR CDR Analysis</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Load-data">Load data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Analysis">Analysis</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Peptide-Analysis">Peptide Analysis</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id1">Load data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id2">Analysis</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Conclusion">Conclusion</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Per_residue_changes_of_TCR_CDR_between_apo_and_holo_structures.html">Per residue changes of TCR CDRs between apo and holo structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Summary_of_apo_holo_data.html">Summary of <em>apo</em>-<em>holo</em> data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Visualising_CDR_loop_clustering.html">Visualising CDR loop clustering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pMHC_movement_based_on_peptide_anchoring.html">pMHC movement based on peptide anchoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pMHC_movement_between_apo_and_holo_conformations.html">pMHC movement between apo and holo conformations</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Command Line Applications</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="apps.html">Command Line Applications</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">tcr_pmhc_interface_analysis</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">tcr_pmhc_interface_analysis</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="notebooks.html">Analysis Notebooks</a></li>
+      <li class="breadcrumb-item active">Modalities of TCR interactions with pMHCs</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/source/Modalities_of_TCR_interactions_with_pMHC.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Modalities-of-TCR-interactions-with-pMHCs">
+<h1>Modalities of TCR interactions with pMHCs<a class="headerlink" href="#Modalities-of-TCR-interactions-with-pMHCs" title="Link to this heading"></a></h1>
+<section id="Introduction">
+<h2>Introduction<a class="headerlink" href="#Introduction" title="Link to this heading"></a></h2>
+<p>In this notebook, we investigated whether TCRs can be both flexible and rigid depending on the antigen they are contacting. We also looked at the opposite phenomenon of whether peptides can be both flexible and rigid depending on the TCR that is contacting them.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import pandas as pd
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>apo_holo_summary = pd.read_csv(&#39;../data/processed/apo-holo-tcr-pmhc-class-I/apo_holo_summary.csv&#39;)
+apo_holo_summary[&#39;id&#39;] = apo_holo_summary[&#39;file_name&#39;].str.replace(&#39;.pdb&#39;, &#39;&#39;, regex=False)
+apo_holo_summary = apo_holo_summary.set_index(&#39;id&#39;)
+
+apo_holo_summary
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>file_name</th>
+      <th>pdb_id</th>
+      <th>structure_type</th>
+      <th>state</th>
+      <th>alpha_chain</th>
+      <th>beta_chain</th>
+      <th>antigen_chain</th>
+      <th>mhc_chain1</th>
+      <th>mhc_chain2</th>
+      <th>cdr_sequences_collated</th>
+      <th>peptide_sequence</th>
+      <th>mhc_slug</th>
+    </tr>
+    <tr>
+      <th>id</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1ao7_D-E-C-A-B_tcr_pmhc</th>
+      <td>1ao7_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>1ao7</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>D</td>
+      <td>E</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>DRGSQS-IYSNGD-AVTTDSWGKLQ-MNHEY-SVGAGI-ASRPGLA...</td>
+      <td>LLFGYPVYV</td>
+      <td>hla_a_02_01</td>
+    </tr>
+    <tr>
+      <th>1b0g_C-A-B_pmhc</th>
+      <td>1b0g_C-A-B_pmhc.pdb</td>
+      <td>1b0g</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>NaN</td>
+      <td>ALWGFFPVL</td>
+      <td>hla_a_02_01</td>
+    </tr>
+    <tr>
+      <th>1b0g_F-D-E_pmhc</th>
+      <td>1b0g_F-D-E_pmhc.pdb</td>
+      <td>1b0g</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>F</td>
+      <td>D</td>
+      <td>E</td>
+      <td>NaN</td>
+      <td>ALWGFFPVL</td>
+      <td>hla_a_02_01</td>
+    </tr>
+    <tr>
+      <th>1bd2_D-E-C-A-B_tcr_pmhc</th>
+      <td>1bd2_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>1bd2</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>D</td>
+      <td>E</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>NSMFDY-ISSIKDK-AAMEGAQKLV-MNHEY-SVGAGI-ASSYPGG...</td>
+      <td>LLFGYPVYV</td>
+      <td>hla_a_02_01</td>
+    </tr>
+    <tr>
+      <th>1bii_P-A-B_pmhc</th>
+      <td>1bii_P-A-B_pmhc.pdb</td>
+      <td>1bii</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>P</td>
+      <td>A</td>
+      <td>B</td>
+      <td>NaN</td>
+      <td>RGPGRAFVTI</td>
+      <td>h2_dd</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>7rtd_C-A-B_pmhc</th>
+      <td>7rtd_C-A-B_pmhc.pdb</td>
+      <td>7rtd</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>NaN</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+    </tr>
+    <tr>
+      <th>7rtr_D-E-C-A-B_tcr_pmhc</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>7rtr</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>D</td>
+      <td>E</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>DRGSQS-IYSNGD-AVNRDDKII-SEHNR-FQNEAQ-ASSPDIEQY</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+    </tr>
+    <tr>
+      <th>8gvb_A-B-P-H-L_tcr_pmhc</th>
+      <td>8gvb_A-B-P-H-L_tcr_pmhc.pdb</td>
+      <td>8gvb</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>A</td>
+      <td>B</td>
+      <td>P</td>
+      <td>H</td>
+      <td>L</td>
+      <td>YGATPY-YFSGDTLV-AVGFTGGGNKLT-SEHNR-FQNEAQ-ASSD...</td>
+      <td>RYPLTFGW</td>
+      <td>hla_a_24_02</td>
+    </tr>
+    <tr>
+      <th>8gvg_A-B-P-H-L_tcr_pmhc</th>
+      <td>8gvg_A-B-P-H-L_tcr_pmhc.pdb</td>
+      <td>8gvg</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>A</td>
+      <td>B</td>
+      <td>P</td>
+      <td>H</td>
+      <td>L</td>
+      <td>YGATPY-YFSGDTLV-AVGFTGGGNKLT-SEHNR-FQNEAQ-ASSD...</td>
+      <td>RFPLTFGW</td>
+      <td>hla_a_24_02</td>
+    </tr>
+    <tr>
+      <th>8gvi_A-B-P-H-L_tcr_pmhc</th>
+      <td>8gvi_A-B-P-H-L_tcr_pmhc.pdb</td>
+      <td>8gvi</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>A</td>
+      <td>B</td>
+      <td>P</td>
+      <td>H</td>
+      <td>L</td>
+      <td>YGATPY-YFSGDTLV-AVVFTGGGNKLT-SEHNR-FQNEAQ-ASSL...</td>
+      <td>RYPLTFGW</td>
+      <td>hla_a_24_02</td>
+    </tr>
+  </tbody>
+</table>
+<p>391 rows × 12 columns</p>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def categorize_movement(rmsd: float) -&gt; str:
+    if rmsd &lt; 0.5:
+        return f&#39;Little Movement (&lt;0.5 Å)&#39;
+
+    if 0.5 &lt;= rmsd &lt; 1.0:
+        return f&#39;Some Movement (0.5 to 1.0 Å)&#39;
+
+    if 1.0 &lt;= rmsd &lt; 2.0:
+        return &#39;Movement (1.0 to 2.0 Å)&#39;
+
+    if 2.0 &lt;= rmsd &lt; 4.0:
+        return &#39;Large Movement (2.0 to 4.0 Å)&#39;
+
+    if 4.0 &lt;= rmsd:
+        return &#39;Significant Movement (&gt;4.0 Å)&#39;
+
+
+movement_order = pd.CategoricalDtype(categories=[&#39;Little Movement (&lt;0.5 Å)&#39;,
+                                                 &#39;Some Movement (0.5 to 1.0 Å)&#39;,
+                                                 &#39;Movement (1.0 to 2.0 Å)&#39;,
+                                                 &#39;Large Movement (2.0 to 4.0 Å)&#39;,
+                                                 &#39;Significant Movement (&gt;4.0 Å)&#39;], ordered=True)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def classify_modality(rmsd: float) -&gt; str | None:
+    return &#39;rigid&#39; if rmsd &lt; 0.5 else &#39;flexible&#39; if rmsd &gt; 1.0 else None
+</pre></div>
+</div>
+</div>
+</section>
+<section id="TCR-CDR-Analysis">
+<h2>TCR CDR Analysis<a class="headerlink" href="#TCR-CDR-Analysis" title="Link to this heading"></a></h2>
+<section id="Load-data">
+<h3>Load data<a class="headerlink" href="#Load-data" title="Link to this heading"></a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>results_fw_align = pd.read_csv(&#39;../data/processed/apo-holo-tcr-pmhc-class-I-comparisons/rmsd_cdr_fw_align_results.csv&#39;)
+
+results_fw_align = results_fw_align.merge(
+    apo_holo_summary[[&#39;file_name&#39;,
+                      &#39;pdb_id&#39;,
+                      &#39;structure_type&#39;,
+                      &#39;state&#39;,
+                      &#39;alpha_chain&#39;,
+                      &#39;beta_chain&#39;,
+                      &#39;antigen_chain&#39;,
+                      &#39;mhc_chain1&#39;,
+                      &#39;mhc_chain2&#39;]],
+    how=&#39;left&#39;,
+    left_on=&#39;structure_x_name&#39;,
+    right_on=&#39;file_name&#39;,
+).merge(
+    apo_holo_summary[[&#39;file_name&#39;,
+                      &#39;pdb_id&#39;,
+                      &#39;structure_type&#39;,
+                      &#39;state&#39;,
+                      &#39;alpha_chain&#39;,
+                      &#39;beta_chain&#39;,
+                      &#39;antigen_chain&#39;,
+                      &#39;mhc_chain1&#39;,
+                      &#39;mhc_chain2&#39;]],
+    how=&#39;left&#39;,
+    left_on=&#39;structure_y_name&#39;,
+    right_on=&#39;file_name&#39;,
+).merge(
+    apo_holo_summary[[&#39;cdr_sequences_collated&#39;, &#39;peptide_sequence&#39;, &#39;mhc_slug&#39;]],
+    how=&#39;left&#39;,
+    left_on=&#39;complex_id&#39;,
+    right_index=True,
+)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>results_fw_align[&#39;comparison&#39;] = results_fw_align[&#39;state_x&#39;] + &#39;-&#39; + results_fw_align[&#39;state_y&#39;]
+results_fw_align[&#39;comparison&#39;] = results_fw_align[&#39;comparison&#39;].map(
+    lambda entry: &#39;apo-holo&#39; if entry == &#39;holo-apo&#39; else entry
+)
+
+results_fw_align = results_fw_align.query(&quot;comparison == &#39;apo-holo&#39;&quot;).reset_index(drop=True)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>results_fw_align[&#39;structure_comparison&#39;] = results_fw_align.apply(
+    lambda row: &#39;-&#39;.join(sorted([row.structure_x_name, row.structure_y_name])),
+    axis=&#39;columns&#39;,
+)
+results_fw_align = results_fw_align.drop_duplicates([&#39;structure_comparison&#39;, &#39;chain_type&#39;, &#39;cdr&#39;]).reset_index(drop=True)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>results_fw_align
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>complex_id</th>
+      <th>structure_x_name</th>
+      <th>structure_y_name</th>
+      <th>chain_type</th>
+      <th>cdr</th>
+      <th>rmsd</th>
+      <th>file_name_x</th>
+      <th>pdb_id_x</th>
+      <th>structure_type_x</th>
+      <th>state_x</th>
+      <th>...</th>
+      <th>alpha_chain_y</th>
+      <th>beta_chain_y</th>
+      <th>antigen_chain_y</th>
+      <th>mhc_chain1_y</th>
+      <th>mhc_chain2_y</th>
+      <th>cdr_sequences_collated</th>
+      <th>peptide_sequence</th>
+      <th>mhc_slug</th>
+      <th>comparison</th>
+      <th>structure_comparison</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qeu_A-B_tcr.pdb</td>
+      <td>alpha_chain</td>
+      <td>1</td>
+      <td>1.932806</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qdg</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>...</td>
+      <td>A</td>
+      <td>B</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>DRGSQS-IYSNGD-AVNFGGGKLI-MRHNA-SNTAGT-ASSLSFGTEAF</td>
+      <td>ELAGIGILTV</td>
+      <td>hla_a_02_01</td>
+      <td>apo-holo</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb-3qeu_A-B_tcr.pdb</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qeu_A-B_tcr.pdb</td>
+      <td>alpha_chain</td>
+      <td>2</td>
+      <td>1.308598</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qdg</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>...</td>
+      <td>A</td>
+      <td>B</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>DRGSQS-IYSNGD-AVNFGGGKLI-MRHNA-SNTAGT-ASSLSFGTEAF</td>
+      <td>ELAGIGILTV</td>
+      <td>hla_a_02_01</td>
+      <td>apo-holo</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb-3qeu_A-B_tcr.pdb</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qeu_A-B_tcr.pdb</td>
+      <td>alpha_chain</td>
+      <td>3</td>
+      <td>1.244062</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qdg</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>...</td>
+      <td>A</td>
+      <td>B</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>DRGSQS-IYSNGD-AVNFGGGKLI-MRHNA-SNTAGT-ASSLSFGTEAF</td>
+      <td>ELAGIGILTV</td>
+      <td>hla_a_02_01</td>
+      <td>apo-holo</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb-3qeu_A-B_tcr.pdb</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qeu_A-B_tcr.pdb</td>
+      <td>beta_chain</td>
+      <td>1</td>
+      <td>0.809066</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qdg</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>...</td>
+      <td>A</td>
+      <td>B</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>DRGSQS-IYSNGD-AVNFGGGKLI-MRHNA-SNTAGT-ASSLSFGTEAF</td>
+      <td>ELAGIGILTV</td>
+      <td>hla_a_02_01</td>
+      <td>apo-holo</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb-3qeu_A-B_tcr.pdb</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qeu_A-B_tcr.pdb</td>
+      <td>beta_chain</td>
+      <td>2</td>
+      <td>0.688597</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>3qdg</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>...</td>
+      <td>A</td>
+      <td>B</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>DRGSQS-IYSNGD-AVNFGGGKLI-MRHNA-SNTAGT-ASSLSFGTEAF</td>
+      <td>ELAGIGILTV</td>
+      <td>hla_a_02_01</td>
+      <td>apo-holo</td>
+      <td>3qdg_D-E-C-A-B_tcr_pmhc.pdb-3qeu_A-B_tcr.pdb</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>569</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7n1d_A-B_tcr.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>alpha_chain</td>
+      <td>2</td>
+      <td>0.810170</td>
+      <td>7n1d_A-B_tcr.pdb</td>
+      <td>7n1d</td>
+      <td>tcr</td>
+      <td>apo</td>
+      <td>...</td>
+      <td>D</td>
+      <td>E</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>DRGSQS-IYSNGD-AVNRDDKII-SEHNR-FQNEAQ-ASSPDIEQY</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+      <td>apo-holo</td>
+      <td>7n1d_A-B_tcr.pdb-7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+    </tr>
+    <tr>
+      <th>570</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7n1d_A-B_tcr.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>alpha_chain</td>
+      <td>3</td>
+      <td>0.563263</td>
+      <td>7n1d_A-B_tcr.pdb</td>
+      <td>7n1d</td>
+      <td>tcr</td>
+      <td>apo</td>
+      <td>...</td>
+      <td>D</td>
+      <td>E</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>DRGSQS-IYSNGD-AVNRDDKII-SEHNR-FQNEAQ-ASSPDIEQY</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+      <td>apo-holo</td>
+      <td>7n1d_A-B_tcr.pdb-7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+    </tr>
+    <tr>
+      <th>571</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7n1d_A-B_tcr.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>beta_chain</td>
+      <td>1</td>
+      <td>0.399182</td>
+      <td>7n1d_A-B_tcr.pdb</td>
+      <td>7n1d</td>
+      <td>tcr</td>
+      <td>apo</td>
+      <td>...</td>
+      <td>D</td>
+      <td>E</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>DRGSQS-IYSNGD-AVNRDDKII-SEHNR-FQNEAQ-ASSPDIEQY</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+      <td>apo-holo</td>
+      <td>7n1d_A-B_tcr.pdb-7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+    </tr>
+    <tr>
+      <th>572</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7n1d_A-B_tcr.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>beta_chain</td>
+      <td>2</td>
+      <td>0.284455</td>
+      <td>7n1d_A-B_tcr.pdb</td>
+      <td>7n1d</td>
+      <td>tcr</td>
+      <td>apo</td>
+      <td>...</td>
+      <td>D</td>
+      <td>E</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>DRGSQS-IYSNGD-AVNRDDKII-SEHNR-FQNEAQ-ASSPDIEQY</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+      <td>apo-holo</td>
+      <td>7n1d_A-B_tcr.pdb-7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+    </tr>
+    <tr>
+      <th>573</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7n1d_A-B_tcr.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>beta_chain</td>
+      <td>3</td>
+      <td>0.432453</td>
+      <td>7n1d_A-B_tcr.pdb</td>
+      <td>7n1d</td>
+      <td>tcr</td>
+      <td>apo</td>
+      <td>...</td>
+      <td>D</td>
+      <td>E</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>DRGSQS-IYSNGD-AVNRDDKII-SEHNR-FQNEAQ-ASSPDIEQY</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+      <td>apo-holo</td>
+      <td>7n1d_A-B_tcr.pdb-7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+    </tr>
+  </tbody>
+</table>
+<p>574 rows × 29 columns</p>
+</div></div>
+</div>
+</section>
+<section id="Analysis">
+<h3>Analysis<a class="headerlink" href="#Analysis" title="Link to this heading"></a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def average_and_classify_cdr_movement(group):
+    group_mean = group.groupby([&#39;chain_type&#39;,
+                                &#39;cdr&#39;,
+                                &#39;peptide_sequence&#39;,
+                                &#39;mhc_slug&#39;]).agg({&#39;rmsd&#39;: &#39;mean&#39;})
+    group_mean[&#39;movement&#39;] = group_mean[&#39;rmsd&#39;].map(categorize_movement).astype(movement_order)
+    group_mean[&#39;classification&#39;] = group_mean[&#39;rmsd&#39;].map(classify_modality)
+
+    return group_mean
+
+cdr_results_agg = (results_fw_align.groupby(&#39;cdr_sequences_collated&#39;)
+                                   .apply(average_and_classify_cdr_movement)
+                                   .reset_index())
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>cdr_results_agg_multi_pmhc = (cdr_results_agg.groupby([&#39;cdr_sequences_collated&#39;, &#39;chain_type&#39;, &#39;cdr&#39;])
+                                             .filter(lambda group: len(group) &gt; 1))
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>cdr_results_agg_multi_pmhc[&#39;num_modalities&#39;] = (
+    cdr_results_agg_multi_pmhc.groupby([&#39;cdr_sequences_collated&#39;, &#39;chain_type&#39;, &#39;cdr&#39;])[&#39;classification&#39;]
+                              .transform(lambda movement: movement.nunique())
+)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>cdr_results_agg_multi_pmhc
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>cdr_sequences_collated</th>
+      <th>chain_type</th>
+      <th>cdr</th>
+      <th>peptide_sequence</th>
+      <th>mhc_slug</th>
+      <th>rmsd</th>
+      <th>movement</th>
+      <th>classification</th>
+      <th>num_modalities</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>11</th>
+      <td>DRGSQS-IYSNGD-AVNFGGGKLI-MRHNA-SNTAGT-ASSLSFGTEAF</td>
+      <td>alpha_chain</td>
+      <td>1</td>
+      <td>AAGIGILTV</td>
+      <td>hla_a_02_01</td>
+      <td>2.149292</td>
+      <td>Large Movement (2.0 to 4.0 Å)</td>
+      <td>flexible</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>DRGSQS-IYSNGD-AVNFGGGKLI-MRHNA-SNTAGT-ASSLSFGTEAF</td>
+      <td>alpha_chain</td>
+      <td>1</td>
+      <td>ELAGIGILTV</td>
+      <td>hla_a_02_01</td>
+      <td>2.188011</td>
+      <td>Large Movement (2.0 to 4.0 Å)</td>
+      <td>flexible</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>DRGSQS-IYSNGD-AVNFGGGKLI-MRHNA-SNTAGT-ASSLSFGTEAF</td>
+      <td>alpha_chain</td>
+      <td>1</td>
+      <td>MMWDRGLGMM</td>
+      <td>hla_a_02_01</td>
+      <td>1.983439</td>
+      <td>Movement (1.0 to 2.0 Å)</td>
+      <td>flexible</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>DRGSQS-IYSNGD-AVNFGGGKLI-MRHNA-SNTAGT-ASSLSFGTEAF</td>
+      <td>alpha_chain</td>
+      <td>1</td>
+      <td>SMLGIGIVPV</td>
+      <td>hla_a_02_01</td>
+      <td>2.269887</td>
+      <td>Large Movement (2.0 to 4.0 Å)</td>
+      <td>flexible</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>DRGSQS-IYSNGD-AVNFGGGKLI-MRHNA-SNTAGT-ASSLSFGTEAF</td>
+      <td>alpha_chain</td>
+      <td>2</td>
+      <td>AAGIGILTV</td>
+      <td>hla_a_02_01</td>
+      <td>1.095455</td>
+      <td>Movement (1.0 to 2.0 Å)</td>
+      <td>flexible</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>287</th>
+      <td>YSATPY-YYSGDPVV-AVSGFASALT-NNHNN-SYGAGS-ASGGGGTLY</td>
+      <td>beta_chain</td>
+      <td>1</td>
+      <td>SIYRYYGL</td>
+      <td>h2_kb</td>
+      <td>0.579553</td>
+      <td>Some Movement (0.5 to 1.0 Å)</td>
+      <td>None</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>288</th>
+      <td>YSATPY-YYSGDPVV-AVSGFASALT-NNHNN-SYGAGS-ASGGGGTLY</td>
+      <td>beta_chain</td>
+      <td>2</td>
+      <td>EQYKFYSV</td>
+      <td>h2_kb</td>
+      <td>0.850569</td>
+      <td>Some Movement (0.5 to 1.0 Å)</td>
+      <td>None</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>289</th>
+      <td>YSATPY-YYSGDPVV-AVSGFASALT-NNHNN-SYGAGS-ASGGGGTLY</td>
+      <td>beta_chain</td>
+      <td>2</td>
+      <td>SIYRYYGL</td>
+      <td>h2_kb</td>
+      <td>0.938313</td>
+      <td>Some Movement (0.5 to 1.0 Å)</td>
+      <td>None</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>290</th>
+      <td>YSATPY-YYSGDPVV-AVSGFASALT-NNHNN-SYGAGS-ASGGGGTLY</td>
+      <td>beta_chain</td>
+      <td>3</td>
+      <td>EQYKFYSV</td>
+      <td>h2_kb</td>
+      <td>1.084084</td>
+      <td>Movement (1.0 to 2.0 Å)</td>
+      <td>flexible</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>291</th>
+      <td>YSATPY-YYSGDPVV-AVSGFASALT-NNHNN-SYGAGS-ASGGGGTLY</td>
+      <td>beta_chain</td>
+      <td>3</td>
+      <td>SIYRYYGL</td>
+      <td>h2_kb</td>
+      <td>0.925296</td>
+      <td>Some Movement (0.5 to 1.0 Å)</td>
+      <td>None</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+<p>226 rows × 9 columns</p>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>cdr_results_agg_multi_pmhc[&#39;num_modalities&#39;].describe()
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+count    226.000000
+mean       0.814159
+std        0.389842
+min        0.000000
+25%        1.000000
+50%        1.000000
+75%        1.000000
+max        1.000000
+Name: num_modalities, dtype: float64
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>cdr_results_agg_multi_pmhc.query(&#39;num_modalities &gt; 1&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>cdr_sequences_collated</th>
+      <th>chain_type</th>
+      <th>cdr</th>
+      <th>peptide_sequence</th>
+      <th>mhc_slug</th>
+      <th>rmsd</th>
+      <th>movement</th>
+      <th>classification</th>
+      <th>num_modalities</th>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>No TCRs had both &lt;0.5 Å RMSD movement binding to one antigen and &gt;1.0 Å RMSD binding to a different antigen.</p>
+</section>
+</section>
+<section id="Peptide-Analysis">
+<h2>Peptide Analysis<a class="headerlink" href="#Peptide-Analysis" title="Link to this heading"></a></h2>
+<section id="id1">
+<h3>Load data<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pmhc_results = pd.read_csv(&#39;../data/processed/apo-holo-tcr-pmhc-class-I-comparisons/pmhc_tcr_contact_apo_holo.csv&#39;)
+
+peptide_results = pmhc_results.query(&quot;chain_type == &#39;antigen_chain&#39;&quot;).reset_index(drop=True)
+peptide_results = peptide_results.drop(columns=[&#39;chain_type&#39;, &#39;tcr_contact&#39;])
+
+peptide_results = peptide_results.merge(
+    apo_holo_summary[[&#39;file_name&#39;,
+                      &#39;pdb_id&#39;,
+                      &#39;structure_type&#39;,
+                      &#39;state&#39;,
+                      &#39;alpha_chain&#39;,
+                      &#39;beta_chain&#39;,
+                      &#39;antigen_chain&#39;,
+                      &#39;mhc_chain1&#39;,
+                      &#39;mhc_chain2&#39;]],
+    how=&#39;left&#39;,
+    left_on=&#39;structure_x_name&#39;,
+    right_on=&#39;file_name&#39;,
+).merge(
+    apo_holo_summary[[&#39;file_name&#39;,
+                      &#39;pdb_id&#39;,
+                      &#39;structure_type&#39;,
+                      &#39;state&#39;,
+                      &#39;alpha_chain&#39;,
+                      &#39;beta_chain&#39;,
+                      &#39;antigen_chain&#39;,
+                      &#39;mhc_chain1&#39;,
+                      &#39;mhc_chain2&#39;]],
+    how=&#39;left&#39;,
+    left_on=&#39;structure_y_name&#39;,
+    right_on=&#39;file_name&#39;,
+).merge(
+    apo_holo_summary[[&#39;cdr_sequences_collated&#39;, &#39;peptide_sequence&#39;, &#39;mhc_slug&#39;]],
+    how=&#39;left&#39;,
+    left_on=&#39;complex_id&#39;,
+    right_index=True,
+)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>peptide_results[&#39;comparison&#39;] = peptide_results[&#39;state_x&#39;] + &#39;-&#39; + peptide_results[&#39;state_y&#39;]
+peptide_results[&#39;comparison&#39;] = peptide_results[&#39;comparison&#39;].map(
+    lambda entry: &#39;apo-holo&#39; if entry == &#39;holo-apo&#39; else entry
+)
+
+peptide_results = peptide_results.query(&quot;comparison == &#39;apo-holo&#39;&quot;).reset_index(drop=True)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>peptide_results[&#39;structure_comparison&#39;] = peptide_results.apply(
+    lambda row: &#39;-&#39;.join(sorted([row.structure_x_name, row.structure_y_name])),
+    axis=&#39;columns&#39;,
+)
+peptide_results = peptide_results.drop_duplicates([&#39;structure_comparison&#39;]).reset_index(drop=True)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>peptide_results
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>complex_id</th>
+      <th>structure_x_name</th>
+      <th>structure_y_name</th>
+      <th>rmsd</th>
+      <th>file_name_x</th>
+      <th>pdb_id_x</th>
+      <th>structure_type_x</th>
+      <th>state_x</th>
+      <th>alpha_chain_x</th>
+      <th>beta_chain_x</th>
+      <th>...</th>
+      <th>alpha_chain_y</th>
+      <th>beta_chain_y</th>
+      <th>antigen_chain_y</th>
+      <th>mhc_chain1_y</th>
+      <th>mhc_chain2_y</th>
+      <th>cdr_sequences_collated</th>
+      <th>peptide_sequence</th>
+      <th>mhc_slug</th>
+      <th>comparison</th>
+      <th>structure_comparison</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>5c0a_D-E-C-A-B_tcr_pmhc</td>
+      <td>5c0a_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>5n1y_C-A-B_pmhc.pdb</td>
+      <td>0.448858</td>
+      <td>5c0a_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>5c0a</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>D</td>
+      <td>E</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>NSAFQY-TYSSGN-AMRGDSSYKLI-SGHDY-FNNNVP-ASSLWEK...</td>
+      <td>MVWGPDPLYV</td>
+      <td>hla_a_02_01</td>
+      <td>apo-holo</td>
+      <td>5c0a_D-E-C-A-B_tcr_pmhc.pdb-5n1y_C-A-B_pmhc.pdb</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>5wlg_D-E-C-A-B_tcr_pmhc</td>
+      <td>5wlg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>5wli_C-A-B_pmhc.pdb</td>
+      <td>0.498148</td>
+      <td>5wlg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>5wlg</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>D</td>
+      <td>E</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>TYTTV-IRSNERE-ATVYAQGLT-NNHDY-SYVADS-ASSDWGDTGQLY</td>
+      <td>SQLLNAKYL</td>
+      <td>h2_db</td>
+      <td>apo-holo</td>
+      <td>5wlg_D-E-C-A-B_tcr_pmhc.pdb-5wli_C-A-B_pmhc.pdb</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>5wlg_D-E-C-A-B_tcr_pmhc</td>
+      <td>5wlg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>5wli_F-D-E_pmhc.pdb</td>
+      <td>0.519507</td>
+      <td>5wlg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>5wlg</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>D</td>
+      <td>E</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>F</td>
+      <td>D</td>
+      <td>E</td>
+      <td>TYTTV-IRSNERE-ATVYAQGLT-NNHDY-SYVADS-ASSDWGDTGQLY</td>
+      <td>SQLLNAKYL</td>
+      <td>h2_db</td>
+      <td>apo-holo</td>
+      <td>5wlg_D-E-C-A-B_tcr_pmhc.pdb-5wli_F-D-E_pmhc.pdb</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>5wlg_D-E-C-A-B_tcr_pmhc</td>
+      <td>5wlg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>5wli_I-G-H_pmhc.pdb</td>
+      <td>0.459025</td>
+      <td>5wlg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>5wlg</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>D</td>
+      <td>E</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>I</td>
+      <td>G</td>
+      <td>H</td>
+      <td>TYTTV-IRSNERE-ATVYAQGLT-NNHDY-SYVADS-ASSDWGDTGQLY</td>
+      <td>SQLLNAKYL</td>
+      <td>h2_db</td>
+      <td>apo-holo</td>
+      <td>5wlg_D-E-C-A-B_tcr_pmhc.pdb-5wli_I-G-H_pmhc.pdb</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5wlg_D-E-C-A-B_tcr_pmhc</td>
+      <td>5wlg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>5wli_L-J-K_pmhc.pdb</td>
+      <td>0.494705</td>
+      <td>5wlg_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>5wlg</td>
+      <td>tcr_pmhc</td>
+      <td>holo</td>
+      <td>D</td>
+      <td>E</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>L</td>
+      <td>J</td>
+      <td>K</td>
+      <td>TYTTV-IRSNERE-ATVYAQGLT-NNHDY-SYVADS-ASSDWGDTGQLY</td>
+      <td>SQLLNAKYL</td>
+      <td>h2_db</td>
+      <td>apo-holo</td>
+      <td>5wlg_D-E-C-A-B_tcr_pmhc.pdb-5wli_L-J-K_pmhc.pdb</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>372</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7n6d_G-E-F_pmhc.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>0.468869</td>
+      <td>7n6d_G-E-F_pmhc.pdb</td>
+      <td>7n6d</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>D</td>
+      <td>E</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>DRGSQS-IYSNGD-AVNRDDKII-SEHNR-FQNEAQ-ASSPDIEQY</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+      <td>apo-holo</td>
+      <td>7n6d_G-E-F_pmhc.pdb-7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+    </tr>
+    <tr>
+      <th>373</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7n6d_K-I-J_pmhc.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>0.411050</td>
+      <td>7n6d_K-I-J_pmhc.pdb</td>
+      <td>7n6d</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>D</td>
+      <td>E</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>DRGSQS-IYSNGD-AVNRDDKII-SEHNR-FQNEAQ-ASSPDIEQY</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+      <td>apo-holo</td>
+      <td>7n6d_K-I-J_pmhc.pdb-7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+    </tr>
+    <tr>
+      <th>374</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7n6d_O-M-N_pmhc.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>0.448905</td>
+      <td>7n6d_O-M-N_pmhc.pdb</td>
+      <td>7n6d</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>D</td>
+      <td>E</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>DRGSQS-IYSNGD-AVNRDDKII-SEHNR-FQNEAQ-ASSPDIEQY</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+      <td>apo-holo</td>
+      <td>7n6d_O-M-N_pmhc.pdb-7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+    </tr>
+    <tr>
+      <th>375</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7p3d_C-A-B_pmhc.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>0.765295</td>
+      <td>7p3d_C-A-B_pmhc.pdb</td>
+      <td>7p3d</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>D</td>
+      <td>E</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>DRGSQS-IYSNGD-AVNRDDKII-SEHNR-FQNEAQ-ASSPDIEQY</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+      <td>apo-holo</td>
+      <td>7p3d_C-A-B_pmhc.pdb-7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+    </tr>
+    <tr>
+      <th>376</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
+      <td>7rtd_C-A-B_pmhc.pdb</td>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>0.455078</td>
+      <td>7rtd_C-A-B_pmhc.pdb</td>
+      <td>7rtd</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>D</td>
+      <td>E</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>DRGSQS-IYSNGD-AVNRDDKII-SEHNR-FQNEAQ-ASSPDIEQY</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+      <td>apo-holo</td>
+      <td>7rtd_C-A-B_pmhc.pdb-7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+    </tr>
+  </tbody>
+</table>
+<p>377 rows × 27 columns</p>
+</div></div>
+</div>
+</section>
+<section id="id2">
+<h3>Analysis<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def average_and_classify_peptide_movement(group):
+    group_mean = group.groupby(&#39;cdr_sequences_collated&#39;).agg({&#39;rmsd&#39;: &#39;mean&#39;})
+    group_mean[&#39;movement&#39;] = group_mean[&#39;rmsd&#39;].map(categorize_movement).astype(movement_order)
+    group_mean[&#39;classification&#39;] = group_mean[&#39;rmsd&#39;].map(classify_modality)
+
+    return group_mean
+
+peptide_results_agg = (peptide_results.groupby([&#39;peptide_sequence&#39;, &#39;mhc_slug&#39;])
+                                      .apply(average_and_classify_peptide_movement)
+                                      .reset_index())
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>peptide_results_agg_multi_tcr = (peptide_results_agg.groupby([&#39;mhc_slug&#39;, &#39;peptide_sequence&#39;])
+                                                    .filter(lambda group: len(group) &gt; 1))
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>peptide_results_agg_multi_tcr[&#39;num_modalities&#39;] = (
+    peptide_results_agg_multi_tcr.groupby([&#39;mhc_slug&#39;, &#39;peptide_sequence&#39;])[&#39;classification&#39;]
+                                 .transform(lambda movement: movement.nunique())
+)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>peptide_results_agg_multi_tcr
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>peptide_sequence</th>
+      <th>mhc_slug</th>
+      <th>cdr_sequences_collated</th>
+      <th>rmsd</th>
+      <th>movement</th>
+      <th>classification</th>
+      <th>num_modalities</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>AAGIGILTV</td>
+      <td>hla_a_02_01</td>
+      <td>DRGSQS-IYSNGD-AVNFGGGKLI-MRHNA-SNTAGT-ASSLSFGTEAF</td>
+      <td>1.157017</td>
+      <td>Movement (1.0 to 2.0 Å)</td>
+      <td>flexible</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>AAGIGILTV</td>
+      <td>hla_a_02_01</td>
+      <td>DRGSQS-IYSNGD-AVNVAGKST-GTSNPN-SVGIG-AWSETGLGT...</td>
+      <td>1.134248</td>
+      <td>Movement (1.0 to 2.0 Å)</td>
+      <td>flexible</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>AAGIGILTV</td>
+      <td>hla_a_02_01</td>
+      <td>FLGSQS-TYREGD-AVNDGGRLT-GTSNPN-WGPFG-AWSETGLGM...</td>
+      <td>0.986466</td>
+      <td>Some Movement (0.5 to 1.0 Å)</td>
+      <td>None</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>AAGIGILTV</td>
+      <td>hla_a_02_01</td>
+      <td>SIFNT-LYKAGEL-AGGTGNQFY-ENHRY-SYGVKD-AISEVGVGQPQH</td>
+      <td>1.323428</td>
+      <td>Movement (1.0 to 2.0 Å)</td>
+      <td>flexible</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AAGIGILTV</td>
+      <td>hla_a_02_01</td>
+      <td>YRGSQS-IYSNGD-AVNFGGGKLI-MRHNA-SNTAGT-ASSWSFGTEAF</td>
+      <td>0.526953</td>
+      <td>Some Movement (0.5 to 1.0 Å)</td>
+      <td>None</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>APRGPHGGAASGL</td>
+      <td>hla_b_07_02</td>
+      <td>NIATNDY-GYKTK-LVGEILDNFNKFY-MDHEN-SYDVKM-ASSQR...</td>
+      <td>4.232887</td>
+      <td>Significant Movement (&gt;4.0 Å)</td>
+      <td>flexible</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>APRGPHGGAASGL</td>
+      <td>hla_b_07_02</td>
+      <td>NIATNDY-GYKTK-LVVDQKLV-SGDLS-YYNGEE-ASSGGHTGSNEQF</td>
+      <td>2.814299</td>
+      <td>Large Movement (2.0 to 4.0 Å)</td>
+      <td>flexible</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>ASNENMETM</td>
+      <td>h2_db</td>
+      <td>DSTFNY-IRSVSDK-AASEGSGSWQLI-MNHDT-YYDKIL-ASSAG...</td>
+      <td>0.396101</td>
+      <td>Little Movement (&lt;0.5 Å)</td>
+      <td>rigid</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>ASNENMETM</td>
+      <td>h2_db</td>
+      <td>DSTFNY-IRSVSDK-AASETSGSWQLI-MNHDT-YYDKIL-ASSRD...</td>
+      <td>0.409245</td>
+      <td>Little Movement (&lt;0.5 Å)</td>
+      <td>rigid</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>ASNENMETM</td>
+      <td>h2_db</td>
+      <td>TTMRS-LASGT-AAVTGNTGKLI-MNHDT-YYDKIL-ASSRGTIHS...</td>
+      <td>0.558530</td>
+      <td>Some Movement (0.5 to 1.0 Å)</td>
+      <td>None</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>EAAGIGILTV</td>
+      <td>hla_a_02_01</td>
+      <td>DRGSQS-IYSNGD-AVNVAGKST-GTSNPN-SVGIG-AWSETGLGT...</td>
+      <td>3.621428</td>
+      <td>Large Movement (2.0 to 4.0 Å)</td>
+      <td>flexible</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>EAAGIGILTV</td>
+      <td>hla_a_02_01</td>
+      <td>FLGSQS-TYREGD-AVNDGGRLT-GTSNPN-WGPFG-AWSETGLGM...</td>
+      <td>3.573235</td>
+      <td>Large Movement (2.0 to 4.0 Å)</td>
+      <td>flexible</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>FLRGRAYGL</td>
+      <td>hla_b_08_01</td>
+      <td>NSASQS-VYSSG-VVRAGKLI-MNHEY-SVGEGT-ASGQGNFDIQY</td>
+      <td>0.617307</td>
+      <td>Some Movement (0.5 to 1.0 Å)</td>
+      <td>None</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>FLRGRAYGL</td>
+      <td>hla_b_08_01</td>
+      <td>TISGTDY-GLTSN-ILPLAGGTSYGKLT-SGHVS-FQNEAQ-ASSL...</td>
+      <td>0.717857</td>
+      <td>Some Movement (0.5 to 1.0 Å)</td>
+      <td>None</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>FLRGRAYGL</td>
+      <td>hla_b_08_01</td>
+      <td>TSDPSYG-QGSYDQGN-AMREDTGNQFY-SGHAT-FQNNGV-ASSF...</td>
+      <td>0.596415</td>
+      <td>Some Movement (0.5 to 1.0 Å)</td>
+      <td>None</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>GILGFVFTL</td>
+      <td>hla_a_02_01</td>
+      <td>SSNFYA-MTLNGDE-AFDTNAGKST-LNHDA-SQIVND-ASSIFGQ...</td>
+      <td>0.446045</td>
+      <td>Little Movement (&lt;0.5 Å)</td>
+      <td>rigid</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>GILGFVFTL</td>
+      <td>hla_a_02_01</td>
+      <td>SVFSS-VVTGGEV-AGAGSQGNLI-LNHDA-SQIVND-ASSSRASYEQY</td>
+      <td>0.581065</td>
+      <td>Some Movement (0.5 to 1.0 Å)</td>
+      <td>None</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>GILGFVFTL</td>
+      <td>hla_a_02_01</td>
+      <td>SVFSS-VVTGGEV-AGAGSQGNLI-LNHDA-SQIVND-ASSSRSSYEQY</td>
+      <td>0.465703</td>
+      <td>Little Movement (&lt;0.5 Å)</td>
+      <td>rigid</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>GILGFVFTL</td>
+      <td>hla_a_02_01</td>
+      <td>SVFSS-VVTGGEV-AGAIGPSNTGKLI-LNHDA-SQIVND-ASSIR...</td>
+      <td>0.344910</td>
+      <td>Little Movement (&lt;0.5 Å)</td>
+      <td>rigid</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>31</th>
+      <td>GILGFVFTL</td>
+      <td>hla_a_02_01</td>
+      <td>TSESDYY-QEAYKQQN-AWGVNAGGTSYGKLT-LNHDA-SQIVND-...</td>
+      <td>0.564845</td>
+      <td>Some Movement (0.5 to 1.0 Å)</td>
+      <td>None</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>37</th>
+      <td>HMTEVVRHC</td>
+      <td>hla_a_02_01</td>
+      <td>NSAFQY-TYSSGN-AMSGLKEDSSYKLI-MNHEY-SMNVEV-ASSI...</td>
+      <td>0.694367</td>
+      <td>Some Movement (0.5 to 1.0 Å)</td>
+      <td>None</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>38</th>
+      <td>HMTEVVRHC</td>
+      <td>hla_a_02_01</td>
+      <td>NSASQS-VYSSG-VVQPGGYQKVT-MNHNS-SASEGT-ASSEGLWQ...</td>
+      <td>0.785581</td>
+      <td>Some Movement (0.5 to 1.0 Å)</td>
+      <td>None</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>39</th>
+      <td>HMTEVVRHC</td>
+      <td>hla_a_02_01</td>
+      <td>NYSPAY-IRENEKE-ALDIYPHDMR-SGHAT-FQNNGV-ASSLDPG...</td>
+      <td>0.864221</td>
+      <td>Some Movement (0.5 to 1.0 Å)</td>
+      <td>None</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>40</th>
+      <td>HMTEVVRHC</td>
+      <td>hla_a_02_01</td>
+      <td>TSENNYY-QEAYK-AFMGYSGAGSYQLT-ENHRY-SYGVKD-AISE...</td>
+      <td>0.809779</td>
+      <td>Some Movement (0.5 to 1.0 Å)</td>
+      <td>None</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>45</th>
+      <td>IPLTEEAEL</td>
+      <td>hla_b_35_01</td>
+      <td>TRDTTYY-RNSFDEQN-ALSHNSGGSNYKLT-SGHNT-YYREEE-A...</td>
+      <td>1.013667</td>
+      <td>Movement (1.0 to 2.0 Å)</td>
+      <td>flexible</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>46</th>
+      <td>IPLTEEAEL</td>
+      <td>hla_b_35_01</td>
+      <td>TSWWSYY-QGSDEQN-ALGEGGAQKLV-MNHNS-SASEGT-ASRTR...</td>
+      <td>1.104902</td>
+      <td>Movement (1.0 to 2.0 Å)</td>
+      <td>flexible</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>58</th>
+      <td>LLFGYPVYV</td>
+      <td>hla_a_02_01</td>
+      <td>DRGSQS-IYSNGD-AVTTDSWGKLQ-MNHEY-SVGAGI-ASRPGLA...</td>
+      <td>1.071247</td>
+      <td>Movement (1.0 to 2.0 Å)</td>
+      <td>flexible</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>59</th>
+      <td>LLFGYPVYV</td>
+      <td>hla_a_02_01</td>
+      <td>DRGSQS-IYSNGD-AVTTDSWGKLQ-MNHEY-SVGAGI-ASRPGLM...</td>
+      <td>1.084802</td>
+      <td>Movement (1.0 to 2.0 Å)</td>
+      <td>flexible</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>60</th>
+      <td>LLFGYPVYV</td>
+      <td>hla_a_02_01</td>
+      <td>IRSSTS-IYSNGD-AVTTDRSGKLQ-MNHEY-SVGVGI-ASRPGAA...</td>
+      <td>0.659812</td>
+      <td>Some Movement (0.5 to 1.0 Å)</td>
+      <td>None</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>61</th>
+      <td>LLFGYPVYV</td>
+      <td>hla_a_02_01</td>
+      <td>NSMFDY-ISSIKDK-AAMEGAQKLV-MNHEY-SVGAGI-ASSYPGG...</td>
+      <td>1.105653</td>
+      <td>Movement (1.0 to 2.0 Å)</td>
+      <td>flexible</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>63</th>
+      <td>LPEPLPQGQLTAY</td>
+      <td>hla_b_35_08</td>
+      <td>TRDTTYY-RNSFDEQN-ALSGFYNTDKLI-MNHNS-SASEGT-ASP...</td>
+      <td>0.467122</td>
+      <td>Little Movement (&lt;0.5 Å)</td>
+      <td>rigid</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>64</th>
+      <td>LPEPLPQGQLTAY</td>
+      <td>hla_b_35_08</td>
+      <td>TRDTTYY-RNSFDEQN-ALSGFYNTDKLI-MNHNS-SASEGT-ASP...</td>
+      <td>0.450190</td>
+      <td>Little Movement (&lt;0.5 Å)</td>
+      <td>rigid</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>65</th>
+      <td>LPEPLPQGQLTAY</td>
+      <td>hla_b_35_08</td>
+      <td>TTSDR-LLSNGAV-AVGGGSNYQLI-SGHDT-YYEEEE-ASSRTGS...</td>
+      <td>0.781614</td>
+      <td>Some Movement (0.5 to 1.0 Å)</td>
+      <td>None</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>69</th>
+      <td>NLVPMVATV</td>
+      <td>hla_a_02_01</td>
+      <td>SSNFYA-MTLNGDE-ARNTGNQFY-MNHEY-SVGAGI-ASSPVTGG...</td>
+      <td>0.569056</td>
+      <td>Some Movement (0.5 to 1.0 Å)</td>
+      <td>None</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>70</th>
+      <td>NLVPMVATV</td>
+      <td>hla_a_02_01</td>
+      <td>TISGTDY-GLTSN-ILDNNNDMR-SGHVS-FNYEAQ-ASSLAPGTT...</td>
+      <td>0.717804</td>
+      <td>Some Movement (0.5 to 1.0 Å)</td>
+      <td>None</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>74</th>
+      <td>RFPLTFGWCF</td>
+      <td>hla_a_24_02</td>
+      <td>DRGSQS-IYSNGD-GTYNQGGKLI-MNHEY-SMNVEV-ASSGASHEQY</td>
+      <td>1.302746</td>
+      <td>Movement (1.0 to 2.0 Å)</td>
+      <td>flexible</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>75</th>
+      <td>RFPLTFGWCF</td>
+      <td>hla_a_24_02</td>
+      <td>YGATPY-YFSGDTLV-AVGAPSGAGSYQLT-MGHRA-YSYEKL-AS...</td>
+      <td>0.830768</td>
+      <td>Some Movement (0.5 to 1.0 Å)</td>
+      <td>None</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>85</th>
+      <td>RYPLTFGW</td>
+      <td>hla_a_24_02</td>
+      <td>YGATPY-YFSGDTLV-AVGFTGGGNKLT-SEHNR-FQNEAQ-ASSD...</td>
+      <td>0.869939</td>
+      <td>Some Movement (0.5 to 1.0 Å)</td>
+      <td>None</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>86</th>
+      <td>RYPLTFGW</td>
+      <td>hla_a_24_02</td>
+      <td>YGATPY-YFSGDTLV-AVVFTGGGNKLT-SEHNR-FQNEAQ-ASSL...</td>
+      <td>0.708066</td>
+      <td>Some Movement (0.5 to 1.0 Å)</td>
+      <td>None</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>87</th>
+      <td>RYPLTFGWCF</td>
+      <td>hla_a_24_02</td>
+      <td>DSAIYN-IQSSQRE-AVRMDSSYKLI-SEHNR-FQNEAQ-ASSSWD...</td>
+      <td>1.522271</td>
+      <td>Movement (1.0 to 2.0 Å)</td>
+      <td>flexible</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>88</th>
+      <td>RYPLTFGWCF</td>
+      <td>hla_a_24_02</td>
+      <td>TSWWSYY-QGSDEQN-ALGELARSGGYQKVT-GTSNPN-SVGIG-A...</td>
+      <td>1.112057</td>
+      <td>Movement (1.0 to 2.0 Å)</td>
+      <td>flexible</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>91</th>
+      <td>SLLMWITQC</td>
+      <td>hla_a_02_01</td>
+      <td>DSAIYN-IPFWQRE-AVRPTSGGSYIPT-MNHEY-SVSVGM-ASSY...</td>
+      <td>0.972491</td>
+      <td>Some Movement (0.5 to 1.0 Å)</td>
+      <td>None</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>92</th>
+      <td>SLLMWITQC</td>
+      <td>hla_a_02_01</td>
+      <td>DSAIYN-IQSSQRE-AVRPLLDGTYIPT-MNHEY-SVGAGT-ASSY...</td>
+      <td>0.875077</td>
+      <td>Some Movement (0.5 to 1.0 Å)</td>
+      <td>None</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>93</th>
+      <td>SLLMWITQC</td>
+      <td>hla_a_02_01</td>
+      <td>DSAIYN-IQSSQRE-AVRPTSGGSYIPT-MNHEY-SVGAGI-ASSY...</td>
+      <td>0.880234</td>
+      <td>Some Movement (0.5 to 1.0 Å)</td>
+      <td>None</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>94</th>
+      <td>SLLMWITQC</td>
+      <td>hla_a_02_01</td>
+      <td>DSAIYN-ITPWQRE-AVRPLLDGTYIPT-MNHEY-SVAIQT-ASSY...</td>
+      <td>0.826961</td>
+      <td>Some Movement (0.5 to 1.0 Å)</td>
+      <td>None</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>95</th>
+      <td>SLLMWITQC</td>
+      <td>hla_a_02_01</td>
+      <td>DSAIYN-ITPWQRE-AVRPLLDGTYIPT-MNHEY-SVSVGM-ASSY...</td>
+      <td>0.839051</td>
+      <td>Some Movement (0.5 to 1.0 Å)</td>
+      <td>None</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>100</th>
+      <td>SSLCNFRAYV</td>
+      <td>h2_db</td>
+      <td>TISGNEY-GLQQN-ILSGGCNYKLT-MSHET-SYDVDS-ASSFGREQY</td>
+      <td>0.344040</td>
+      <td>Little Movement (&lt;0.5 Å)</td>
+      <td>rigid</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>101</th>
+      <td>SSLCNFRAYV</td>
+      <td>h2_db</td>
+      <td>TISGNEY-GLQQN-ILSGGSNYKLT-MSHET-SYDVDS-ASSFGREQY</td>
+      <td>0.356701</td>
+      <td>Little Movement (&lt;0.5 Å)</td>
+      <td>rigid</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>106</th>
+      <td>VVVGADGVGK</td>
+      <td>hla_a_11_01</td>
+      <td>TRDTAYY-QPWWGEQN-AMSVPSGDGSYQFT-MNHEY-SVGEGT-A...</td>
+      <td>1.256482</td>
+      <td>Movement (1.0 to 2.0 Å)</td>
+      <td>flexible</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>107</th>
+      <td>VVVGADGVGK</td>
+      <td>hla_a_11_01</td>
+      <td>TRDTTYY-RNSFDEQN-ALSGPSGAGSYQLT-MNHEY-SVGEGT-A...</td>
+      <td>1.259841</td>
+      <td>Movement (1.0 to 2.0 Å)</td>
+      <td>flexible</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>111</th>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+      <td>DRGSQS-IYSNGD-AVNRDDKII-SEHNR-FQNEAQ-ASSPDIEQY</td>
+      <td>0.512357</td>
+      <td>Some Movement (0.5 to 1.0 Å)</td>
+      <td>None</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>112</th>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+      <td>NSASQS-VYSSG-VVNINTDKLI-SEHNR-FQNEAQ-ASSSANSGELF</td>
+      <td>0.627788</td>
+      <td>Some Movement (0.5 to 1.0 Å)</td>
+      <td>None</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>113</th>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+      <td>NSASQS-VYSSG-VVNRNNDMR-LNHDA-SQIVND-AGQVTNTGELF</td>
+      <td>0.685808</td>
+      <td>Some Movement (0.5 to 1.0 Å)</td>
+      <td>None</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>peptide_results_agg_multi_tcr[&#39;num_modalities&#39;].describe()
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+count    53.000000
+mean      0.641509
+std       0.484146
+min       0.000000
+25%       0.000000
+50%       1.000000
+75%       1.000000
+max       1.000000
+Name: num_modalities, dtype: float64
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>peptide_results_agg_multi_tcr.query(&#39;num_modalities &gt; 1&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>peptide_sequence</th>
+      <th>mhc_slug</th>
+      <th>cdr_sequences_collated</th>
+      <th>rmsd</th>
+      <th>movement</th>
+      <th>classification</th>
+      <th>num_modalities</th>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>Similarly, no peptides have both large (&gt;1.0 Å RMSD) conformational changes and small (&lt;0.5 Å RMSD) conformational changes for different TCRs.</p>
+</section>
+</section>
+<section id="Conclusion">
+<h2>Conclusion<a class="headerlink" href="#Conclusion" title="Link to this heading"></a></h2>
+<p>Neither the TCR CDR loops, nor the peptides show different movement modalities (rigid vs flexible) when contacted by different entities. These results indicate that the flexiblity of TCRs between <em>apo</em> and <em>holo</em> conformations is dependent on the composition of the entitity itself and not the entitity it is contacting.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Length_dependency_of_conformational_change.html" class="btn btn-neutral float-left" title="Length dependency of conformational change" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Per_residue_changes_of_TCR_CDR_between_apo_and_holo_structures.html" class="btn btn-neutral float-right" title="Per residue changes of TCR CDRs between apo and holo structures" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Benjamin McMaster.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

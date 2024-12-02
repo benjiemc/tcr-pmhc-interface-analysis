@@ -51,10 +51,12 @@
 <li class="toctree-l1 current"><a class="reference internal" href="notebooks.html">Analysis Notebooks</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="Ascertaining_the_generalisability_of_the_structure_data.html">Ascertaining the generalisability of the structure data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Centre_of_mass_analysis.html">Centre of mass analysis</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Comparing_of_apo_and_holo_CDR_loop_clustering.html">Comparing <em>apo</em> and <em>holo</em> CDR loop clustering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Compare_d_scores.html">Compare D-scores</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Comparing_apo_and_holo_CDR_loop_clustering.html">Comparing <em>apo</em> and <em>holo</em> CDR loop clustering</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Comparison_of_apo_and_holo_CDR_loops.html">Comparison of <em>apo</em> and <em>holo</em> CDR loops</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Identify_contact_residues_on_MHC_Class_I_molecules.html">Identify contact residues on MHC Class I molecules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Length_dependency_of_conformational_change.html">Length dependency of conformational change</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Modalities_of_TCR_interactions_with_pMHC.html">Modalities of TCR interactions with pMHCs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Per_residue_changes_of_TCR_CDR_between_apo_and_holo_structures.html">Per residue changes of TCR CDRs between apo and holo structures</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Summary of <em>apo</em>-<em>holo</em> data</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#Introduction">Introduction</a></li>
@@ -108,7 +110,7 @@
 <section id="Introduction">
 <h2>Introduction<a class="headerlink" href="#Introduction" title="Link to this heading"></a></h2>
 <p>In this notebook, we look at the data used to create the <em>apo</em>-<em>holo</em> comparisons, generating plots and summary statistics.</p>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
@@ -128,6 +130,14 @@ from pyxdameraulevenshtein import damerau_levenshtein_distance
 from tcr_pmhc_interface_analysis.utils import mhc_slug_to_code
 </pre></div>
 </div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Matplotlib is building the font cache; this may take a moment.
+</pre></div></div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
@@ -193,6 +203,36 @@ apo_holo_summary
     </tr>
     <tr>
       <th>1</th>
+      <td>1b0g_C-A-B_pmhc.pdb</td>
+      <td>1b0g</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>NaN</td>
+      <td>ALWGFFPVL</td>
+      <td>hla_a_02_01</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1b0g_F-D-E_pmhc.pdb</td>
+      <td>1b0g</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>F</td>
+      <td>D</td>
+      <td>E</td>
+      <td>NaN</td>
+      <td>ALWGFFPVL</td>
+      <td>hla_a_02_01</td>
+    </tr>
+    <tr>
+      <th>3</th>
       <td>1bd2_D-E-C-A-B_tcr_pmhc.pdb</td>
       <td>1bd2</td>
       <td>tcr_pmhc</td>
@@ -207,8 +247,8 @@ apo_holo_summary
       <td>hla_a_02_01</td>
     </tr>
     <tr>
-      <th>2</th>
-      <td>1bii_A-B-P_pmhc.pdb</td>
+      <th>4</th>
+      <td>1bii_P-A-B_pmhc.pdb</td>
       <td>1bii</td>
       <td>pmhc</td>
       <td>apo</td>
@@ -220,36 +260,6 @@ apo_holo_summary
       <td>NaN</td>
       <td>RGPGRAFVTI</td>
       <td>h2_dd</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>1ddh_A-B-P_pmhc.pdb</td>
-      <td>1ddh</td>
-      <td>pmhc</td>
-      <td>apo</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>P</td>
-      <td>A</td>
-      <td>B</td>
-      <td>NaN</td>
-      <td>RGPGRAFVTI</td>
-      <td>h2_dd</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>1duz_A-B-C_pmhc.pdb</td>
-      <td>1duz</td>
-      <td>pmhc</td>
-      <td>apo</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>C</td>
-      <td>A</td>
-      <td>B</td>
-      <td>NaN</td>
-      <td>LLFGYPVYV</td>
-      <td>hla_a_02_01</td>
     </tr>
     <tr>
       <th>...</th>
@@ -267,9 +277,24 @@ apo_holo_summary
       <td>...</td>
     </tr>
     <tr>
-      <th>353</th>
-      <td>8gon_D-E-C-A-B_tcr_pmhc.pdb</td>
-      <td>8gon</td>
+      <th>386</th>
+      <td>7rtd_C-A-B_pmhc.pdb</td>
+      <td>7rtd</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>NaN</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+    </tr>
+    <tr>
+      <th>387</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>7rtr</td>
       <td>tcr_pmhc</td>
       <td>holo</td>
       <td>D</td>
@@ -277,27 +302,12 @@ apo_holo_summary
       <td>C</td>
       <td>A</td>
       <td>B</td>
-      <td>TSESDYY-QEAYKQQN-ASSGNTPLV-SGHNS-FNNNVP-ASTWGR...</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>DRGSQS-IYSNGD-AVNRDDKII-SEHNR-FQNEAQ-ASSPDIEQY</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
     </tr>
     <tr>
-      <th>354</th>
-      <td>8gop_A-B_tcr.pdb</td>
-      <td>8gop</td>
-      <td>tcr</td>
-      <td>apo</td>
-      <td>A</td>
-      <td>B</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>TSESDYY-QEAYKQQN-ASSGNTPLV-SGHNS-FNNNVP-ASTWGR...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>355</th>
+      <th>388</th>
       <td>8gvb_A-B-P-H-L_tcr_pmhc.pdb</td>
       <td>8gvb</td>
       <td>tcr_pmhc</td>
@@ -312,7 +322,7 @@ apo_holo_summary
       <td>hla_a_24_02</td>
     </tr>
     <tr>
-      <th>356</th>
+      <th>389</th>
       <td>8gvg_A-B-P-H-L_tcr_pmhc.pdb</td>
       <td>8gvg</td>
       <td>tcr_pmhc</td>
@@ -327,7 +337,7 @@ apo_holo_summary
       <td>hla_a_24_02</td>
     </tr>
     <tr>
-      <th>357</th>
+      <th>390</th>
       <td>8gvi_A-B-P-H-L_tcr_pmhc.pdb</td>
       <td>8gvi</td>
       <td>tcr_pmhc</td>
@@ -343,7 +353,7 @@ apo_holo_summary
     </tr>
   </tbody>
 </table>
-<p>358 rows × 12 columns</p>
+<p>391 rows × 12 columns</p>
 </div></div>
 </div>
 </section>
@@ -365,7 +375,7 @@ print(&#39;There are&#39;, num_entries, &#39;entries in the dataset spread acros
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-There are 358 entries in the dataset spread across 255 PDB structures.
+There are 391 entries in the dataset spread across 301 PDB structures.
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
@@ -400,7 +410,7 @@ print(&#39;\n&#39;.join(apo_holo_tcrs))
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<p>There are 25 TCRs with both <em>apo</em> and <em>holo</em> conformations in the dataset. Here is the list of them based on their CDR sequences:</p>
+<p>There are 22 TCRs with both <em>apo</em> and <em>holo</em> conformations in the dataset. Here is the list of them based on their CDR sequences:</p>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -428,9 +438,6 @@ NSASQS-VYSSG-VVRAGKLI-MNHEY-SVGEGT-ASGQGNFDIQY
 SVFSS-VVTGGEV-AGAGSQGNLI-LNHDA-SQIVND-ASSSRSSYEQY
 TISGNEY-GLKNN-IVWGGYQKVT-SEHNR-FQNEAQ-ASRYRDDSYNEQF
 TISGTDY-GLTSN-ILPLAGGTSYGKLT-SGHVS-FQNEAQ-ASSLGQAYEQY
-TSENDYI-QEAYKQQN-AYGEDDKII-MGHDK-SYGVNS-ASRRGSAELY
-TSESDYY-QEAYKQQN-ASSGNTPLV-SGHNS-FNNNVP-ASTWGRASTDTQY
-YSATPY-YYSGDPVV-AVSAKGTGSKLS-NSHNY-SYGAGN-ASSDAPGQLY
 YSATPY-YYSGDPVV-AVSGFASALT-NNHNN-SYGAGS-ASGGGGTLY
 YSGSPE-HISR-ALSGFNNAGNMLT-SGHAT-FQNNGV-ASSLGGAGGADTQY
 </pre></div></div>
@@ -465,7 +472,7 @@ pd.DataFrame({
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<p>There are 59 combinations of MHC alleles and peptides with both <em>apo</em> and <em>holo</em> structures.These come from 20 MHC alleles and 58 unique peptides.Here are the combinations:</p>
+<p>There are 81 combinations of MHC alleles and peptides with both <em>apo</em> and <em>holo</em> structures.These come from 19 MHC alleles and 79 unique peptides.Here are the combinations:</p>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -524,280 +531,41 @@ pd.DataFrame({
     <tr>
       <th>5</th>
       <td>h2_db</td>
-      <td>KAVANFATM</td>
+      <td>KAPYNFATM</td>
     </tr>
     <tr>
-      <th>6</th>
-      <td>h2_db</td>
-      <td>SSLCNFRAYV</td>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
     </tr>
     <tr>
-      <th>7</th>
-      <td>h2_db</td>
-      <td>SSLENFRAYV</td>
+      <th>77</th>
+      <td>hla_b_51_01</td>
+      <td>TAFTIPSI</td>
     </tr>
     <tr>
-      <th>8</th>
-      <td>h2_db</td>
-      <td>YGFRNVVHI</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>h2_dd</td>
-      <td>RGPGRAFVTI</td>
-    </tr>
-    <tr>
-      <th>10</th>
-      <td>h2_kb</td>
-      <td>INFDFNTI</td>
-    </tr>
-    <tr>
-      <th>11</th>
-      <td>h2_kb</td>
-      <td>RGYVYQGL</td>
-    </tr>
-    <tr>
-      <th>12</th>
-      <td>h2_kb</td>
-      <td>SQYYYNSL</td>
-    </tr>
-    <tr>
-      <th>13</th>
-      <td>hla_a_02_01</td>
-      <td>AAGIGILTV</td>
-    </tr>
-    <tr>
-      <th>14</th>
-      <td>hla_a_02_01</td>
-      <td>EAAGIGILTV</td>
-    </tr>
-    <tr>
-      <th>15</th>
-      <td>hla_a_02_01</td>
-      <td>ELAAIGILTV</td>
-    </tr>
-    <tr>
-      <th>16</th>
-      <td>hla_a_02_01</td>
-      <td>ELAGIGILTV</td>
-    </tr>
-    <tr>
-      <th>17</th>
-      <td>hla_a_02_01</td>
-      <td>GILEFVFTL</td>
-    </tr>
-    <tr>
-      <th>18</th>
-      <td>hla_a_02_01</td>
-      <td>GILGFVFTL</td>
-    </tr>
-    <tr>
-      <th>19</th>
-      <td>hla_a_02_01</td>
-      <td>GLCTLVAML</td>
-    </tr>
-    <tr>
-      <th>20</th>
-      <td>hla_a_02_01</td>
-      <td>GVYDGREHTV</td>
-    </tr>
-    <tr>
-      <th>21</th>
-      <td>hla_a_02_01</td>
-      <td>HMTEVVRHC</td>
-    </tr>
-    <tr>
-      <th>22</th>
-      <td>hla_a_02_01</td>
-      <td>IMDQVPFSV</td>
-    </tr>
-    <tr>
-      <th>23</th>
-      <td>hla_a_02_01</td>
-      <td>ITDQVPFSV</td>
-    </tr>
-    <tr>
-      <th>24</th>
-      <td>hla_a_02_01</td>
-      <td>KLVALGINAV</td>
-    </tr>
-    <tr>
-      <th>25</th>
-      <td>hla_a_02_01</td>
-      <td>LGYGFVNYI</td>
-    </tr>
-    <tr>
-      <th>26</th>
-      <td>hla_a_02_01</td>
-      <td>LLFGKPVYV</td>
-    </tr>
-    <tr>
-      <th>27</th>
-      <td>hla_a_02_01</td>
-      <td>LLFGYPVYV</td>
-    </tr>
-    <tr>
-      <th>28</th>
-      <td>hla_a_02_01</td>
-      <td>MLWGYLQYV</td>
-    </tr>
-    <tr>
-      <th>29</th>
-      <td>hla_a_02_01</td>
-      <td>MMWDRGLGMM</td>
-    </tr>
-    <tr>
-      <th>30</th>
-      <td>hla_a_02_01</td>
-      <td>NLVPMVATV</td>
-    </tr>
-    <tr>
-      <th>31</th>
-      <td>hla_a_02_01</td>
-      <td>RLQSLQTYV</td>
-    </tr>
-    <tr>
-      <th>32</th>
-      <td>hla_a_02_01</td>
-      <td>SLLMWITQC</td>
-    </tr>
-    <tr>
-      <th>33</th>
-      <td>hla_a_02_01</td>
-      <td>YLQPRTFLL</td>
-    </tr>
-    <tr>
-      <th>34</th>
-      <td>hla_a_02_06</td>
-      <td>KQWLVWLFL</td>
-    </tr>
-    <tr>
-      <th>35</th>
-      <td>hla_a_02_06</td>
-      <td>KQWLVWLLL</td>
-    </tr>
-    <tr>
-      <th>36</th>
-      <td>hla_a_03_01</td>
-      <td>ALHGGWTTK</td>
-    </tr>
-    <tr>
-      <th>37</th>
-      <td>hla_a_11_01</td>
-      <td>VVVGADGVGK</td>
-    </tr>
-    <tr>
-      <th>38</th>
-      <td>hla_a_11_01</td>
-      <td>VVVGAGGVGK</td>
-    </tr>
-    <tr>
-      <th>39</th>
-      <td>hla_a_24_02</td>
-      <td>QLPRLFPLL</td>
-    </tr>
-    <tr>
-      <th>40</th>
-      <td>hla_a_24_02</td>
-      <td>RFPLTFGW</td>
-    </tr>
-    <tr>
-      <th>41</th>
-      <td>hla_a_24_02</td>
-      <td>RFPLTFGWCF</td>
-    </tr>
-    <tr>
-      <th>42</th>
-      <td>hla_a_24_02</td>
-      <td>RYPLTFGW</td>
-    </tr>
-    <tr>
-      <th>43</th>
-      <td>hla_a_24_02</td>
-      <td>RYPLTFGWCF</td>
-    </tr>
-    <tr>
-      <th>44</th>
-      <td>hla_a_24_02</td>
-      <td>RYPLTLGWCF</td>
-    </tr>
-    <tr>
-      <th>45</th>
-      <td>hla_b_07_02</td>
-      <td>APRGPHGGAASGL</td>
-    </tr>
-    <tr>
-      <th>46</th>
-      <td>hla_b_08_01</td>
-      <td>FLRGRAYGL</td>
-    </tr>
-    <tr>
-      <th>47</th>
-      <td>hla_b_27_05</td>
-      <td>KRWIILGLNK</td>
-    </tr>
-    <tr>
-      <th>48</th>
-      <td>hla_b_27_05</td>
-      <td>KRWIIMGLNK</td>
-    </tr>
-    <tr>
-      <th>49</th>
-      <td>hla_b_35_01</td>
-      <td>HPVGDADYFEY</td>
-    </tr>
-    <tr>
-      <th>50</th>
-      <td>hla_b_35_01</td>
-      <td>HPVGQADYFEY</td>
-    </tr>
-    <tr>
-      <th>51</th>
-      <td>hla_b_35_01</td>
-      <td>IPLTEEAEL</td>
-    </tr>
-    <tr>
-      <th>52</th>
-      <td>hla_b_35_08</td>
-      <td>LPEPLPQGQLTAY</td>
-    </tr>
-    <tr>
-      <th>53</th>
-      <td>hla_b_37_01</td>
-      <td>FEDLRVLSF</td>
-    </tr>
-    <tr>
-      <th>54</th>
-      <td>hla_b_42_01</td>
-      <td>TPQDLNTML</td>
-    </tr>
-    <tr>
-      <th>55</th>
-      <td>hla_b_44_05</td>
-      <td>EEYLQAFTY</td>
-    </tr>
-    <tr>
-      <th>56</th>
+      <th>78</th>
       <td>hla_b_53_01</td>
       <td>QASQEVKNW</td>
     </tr>
     <tr>
-      <th>57</th>
+      <th>79</th>
       <td>hla_b_81_01</td>
       <td>TPQDLNTML</td>
     </tr>
     <tr>
-      <th>58</th>
+      <th>80</th>
       <td>hla_c_08_02</td>
-      <td>GADGVGKSA</td>
+      <td>GADGVGKSAL</td>
     </tr>
     <tr>
-      <th>59</th>
+      <th>81</th>
       <td>hla_e_01_03</td>
       <td>RLPAKAPLL</td>
     </tr>
   </tbody>
 </table>
+<p>81 rows × 2 columns</p>
 </div></div>
 </div>
 </section>
@@ -1012,7 +780,7 @@ print(f&#39;The average levenshtein distance between all peptide sequences is {n
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-The average levenshtein distance between all peptide sequences is 8.30 edits with an standard deviation of 1.90 edits.
+The average levenshtein distance between all peptide sequences is 8.38 edits with an standard deviation of 1.78 edits.
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">

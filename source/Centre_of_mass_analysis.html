@@ -23,7 +23,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Comparing apo and holo CDR loop clustering" href="Comparing_of_apo_and_holo_CDR_loop_clustering.html" />
+    <link rel="next" title="Compare D-scores" href="Compare_d_scores.html" />
     <link rel="prev" title="Ascertaining the generalisability of the structure data" href="Ascertaining_the_generalisability_of_the_structure_data.html" /> 
 </head>
 
@@ -61,10 +61,12 @@
 <li class="toctree-l3"><a class="reference internal" href="#Conclusion">Conclusion</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="Comparing_of_apo_and_holo_CDR_loop_clustering.html">Comparing <em>apo</em> and <em>holo</em> CDR loop clustering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Compare_d_scores.html">Compare D-scores</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Comparing_apo_and_holo_CDR_loop_clustering.html">Comparing <em>apo</em> and <em>holo</em> CDR loop clustering</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Comparison_of_apo_and_holo_CDR_loops.html">Comparison of <em>apo</em> and <em>holo</em> CDR loops</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Identify_contact_residues_on_MHC_Class_I_molecules.html">Identify contact residues on MHC Class I molecules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Length_dependency_of_conformational_change.html">Length dependency of conformational change</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Modalities_of_TCR_interactions_with_pMHC.html">Modalities of TCR interactions with pMHCs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Per_residue_changes_of_TCR_CDR_between_apo_and_holo_structures.html">Per residue changes of TCR CDRs between apo and holo structures</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Summary_of_apo_holo_data.html">Summary of <em>apo</em>-<em>holo</em> data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Visualising_CDR_loop_clustering.html">Visualising CDR loop clustering</a></li>
@@ -202,6 +204,36 @@ apo_holo_summary_df
     </tr>
     <tr>
       <th>1</th>
+      <td>1b0g_C-A-B_pmhc.pdb</td>
+      <td>1b0g</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>NaN</td>
+      <td>ALWGFFPVL</td>
+      <td>hla_a_02_01</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1b0g_F-D-E_pmhc.pdb</td>
+      <td>1b0g</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>F</td>
+      <td>D</td>
+      <td>E</td>
+      <td>NaN</td>
+      <td>ALWGFFPVL</td>
+      <td>hla_a_02_01</td>
+    </tr>
+    <tr>
+      <th>3</th>
       <td>1bd2_D-E-C-A-B_tcr_pmhc.pdb</td>
       <td>1bd2</td>
       <td>tcr_pmhc</td>
@@ -216,8 +248,8 @@ apo_holo_summary_df
       <td>hla_a_02_01</td>
     </tr>
     <tr>
-      <th>2</th>
-      <td>1bii_A-B-P_pmhc.pdb</td>
+      <th>4</th>
+      <td>1bii_P-A-B_pmhc.pdb</td>
       <td>1bii</td>
       <td>pmhc</td>
       <td>apo</td>
@@ -229,36 +261,6 @@ apo_holo_summary_df
       <td>NaN</td>
       <td>RGPGRAFVTI</td>
       <td>h2_dd</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>1ddh_A-B-P_pmhc.pdb</td>
-      <td>1ddh</td>
-      <td>pmhc</td>
-      <td>apo</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>P</td>
-      <td>A</td>
-      <td>B</td>
-      <td>NaN</td>
-      <td>RGPGRAFVTI</td>
-      <td>h2_dd</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>1duz_A-B-C_pmhc.pdb</td>
-      <td>1duz</td>
-      <td>pmhc</td>
-      <td>apo</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>C</td>
-      <td>A</td>
-      <td>B</td>
-      <td>NaN</td>
-      <td>LLFGYPVYV</td>
-      <td>hla_a_02_01</td>
     </tr>
     <tr>
       <th>...</th>
@@ -276,9 +278,24 @@ apo_holo_summary_df
       <td>...</td>
     </tr>
     <tr>
-      <th>353</th>
-      <td>8gon_D-E-C-A-B_tcr_pmhc.pdb</td>
-      <td>8gon</td>
+      <th>386</th>
+      <td>7rtd_C-A-B_pmhc.pdb</td>
+      <td>7rtd</td>
+      <td>pmhc</td>
+      <td>apo</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>C</td>
+      <td>A</td>
+      <td>B</td>
+      <td>NaN</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
+    </tr>
+    <tr>
+      <th>387</th>
+      <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>7rtr</td>
       <td>tcr_pmhc</td>
       <td>holo</td>
       <td>D</td>
@@ -286,27 +303,12 @@ apo_holo_summary_df
       <td>C</td>
       <td>A</td>
       <td>B</td>
-      <td>TSESDYY-QEAYKQQN-ASSGNTPLV-SGHNS-FNNNVP-ASTWGR...</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>DRGSQS-IYSNGD-AVNRDDKII-SEHNR-FQNEAQ-ASSPDIEQY</td>
+      <td>YLQPRTFLL</td>
+      <td>hla_a_02_01</td>
     </tr>
     <tr>
-      <th>354</th>
-      <td>8gop_A-B_tcr.pdb</td>
-      <td>8gop</td>
-      <td>tcr</td>
-      <td>apo</td>
-      <td>A</td>
-      <td>B</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>TSESDYY-QEAYKQQN-ASSGNTPLV-SGHNS-FNNNVP-ASTWGR...</td>
-      <td>NaN</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>355</th>
+      <th>388</th>
       <td>8gvb_A-B-P-H-L_tcr_pmhc.pdb</td>
       <td>8gvb</td>
       <td>tcr_pmhc</td>
@@ -321,7 +323,7 @@ apo_holo_summary_df
       <td>hla_a_24_02</td>
     </tr>
     <tr>
-      <th>356</th>
+      <th>389</th>
       <td>8gvg_A-B-P-H-L_tcr_pmhc.pdb</td>
       <td>8gvg</td>
       <td>tcr_pmhc</td>
@@ -336,7 +338,7 @@ apo_holo_summary_df
       <td>hla_a_24_02</td>
     </tr>
     <tr>
-      <th>357</th>
+      <th>390</th>
       <td>8gvi_A-B-P-H-L_tcr_pmhc.pdb</td>
       <td>8gvi</td>
       <td>tcr_pmhc</td>
@@ -352,7 +354,7 @@ apo_holo_summary_df
     </tr>
   </tbody>
 </table>
-<p>358 rows × 12 columns</p>
+<p>391 rows × 12 columns</p>
 </div></div>
 </div>
 <div class="nbinput nblast docutils container">
@@ -597,51 +599,51 @@ results
       <td>...</td>
     </tr>
     <tr>
-      <th>260</th>
-      <td>5nmg_I-J-H-F-G_tcr_pmhc</td>
-      <td>5nmd_A-B_tcr.pdb</td>
+      <th>131</th>
+      <td>5nme_D-E-C-A-B_tcr_pmhc</td>
       <td>5nmd_C-D_tcr.pdb</td>
-      <td>0.234261</td>
-      <td>0.191756</td>
-      <td>0.035814</td>
-      <td>0.154754</td>
-      <td>-0.011535</td>
+      <td>5nme_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>0.211336</td>
+      <td>0.712433</td>
+      <td>0.113214</td>
+      <td>0.130459</td>
+      <td>0.030224</td>
     </tr>
     <tr>
-      <th>261</th>
-      <td>5nmg_I-J-H-F-G_tcr_pmhc</td>
-      <td>5nmd_A-B_tcr.pdb</td>
-      <td>5nmg_I-J-H-F-G_tcr_pmhc.pdb</td>
-      <td>0.600266</td>
-      <td>0.408148</td>
-      <td>0.183775</td>
-      <td>0.178921</td>
-      <td>0.028342</td>
+      <th>132</th>
+      <td>5hhm_D-E-C-A-B_tcr_pmhc</td>
+      <td>2vlm_D-E_tcr.pdb</td>
+      <td>5hhm_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>0.886794</td>
+      <td>0.410827</td>
+      <td>0.467935</td>
+      <td>0.381336</td>
+      <td>-0.115053</td>
     </tr>
     <tr>
-      <th>262</th>
-      <td>5nmg_I-J-H-F-G_tcr_pmhc</td>
-      <td>5nmd_C-D_tcr.pdb</td>
-      <td>5nmg_I-J-H-F-G_tcr_pmhc.pdb</td>
-      <td>0.367783</td>
-      <td>0.301645</td>
-      <td>0.148664</td>
-      <td>0.271494</td>
-      <td>0.039878</td>
+      <th>133</th>
+      <td>3kpr_D-E-C-A-B_tcr_pmhc</td>
+      <td>1kgc_D-E_tcr.pdb</td>
+      <td>3kpr_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>0.919506</td>
+      <td>0.270885</td>
+      <td>0.383752</td>
+      <td>0.151581</td>
+      <td>-0.026228</td>
     </tr>
     <tr>
-      <th>263</th>
-      <td>5yxu_A-B-I-C-D_tcr_pmhc</td>
-      <td>5yxu_A-B-I-C-D_tcr_pmhc.pdb</td>
-      <td>5yxu_F-G_tcr.pdb</td>
-      <td>0.283526</td>
-      <td>0.094541</td>
-      <td>0.313619</td>
-      <td>0.237034</td>
-      <td>0.006849</td>
+      <th>134</th>
+      <td>1oga_D-E-C-A-B_tcr_pmhc</td>
+      <td>1oga_D-E-C-A-B_tcr_pmhc.pdb</td>
+      <td>2vlm_D-E_tcr.pdb</td>
+      <td>0.944931</td>
+      <td>0.542110</td>
+      <td>0.291887</td>
+      <td>0.336729</td>
+      <td>0.107774</td>
     </tr>
     <tr>
-      <th>264</th>
+      <th>135</th>
       <td>7rtr_D-E-C-A-B_tcr_pmhc</td>
       <td>7n1d_A-B_tcr.pdb</td>
       <td>7rtr_D-E-C-A-B_tcr_pmhc.pdb</td>
@@ -653,7 +655,7 @@ results
     </tr>
   </tbody>
 </table>
-<p>265 rows × 8 columns</p>
+<p>136 rows × 8 columns</p>
 </div></div>
 </div>
 <div class="nbinput docutils container">
@@ -669,7 +671,7 @@ results
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-/var/scratch/bmcmaste/1760251/ipykernel_865377/2116153506.py:1: FutureWarning: The default value of regex will change from True to False in a future version.
+/var/scratch/bmcmaste/2178229/ipykernel_2172418/2116153506.py:1: FutureWarning: The default value of regex will change from True to False in a future version.
   apo_holo_summary_df[&#39;ids&#39;] = apo_holo_summary_df[&#39;file_name&#39;].str.replace(&#39;.pdb&#39;, &#39;&#39;)
 </pre></div></div>
 </div>
@@ -792,23 +794,23 @@ apo_holo_results_norm[&#39;chain_angle_diff_deg_mag&#39;] = apo_holo_results_nor
   <tbody>
     <tr>
       <th>ATGYPS-ATKADDK-ALSDPVNDMR-SGHAT-FQNNGV-ASSLRGRGDQPQH</th>
-      <td>0.340963</td>
-      <td>0.160583</td>
-      <td>0.335554</td>
-      <td>0.092950</td>
-      <td>-0.014279</td>
-      <td>-0.818098</td>
-      <td>0.818098</td>
+      <td>0.112478</td>
+      <td>0.221407</td>
+      <td>0.131706</td>
+      <td>0.140118</td>
+      <td>-0.005545</td>
+      <td>-0.317697</td>
+      <td>0.317697</td>
     </tr>
     <tr>
       <th>DRGSQS-IYSNGD-ALTRGPGNQFY-SGHVS-FNYEAQ-ASSSPGGVSTEAF</th>
-      <td>1.614983</td>
-      <td>0.363393</td>
-      <td>1.286903</td>
-      <td>0.279959</td>
-      <td>-0.062121</td>
-      <td>-3.559295</td>
-      <td>3.559295</td>
+      <td>1.606143</td>
+      <td>0.370279</td>
+      <td>1.293890</td>
+      <td>0.279836</td>
+      <td>-0.057826</td>
+      <td>-3.313194</td>
+      <td>3.313194</td>
     </tr>
     <tr>
       <th>DRGSQS-IYSNGD-AVNFGGGKLI-MRHNA-SNTAGT-ASSLSFGTEAF</th>
@@ -832,13 +834,13 @@ apo_holo_results_norm[&#39;chain_angle_diff_deg_mag&#39;] = apo_holo_results_nor
     </tr>
     <tr>
       <th>DRGSQS-IYSNGD-AVRTNSGYALN-QGHDT-YYEEEE-ASSDTVSYEQY</th>
-      <td>0.362689</td>
-      <td>0.550055</td>
-      <td>0.145354</td>
-      <td>0.181286</td>
-      <td>0.027609</td>
-      <td>1.581901</td>
-      <td>1.581901</td>
+      <td>0.306039</td>
+      <td>0.615471</td>
+      <td>0.133071</td>
+      <td>0.205778</td>
+      <td>0.024796</td>
+      <td>1.420686</td>
+      <td>1.420686</td>
     </tr>
     <tr>
       <th>DRGSQS-IYSNGD-AVTTDSWGKLQ-MNHEY-SVGAGI-ASRPGLAGGRPEQY</th>
@@ -852,13 +854,13 @@ apo_holo_results_norm[&#39;chain_angle_diff_deg_mag&#39;] = apo_holo_results_nor
     </tr>
     <tr>
       <th>DRGSQS-IYSNGD-GTYNQGGKLI-MNHEY-SMNVEV-ASSGASHEQY</th>
-      <td>1.017497</td>
-      <td>0.357841</td>
-      <td>0.276897</td>
-      <td>0.223025</td>
-      <td>0.091942</td>
-      <td>5.267913</td>
-      <td>5.267913</td>
+      <td>1.099042</td>
+      <td>0.294167</td>
+      <td>0.235768</td>
+      <td>0.174727</td>
+      <td>0.103824</td>
+      <td>5.948649</td>
+      <td>5.948649</td>
     </tr>
     <tr>
       <th>DSAIYN-IQSSQRE-AQLNQAGTALI-MNHEY-SVGAGI-ASSYGTGINYGYT</th>
@@ -892,13 +894,13 @@ apo_holo_results_norm[&#39;chain_angle_diff_deg_mag&#39;] = apo_holo_results_nor
     </tr>
     <tr>
       <th>DSAIYN-IQSSQRE-AVRPTSGGSYIPT-MNHEY-SVGAGI-ASSYVGNTGELF</th>
-      <td>0.510472</td>
-      <td>0.378292</td>
-      <td>0.388653</td>
-      <td>0.280078</td>
-      <td>-0.013727</td>
-      <td>-0.786515</td>
-      <td>0.786515</td>
+      <td>0.524052</td>
+      <td>0.405684</td>
+      <td>0.393972</td>
+      <td>0.306927</td>
+      <td>-0.011481</td>
+      <td>-0.657791</td>
+      <td>0.657791</td>
     </tr>
     <tr>
       <th>FLGSQS-TYREGD-AVNDGGRLT-GTSNPN-WGPFG-AWSETGLGMGGWQ</th>
@@ -932,13 +934,13 @@ apo_holo_results_norm[&#39;chain_angle_diff_deg_mag&#39;] = apo_holo_results_nor
     </tr>
     <tr>
       <th>NSAFQY-TYSSGN-AMRGDSSYKLI-SGHDY-FNNNVP-ASSLWEKLAKNIQY</th>
-      <td>0.296695</td>
-      <td>0.381612</td>
-      <td>0.262137</td>
-      <td>0.276894</td>
-      <td>0.025618</td>
-      <td>1.467794</td>
-      <td>1.467794</td>
+      <td>0.269449</td>
+      <td>0.373169</td>
+      <td>0.259665</td>
+      <td>0.247023</td>
+      <td>0.027624</td>
+      <td>1.582753</td>
+      <td>1.582753</td>
     </tr>
     <tr>
       <th>NSASQS-VYSSG-VVQPGGYQKVT-MNHNS-SASEGT-ASSEGLWQVGDEQY</th>
@@ -952,83 +954,53 @@ apo_holo_results_norm[&#39;chain_angle_diff_deg_mag&#39;] = apo_holo_results_nor
     </tr>
     <tr>
       <th>NSASQS-VYSSG-VVRAGKLI-MNHEY-SVGEGT-ASGQGNFDIQY</th>
-      <td>0.392269</td>
-      <td>0.274606</td>
-      <td>0.158128</td>
-      <td>0.199036</td>
-      <td>-0.023181</td>
-      <td>-1.328174</td>
-      <td>1.328174</td>
+      <td>0.409381</td>
+      <td>0.249897</td>
+      <td>0.205705</td>
+      <td>0.286431</td>
+      <td>-0.055766</td>
+      <td>-3.195168</td>
+      <td>3.195168</td>
     </tr>
     <tr>
       <th>SVFSS-VVTGGEV-AGAGSQGNLI-LNHDA-SQIVND-ASSSRSSYEQY</th>
-      <td>0.958644</td>
-      <td>0.472360</td>
-      <td>0.360223</td>
-      <td>0.345909</td>
-      <td>0.028590</td>
-      <td>1.638094</td>
-      <td>1.638094</td>
+      <td>1.003777</td>
+      <td>0.509446</td>
+      <td>0.331727</td>
+      <td>0.334128</td>
+      <td>0.058476</td>
+      <td>3.350441</td>
+      <td>3.350441</td>
     </tr>
     <tr>
       <th>TISGNEY-GLKNN-IVWGGYQKVT-SEHNR-FQNEAQ-ASRYRDDSYNEQF</th>
-      <td>1.076693</td>
-      <td>1.254781</td>
-      <td>0.466742</td>
-      <td>0.428322</td>
-      <td>0.074629</td>
-      <td>4.275936</td>
-      <td>4.275936</td>
+      <td>1.032154</td>
+      <td>1.282186</td>
+      <td>0.435426</td>
+      <td>0.393399</td>
+      <td>0.066787</td>
+      <td>3.826598</td>
+      <td>3.826598</td>
     </tr>
     <tr>
       <th>TISGTDY-GLTSN-ILPLAGGTSYGKLT-SGHVS-FQNEAQ-ASSLGQAYEQY</th>
-      <td>0.742800</td>
-      <td>0.218874</td>
-      <td>0.212584</td>
-      <td>0.086862</td>
-      <td>0.005153</td>
-      <td>0.295263</td>
-      <td>0.295263</td>
-    </tr>
-    <tr>
-      <th>TSENDYI-QEAYKQQN-AYGEDDKII-MGHDK-SYGVNS-ASRRGSAELY</th>
-      <td>0.283526</td>
-      <td>0.094541</td>
-      <td>0.313619</td>
-      <td>0.237034</td>
-      <td>0.006849</td>
-      <td>0.392417</td>
-      <td>0.392417</td>
-    </tr>
-    <tr>
-      <th>TSESDYY-QEAYKQQN-ASSGNTPLV-SGHNS-FNNNVP-ASTWGRASTDTQY</th>
-      <td>1.346103</td>
-      <td>0.398149</td>
-      <td>0.348850</td>
-      <td>0.216115</td>
-      <td>-0.103135</td>
-      <td>-5.909185</td>
-      <td>5.909185</td>
-    </tr>
-    <tr>
-      <th>YSATPY-YYSGDPVV-AVSAKGTGSKLS-NSHNY-SYGAGN-ASSDAPGQLY</th>
-      <td>0.540875</td>
-      <td>0.426192</td>
-      <td>0.526714</td>
-      <td>0.731495</td>
-      <td>-0.043797</td>
-      <td>-2.509360</td>
-      <td>2.509360</td>
+      <td>0.713302</td>
+      <td>0.195773</td>
+      <td>0.230770</td>
+      <td>0.110227</td>
+      <td>-0.002818</td>
+      <td>-0.161464</td>
+      <td>0.161464</td>
     </tr>
     <tr>
       <th>YSATPY-YYSGDPVV-AVSGFASALT-NNHNN-SYGAGS-ASGGGGTLY</th>
-      <td>0.364028</td>
-      <td>0.458383</td>
-      <td>0.133653</td>
-      <td>0.122776</td>
-      <td>-0.009807</td>
-      <td>-0.561905</td>
-      <td>0.561905</td>
+      <td>0.304694</td>
+      <td>0.460448</td>
+      <td>0.099579</td>
+      <td>0.079669</td>
+      <td>0.006357</td>
+      <td>0.364241</td>
+      <td>0.364241</td>
     </tr>
     <tr>
       <th>YSGSPE-HISR-ALSGFNNAGNMLT-SGHAT-FQNNGV-ASSLGGAGGADTQY</th>
@@ -1105,13 +1077,13 @@ apo_holo_results_norm[&#39;chain_angle_diff&#39;].describe()
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-count    25.000000
-mean      0.006117
-std       0.045933
-min      -0.103135
-25%      -0.013727
-50%       0.005153
-75%       0.025618
+count    22.000000
+mean      0.014409
+std       0.043607
+min      -0.057826
+25%      -0.009572
+50%       0.011616
+75%       0.026917
 max       0.112168
 Name: chain_angle_diff, dtype: float64
 </pre></div></div>
@@ -1138,13 +1110,13 @@ apo_holo_results_norm[&#39;chain_angle_diff_deg&#39;].describe()
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-count    25.000000
-mean      0.350471
-std       2.631778
-min      -5.909185
-25%      -0.786515
-50%       0.295263
-75%       1.467794
+count    22.000000
+mean      0.825593
+std       2.498524
+min      -3.313194
+25%      -0.548427
+50%       0.665530
+75%       1.542237
 max       6.426748
 Name: chain_angle_diff_deg, dtype: float64
 </pre></div></div>
@@ -1171,13 +1143,13 @@ apo_holo_results_norm[&#39;chain_angle_diff_deg_mag&#39;].describe()
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-count    25.000000
-mean      1.911316
-std       1.802460
+count    22.000000
+mean      1.887715
+std       1.795418
 min       0.114483
-25%       0.684280
-50%       1.328174
-75%       2.509360
+25%       0.579086
+50%       1.214819
+75%       3.036777
 max       6.426748
 Name: chain_angle_diff_deg_mag, dtype: float64
 </pre></div></div>
@@ -1203,7 +1175,7 @@ Name: chain_angle_diff_deg_mag, dtype: float64
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="Ascertaining_the_generalisability_of_the_structure_data.html" class="btn btn-neutral float-left" title="Ascertaining the generalisability of the structure data" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="Comparing_of_apo_and_holo_CDR_loop_clustering.html" class="btn btn-neutral float-right" title="Comparing apo and holo CDR loop clustering" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="Compare_d_scores.html" class="btn btn-neutral float-right" title="Compare D-scores" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
