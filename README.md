@@ -113,13 +113,13 @@ The results of this analysis are described in the article [here](https://www.fro
 
 ```
 @article{mcmaster_quantifying_2024,
-	title = {Quantifying conformational changes in the {TCR}:{pMHC}-I binding interface},
+    title = {Quantifying conformational changes in the {TCR}:{pMHC}-I binding interface},
     journal = {Frontiers in Immunology},
-	volume = {15},
-	issn = {1664-3224},
-	doi = {10.3389/fimmu.2024.1491656},
+    volume = {15},
+    issn = {1664-3224},
+    doi = {10.3389/fimmu.2024.1491656},
     author = {McMaster, Benjamin and Thorpe, Christopher J. and Rossjohn, Jamie and Deane, Charlotte M. and Koohy, Hashem},
-	year = {2024},
-	eprint = {https://www.frontiersin.org/journals/immunology/articles/10.3389/fimmu.2024.1491656/full},
+    year = {2024},
+    eprint = {https://www.frontiersin.org/journals/immunology/articles/10.3389/fimmu.2024.1491656/full},
 }
 ```
