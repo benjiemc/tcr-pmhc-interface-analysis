@@ -1,12 +1,12 @@
 # TCR-pMHC Interface Analysis
 
-The following project contains an analysis of the unbound (*apo*) and bound (*holo*) conformations of TCR CDR loops and pMHCs. The work is described in detail in our pre-print: [Quantifying conformational changes in the TCR:pMHC-I binding interface](https://www.biorxiv.org/content/10.1101/2024.08.13.607715v1).
+The following project contains an analysis of the unbound (*apo*) and bound (*holo*) conformations of TCR CDR loops and pMHCs. The work is described in detail in our pre-print: [Quantifying conformational changes in the TCR:pMHC-I binding interface](https://www.frontiersin.org/journals/immunology/articles/10.3389/fimmu.2024.1491656/full).
 
 ## Key Links
 
 * Source code: [https://github.com/benjiemc/tcr-pmhc-interface-analysis](https://github.com/benjiemc/tcr-pmhc-interface-analysis)
 * Documentation: [https://benjiemc.github.io/tcr-pmhc-interface-analysis/](https://benjiemc.github.io/tcr-pmhc-interface-analysis/)
-* DOI: [https://doi.org/10.1101/2024.08.13.607715](https://doi.org/10.1101/2024.08.13.607715)
+* DOI: [https://www.frontiersin.org/journals/immunology/articles/10.3389/fimmu.2024.1491656/full](https://www.frontiersin.org/journals/immunology/articles/10.3389/fimmu.2024.1491656/full)
 
 ## Overview
 
@@ -109,15 +109,17 @@ the `make <COMMAND> --recon` may help ascertain what commands are run in each st
 
 ## Citing this Work
 
-The results of this analysis are described in the article [here](https://www.biorxiv.org/content/10.1101/2024.08.13.607715v1). If you use the code, please cite:
+The results of this analysis are described in the article [here](https://www.frontiersin.org/journals/immunology/articles/10.3389/fimmu.2024.1491656/full). If you use the code, please cite:
 
 ```
-@article{mcmasterQuantifyingConformationalChanges2024,
-  title = {Quantifying Conformational Changes in the {{TCR}}:{{pMHC-I}} Binding Interface},
-  author = {McMaster, Benjamin and Thorpe, Christopher and Rossjohn, Jamie and Deane, Charlotte and Koohy, Hashem},
-  journal = {bioRxiv},
-  doi = {10.1101/2024.08.13.607715},
-  url = {https://www.biorxiv.org/content/10.1101/2024.08.13.607715v1},
-  year = {2024},
+@article{mcmaster_quantifying_2024,
+	title = {Quantifying conformational changes in the {TCR}:{pMHC}-I binding interface},
+    journal = {Frontiers in Immunology},
+	volume = {15},
+	issn = {1664-3224},
+	doi = {10.3389/fimmu.2024.1491656},
+    author = {McMaster, Benjamin and Thorpe, Christopher J. and Rossjohn, Jamie and Deane, Charlotte M. and Koohy, Hashem},
+	year = {2024},
+	eprint = {https://www.frontiersin.org/journals/immunology/articles/10.3389/fimmu.2024.1491656/full},
 }
 ```
