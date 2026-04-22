@@ -1,6 +1,6 @@
 # TCR-pMHC Interface Analysis
 
-The following project contains an analysis of the unbound (*apo*) and bound (*holo*) conformations of TCR CDR loops and pMHCs. The work is described in detail in our pre-print: [Quantifying conformational changes in the TCR:pMHC-I binding interface](https://www.frontiersin.org/journals/immunology/articles/10.3389/fimmu.2024.1491656/full).
+The following project contains an analysis of the unbound (*apo*) and bound (*holo*) conformations of TCR CDR loops and pMHCs. The work is described in detail in our publication: [Quantifying conformational changes in the TCR:pMHC-I binding interface](https://www.frontiersin.org/journals/immunology/articles/10.3389/fimmu.2024.1491656/full).
 
 ## Key Links
 
